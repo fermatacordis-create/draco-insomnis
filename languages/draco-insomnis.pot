@@ -1,0 +1,1362 @@
+# Copyright (C) 2026 Notorius Vision · OPNV Systems
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Draco Insomnis 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/draco-insomnis\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-11T08:16:35+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: draco-insomnis\n"
+
+#. Plugin Name of the plugin
+#: draco-insomnis.php
+msgid "Draco Insomnis"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: draco-insomnis.php
+msgid "https://github.com/fermatacordis-create/draco-insomnis"
+msgstr ""
+
+#. Description of the plugin
+#: draco-insomnis.php
+msgid "Ab insomni custodita dracone. Open-source security by Notorius Vision (OPNV Systems · OPNV SOLΞ): anti-bot shield without captchas, e-mail confirmation of forms and sign-ups, two-step login, firewall and site mail (SMTP)."
+msgstr ""
+
+#. Author of the plugin
+#: draco-insomnis.php
+msgid "Notorius Vision · OPNV Systems"
+msgstr ""
+
+#. Author URI of the plugin
+#: draco-insomnis.php
+msgid "https://notoriusvision.com"
+msgstr ""
+
+#: src/Admin/Brand.php:50
+#, php-format
+msgid "by %1$s · %2$s · %3$s"
+msgstr ""
+
+#: src/Firewall/Admin.php:26
+#: src/Firewall/Admin.php:50
+msgid "Firewall"
+msgstr ""
+
+#: src/Firewall/Admin.php:33
+#: src/Gate/Admin.php:35
+#: src/Login/Admin.php:32
+#: src/Mail/Admin.php:67
+#: src/Shield/Admin.php:35
+#: src/Shield/Admin.php:149
+msgid "You are not allowed to do this."
+msgstr ""
+
+#: src/Firewall/Admin.php:51
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and the scanners that look for weak spots. People who can edit the site are never inspected."
+msgstr ""
+
+#: src/Firewall/Admin.php:53
+#: src/Gate/Admin.php:96
+#: src/Login/Admin.php:63
+#: src/Shield/Admin.php:82
+msgid "Changes saved."
+msgstr ""
+
+#: src/Firewall/Admin.php:56
+msgid "DRACO_WAF_OFF is set in wp-config.php: the firewall is off. Remove that line once the problem is fixed."
+msgstr ""
+
+#: src/Firewall/Admin.php:64
+msgid "Switch on the firewall"
+msgstr ""
+
+#: src/Firewall/Admin.php:66
+msgid "Log only: write down what it would stop, without stopping anything (start here for a few days)"
+msgstr ""
+
+#: src/Firewall/Admin.php:67
+msgid "Block: stop those requests; five in 10 minutes put the address on the block list for 7 days"
+msgstr ""
+
+#: src/Firewall/Admin.php:68
+msgid "Hide the list of user names from anonymous visitors (?author=1 and /wp-json/wp/v2/users), the first step of password attacks"
+msgstr ""
+
+#: src/Firewall/Admin.php:69
+msgid "Limit failed logins: 10 in 10 minutes lock that address out of the login for 30 minutes"
+msgstr ""
+
+#: src/Firewall/Admin.php:70
+msgid "Turn off XML-RPC completely (leave it on if you use Jetpack or the WordPress mobile app; its riskiest parts are always off)"
+msgstr ""
+
+#: src/Firewall/Admin.php:71
+#: src/Gate/Admin.php:125
+#: src/Login/Admin.php:79
+#: src/Shield/Admin.php:95
+msgid "Save"
+msgstr ""
+
+#: src/Firewall/Admin.php:75
+msgid "scanner tool"
+msgstr ""
+
+#: src/Firewall/Admin.php:75
+msgid "looking for sensitive files"
+msgstr ""
+
+#: src/Firewall/Admin.php:76
+msgid "database injection"
+msgstr ""
+
+#: src/Firewall/Admin.php:76
+msgid "reading server files"
+msgstr ""
+
+#: src/Firewall/Admin.php:77
+msgid "running code"
+msgstr ""
+
+#: src/Firewall/Admin.php:77
+msgid "script in the link"
+msgstr ""
+
+#: src/Firewall/Admin.php:78
+msgid "many passwords in one XML-RPC call"
+msgstr ""
+
+#: src/Firewall/Admin.php:80
+msgid "Recent attacks"
+msgstr ""
+
+#: src/Firewall/Admin.php:80
+msgid "Kept for 90 days. \"Evidence\" downloads everything from that address for an abuse report. In log-only mode they appear as \"Would block\"."
+msgstr ""
+
+#: src/Firewall/Admin.php:81
+#: src/Gate/Admin.php:131
+#: src/Mail/Admin.php:291
+#: src/Shield/Admin.php:129
+msgid "Date (UTC)"
+msgstr ""
+
+#: src/Firewall/Admin.php:81
+msgid "What"
+msgstr ""
+
+#: src/Firewall/Admin.php:81
+msgid "Address requested"
+msgstr ""
+
+#: src/Firewall/Admin.php:81
+#: src/Mail/Admin.php:291
+msgid "Result"
+msgstr ""
+
+#: src/Firewall/Admin.php:87
+msgid "Blocked"
+msgstr ""
+
+#: src/Firewall/Admin.php:87
+msgid "Would block"
+msgstr ""
+
+#: src/Firewall/Admin.php:87
+#: src/Shield/Admin.php:138
+msgid "Evidence"
+msgstr ""
+
+#: src/Firewall/Admin.php:90
+msgid "No attacks seen yet."
+msgstr ""
+
+#: src/Firewall/Admin.php:90
+msgid "The firewall is off."
+msgstr ""
+
+#: src/Firewall/Admin.php:93
+msgid "If the firewall ever blocks you, add define('DRACO_WAF_OFF', true); to wp-config.php, log in, look at this list and remove the line."
+msgstr ""
+
+#. translators: %d: number of attacks
+#: src/Firewall/Waf.php:130
+#, php-format
+msgid "Firewall: %d attacks in 10 minutes"
+msgstr ""
+
+#: src/Firewall/Waf.php:144
+msgid "Request blocked"
+msgstr ""
+
+#: src/Firewall/Waf.php:145
+msgid "This request was stopped for security reasons. If you think this is a mistake, contact the owner of the site."
+msgstr ""
+
+#: src/Firewall/Waf.php:194
+msgid "Too many failed logins from your address. Try again in 30 minutes."
+msgstr ""
+
+#: src/Gate/Admin.php:28
+#: src/Gate/Admin.php:89
+msgid "Forms and sign-ups"
+msgstr ""
+
+#. translators: %d: submission number
+#: src/Gate/Admin.php:65
+#, php-format
+msgid "From the list of submissions (#%d)"
+msgstr ""
+
+#: src/Gate/Admin.php:90
+msgid "Holds every contact message, comment and new account until the sender confirms from their e-mail. Bots do not confirm, so their spam never reaches you. Payments in the shop are never held."
+msgstr ""
+
+#: src/Gate/Admin.php:94
+#: src/Shield/Admin.php:80
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr ""
+
+#: src/Gate/Admin.php:99
+msgid "It is on without SMTP. If the confirmation mail does not arrive, messages are deleted after 48 hours without anyone knowing."
+msgstr ""
+
+#: src/Gate/Admin.php:99
+msgid "Set up Site mail (SMTP) →"
+msgstr ""
+
+#: src/Gate/Admin.php:104
+msgid "Block this sender?"
+msgstr ""
+
+#: src/Gate/Admin.php:106
+msgid "Also block the IP address"
+msgstr ""
+
+#. translators: %d: number of days
+#: src/Gate/Admin.php:110
+#: src/Shield/Admin.php:103
+#, php-format
+msgid "%d days"
+msgstr ""
+
+#: src/Gate/Admin.php:113
+#: src/Gate/Admin.php:136
+#: src/Shield/Admin.php:106
+msgid "Block"
+msgstr ""
+
+#: src/Gate/Admin.php:117
+msgid "Settings"
+msgstr ""
+
+#: src/Gate/Admin.php:121
+msgid "Verify contact forms and sign-ups"
+msgstr ""
+
+#: src/Gate/Admin.php:122
+msgid "Include new user accounts (accounts created while paying in the shop are never held)"
+msgstr ""
+
+#: src/Gate/Admin.php:123
+msgid "Include blog comments: they are not saved, not even as pending, until the author confirms. Trackbacks and pingbacks are dropped."
+msgstr ""
+
+#: src/Gate/Admin.php:124
+msgid "Mention Draco Insomnis in the footer of confirmation e-mails"
+msgstr ""
+
+#: src/Gate/Admin.php:128
+msgid "Waiting for confirmation"
+msgstr ""
+
+#: src/Gate/Admin.php:128
+msgid "Confirmed"
+msgstr ""
+
+#: src/Gate/Admin.php:128
+msgid "Expired without confirmation"
+msgstr ""
+
+#: src/Gate/Admin.php:129
+msgid "Account"
+msgstr ""
+
+#: src/Gate/Admin.php:129
+msgid "Comment"
+msgstr ""
+
+#: src/Gate/Admin.php:129
+msgid "Message"
+msgstr ""
+
+#: src/Gate/Admin.php:130
+msgid "Recent submissions"
+msgstr ""
+
+#: src/Gate/Admin.php:130
+msgid "Each submission is kept for 90 days, confirmed or not. \"Block\" works on any row: confirming only proves the mailbox exists, not that it can be trusted. \"Deliver now\" lets a real submission through without waiting."
+msgstr ""
+
+#: src/Gate/Admin.php:131
+#: src/Shield/Admin.php:109
+msgid "Type"
+msgstr ""
+
+#: src/Gate/Admin.php:131
+#: src/Shield/Admin.php:129
+msgid "Where"
+msgstr ""
+
+#: src/Gate/Admin.php:131
+#: src/Shield/Admin.php:99
+msgid "E-mail"
+msgstr ""
+
+#: src/Gate/Admin.php:131
+#: src/Mail/Admin.php:138
+msgid "Status"
+msgstr ""
+
+#: src/Gate/Admin.php:138
+msgid "Deliver now"
+msgstr ""
+
+#: src/Gate/Admin.php:143
+msgid "No submissions yet."
+msgstr ""
+
+#: src/Gate/CommentHold.php:55
+msgid "Enter your email to comment: we will send you a link to confirm your comment."
+msgstr ""
+
+#: src/Gate/CommentHold.php:136
+msgid "The comment could not be posted: the post no longer exists or the comment is a duplicate."
+msgstr ""
+
+#: src/Gate/CommentHold.php:139
+msgid "Your comment has been published. Thank you."
+msgstr ""
+
+#: src/Gate/CommentHold.php:142
+msgid "Your comment has been sent. It will appear once it has been reviewed. Thank you."
+msgstr ""
+
+#: src/Gate/CommentHold.php:147
+msgid "Almost done: we have sent you an email. Your comment will not be sent until you confirm it from that email. If you cannot see it, check your spam folder."
+msgstr ""
+
+#: src/Gate/Gate.php:45
+msgid "Form verification of OPNV-WP is already on in this site. Use one of them, not both."
+msgstr ""
+
+#: src/Gate/Gate.php:48
+msgid "Without SMTP the confirmation mail may not arrive and messages would be lost. Set up Site mail (SMTP) first."
+msgstr ""
+
+#. translators: %s: site name
+#: src/Gate/Mailer.php:57
+#, php-format
+msgid "Confirm your account at %s"
+msgstr ""
+
+#. translators: %s: site name
+#: src/Gate/Mailer.php:59
+#, php-format
+msgid "We received a request to create an account at %s with this address."
+msgstr ""
+
+#: src/Gate/Mailer.php:60
+msgid "To activate it, open this link and press the confirm button:"
+msgstr ""
+
+#. translators: %d: hours
+#: src/Gate/Mailer.php:62
+#, php-format
+msgid "The link expires in %d hours. If this wasn't you, ignore this email: the account will not be activated."
+msgstr ""
+
+#. translators: %s: site name
+#: src/Gate/Mailer.php:65
+#, php-format
+msgid "Confirm your comment at %s"
+msgstr ""
+
+#. translators: %s: site name
+#: src/Gate/Mailer.php:67
+#, php-format
+msgid "We received a comment at %s with this address."
+msgstr ""
+
+#: src/Gate/Mailer.php:68
+msgid "It has not been sent yet and nobody has seen it. To send it, open this link and press the confirm button:"
+msgstr ""
+
+#. translators: %d: hours
+#: src/Gate/Mailer.php:70
+#, php-format
+msgid "The link expires in %d hours. If this wasn't you, ignore this email: the comment will be deleted."
+msgstr ""
+
+#. translators: %s: site name
+#: src/Gate/Mailer.php:73
+#, php-format
+msgid "Confirm your message to %s"
+msgstr ""
+
+#. translators: %s: site name
+#: src/Gate/Mailer.php:75
+#, php-format
+msgid "We received a message sent through the form at %s with this address."
+msgstr ""
+
+#: src/Gate/Mailer.php:76
+msgid "It has not been delivered yet. To send it, open this link and press the confirm button:"
+msgstr ""
+
+#. translators: %d: hours
+#: src/Gate/Mailer.php:78
+#, php-format
+msgid "The link expires in %d hours. If this wasn't you, ignore this email: the message will be deleted."
+msgstr ""
+
+#: src/Gate/Mailer.php:84
+#: src/Gate/Verify.php:72
+#: src/Login/Recovery.php:317
+msgid "Confirm"
+msgstr ""
+
+#: src/Gate/MailHold.php:215
+msgid "Spam? Block this sender"
+msgstr ""
+
+#: src/Gate/MailHold.php:279
+msgid "Almost done: we have sent you an email. Your message will not be delivered until you confirm it from that email. If you cannot see it, check your spam folder."
+msgstr ""
+
+#: src/Gate/RegistrationHold.php:74
+#: src/Shield/Guard.php:117
+msgid "The registration could not be completed."
+msgstr ""
+
+#: src/Gate/RegistrationHold.php:134
+msgid "Access unavailable."
+msgstr ""
+
+#: src/Gate/RegistrationHold.php:217
+msgid "Almost done: we have sent you an email. Your account will not be activated until you confirm it from that email. If you cannot see it, check your spam folder."
+msgstr ""
+
+#: src/Gate/Verify.php:32
+msgid "This link was already used or has expired. If your message did not arrive, send it again from the form."
+msgstr ""
+
+#: src/Gate/Verify.php:36
+msgid "Press the button to activate your account."
+msgstr ""
+
+#: src/Gate/Verify.php:37
+msgid "Press the button to send your comment."
+msgstr ""
+
+#: src/Gate/Verify.php:39
+msgid "Press the button to send your message."
+msgstr ""
+
+#: src/Gate/Verify.php:42
+msgid "This link was already used. Thank you."
+msgstr ""
+
+#: src/Gate/Verify.php:48
+msgid "Your account is now active. Thank you."
+msgstr ""
+
+#: src/Gate/Verify.php:48
+msgid "Your message has been sent. Thank you."
+msgstr ""
+
+#: src/Login/Admin.php:25
+#: src/Login/Admin.php:58
+msgid "Two-step login"
+msgstr ""
+
+#: src/Login/Admin.php:59
+msgid "After the right password, WordPress asks for a 6-digit code sent by e-mail. A stolen password alone is no longer enough to get in."
+msgstr ""
+
+#: src/Login/Admin.php:66
+msgid "DRACO_MFA_OFF is set in wp-config.php: no codes are asked for. Remove that line once you are back in."
+msgstr ""
+
+#: src/Login/Admin.php:71
+msgid "Ask for a code by e-mail after the password"
+msgstr ""
+
+#: src/Login/Admin.php:72
+msgid "Who has to enter it:"
+msgstr ""
+
+#: src/Login/Admin.php:73
+msgid "Administrators"
+msgstr ""
+
+#: src/Login/Admin.php:73
+msgid "Anyone who can write or edit content"
+msgstr ""
+
+#: src/Login/Admin.php:73
+msgid "Every user"
+msgstr ""
+
+#. translators: %d: days
+#: src/Login/Admin.php:78
+#, php-format
+msgid "Offer \"Trust this device for %d days\""
+msgstr ""
+
+#: src/Login/Admin.php:82
+msgid "Good to know"
+msgstr ""
+
+#: src/Login/Admin.php:84
+msgid "It can only be switched on with Site mail (SMTP) working, and it switches itself off if that connection is forgotten: a code that never arrives would lock you out."
+msgstr ""
+
+#: src/Login/Admin.php:85
+msgid "The code is only sent after the right password. It expires in 10 minutes and allows 5 tries; repeated failures block the address for 15 minutes."
+msgstr ""
+
+#: src/Login/Admin.php:86
+msgid "Changing the password or the e-mail of an account makes all its trusted devices ask for a code again."
+msgstr ""
+
+#: src/Login/Admin.php:87
+msgid "Login boxes that work without reloading the page (some themes) cannot show the code step: those users are asked to log in from the normal login page."
+msgstr ""
+
+#: src/Login/Admin.php:88
+msgid "If you are ever locked out, add define('DRACO_MFA_OFF', true); to wp-config.php, log in, fix the problem and remove the line. Only someone with access to the server can do this, unlike a \"skip\" button."
+msgstr ""
+
+#: src/Login/Mfa.php:57
+msgid "The e-mail login code of OPNV-WP is already on in this site. Use one of them, not both."
+msgstr ""
+
+#: src/Login/Mfa.php:60
+msgid "Without SMTP the code may not arrive and you would be locked out. Set up Site mail (SMTP) first."
+msgstr ""
+
+#: src/Login/Mfa.php:90
+#: src/Login/Mfa.php:271
+msgid "Too many attempts. Try again later."
+msgstr ""
+
+#. translators: %s: login page URL
+#: src/Login/Mfa.php:106
+#, php-format
+msgid "This account needs a code sent by e-mail. Log in from %s to receive it."
+msgstr ""
+
+#: src/Login/Mfa.php:118
+msgid "The login code could not be sent by e-mail. If you own this site and are locked out, add define('DRACO_MFA_OFF', true); to wp-config.php."
+msgstr ""
+
+#. translators: %s: person's name
+#: src/Login/Mfa.php:136
+#, php-format
+msgid "Hello %s,"
+msgstr ""
+
+#. translators: %s: site name
+#: src/Login/Mfa.php:139
+#, php-format
+msgid "[%s] Confirm your recovery e-mail"
+msgstr ""
+
+#: src/Login/Mfa.php:140
+msgid "Confirm your recovery e-mail"
+msgstr ""
+
+#: src/Login/Mfa.php:141
+msgid "Type this code in the recovery e-mail screen to confirm the change:"
+msgstr ""
+
+#: src/Login/Mfa.php:142
+msgid "It expires in 15 minutes. If you did not ask for this, someone has access to your account: change your password."
+msgstr ""
+
+#. translators: %s: site name
+#: src/Login/Mfa.php:145
+#, php-format
+msgid "[%s] Your login code"
+msgstr ""
+
+#: src/Login/Mfa.php:146
+msgid "Your login code"
+msgstr ""
+
+#: src/Login/Mfa.php:147
+msgid "Use this code to finish logging in:"
+msgstr ""
+
+#. translators: %d: minutes
+#: src/Login/Mfa.php:149
+#, php-format
+msgid "It expires in %d minutes. If you did not try to log in, someone knows your password: change it."
+msgstr ""
+
+#: src/Login/Mfa.php:165
+msgid "The code has expired. Log in again."
+msgstr ""
+
+#: src/Login/Mfa.php:169
+msgid "The recovery e-mail cannot be used right now. Try again later."
+msgstr ""
+
+#: src/Login/Mfa.php:176
+msgid "A new code is on its way. Check your spam folder too."
+msgstr ""
+
+#: src/Login/Mfa.php:178
+msgid "The code could not be sent again."
+msgstr ""
+
+#: src/Login/Mfa.php:188
+msgid "Too many attempts. Log in again."
+msgstr ""
+
+#: src/Login/Mfa.php:188
+#: src/Login/Recovery.php:283
+msgid "Wrong code."
+msgstr ""
+
+#. translators: %s: masked e-mail address
+#: src/Login/Mfa.php:198
+#, php-format
+msgid "We have sent a 6-digit code to %s. Check your spam folder too."
+msgstr ""
+
+#: src/Login/Mfa.php:199
+msgid "Login code"
+msgstr ""
+
+#: src/Login/Mfa.php:204
+msgid "Code"
+msgstr ""
+
+#. translators: %d: days
+#: src/Login/Mfa.php:208
+#, php-format
+msgid "Trust this device for %d days"
+msgstr ""
+
+#: src/Login/Mfa.php:210
+msgid "Remember me"
+msgstr ""
+
+#: src/Login/Mfa.php:211
+msgid "Verify and log in"
+msgstr ""
+
+#: src/Login/Mfa.php:214
+msgid "Send the code again"
+msgstr ""
+
+#: src/Login/Mfa.php:216
+msgid "I cannot reach this mailbox: use my recovery e-mail"
+msgstr ""
+
+#: src/Login/Mfa.php:220
+msgid "← Back to log in"
+msgstr ""
+
+#: src/Login/Mfa.php:271
+msgid "Access restricted"
+msgstr ""
+
+#: src/Login/Recovery.php:88
+#: src/Login/Recovery.php:289
+#: src/Login/Recovery.php:324
+msgid "Recovery e-mail"
+msgstr ""
+
+#: src/Login/Recovery.php:186
+msgid "Your recovery e-mail has been changed."
+msgstr ""
+
+#: src/Login/Recovery.php:188
+msgid "This address is no longer your recovery e-mail."
+msgstr ""
+
+#: src/Login/Recovery.php:203
+msgid "Your password has been reset. The next login code will be sent to this address."
+msgstr ""
+
+#: src/Login/Recovery.php:215
+msgid "The main e-mail of your account has been changed."
+msgstr ""
+
+#: src/Login/Recovery.php:221
+msgid "If this was not you, log in with your recovery e-mail and change your password."
+msgstr ""
+
+#: src/Login/Recovery.php:222
+msgid "Security notice"
+msgstr ""
+
+#: src/Login/Recovery.php:278
+msgid "We have sent a code to the new address. Type it below."
+msgstr ""
+
+#: src/Login/Recovery.php:279
+msgid "Recovery e-mail saved."
+msgstr ""
+
+#: src/Login/Recovery.php:280
+msgid "That e-mail address is not valid."
+msgstr ""
+
+#: src/Login/Recovery.php:281
+msgid "It must be different from the main e-mail of your account, or it would be no use if that one fails."
+msgstr ""
+
+#: src/Login/Recovery.php:282
+msgid "The code could not be sent. Check Site mail (SMTP)."
+msgstr ""
+
+#: src/Login/Recovery.php:284
+msgid "The codes expired or were tried too many times. Start again."
+msgstr ""
+
+#: src/Login/Recovery.php:285
+msgid "Cancelled."
+msgstr ""
+
+#: src/Login/Recovery.php:294
+msgid "Your account needs a login code. Add a recovery e-mail before going on: it is your way back in if your main mailbox fails or is stolen."
+msgstr ""
+
+#: src/Login/Recovery.php:296
+msgid "A second mailbox for your login code, like the PUK of a phone. Use one on another provider than your main e-mail (for example Gmail if the main one is on this site's domain)."
+msgstr ""
+
+#: src/Login/Recovery.php:298
+msgid "On the code screen you can ask for the code to go to this address instead."
+msgstr ""
+
+#: src/Login/Recovery.php:299
+msgid "\"Lost your password?\" also accepts this address, and the link goes there."
+msgstr ""
+
+#: src/Login/Recovery.php:300
+msgid "After a password reset, the next code goes only to this address."
+msgstr ""
+
+#: src/Login/Recovery.php:301
+msgid "Any change to it, or to your main e-mail, is told to the other mailbox."
+msgstr ""
+
+#. translators: %s: masked e-mail
+#: src/Login/Recovery.php:307
+#, php-format
+msgid "Current recovery e-mail: %s"
+msgstr ""
+
+#. translators: %s: masked e-mail
+#: src/Login/Recovery.php:307
+msgid "You have no recovery e-mail yet."
+msgstr ""
+
+#. translators: %s: masked e-mail
+#: src/Login/Recovery.php:312
+#, php-format
+msgid "Code sent to %s"
+msgstr ""
+
+#. translators: %s: masked e-mail
+#: src/Login/Recovery.php:315
+#, php-format
+msgid "Code sent to your current recovery e-mail %s"
+msgstr ""
+
+#: src/Login/Recovery.php:320
+msgid "Cancel"
+msgstr ""
+
+#: src/Login/Recovery.php:324
+msgid "New recovery e-mail"
+msgstr ""
+
+#: src/Login/Recovery.php:326
+msgid "A code will go to the new address and another to the current one: both are needed, so nobody can change it with your session alone."
+msgstr ""
+
+#: src/Login/Recovery.php:328
+msgid "Send code"
+msgstr ""
+
+#: src/Mail/Admin.php:27
+#: src/Mail/Admin.php:112
+msgid "Site mail (SMTP)"
+msgstr ""
+
+#: src/Mail/Admin.php:38
+msgid "The full address of the mailbox, with @ and domain. Not your WordPress username."
+msgstr ""
+
+#: src/Mail/Admin.php:39
+msgid "The password of that mailbox, not the one for WordPress or your hosting. If you do not remember it, change it in your hosting or domain panel, in the e-mail section."
+msgstr ""
+
+#: src/Mail/Admin.php:40
+msgid "An app password, created in the security settings of your account. Not your normal password."
+msgstr ""
+
+#: src/Mail/Admin.php:41
+msgid "Your full address."
+msgstr ""
+
+#: src/Mail/Admin.php:49
+msgid "The mailbox password, or an app password if you use two-step verification."
+msgstr ""
+
+#: src/Mail/Admin.php:50
+msgid "The mailbox password or an app password. SMTP sending must be allowed in Microsoft 365."
+msgstr ""
+
+#: src/Mail/Admin.php:51
+msgid "The full address of the Google account."
+msgstr ""
+
+#: src/Mail/Admin.php:52
+msgid "The SMTP login shown in your Brevo account."
+msgstr ""
+
+#: src/Mail/Admin.php:52
+msgid "The Brevo SMTP key, not your account password."
+msgstr ""
+
+#: src/Mail/Admin.php:53
+msgid "The SMTP user of your domain in Mailgun."
+msgstr ""
+
+#: src/Mail/Admin.php:53
+msgid "The SMTP password of that user."
+msgstr ""
+
+#: src/Mail/Admin.php:54
+msgid "Type literally: apikey"
+msgstr ""
+
+#: src/Mail/Admin.php:54
+msgid "Your SendGrid API key."
+msgstr ""
+
+#: src/Mail/Admin.php:55
+msgid "The Postmark Server API Token."
+msgstr ""
+
+#: src/Mail/Admin.php:55
+msgid "The same Server API Token."
+msgstr ""
+
+#: src/Mail/Admin.php:56
+msgid "Your Mailjet API key."
+msgstr ""
+
+#: src/Mail/Admin.php:56
+msgid "Your Mailjet secret key."
+msgstr ""
+
+#: src/Mail/Admin.php:57
+msgid "The SMTP user created in Amazon SES."
+msgstr ""
+
+#: src/Mail/Admin.php:57
+msgid "The Amazon SES SMTP password, not your AWS password."
+msgstr ""
+
+#: src/Mail/Admin.php:113
+msgid "Sends the mail of this site through a real mailbox with its password, instead of the server's mail() function. Without it, many messages are silently rejected: login codes, forms and orders."
+msgstr ""
+
+#: src/Mail/Admin.php:117
+msgid "The saved password can no longer be read (the site's security keys changed). Type it again and repeat the test."
+msgstr ""
+
+#. translators: %s: plugin name
+#: src/Mail/Admin.php:121
+#, php-format
+msgid "%s is sending the mail of this site. Turn it off before testing or switching on this module."
+msgstr ""
+
+#. translators: %s: DMARC policy (reject or quarantine)
+#: src/Mail/Admin.php:126
+#, php-format
+msgid "The domain has DMARC \"%s\" and this site sends with PHP mail(): messages, including login codes, may never arrive even though the site says \"sent\"."
+msgstr ""
+
+#. translators: 1: sender address, 2: site domain
+#: src/Mail/Admin.php:131
+#, php-format
+msgid "The sender %1$s is not from the domain of this site. Use an @%2$s address or messages may be rejected."
+msgstr ""
+
+#. translators: %s: sender address
+#: src/Mail/Admin.php:135
+#, php-format
+msgid "Sending through SMTP as %s"
+msgstr ""
+
+#. translators: %s: plugin name
+#: src/Mail/Admin.php:137
+#, php-format
+msgid "Sending through %s"
+msgstr ""
+
+#. translators: %s: plugin name
+#: src/Mail/Admin.php:137
+msgid "Sending with PHP mail()"
+msgstr ""
+
+#: src/Mail/Admin.php:140
+msgid "1. Connection"
+msgstr ""
+
+#: src/Mail/Admin.php:145
+msgid "Save connection"
+msgstr ""
+
+#: src/Mail/Admin.php:148
+msgid "2. Test"
+msgstr ""
+
+#: src/Mail/Admin.php:150
+msgid "Save the connection to send tests."
+msgstr ""
+
+#: src/Mail/Admin.php:152
+msgid "Send a test and check that it arrived, also in spam. \"Accepted\" only means the server took it."
+msgstr ""
+
+#: src/Mail/Admin.php:155
+msgid "Send a test to"
+msgstr ""
+
+#: src/Mail/Admin.php:156
+msgid "Send test"
+msgstr ""
+
+#: src/Mail/Admin.php:160
+msgid "3. Switch on"
+msgstr ""
+
+#: src/Mail/Admin.php:160
+msgid "Until this step, the site keeps sending as before."
+msgstr ""
+
+#: src/Mail/Admin.php:163
+msgid "This forgets the connection above (server, user, password and sender) and goes back to PHP mail(). Modules that send login codes are switched off, because the codes might not arrive."
+msgstr ""
+
+#: src/Mail/Admin.php:164
+msgid "Go back to PHP mail() and forget the connection"
+msgstr ""
+
+#: src/Mail/Admin.php:168
+msgid "Switch on SMTP for this site"
+msgstr ""
+
+#: src/Mail/Admin.php:171
+msgid "It can be switched on once a test succeeds."
+msgstr ""
+
+#: src/Mail/Admin.php:185
+msgid "Usually the full address of the mailbox. Not your WordPress username."
+msgstr ""
+
+#: src/Mail/Admin.php:186
+msgid "The password of that mailbox, not the one for WordPress or your hosting."
+msgstr ""
+
+#: src/Mail/Admin.php:192
+msgid "Mail on your own domain (recommended)"
+msgstr ""
+
+#: src/Mail/Admin.php:192
+msgid "Sending services"
+msgstr ""
+
+#: src/Mail/Admin.php:192
+msgid "Personal mail (not recommended)"
+msgstr ""
+
+#: src/Mail/Admin.php:193
+msgid "Choose your provider…"
+msgstr ""
+
+#. translators: 1: site domain, 2: site domain
+#: src/Mail/Admin.php:205
+msgid "Where is your mailbox?"
+msgstr ""
+
+#. translators: 1: site domain, 2: site domain
+#: src/Mail/Admin.php:205
+#, php-format
+msgid "Preferably a mailbox on the domain of this site, @%1$s. This fills in server, encryption and port. If your provider is not listed, the server is usually mail.%2$s: type it by hand and confirm it with them."
+msgstr ""
+
+#: src/Mail/Admin.php:206
+msgid "Outgoing server (SMTP)"
+msgstr ""
+
+#: src/Mail/Admin.php:206
+msgid "The address of the server that sends the mail. Your provider gives it to you."
+msgstr ""
+
+#: src/Mail/Admin.php:207
+msgid "Encryption and port"
+msgstr ""
+
+#: src/Mail/Admin.php:208
+msgid "Port"
+msgstr ""
+
+#: src/Mail/Admin.php:208
+msgid "Use what your provider says. If it does not connect, try the other option."
+msgstr ""
+
+#: src/Mail/Admin.php:209
+msgid "Username"
+msgstr ""
+
+#: src/Mail/Admin.php:210
+msgid "Password"
+msgstr ""
+
+#: src/Mail/Admin.php:210
+msgid "Saved. Leave empty to keep it"
+msgstr ""
+
+#: src/Mail/Admin.php:210
+msgid "It is stored encrypted."
+msgstr ""
+
+#: src/Mail/Admin.php:211
+msgid "Sender address (optional)"
+msgstr ""
+
+#: src/Mail/Admin.php:211
+msgid "The address people see. Empty uses the username above, which is normal. If you fill it in, it must be a mailbox or authorised alias on the domain of this site."
+msgstr ""
+
+#: src/Mail/Admin.php:213
+msgid "Sender name (optional)"
+msgstr ""
+
+#: src/Mail/Admin.php:213
+msgid "The name people see. Empty keeps whatever each plugin sets, usually \"WordPress\"."
+msgstr ""
+
+#: src/Mail/Admin.php:214
+msgid "Addresses for security alerts"
+msgstr ""
+
+#. translators: %s: site domain
+#: src/Mail/Admin.php:216
+#, php-format
+msgid "One per line. Besides the administrator, they receive the WordPress link to get in and fix the site if a plugin or theme breaks it (it gives access to the dashboard: trusted mailboxes only), and password-change alerts. Put at least one that is not @%s: if this domain fails, alerts still arrive."
+msgstr ""
+
+#: src/Mail/Admin.php:223
+msgid "The username is not an e-mail address: type an address on this domain in \"Sender address\"."
+msgstr ""
+
+#. translators: %s: site domain
+#: src/Mail/Admin.php:225
+#, php-format
+msgid "This sender is not from the domain of this site. Use an @%s address or messages may be rejected."
+msgstr ""
+
+#: src/Mail/Admin.php:266
+msgid "Connection saved. Now send a test."
+msgstr ""
+
+#: src/Mail/Admin.php:267
+msgid "SMTP switched on. The mail of this site now leaves through your mailbox."
+msgstr ""
+
+#: src/Mail/Admin.php:268
+msgid "Connection forgotten. The site sends with PHP mail() again. The alert addresses were kept."
+msgstr ""
+
+#. translators: %s: e-mail address
+#: src/Mail/Admin.php:270
+#, php-format
+msgid "Test sent to %s. The server accepted it: check that it arrived, also in spam."
+msgstr ""
+
+#: src/Mail/Admin.php:271
+msgid "Missing data. Check server, username, password, sender and recipient."
+msgstr ""
+
+#: src/Mail/Admin.php:272
+msgid "Not saved: the password could not be encrypted (OpenSSL is missing on the server)."
+msgstr ""
+
+#: src/Mail/Admin.php:273
+msgid "A successful test with this connection is needed first."
+msgstr ""
+
+#: src/Mail/Admin.php:274
+msgid "Another plugin is sending the mail of this site. Turn it off first."
+msgstr ""
+
+#. translators: 1: e-mail address, 2: error message
+#: src/Mail/Admin.php:279
+#, php-format
+msgid "The test to %1$s failed: %2$s"
+msgstr ""
+
+#: src/Mail/Admin.php:289
+msgid "Another plugin"
+msgstr ""
+
+#: src/Mail/Admin.php:290
+msgid "Recent messages"
+msgstr ""
+
+#: src/Mail/Admin.php:290
+msgid "\"Accepted\" means the server took it, not that it reached the inbox. With PHP mail(), not even that. Message bodies are never stored."
+msgstr ""
+
+#: src/Mail/Admin.php:291
+msgid "Via"
+msgstr ""
+
+#: src/Mail/Admin.php:291
+msgid "To"
+msgstr ""
+
+#: src/Mail/Admin.php:291
+msgid "Subject"
+msgstr ""
+
+#. translators: %s: error message
+#: src/Mail/Admin.php:295
+msgid "Accepted"
+msgstr ""
+
+#. translators: %s: error message
+#: src/Mail/Admin.php:295
+#, php-format
+msgid "Error: %s"
+msgstr ""
+
+#: src/Mail/Admin.php:300
+msgid "Nothing yet."
+msgstr ""
+
+#: src/Mail/Template.php:62
+msgid "Open"
+msgstr ""
+
+#. translators: %s: site name
+#: src/Mail/Template.php:65
+#, php-format
+msgid "Automatic message from %s."
+msgstr ""
+
+#: src/Mail/Template.php:67
+msgid "Protected by Draco Insomnis · OPNV Systems."
+msgstr ""
+
+#: src/Mail/Transport.php:113
+msgid "The saved password can no longer be read. Type it again."
+msgstr ""
+
+#. translators: %s: plugin name
+#: src/Mail/Transport.php:117
+#, php-format
+msgid "%s is sending the mail of this site. Turn it off first."
+msgstr ""
+
+#. translators: %s: site name
+#: src/Mail/Transport.php:124
+#, php-format
+msgid "Mail test · %s"
+msgstr ""
+
+#: src/Mail/Transport.php:125
+msgid "If you can read this, the mail of your site leaves correctly through this connection."
+msgstr ""
+
+#: src/Shield/Admin.php:28
+#: src/Shield/Admin.php:78
+msgid "Anti-bot shield"
+msgstr ""
+
+#: src/Shield/Admin.php:85
+msgid "Stops programs that create fake accounts before the account exists. The bot is told \"registration complete\" after a short wait, and the attempt is kept as evidence. Nothing is sent back to the attacker."
+msgstr ""
+
+#: src/Shield/Admin.php:87
+msgid "Protect sign-ups (WordPress, WooCommerce and RealHomes)"
+msgstr ""
+
+#: src/Shield/Admin.php:88
+msgid "Visitor address"
+msgstr ""
+
+#: src/Shield/Admin.php:89
+msgid "Connection address (safest; use this unless the site is behind a proxy)"
+msgstr ""
+
+#: src/Shield/Admin.php:89
+msgid "Cloudflare header (only if every visit goes through Cloudflare)"
+msgstr ""
+
+#: src/Shield/Admin.php:89
+msgid "X-Forwarded-For (only behind your own proxy or CDN)"
+msgstr ""
+
+#: src/Shield/Admin.php:92
+msgid "Your address as the plugin sees it:"
+msgstr ""
+
+#: src/Shield/Admin.php:93
+msgid "Rented-server networks to watch, besides the ones already known (one per line, e.g. 198.51.100.0/24)"
+msgstr ""
+
+#: src/Shield/Admin.php:98
+msgid "Block a sender"
+msgstr ""
+
+#: src/Shield/Admin.php:100
+msgid "For"
+msgstr ""
+
+#: src/Shield/Admin.php:105
+#: src/Shield/Admin.php:109
+msgid "Reason"
+msgstr ""
+
+#: src/Shield/Admin.php:109
+msgid "Active blocks"
+msgstr ""
+
+#: src/Shield/Admin.php:109
+msgid "Value"
+msgstr ""
+
+#: src/Shield/Admin.php:109
+msgid "Until (UTC)"
+msgstr ""
+
+#: src/Shield/Admin.php:113
+msgid "Unblock"
+msgstr ""
+
+#: src/Shield/Admin.php:116
+msgid "None."
+msgstr ""
+
+#: src/Shield/Admin.php:121
+msgid "already blocked"
+msgstr ""
+
+#: src/Shield/Admin.php:121
+msgid "asked for an admin role"
+msgstr ""
+
+#: src/Shield/Admin.php:122
+msgid "role that does not exist"
+msgstr ""
+
+#: src/Shield/Admin.php:122
+msgid "filled the trap field"
+msgstr ""
+
+#: src/Shield/Admin.php:123
+msgid "forged page stamp"
+msgstr ""
+
+#: src/Shield/Admin.php:123
+msgid "never loaded the page"
+msgstr ""
+
+#: src/Shield/Admin.php:124
+msgid "too fast"
+msgstr ""
+
+#: src/Shield/Admin.php:124
+msgid "random username"
+msgstr ""
+
+#: src/Shield/Admin.php:125
+msgid "rented server"
+msgstr ""
+
+#: src/Shield/Admin.php:125
+msgid "repeat offender"
+msgstr ""
+
+#: src/Shield/Admin.php:126
+msgid "a script, not a browser"
+msgstr ""
+
+#: src/Shield/Admin.php:128
+msgid "Recent suspicious attempts"
+msgstr ""
+
+#: src/Shield/Admin.php:128
+msgid "Kept for 90 days. Three bot attempts in a day block the address for a week. \"Evidence\" downloads everything from that address as a CSV file to attach to an abuse report to the network provider."
+msgstr ""
+
+#: src/Shield/Admin.php:129
+msgid "Points"
+msgstr ""
+
+#: src/Shield/Admin.php:129
+msgid "Verdict"
+msgstr ""
+
+#: src/Shield/Admin.php:129
+msgid "Why"
+msgstr ""
+
+#: src/Shield/Admin.php:129
+msgid "User / e-mail"
+msgstr ""
+
+#: src/Shield/Admin.php:137
+msgid "Bot"
+msgstr ""
+
+#: src/Shield/Admin.php:137
+msgid "Doubtful"
+msgstr ""
+
+#: src/Shield/Admin.php:141
+msgid "No suspicious attempts yet."
+msgstr ""
+
+#: src/Shield/Admin.php:141
+msgid "The shield is off."
+msgstr ""
+
+#: src/Shield/Admin.php:154
+msgid "Invalid address."
+msgstr ""
+
+#. translators: %d: number of attempts
+#: src/Shield/Guard.php:170
+#, php-format
+msgid "Automatic: %d bot attempts in 24 h"
+msgstr ""

@@ -39,6 +39,14 @@ composer install
 vendor/bin/phpunit tests/unit
 ```
 
+## Translations
+
+`languages/` holds `draco-insomnis.pot` (the template) and ready-made translations in WordPress's
+`.l10n.php` format (WordPress 6.5+): Spanish (Spain and Latin America), Catalan, German, French,
+Italian, Portuguese (Portugal and Brazil), Dutch, Polish, Russian, Turkish, Japanese, Simplified
+Chinese, Korean, Arabic, Hindi and Indonesian. Native-speaker corrections are welcome, especially for
+the Asian and Middle Eastern languages.
+
 ## Principles
 
 - Defence only: nothing is ever sent to the attacker's machine.

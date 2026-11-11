@@ -70,6 +70,10 @@ Stops requests with the shape of an attack, and the scanners that look for weak 
 * **Hides the list of user names** from anonymous visitors (?author=1 and the users REST endpoint).
 * **Limits failed logins** and always refuses XML-RPC system.multicall (hundreds of passwords in one call) and pingbacks.
 * **Never inspects people who can edit the site** and never blocks an address an administrator used recently. Emergency exit: `define('DRACO_WAF_OFF', true);` in wp-config.php.
+= Languages =
+
+English, Spanish (Spain and all Latin American variants), Catalan, German, French, Italian, Portuguese (Portugal and Brazil), Dutch, Polish, Russian, Turkish, Japanese, Simplified Chinese, Korean, Arabic, Hindi and Indonesian. Corrections from native speakers are very welcome, especially for the Asian and Middle Eastern languages.
+
 = Who makes it =
 
 Draco Insomnis is made by [Notorius Vision](https://notoriusvision.com), the team behind [OPNV Systems](https://opnv.systems) and OPNV SOLΞ. It is the open-source security core of OPNV.
