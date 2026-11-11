@@ -16,6 +16,8 @@ foreach (['draco_waf_enabled', 'draco_waf_mode', 'draco_waf_hide_users', 'draco_
     delete_option($option);
 }
 $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '\\_transient\\_draco\\_%' OR option_name LIKE '\\_transient\\_timeout\\_draco\\_%'"); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
-delete_metadata('user', 0, '_draco_trusted_devices', '', true);
+foreach (['_draco_trusted_devices', '_draco_recovery_email', '_draco_recovery_pending', '_draco_recovery_force'] as $meta) {
+    delete_metadata('user', 0, $meta, '', true);
+}
 wp_clear_scheduled_hook('draco_cleanup');
 wp_clear_scheduled_hook('draco_gate_cleanup');

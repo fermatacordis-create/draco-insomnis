@@ -13,12 +13,10 @@ Version 0.1:
   with the password encrypted.
 - **Forms and sign-ups** — holds contact messages, comments and new accounts until the sender
   confirms from their e-mail.
-- **Two-step login** — a 6-digit code by e-mail after the right password, with trusted devices.
+- **Two-step login** — a 6-digit code by e-mail after the right password, with trusted devices and a
+  recovery e-mail (a second mailbox, like the PUK of a phone).
 - **Firewall** — precise attack signatures and scanner probes, log-only mode first, hidden user list,
   login limits, no XML-RPC multicall.
-
-Planned: a recovery mailbox for the login code.
-
 ## Layout
 
 - `src/Core/` — plain PHP, no WordPress: scoring (`BotScore`), network lists (`NetList`), the signed
@@ -30,8 +28,8 @@ Planned: a recovery mailbox for the login code.
   (configures WordPress's PHPMailer), `Log` and `Admin`.
 - `src/Gate/` — confirmation by e-mail: `MailHold` (form mail), `CommentHold`, `RegistrationHold`,
   `Verify` (the confirm page), `Store`, `Mailer` and `Admin`. HTML mail lives in `src/Mail/Template.php`.
-- `src/Login/` — two-step login: `Mfa` (the flow and the code page), `Challenge`, `TrustedDevice`
-  and `Admin`.
+- `src/Login/` — two-step login: `Mfa` (the flow and the code page), `Challenge`, `TrustedDevice`,
+  `Recovery` (the second mailbox) and `Admin`.
 - `src/Admin/Brand.php` — the menu and the header shown on the plugin's own screens.
 
 ## Tests

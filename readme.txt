@@ -56,6 +56,7 @@ After the right password, WordPress asks for a 6-digit code sent by e-mail. A st
 * **The code is only sent after the right password**, expires in 10 minutes and allows 5 tries. Repeated failures block the address for 15 minutes.
 * **Trust this device for 7 days** (optional). Changing the password or e-mail of an account revokes its trusted devices.
 * **No lock-outs from missing mail.** It only switches on with SMTP working and switches itself off if that connection is forgotten.
+* **Recovery e-mail, like the PUK of a phone.** Everyone who needs a code keeps a second mailbox. The code screen can send the code there instead; "Lost your password?" accepts it too; after a password reset the next code goes only there. Changing it needs a code from the new address and one from the current one, and every change is told to the other mailbox. Administrators set it up before using the dashboard.
 * **Emergency exit for the owner:** `define('DRACO_MFA_OFF', true);` in wp-config.php. Only someone with access to the server can use it, unlike a "skip" button a thief could press.
 
 = Firewall =
@@ -69,9 +70,6 @@ Stops requests with the shape of an attack, and the scanners that look for weak 
 * **Hides the list of user names** from anonymous visitors (?author=1 and the users REST endpoint).
 * **Limits failed logins** and always refuses XML-RPC system.multicall (hundreds of passwords in one call) and pingbacks.
 * **Never inspects people who can edit the site** and never blocks an address an administrator used recently. Emergency exit: `define('DRACO_WAF_OFF', true);` in wp-config.php.
-
-More is on the way: a recovery mailbox for the login code.
-
 = Who makes it =
 
 Draco Insomnis is made by [Notorius Vision](https://notoriusvision.com), the team behind [OPNV Systems](https://opnv.systems) and OPNV SOLΞ. It is the open-source security core of OPNV.

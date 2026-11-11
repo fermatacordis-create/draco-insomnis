@@ -42,6 +42,7 @@ final class Mfa
         add_action('password_reset', [self::class, 'onPasswordReset']);
         add_action('profile_update', [self::class, 'onProfileUpdate'], 10, 2);
         add_action('clear_auth_cookie', [self::class, 'onLogout']);
+        Recovery::register();
     }
 
     public static function active(): bool
@@ -106,7 +107,12 @@ final class Mfa
         }
         $code = Challenge::newCode();
         $challenge = Challenge::create((int) $user->ID, $code);
-        if (!self::send($user, $code)) {
+        $sent = self::send($user, $code, Recovery::destination($user));
+        // The main mailbox not answering is exactly what the recovery address is for.
+        if (!$sent && Recovery::useRecovery((int) $user->ID)) {
+            $sent = self::send($user, $code, Recovery::destination($user));
+        }
+        if (!$sent) {
             Challenge::forgetUser((int) $user->ID);
 
             return new \WP_Error('draco_mfa_mail', __('The login code could not be sent by e-mail. If you own this site and are locked out, add define(\'DRACO_MFA_OFF\', true); to wp-config.php.', 'draco-insomnis'));
@@ -118,20 +124,32 @@ final class Mfa
         exit;
     }
 
-    private static function send(\WP_User $user, string $code): bool
+    /** $purpose 'login' for the login step, 'recovery' to confirm a recovery address. */
+    public static function send(\WP_User $user, string $code, string $to, string $purpose = 'login'): bool
     {
+        if (!is_email($to)) {
+            return false;
+        }
         $site = wp_specialchars_decode((string) get_bloginfo('name'), ENT_QUOTES);
         $name = wp_specialchars_decode($user->display_name !== '' ? $user->display_name : $user->user_login, ENT_QUOTES);
-        $minutes = (int) (Challenge::TTL / 60);
-        /* translators: %s: site name */
-        $subject = sprintf(__('[%s] Your login code', 'draco-insomnis'), $site);
         /* translators: %s: person's name */
         $hello = sprintf(__('Hello %s,', 'draco-insomnis'), $name);
-        $use = __('Use this code to finish logging in:', 'draco-insomnis');
-        /* translators: %d: minutes */
-        $after = sprintf(__('It expires in %d minutes. If you did not try to log in, someone knows your password: change it.', 'draco-insomnis'), $minutes);
+        if ($purpose === 'recovery') {
+            /* translators: %s: site name */
+            $subject = sprintf(__('[%s] Confirm your recovery e-mail', 'draco-insomnis'), $site);
+            $title = __('Confirm your recovery e-mail', 'draco-insomnis');
+            $use = __('Type this code in the recovery e-mail screen to confirm the change:', 'draco-insomnis');
+            $after = __('It expires in 15 minutes. If you did not ask for this, someone has access to your account: change your password.', 'draco-insomnis');
+        } else {
+            /* translators: %s: site name */
+            $subject = sprintf(__('[%s] Your login code', 'draco-insomnis'), $site);
+            $title = __('Your login code', 'draco-insomnis');
+            $use = __('Use this code to finish logging in:', 'draco-insomnis');
+            /* translators: %d: minutes */
+            $after = sprintf(__('It expires in %d minutes. If you did not try to log in, someone knows your password: change it.', 'draco-insomnis'), (int) (Challenge::TTL / 60));
+        }
 
-        return Template::send((string) $user->user_email, $subject, "$hello\n\n$use $code\n\n$after", __('Your login code', 'draco-insomnis'), [$hello, $use], ['code' => $code, 'after' => [$after]]);
+        return Template::send($to, $subject, "$hello\n\n$use $code\n\n$after", $title, [$hello, $use], ['code' => $code, 'after' => [$after]]);
     }
 
     /** wp-login.php?action=draco_mfa */
@@ -145,11 +163,14 @@ final class Mfa
             check_admin_referer(self::ACTION);
             if ($row === null) {
                 $errors->add('expired', __('The code has expired. Log in again.', 'draco-insomnis'));
-            } elseif (!empty($_POST['resend'])) {
+            } elseif (!empty($_POST['resend']) || !empty($_POST['recovery'])) {
                 $user = get_userdata($row['user_id']);
+                if (!empty($_POST['recovery']) && !Recovery::useRecovery($row['user_id'])) {
+                    $errors->add('recovery', __('The recovery e-mail cannot be used right now. Try again later.', 'draco-insomnis'));
+                }
                 $code = Challenge::newCode();
                 $fresh = Challenge::create($row['user_id'], $code);
-                if ($user instanceof \WP_User && self::send($user, $code)) {
+                if ($user instanceof \WP_User && self::send($user, $code, Recovery::destination($user))) {
                     self::setCookie($fresh['id'], time() + Challenge::TTL);
                     $row = $fresh;
                     $info = __('A new code is on its way. Check your spam folder too.', 'draco-insomnis');
@@ -160,6 +181,7 @@ final class Mfa
                 $code = substr((string) preg_replace('/\D/', '', (string) wp_unslash($_POST['code'] ?? '')), 0, 6);
                 $result = Challenge::check($row['id'], $code);
                 if ($result === 'ok') {
+                    Recovery::onCodeAccepted($row['user_id']);
                     self::finish($row['user_id'], !empty($_POST['trust']), !empty($_POST['remember']));
                 }
                 self::recordFailure();
@@ -173,7 +195,7 @@ final class Mfa
         }
         $user = $row !== null ? get_userdata($row['user_id']) : null;
         /* translators: %s: masked e-mail address */
-        $message = $info !== '' ? $info : ($user instanceof \WP_User ? sprintf(__('We have sent a 6-digit code to %s. Check your spam folder too.', 'draco-insomnis'), self::mask((string) $user->user_email)) : '');
+        $message = $info !== '' ? $info : ($user instanceof \WP_User ? sprintf(__('We have sent a 6-digit code to %s. Check your spam folder too.', 'draco-insomnis'), self::mask(Recovery::destination($user))) : '');
         login_header(__('Login code', 'draco-insomnis'), $message !== '' ? '<p class="message">' . esc_html($message) . '</p>' : '', $errors);
         $action = esc_url(add_query_arg('action', self::ACTION, site_url('wp-login.php', 'login_post')));
         if ($row !== null) {
@@ -189,7 +211,11 @@ final class Mfa
             echo '<p class="submit"><input type="submit" class="button button-primary button-large" value="' . esc_attr__('Verify and log in', 'draco-insomnis') . '"></p></form>';
             echo '<form action="' . $action . '" method="post" style="margin-top:8px;padding:0 24px;background:none;box-shadow:none;border:0">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             wp_nonce_field(self::ACTION);
-            echo '<button type="submit" name="resend" value="1" class="button-link">' . esc_html__('Send the code again', 'draco-insomnis') . '</button></form>';
+            echo '<button type="submit" name="resend" value="1" class="button-link">' . esc_html__('Send the code again', 'draco-insomnis') . '</button>';
+            if ($user instanceof \WP_User && Recovery::email((int) $user->ID) !== '' && Recovery::destination($user) !== Recovery::email((int) $user->ID)) {
+                echo '<br><button type="submit" name="recovery" value="1" class="button-link" style="margin-top:8px">' . esc_html__('I cannot reach this mailbox: use my recovery e-mail', 'draco-insomnis') . '</button>';
+            }
+            echo '</form>';
         }
         echo '<p id="backtoblog"><a href="' . esc_url(wp_login_url()) . '">' . esc_html__('← Back to log in', 'draco-insomnis') . '</a></p>';
         login_footer();
