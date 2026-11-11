@@ -286,34 +286,24 @@ final class Recovery
             'cancelled' => ['warning', __('Cancelled.', 'draco-insomnis')],
         ];
 
-        echo '<div class="wrap">';
-        Brand::header(__('Recovery e-mail', 'draco-insomnis'));
+        Brand::open(__('Recovery e-mail', 'draco-insomnis'), __('A second mailbox for your login code, like the PUK of a phone. Use one on another provider than your main e-mail (for example Gmail if the main one is on this site\'s domain).', 'draco-insomnis'));
         if (isset($messages[$result])) {
-            echo '<div class="notice notice-' . esc_attr($messages[$result][0]) . '"><p>' . esc_html($messages[$result][1]) . '</p></div>';
+            Brand::notice($messages[$result][0], $messages[$result][1]);
         }
         if (self::mustHave($user)) {
-            echo '<div class="notice notice-warning"><p>' . esc_html__('Your account needs a login code. Add a recovery e-mail before going on: it is your way back in if your main mailbox fails or is stolen.', 'draco-insomnis') . '</p></div>';
+            Brand::notice('warning', __('Your account needs a login code. Add a recovery e-mail before going on: it is your way back in if your main mailbox fails or is stolen.', 'draco-insomnis'));
         }
-        echo '<p>' . esc_html__('A second mailbox for your login code, like the PUK of a phone. Use one on another provider than your main e-mail (for example Gmail if the main one is on this site\'s domain).', 'draco-insomnis') . '</p><ul style="list-style:disc;margin-left:1.5em">';
-        foreach ([
-            __('On the code screen you can ask for the code to go to this address instead.', 'draco-insomnis'),
-            __('"Lost your password?" also accepts this address, and the link goes there.', 'draco-insomnis'),
-            __('After a password reset, the next code goes only to this address.', 'draco-insomnis'),
-            __('Any change to it, or to your main e-mail, is told to the other mailbox.', 'draco-insomnis'),
-        ] as $item) {
-            echo '<li>' . esc_html($item) . '</li>';
-        }
-        echo '</ul>';
+        echo '<div class="draco-grid">';
         /* translators: %s: masked e-mail */
-        echo '<p><strong>' . esc_html($current !== '' ? sprintf(__('Current recovery e-mail: %s', 'draco-insomnis'), Mfa::mask($current)) : __('You have no recovery e-mail yet.', 'draco-insomnis')) . '</strong></p>';
-
+        $status = $current !== '' ? sprintf(__('Current recovery e-mail: %s', 'draco-insomnis'), Mfa::mask($current)) : __('You have no recovery e-mail yet.', 'draco-insomnis');
+        Brand::card('sos', $current !== '' ? __('New recovery e-mail', 'draco-insomnis') : __('Recovery e-mail', 'draco-insomnis'), $status, $current !== '' ? Brand::pill(Brand::stateLabel('on'), 'on') : Brand::pill(__('Missing', 'draco-insomnis'), 'warn'), $current !== '' ? '' : 'warn');
         if ($pending !== null) {
             $open('confirm');
             /* translators: %s: masked e-mail */
-            echo '<p><label>' . esc_html(sprintf(__('Code sent to %s', 'draco-insomnis'), Mfa::mask((string) $pending['email']))) . '<br><input type="text" name="code_new" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="one-time-code" class="regular-text"></label></p>';
+            echo '<div class="draco-field"><label for="draco-code-new">' . esc_html(sprintf(__('Code sent to %s', 'draco-insomnis'), Mfa::mask((string) $pending['email']))) . '</label><input id="draco-code-new" type="text" name="code_new" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="one-time-code" class="regular-text"></div>';
             if ((string) $pending['old'] !== '') {
                 /* translators: %s: masked e-mail */
-                echo '<p><label>' . esc_html(sprintf(__('Code sent to your current recovery e-mail %s', 'draco-insomnis'), Mfa::mask($current))) . '<br><input type="text" name="code_old" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required class="regular-text"></label></p>';
+                echo '<div class="draco-field"><label for="draco-code-old">' . esc_html(sprintf(__('Code sent to your current recovery e-mail %s', 'draco-insomnis'), Mfa::mask($current))) . '</label><input id="draco-code-old" type="text" name="code_old" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required class="regular-text"></div>';
             }
             submit_button(__('Confirm', 'draco-insomnis'), 'primary', 'submit', false);
             echo '</form>';
@@ -322,13 +312,29 @@ final class Recovery
             echo '</form>';
         } else {
             $open('request');
-            echo '<p><label>' . esc_html($current !== '' ? __('New recovery e-mail', 'draco-insomnis') : __('Recovery e-mail', 'draco-insomnis')) . '<br><input type="email" name="email" required class="regular-text" placeholder="you@gmail.com"></label></p>';
+            echo '<div class="draco-field"><label for="draco-rec-email">' . esc_html($current !== '' ? __('New recovery e-mail', 'draco-insomnis') : __('Recovery e-mail', 'draco-insomnis')) . '</label><input id="draco-rec-email" type="email" name="email" required class="large-text" placeholder="you@gmail.com">';
             if ($current !== '') {
                 echo '<p class="description">' . esc_html__('A code will go to the new address and another to the current one: both are needed, so nobody can change it with your session alone.', 'draco-insomnis') . '</p>';
             }
+            echo '</div>';
             submit_button(__('Send code', 'draco-insomnis'), 'primary', 'submit', false);
             echo '</form>';
         }
+        Brand::cardEnd();
+
+        Brand::card('lightbulb', __('Good to know', 'draco-insomnis'), '', '', 'info');
+        echo '<ul class="draco-list">';
+        foreach ([
+            ['randomize', __('On the code screen you can ask for the code to go to this address instead.', 'draco-insomnis')],
+            ['admin-network', __('"Lost your password?" also accepts this address, and the link goes there.', 'draco-insomnis')],
+            ['update', __('After a password reset, the next code goes only to this address.', 'draco-insomnis')],
+            ['megaphone', __('Any change to it, or to your main e-mail, is told to the other mailbox.', 'draco-insomnis')],
+        ] as [$icon, $item]) {
+            echo '<li><span class="dashicons dashicons-' . esc_attr($icon) . '" aria-hidden="true"></span>' . esc_html($item) . '</li>';
+        }
+        echo '</ul>';
+        Brand::cardEnd();
         echo '</div>';
+        Brand::close();
     }
 }

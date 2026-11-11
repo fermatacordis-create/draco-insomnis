@@ -109,56 +109,61 @@ final class Admin
         $other = Transport::otherSender();
         $domain = self::siteDomain();
 
-        echo '<div class="wrap">';
-        Brand::header(__('Site mail (SMTP)', 'draco-insomnis'));
-        echo '<p>' . esc_html__('Sends the mail of this site through a real mailbox with its password, instead of the server\'s mail() function. Without it, many messages are silently rejected: login codes, forms and orders.', 'draco-insomnis') . '</p>';
+        Brand::open(__('Site mail (SMTP)', 'draco-insomnis'), __('Sends the mail of this site through a real mailbox with its password, instead of the server\'s mail() function. Without it, many messages are silently rejected: login codes, forms and orders.', 'draco-insomnis'));
         self::notice(sanitize_key((string) ($_GET['result'] ?? ''))); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only
 
         if ($s['pass'] !== '' && Settings::password() === '') {
-            echo '<div class="notice notice-error"><p>' . esc_html__('The saved password can no longer be read (the site\'s security keys changed). Type it again and repeat the test.', 'draco-insomnis') . '</p></div>';
+            Brand::notice('error', __('The saved password can no longer be read (the site\'s security keys changed). Type it again and repeat the test.', 'draco-insomnis'));
         }
         if ($other !== '') {
             /* translators: %s: plugin name */
-            echo '<div class="notice notice-warning"><p>' . esc_html(sprintf(__('%s is sending the mail of this site. Turn it off before testing or switching on this module.', 'draco-insomnis'), $other)) . '</p></div>';
+            Brand::notice('warning', sprintf(__('%s is sending the mail of this site. Turn it off before testing or switching on this module.', 'draco-insomnis'), $other));
         }
         $policy = self::dmarcPolicy();
         if (!$active && $other === '' && in_array($policy, ['reject', 'quarantine'], true)) {
             /* translators: %s: DMARC policy (reject or quarantine) */
-            echo '<div class="notice notice-error"><p>' . esc_html(sprintf(__('The domain has DMARC "%s" and this site sends with PHP mail(): messages, including login codes, may never arrive even though the site says "sent".', 'draco-insomnis'), $policy)) . '</p></div>';
+            Brand::notice('error', sprintf(__('The domain has DMARC "%s" and this site sends with PHP mail(): messages, including login codes, may never arrive even though the site says "sent".', 'draco-insomnis'), $policy));
         }
         $sender = strtolower(Settings::fromAddress());
         if (Settings::complete() && !str_ends_with($sender, '@' . $domain)) {
             /* translators: 1: sender address, 2: site domain */
-            echo '<div class="notice notice-error"><p>' . esc_html(sprintf(__('The sender %1$s is not from the domain of this site. Use an @%2$s address or messages may be rejected.', 'draco-insomnis'), $sender, $domain)) . '</p></div>';
+            Brand::notice('error', sprintf(__('The sender %1$s is not from the domain of this site. Use an @%2$s address or messages may be rejected.', 'draco-insomnis'), $sender, $domain));
         }
 
         /* translators: %s: sender address */
         $state = $active ? sprintf(__('Sending through SMTP as %s', 'draco-insomnis'), Settings::fromAddress())
             /* translators: %s: plugin name */
             : ($other !== '' ? sprintf(__('Sending through %s', 'draco-insomnis'), $other) : __('Sending with PHP mail()', 'draco-insomnis'));
-        echo '<h2>' . esc_html__('Status', 'draco-insomnis') . '</h2><p><strong>' . esc_html($state) . '</strong></p>';
+        $pill = $active ? Brand::pill(__('SMTP', 'draco-insomnis'), 'on') : ($other !== '' ? Brand::pill(__('Another plugin', 'draco-insomnis'), 'info') : Brand::pill('PHP mail()', 'warn'));
+        Brand::card($active ? 'yes-alt' : 'email-alt', __('Status', 'draco-insomnis'), $state, $pill, $active ? '' : 'warn');
+        $done = static fn (bool $ok, int $n): string => '<span class="draco-step' . ($ok ? ' is-done' : '') . '">' . ($ok ? '✓' : (string) $n) . '</span>';
+        echo '<p style="margin:0">' . $done(Settings::complete(), 1) . esc_html__('1. Connection', 'draco-insomnis') . ' &nbsp; ' . $done(Settings::tested(), 2) . esc_html__('2. Test', 'draco-insomnis') . ' &nbsp; ' . $done($active, 3) . esc_html__('3. Switch on', 'draco-insomnis') . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $done builds fixed markup
+        Brand::cardEnd();
 
-        echo '<h2>' . esc_html__('1. Connection', 'draco-insomnis') . '</h2>';
+        Brand::card('admin-network', __('1. Connection', 'draco-insomnis'), __('Choose your provider and the server, encryption and port fill themselves in.', 'draco-insomnis'), Settings::complete() ? Brand::pill(__('Saved', 'draco-insomnis'), 'on') : '');
         self::open('settings');
         echo '<table class="form-table" role="presentation">';
         self::fields($s, $domain);
         echo '</table>';
         submit_button(__('Save connection', 'draco-insomnis'), 'primary', 'submit', false);
         echo '</form>';
+        Brand::cardEnd();
 
-        echo '<h2>' . esc_html__('2. Test', 'draco-insomnis') . '</h2>';
+        echo '<div class="draco-grid">';
+        Brand::card('controls-play', __('2. Test', 'draco-insomnis'), '', Settings::tested() ? Brand::pill(__('Passed', 'draco-insomnis'), 'on') : '');
         if (!Settings::complete()) {
             echo '<p>' . esc_html__('Save the connection to send tests.', 'draco-insomnis') . '</p>';
         } else {
             echo '<p>' . esc_html__('Send a test and check that it arrived, also in spam. "Accepted" only means the server took it.', 'draco-insomnis') . '</p>';
             self::open('test');
             $me = (string) wp_get_current_user()->user_email;
-            echo '<p><label>' . esc_html__('Send a test to', 'draco-insomnis') . ' <input type="email" name="to" class="regular-text" required value="' . esc_attr($me) . '"></label> ';
+            echo '<div class="draco-field"><label for="draco-mail-to">' . esc_html__('Send a test to', 'draco-insomnis') . '</label><input id="draco-mail-to" type="email" name="to" class="large-text" required value="' . esc_attr($me) . '"></div>';
             submit_button(__('Send test', 'draco-insomnis'), 'secondary', 'submit', false);
-            echo '</p></form>';
+            echo '</form>';
         }
+        Brand::cardEnd();
 
-        echo '<h2>' . esc_html__('3. Switch on', 'draco-insomnis') . '</h2><p>' . esc_html__('Until this step, the site keeps sending as before.', 'draco-insomnis') . '</p>';
+        Brand::card('yes-alt', __('3. Switch on', 'draco-insomnis'), __('Until this step, the site keeps sending as before.', 'draco-insomnis'), Brand::pill(Brand::stateLabel($active ? 'on' : 'off'), $active ? 'on' : 'off'));
         if ($active) {
             self::open('disable');
             echo '<p>' . esc_html__('This forgets the connection above (server, user, password and sender) and goes back to PHP mail(). Modules that send login codes are switched off, because the codes might not arrive.', 'draco-insomnis') . '</p>';
@@ -171,10 +176,12 @@ final class Admin
         } else {
             echo '<p>' . esc_html__('It can be switched on once a test succeeds.', 'draco-insomnis') . '</p>';
         }
+        Brand::cardEnd();
+        echo '</div>';
 
         self::logTable();
         self::script($domain);
-        echo '</div>';
+        Brand::close();
     }
 
     /** @param array<string, mixed> $s */
@@ -288,19 +295,21 @@ final class Admin
     private static function logTable(): void
     {
         $labels = ['smtp' => 'SMTP', 'php' => 'PHP mail()', 'other' => __('Another plugin', 'draco-insomnis')];
-        echo '<h2>' . esc_html__('Recent messages', 'draco-insomnis') . '</h2><p>' . esc_html__('"Accepted" means the server took it, not that it reached the inbox. With PHP mail(), not even that. Message bodies are never stored.', 'draco-insomnis') . '</p>';
-        echo '<table class="widefat striped"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>' . esc_html__('Via', 'draco-insomnis') . '</th><th>' . esc_html__('To', 'draco-insomnis') . '</th><th>' . esc_html__('Subject', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th></tr></thead><tbody>';
+        Brand::card('list-view', __('Recent messages', 'draco-insomnis'), __('"Accepted" means the server took it, not that it reached the inbox. With PHP mail(), not even that. Message bodies are never stored.', 'draco-insomnis'), '', 'info', 'draco-card--flush');
+        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>' . esc_html__('Via', 'draco-insomnis') . '</th><th>' . esc_html__('To', 'draco-insomnis') . '</th><th>' . esc_html__('Subject', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th></tr></thead><tbody>';
         $rows = Log::rows();
         foreach ($rows as $row) {
             /* translators: %s: error message */
-            $state = !empty($row['ok']) ? __('Accepted', 'draco-insomnis') : sprintf(__('Error: %s', 'draco-insomnis'), (string) ($row['error'] ?? ''));
-            echo '<tr><td>' . esc_html(gmdate('Y-m-d H:i:s', (int) ($row['at'] ?? 0))) . '</td><td>' . esc_html($labels[(string) ($row['transport'] ?? '')] ?? '') . '</td><td>'
-                . esc_html((string) ($row['to'] ?? '')) . '</td><td>' . esc_html((string) ($row['subject'] ?? '')) . '</td><td>' . esc_html($state) . '</td></tr>';
+            $state = !empty($row['ok']) ? Brand::pill(__('Accepted', 'draco-insomnis'), 'on') : Brand::pill(sprintf(__('Error: %s', 'draco-insomnis'), (string) ($row['error'] ?? '')), 'bad');
+            $via = (string) ($row['transport'] ?? '');
+            echo '<tr><td>' . esc_html(gmdate('Y-m-d H:i:s', (int) ($row['at'] ?? 0))) . '</td><td>' . wp_kses_post(Brand::pill($labels[$via] ?? '', $via === 'smtp' ? 'info' : 'off')) . '</td><td>'
+                . esc_html((string) ($row['to'] ?? '')) . '</td><td>' . esc_html((string) ($row['subject'] ?? '')) . '</td><td>' . wp_kses_post($state) . '</td></tr>';
         }
         if ($rows === []) {
-            echo '<tr><td colspan="5">' . esc_html__('Nothing yet.', 'draco-insomnis') . '</td></tr>';
+            Brand::emptyRow(5, __('Nothing yet.', 'draco-insomnis'), 'email');
         }
-        echo '</tbody></table>';
+        echo '</tbody></table></div>';
+        Brand::cardEnd();
     }
 
     private static function siteDomain(): string

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T12:35:12+00:00\n"
+"POT-Creation-Date: 2026-11-11T13:45:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: draco-insomnis\n"
@@ -39,15 +39,251 @@ msgstr ""
 msgid "https://notoriusvision.com"
 msgstr ""
 
-#. translators: %1$s, %2$s, %3$s: brand names with links
+#: Admin/Brand.php:30
+#: Admin/Brand.php:47
+#: Admin/Overview.php:28
+msgid "Overview"
+msgstr ""
+
+#: Admin/Brand.php:48
+#: Shield/Admin.php:29
+#: Shield/Admin.php:78
+msgid "Anti-bot shield"
+msgstr ""
+
+#: Admin/Brand.php:49
+#: Gate/Admin.php:29
+#: Gate/Admin.php:89
+msgid "Forms and sign-ups"
+msgstr ""
+
 #: Admin/Brand.php:50
+#: Login/Admin.php:25
+#: Login/Admin.php:57
+msgid "Two-step login"
+msgstr ""
+
+#: Admin/Brand.php:51
+#: Firewall/Admin.php:27
+#: Firewall/Admin.php:50
+msgid "Firewall"
+msgstr ""
+
+#: Admin/Brand.php:52
+#: AntiCopy/Admin.php:27
+#: AntiCopy/Admin.php:51
+msgid "Anti-copy"
+msgstr ""
+
+#: Admin/Brand.php:53
+#: Mail/Admin.php:28
+#: Mail/Admin.php:112
+msgid "Site mail (SMTP)"
+msgstr ""
+
+#: Admin/Brand.php:93
+msgid "Open source (GPL)"
+msgstr ""
+
+#. translators: %1$s, %2$s, %3$s: brand names with links
+#: Admin/Brand.php:106
 #, php-format
 msgid "by %1$s · %2$s · %3$s"
 msgstr ""
 
-#: AntiCopy/Admin.php:27
-#: AntiCopy/Admin.php:52
-msgid "Anti-copy"
+#: Admin/Brand.php:132
+#: Login/Recovery.php:89
+#: Login/Recovery.php:289
+#: Login/Recovery.php:299
+#: Login/Recovery.php:315
+msgid "Recovery e-mail"
+msgstr ""
+
+#: Admin/Brand.php:139
+msgid "On"
+msgstr ""
+
+#: Admin/Brand.php:139
+#: AntiCopy/Admin.php:57
+#: Firewall/Admin.php:64
+msgid "Log only"
+msgstr ""
+
+#: Admin/Brand.php:139
+#: AntiCopy/Admin.php:56
+msgid "Off"
+msgstr ""
+
+#: Admin/Overview.php:28
+msgid "Everything Draco Insomnis protects on this site, at a glance. Each module can be switched on and off on its own screen."
+msgstr ""
+
+#: Admin/Overview.php:35
+msgid "bots stopped in sign-ups"
+msgstr ""
+
+#: Admin/Overview.php:36
+msgid "submissions checked by e-mail"
+msgstr ""
+
+#: Admin/Overview.php:37
+msgid "attacks seen by the firewall"
+msgstr ""
+
+#: Admin/Overview.php:38
+msgid "copy attempts recorded"
+msgstr ""
+
+#: Admin/Overview.php:39
+msgid "Last 7 days."
+msgstr ""
+
+#. translators: %d: number of addresses or e-mails
+#: Admin/Overview.php:45
+#, php-format
+msgid "%d blocked addresses or e-mails right now"
+msgstr ""
+
+#: Admin/Overview.php:46
+msgid "Fake sign-ups are answered \"done\" and kept as evidence."
+msgstr ""
+
+#. translators: %d: number of submissions
+#: Admin/Overview.php:50
+#, php-format
+msgid "%d waiting for their sender to confirm"
+msgstr ""
+
+#: Admin/Overview.php:51
+msgid "On without SMTP: confirmations may not arrive."
+msgstr ""
+
+#: Admin/Overview.php:51
+msgid "Messages, comments and new accounts wait for an e-mail confirmation."
+msgstr ""
+
+#: Admin/Overview.php:54
+msgid "Only the password is asked for."
+msgstr ""
+
+#: Admin/Overview.php:55
+msgid "Trusted devices: 7 days without a code."
+msgstr ""
+
+#: Admin/Overview.php:55
+msgid "A code at every login."
+msgstr ""
+
+#: Admin/Overview.php:58
+msgid "Stopping attacks."
+msgstr ""
+
+#: Admin/Overview.php:58
+msgid "Recording attacks without stopping them."
+msgstr ""
+
+#: Admin/Overview.php:58
+msgid "No request is inspected."
+msgstr ""
+
+#: Admin/Overview.php:59
+msgid "User list hidden, failed logins limited, XML-RPC tamed."
+msgstr ""
+
+#: Admin/Overview.php:62
+msgid "Content API for anonymous visitors and pages per minute."
+msgstr ""
+
+#: Admin/Overview.php:63
+msgid "Verified search engines are never limited."
+msgstr ""
+
+#. translators: %s: sender address
+#: Admin/Overview.php:67
+#, php-format
+msgid "Sending as %s"
+msgstr ""
+
+#. translators: %s: sender address
+#. translators: %s: plugin name
+#: Admin/Overview.php:67
+#: Mail/Admin.php:136
+#, php-format
+msgid "Sending through %s"
+msgstr ""
+
+#. translators: %s: sender address
+#. translators: %s: plugin name
+#: Admin/Overview.php:67
+#: Mail/Admin.php:136
+msgid "Sending with PHP mail()"
+msgstr ""
+
+#: Admin/Overview.php:68
+msgid "Login codes and confirmations depend on it."
+msgstr ""
+
+#: Admin/Overview.php:80
+#: Mail/Admin.php:137
+#: Mail/Admin.php:297
+msgid "Another plugin"
+msgstr ""
+
+#: Admin/Overview.php:85
+#: Mail/Template.php:62
+msgid "Open"
+msgstr ""
+
+#: Admin/Overview.php:90
+msgid "Checklist"
+msgstr ""
+
+#: Admin/Overview.php:90
+msgid "What makes the biggest difference, in order."
+msgstr ""
+
+#: Admin/Overview.php:93
+msgid "Site mail goes out through a real mailbox"
+msgstr ""
+
+#: Admin/Overview.php:94
+msgid "The anti-bot shield protects sign-ups"
+msgstr ""
+
+#: Admin/Overview.php:95
+msgid "Forms and sign-ups are confirmed by e-mail"
+msgstr ""
+
+#: Admin/Overview.php:96
+msgid "Administrators log in with a code by e-mail"
+msgstr ""
+
+#: Admin/Overview.php:98
+msgid "You have a recovery e-mail"
+msgstr ""
+
+#: Admin/Overview.php:100
+msgid "The firewall blocks attacks (switch it from \"Log only\" once you have looked at what it records)"
+msgstr ""
+
+#: Admin/Overview.php:100
+msgid "The firewall is on"
+msgstr ""
+
+#: Admin/Overview.php:116
+msgid "Set it up"
+msgstr ""
+
+#: Admin/Overview.php:124
+msgid "Administrators enter a code by e-mail."
+msgstr ""
+
+#: Admin/Overview.php:124
+msgid "Everyone who edits content enters a code by e-mail."
+msgstr ""
+
+#: Admin/Overview.php:124
+msgid "Every user enters a code by e-mail."
 msgstr ""
 
 #: AntiCopy/Admin.php:34
@@ -56,50 +292,55 @@ msgstr ""
 #: Login/Admin.php:32
 #: Mail/Admin.php:68
 #: Shield/Admin.php:36
-#: Shield/Admin.php:150
+#: Shield/Admin.php:164
 msgid "You are not allowed to do this."
 msgstr ""
 
-#: AntiCopy/Admin.php:53
+#: AntiCopy/Admin.php:51
 msgid "Makes it harder to copy the whole site in one go, without getting in the way of visitors or search engines. People logged in and the addresses an administrator used are never limited. Start with \"Log only\" for a few days and look at the list below."
 msgstr ""
 
-#: AntiCopy/Admin.php:55
-#: Firewall/Admin.php:54
-#: Gate/Admin.php:97
-#: Login/Admin.php:63
-#: Shield/Admin.php:83
+#: AntiCopy/Admin.php:53
+#: Firewall/Admin.php:52
+#: Gate/Admin.php:95
+#: Login/Admin.php:61
+#: Shield/Admin.php:82
 msgid "Changes saved."
 msgstr ""
 
+#: AntiCopy/Admin.php:56
+msgid "Nothing is checked."
+msgstr ""
+
+#: AntiCopy/Admin.php:57
+msgid "Writes down what it would stop, without stopping it."
+msgstr ""
+
 #: AntiCopy/Admin.php:58
-msgid "Off"
-msgstr ""
-
-#: AntiCopy/Admin.php:59
-msgid "Log only: write down what it would stop, without stopping anything"
-msgstr ""
-
-#: AntiCopy/Admin.php:60
-#: Gate/Admin.php:114
-#: Gate/Admin.php:137
-#: Shield/Admin.php:107
+#: Firewall/Admin.php:65
+#: Gate/Admin.php:112
+#: Gate/Admin.php:138
+#: Shield/Admin.php:111
 msgid "Block"
+msgstr ""
+
+#: AntiCopy/Admin.php:58
+msgid "Stops it, and writes it down."
 msgstr ""
 
 #: AntiCopy/Admin.php:71
 msgid "Content API"
 msgstr ""
 
-#: AntiCopy/Admin.php:72
+#: AntiCopy/Admin.php:71
 msgid "WordPress publishes every post, page and image as JSON at /wp-json/wp/v2/, which lets anyone download the whole site in a few requests. This closes those reads to anonymous visitors; the pages themselves stay public."
 msgstr ""
 
-#: AntiCopy/Admin.php:74
+#: AntiCopy/Admin.php:73
 msgid "Routes that stay open"
 msgstr ""
 
-#: AntiCopy/Admin.php:76
+#: AntiCopy/Admin.php:75
 msgid "One per line, for example /wp/v2/posts if your theme loads more posts with JavaScript. The log below shows which routes visitors really use. Other APIs (forms, shop, embeds) are never affected."
 msgstr ""
 
@@ -107,85 +348,85 @@ msgstr ""
 msgid "Pace"
 msgstr ""
 
-#: AntiCopy/Admin.php:79
+#: AntiCopy/Admin.php:78
 msgid "More pages per minute than a person reads get \"429 Too many requests\" for the rest of that minute. Google, Bing, Apple and Yandex are recognised by their reverse DNS and never limited; a program that only pretends to be them is."
 msgstr ""
 
-#: AntiCopy/Admin.php:83
+#: AntiCopy/Admin.php:82
 msgid "Pages per minute from one address"
 msgstr ""
 
-#: AntiCopy/Admin.php:84
+#: AntiCopy/Admin.php:83
 msgid "Pages per minute from one network (the 256 addresses around it)"
 msgstr ""
 
-#: AntiCopy/Admin.php:85
+#: AntiCopy/Admin.php:84
 msgid "Only requests that reach WordPress count: images, styles and pages served by a cache do not. Each counted request writes two small counters, so on a very busy site without an object cache keep this off or in log mode."
 msgstr ""
 
-#: AntiCopy/Admin.php:86
-#: Firewall/Admin.php:72
-#: Gate/Admin.php:126
-#: Login/Admin.php:79
+#: AntiCopy/Admin.php:87
+#: Firewall/Admin.php:71
+#: Gate/Admin.php:124
+#: Login/Admin.php:81
 #: Shield/Admin.php:96
 msgid "Save"
 msgstr ""
 
-#: AntiCopy/Admin.php:90
+#: AntiCopy/Admin.php:91
 msgid "content API"
 msgstr ""
 
-#: AntiCopy/Admin.php:91
+#: AntiCopy/Admin.php:92
 msgid "too fast, one address"
 msgstr ""
 
-#: AntiCopy/Admin.php:92
+#: AntiCopy/Admin.php:93
 msgid "too fast, one network"
 msgstr ""
 
-#: AntiCopy/Admin.php:94
+#: AntiCopy/Admin.php:95
 msgid "Recent"
 msgstr ""
 
-#: AntiCopy/Admin.php:95
+#: AntiCopy/Admin.php:96
 #: Firewall/Admin.php:82
-#: Gate/Admin.php:132
-#: Mail/Admin.php:292
-#: Shield/Admin.php:130
+#: Gate/Admin.php:131
+#: Mail/Admin.php:299
+#: Shield/Admin.php:140
 msgid "Date (UTC)"
 msgstr ""
 
-#: AntiCopy/Admin.php:95
+#: AntiCopy/Admin.php:96
 #: Firewall/Admin.php:82
 msgid "What"
 msgstr ""
 
-#: AntiCopy/Admin.php:95
+#: AntiCopy/Admin.php:96
 #: Firewall/Admin.php:82
 msgid "Address requested"
 msgstr ""
 
-#: AntiCopy/Admin.php:95
+#: AntiCopy/Admin.php:96
 msgid "Browser"
 msgstr ""
 
-#: AntiCopy/Admin.php:95
+#: AntiCopy/Admin.php:96
 #: Firewall/Admin.php:82
-#: Mail/Admin.php:292
+#: Mail/Admin.php:299
 msgid "Result"
 msgstr ""
 
-#: AntiCopy/Admin.php:104
-#: Firewall/Admin.php:88
+#: AntiCopy/Admin.php:103
+#: Firewall/Admin.php:87
 msgid "Blocked"
 msgstr ""
 
-#: AntiCopy/Admin.php:104
-#: Firewall/Admin.php:88
+#: AntiCopy/Admin.php:103
+#: Firewall/Admin.php:87
 msgid "Would block"
 msgstr ""
 
-#: AntiCopy/Admin.php:107
+#: AntiCopy/Admin.php:108
 msgid "Nothing recorded yet."
 msgstr ""
 
@@ -193,40 +434,42 @@ msgstr ""
 msgid "This content is not available through the API."
 msgstr ""
 
-#: Firewall/Admin.php:27
-#: Firewall/Admin.php:51
-msgid "Firewall"
-msgstr ""
-
-#: Firewall/Admin.php:52
+#: Firewall/Admin.php:50
 msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and the scanners that look for weak spots. People who can edit the site are never inspected."
 msgstr ""
 
-#: Firewall/Admin.php:57
+#: Firewall/Admin.php:55
 msgid "DRACO_WAF_OFF is set in wp-config.php: the firewall is off. Remove that line once the problem is fixed."
 msgstr ""
 
-#: Firewall/Admin.php:65
+#: Firewall/Admin.php:58
+#: Gate/Admin.php:117
+#: Login/Admin.php:67
+#: Shield/Admin.php:86
+msgid "Settings"
+msgstr ""
+
+#: Firewall/Admin.php:62
 msgid "Switch on the firewall"
 msgstr ""
 
+#: Firewall/Admin.php:64
+msgid "Writes down what it would stop, without stopping it. Start here for a few days."
+msgstr ""
+
+#: Firewall/Admin.php:65
+msgid "Stops those requests. Five in 10 minutes put the address on the block list for 7 days."
+msgstr ""
+
 #: Firewall/Admin.php:67
-msgid "Log only: write down what it would stop, without stopping anything (start here for a few days)"
-msgstr ""
-
-#: Firewall/Admin.php:68
-msgid "Block: stop those requests; five in 10 minutes put the address on the block list for 7 days"
-msgstr ""
-
-#: Firewall/Admin.php:69
 msgid "Hide the list of user names from anonymous visitors (?author=1 and /wp-json/wp/v2/users), the first step of password attacks"
 msgstr ""
 
-#: Firewall/Admin.php:70
+#: Firewall/Admin.php:68
 msgid "Limit failed logins: 10 in 10 minutes lock that address out of the login for 30 minutes"
 msgstr ""
 
-#: Firewall/Admin.php:71
+#: Firewall/Admin.php:69
 msgid "Turn off XML-RPC completely (leave it on if you use Jetpack or the WordPress mobile app; its riskiest parts are always off)"
 msgstr ""
 
@@ -266,20 +509,20 @@ msgstr ""
 msgid "Kept for 90 days. \"Evidence\" downloads everything from that address for an abuse report. In log-only mode they appear as \"Would block\"."
 msgstr ""
 
-#: Firewall/Admin.php:88
-#: Shield/Admin.php:139
+#: Firewall/Admin.php:89
+#: Shield/Admin.php:151
 msgid "Evidence"
 msgstr ""
 
-#: Firewall/Admin.php:91
+#: Firewall/Admin.php:92
 msgid "No attacks seen yet."
 msgstr ""
 
-#: Firewall/Admin.php:91
+#: Firewall/Admin.php:92
 msgid "The firewall is off."
 msgstr ""
 
-#: Firewall/Admin.php:94
+#: Firewall/Admin.php:96
 msgid "If the firewall ever blocks you, add define('DRACO_WAF_OFF', true); to wp-config.php, log in, look at this list and remove the line."
 msgstr ""
 
@@ -301,126 +544,130 @@ msgstr ""
 msgid "Too many failed logins from your address. Try again in 30 minutes."
 msgstr ""
 
-#: Gate/Admin.php:29
-#: Gate/Admin.php:90
-msgid "Forms and sign-ups"
-msgstr ""
-
 #. translators: %d: submission number
 #: Gate/Admin.php:66
 #, php-format
 msgid "From the list of submissions (#%d)"
 msgstr ""
 
-#: Gate/Admin.php:91
+#: Gate/Admin.php:89
 msgid "Holds every contact message, comment and new account until the sender confirms from their e-mail. Bots do not confirm, so their spam never reaches you. Payments in the shop are never held."
 msgstr ""
 
-#: Gate/Admin.php:95
-#: Shield/Admin.php:81
+#: Gate/Admin.php:93
+#: Shield/Admin.php:80
 msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
 msgstr ""
 
-#: Gate/Admin.php:100
+#: Gate/Admin.php:98
 msgid "It is on without SMTP. If the confirmation mail does not arrive, messages are deleted after 48 hours without anyone knowing."
 msgstr ""
 
-#: Gate/Admin.php:100
+#: Gate/Admin.php:98
 msgid "Set up Site mail (SMTP) →"
 msgstr ""
 
-#: Gate/Admin.php:105
+#: Gate/Admin.php:103
 msgid "Block this sender?"
 msgstr ""
 
-#: Gate/Admin.php:107
+#: Gate/Admin.php:105
 msgid "Also block the IP address"
 msgstr ""
 
-#. translators: %d: number of days
-#: Gate/Admin.php:111
+#: Gate/Admin.php:106
 #: Shield/Admin.php:104
+msgid "For"
+msgstr ""
+
+#. translators: %d: number of days
+#: Gate/Admin.php:109
+#: Shield/Admin.php:107
 #, php-format
 msgid "%d days"
 msgstr ""
 
-#: Gate/Admin.php:118
-msgid "Settings"
+#: Gate/Admin.php:117
+msgid "Contact Form 7, WPForms, Elementor, Divi, RealHomes, comments and new accounts."
 msgstr ""
 
-#: Gate/Admin.php:122
+#: Gate/Admin.php:119
 msgid "Verify contact forms and sign-ups"
 msgstr ""
 
-#: Gate/Admin.php:123
+#: Gate/Admin.php:119
+msgid "The sender gets an e-mail with a button; nothing is delivered until it is pressed."
+msgstr ""
+
+#: Gate/Admin.php:120
 msgid "Include new user accounts (accounts created while paying in the shop are never held)"
 msgstr ""
 
-#: Gate/Admin.php:124
+#: Gate/Admin.php:121
 msgid "Include blog comments: they are not saved, not even as pending, until the author confirms. Trackbacks and pingbacks are dropped."
 msgstr ""
 
-#: Gate/Admin.php:125
+#: Gate/Admin.php:122
 msgid "Mention Draco Insomnis in the footer of confirmation e-mails"
 msgstr ""
 
-#: Gate/Admin.php:129
+#: Gate/Admin.php:128
 msgid "Waiting for confirmation"
 msgstr ""
 
-#: Gate/Admin.php:129
+#: Gate/Admin.php:128
 msgid "Confirmed"
 msgstr ""
 
-#: Gate/Admin.php:129
+#: Gate/Admin.php:128
 msgid "Expired without confirmation"
 msgstr ""
 
-#: Gate/Admin.php:130
+#: Gate/Admin.php:129
 msgid "Account"
 msgstr ""
 
-#: Gate/Admin.php:130
+#: Gate/Admin.php:129
 msgid "Comment"
 msgstr ""
 
-#: Gate/Admin.php:130
+#: Gate/Admin.php:129
 msgid "Message"
 msgstr ""
 
-#: Gate/Admin.php:131
+#: Gate/Admin.php:130
 msgid "Recent submissions"
 msgstr ""
 
-#: Gate/Admin.php:131
+#: Gate/Admin.php:130
 msgid "Each submission is kept for 90 days, confirmed or not. \"Block\" works on any row: confirming only proves the mailbox exists, not that it can be trusted. \"Deliver now\" lets a real submission through without waiting."
 msgstr ""
 
-#: Gate/Admin.php:132
-#: Shield/Admin.php:110
+#: Gate/Admin.php:131
+#: Shield/Admin.php:120
 msgid "Type"
 msgstr ""
 
-#: Gate/Admin.php:132
-#: Shield/Admin.php:130
+#: Gate/Admin.php:131
+#: Shield/Admin.php:140
 msgid "Where"
 msgstr ""
 
-#: Gate/Admin.php:132
-#: Shield/Admin.php:100
+#: Gate/Admin.php:131
+#: Shield/Admin.php:102
 msgid "E-mail"
 msgstr ""
 
-#: Gate/Admin.php:132
-#: Mail/Admin.php:139
+#: Gate/Admin.php:131
+#: Mail/Admin.php:138
 msgid "Status"
 msgstr ""
 
-#: Gate/Admin.php:139
+#: Gate/Admin.php:140
 msgid "Deliver now"
 msgstr ""
 
-#: Gate/Admin.php:144
+#: Gate/Admin.php:145
 msgid "No submissions yet."
 msgstr ""
 
@@ -520,7 +767,7 @@ msgstr ""
 
 #: Gate/Mailer.php:84
 #: Gate/Verify.php:73
-#: Login/Recovery.php:318
+#: Login/Recovery.php:308
 msgid "Confirm"
 msgstr ""
 
@@ -573,16 +820,11 @@ msgstr ""
 msgid "Your message has been sent. Thank you."
 msgstr ""
 
-#: Login/Admin.php:25
-#: Login/Admin.php:58
-msgid "Two-step login"
-msgstr ""
-
-#: Login/Admin.php:59
+#: Login/Admin.php:57
 msgid "After the right password, WordPress asks for a 6-digit code sent by e-mail. A stolen password alone is no longer enough to get in."
 msgstr ""
 
-#: Login/Admin.php:66
+#: Login/Admin.php:64
 msgid "DRACO_MFA_OFF is set in wp-config.php: no codes are asked for. Remove that line once you are back in."
 msgstr ""
 
@@ -594,45 +836,46 @@ msgstr ""
 msgid "Who has to enter it:"
 msgstr ""
 
-#: Login/Admin.php:73
+#: Login/Admin.php:74
 msgid "Administrators"
 msgstr ""
 
-#: Login/Admin.php:73
+#: Login/Admin.php:75
 msgid "Anyone who can write or edit content"
 msgstr ""
 
-#: Login/Admin.php:73
+#: Login/Admin.php:76
 msgid "Every user"
 msgstr ""
 
 #. translators: %d: days
-#: Login/Admin.php:78
+#: Login/Admin.php:79
 #, php-format
 msgid "Offer \"Trust this device for %d days\""
 msgstr ""
 
-#: Login/Admin.php:82
+#: Login/Admin.php:85
+#: Login/Recovery.php:325
 msgid "Good to know"
 msgstr ""
 
-#: Login/Admin.php:84
+#: Login/Admin.php:88
 msgid "It can only be switched on with Site mail (SMTP) working, and it switches itself off if that connection is forgotten: a code that never arrives would lock you out."
 msgstr ""
 
-#: Login/Admin.php:85
+#: Login/Admin.php:89
 msgid "The code is only sent after the right password. It expires in 10 minutes and allows 5 tries; repeated failures block the address for 15 minutes."
 msgstr ""
 
-#: Login/Admin.php:86
+#: Login/Admin.php:90
 msgid "Changing the password or the e-mail of an account makes all its trusted devices ask for a code again."
 msgstr ""
 
-#: Login/Admin.php:87
+#: Login/Admin.php:91
 msgid "Login boxes that work without reloading the page (some themes) cannot show the code step: those users are asked to log in from the normal login page."
 msgstr ""
 
-#: Login/Admin.php:88
+#: Login/Admin.php:92
 msgid "If you are ever locked out, add define('DRACO_MFA_OFF', true); to wp-config.php, log in, fix the problem and remove the line. Only someone with access to the server can do this, unlike a \"skip\" button."
 msgstr ""
 
@@ -772,12 +1015,6 @@ msgstr ""
 msgid "Access restricted"
 msgstr ""
 
-#: Login/Recovery.php:89
-#: Login/Recovery.php:290
-#: Login/Recovery.php:325
-msgid "Recovery e-mail"
-msgstr ""
-
 #: Login/Recovery.php:187
 msgid "Your recovery e-mail has been changed."
 msgstr ""
@@ -830,72 +1067,72 @@ msgstr ""
 msgid "Cancelled."
 msgstr ""
 
-#: Login/Recovery.php:295
-msgid "Your account needs a login code. Add a recovery e-mail before going on: it is your way back in if your main mailbox fails or is stolen."
-msgstr ""
-
-#: Login/Recovery.php:297
+#: Login/Recovery.php:289
 msgid "A second mailbox for your login code, like the PUK of a phone. Use one on another provider than your main e-mail (for example Gmail if the main one is on this site's domain)."
 msgstr ""
 
-#: Login/Recovery.php:299
-msgid "On the code screen you can ask for the code to go to this address instead."
-msgstr ""
-
-#: Login/Recovery.php:300
-msgid "\"Lost your password?\" also accepts this address, and the link goes there."
-msgstr ""
-
-#: Login/Recovery.php:301
-msgid "After a password reset, the next code goes only to this address."
-msgstr ""
-
-#: Login/Recovery.php:302
-msgid "Any change to it, or to your main e-mail, is told to the other mailbox."
+#: Login/Recovery.php:294
+msgid "Your account needs a login code. Add a recovery e-mail before going on: it is your way back in if your main mailbox fails or is stolen."
 msgstr ""
 
 #. translators: %s: masked e-mail
-#: Login/Recovery.php:308
+#: Login/Recovery.php:298
 #, php-format
 msgid "Current recovery e-mail: %s"
 msgstr ""
 
 #. translators: %s: masked e-mail
-#: Login/Recovery.php:308
+#: Login/Recovery.php:298
 msgid "You have no recovery e-mail yet."
 msgstr ""
 
+#: Login/Recovery.php:299
+#: Login/Recovery.php:315
+msgid "New recovery e-mail"
+msgstr ""
+
+#: Login/Recovery.php:299
+msgid "Missing"
+msgstr ""
+
 #. translators: %s: masked e-mail
-#: Login/Recovery.php:313
+#: Login/Recovery.php:303
 #, php-format
 msgid "Code sent to %s"
 msgstr ""
 
 #. translators: %s: masked e-mail
-#: Login/Recovery.php:316
+#: Login/Recovery.php:306
 #, php-format
 msgid "Code sent to your current recovery e-mail %s"
 msgstr ""
 
-#: Login/Recovery.php:321
+#: Login/Recovery.php:311
 msgid "Cancel"
 msgstr ""
 
-#: Login/Recovery.php:325
-msgid "New recovery e-mail"
-msgstr ""
-
-#: Login/Recovery.php:327
+#: Login/Recovery.php:317
 msgid "A code will go to the new address and another to the current one: both are needed, so nobody can change it with your session alone."
 msgstr ""
 
-#: Login/Recovery.php:329
+#: Login/Recovery.php:320
 msgid "Send code"
 msgstr ""
 
-#: Mail/Admin.php:28
-#: Mail/Admin.php:113
-msgid "Site mail (SMTP)"
+#: Login/Recovery.php:328
+msgid "On the code screen you can ask for the code to go to this address instead."
+msgstr ""
+
+#: Login/Recovery.php:329
+msgid "\"Lost your password?\" also accepts this address, and the link goes there."
+msgstr ""
+
+#: Login/Recovery.php:330
+msgid "After a password reset, the next code goes only to this address."
+msgstr ""
+
+#: Login/Recovery.php:331
+msgid "Any change to it, or to your main e-mail, is told to the other mailbox."
 msgstr ""
 
 #: Mail/Admin.php:39
@@ -974,289 +1211,289 @@ msgstr ""
 msgid "The Amazon SES SMTP password, not your AWS password."
 msgstr ""
 
-#: Mail/Admin.php:114
+#: Mail/Admin.php:112
 msgid "Sends the mail of this site through a real mailbox with its password, instead of the server's mail() function. Without it, many messages are silently rejected: login codes, forms and orders."
 msgstr ""
 
-#: Mail/Admin.php:118
+#: Mail/Admin.php:116
 msgid "The saved password can no longer be read (the site's security keys changed). Type it again and repeat the test."
 msgstr ""
 
 #. translators: %s: plugin name
-#: Mail/Admin.php:122
+#: Mail/Admin.php:120
 #, php-format
 msgid "%s is sending the mail of this site. Turn it off before testing or switching on this module."
 msgstr ""
 
 #. translators: %s: DMARC policy (reject or quarantine)
-#: Mail/Admin.php:127
+#: Mail/Admin.php:125
 #, php-format
 msgid "The domain has DMARC \"%s\" and this site sends with PHP mail(): messages, including login codes, may never arrive even though the site says \"sent\"."
 msgstr ""
 
 #. translators: 1: sender address, 2: site domain
-#: Mail/Admin.php:132
+#: Mail/Admin.php:130
 #, php-format
 msgid "The sender %1$s is not from the domain of this site. Use an @%2$s address or messages may be rejected."
 msgstr ""
 
 #. translators: %s: sender address
-#: Mail/Admin.php:136
+#: Mail/Admin.php:134
 #, php-format
 msgid "Sending through SMTP as %s"
 msgstr ""
 
-#. translators: %s: plugin name
-#: Mail/Admin.php:138
-#, php-format
-msgid "Sending through %s"
+#: Mail/Admin.php:137
+msgid "SMTP"
 msgstr ""
 
-#. translators: %s: plugin name
-#: Mail/Admin.php:138
-msgid "Sending with PHP mail()"
-msgstr ""
-
-#: Mail/Admin.php:141
+#: Mail/Admin.php:140
+#: Mail/Admin.php:143
 msgid "1. Connection"
 msgstr ""
 
-#: Mail/Admin.php:146
-msgid "Save connection"
-msgstr ""
-
-#: Mail/Admin.php:149
+#: Mail/Admin.php:140
+#: Mail/Admin.php:153
 msgid "2. Test"
 msgstr ""
 
-#: Mail/Admin.php:151
-msgid "Save the connection to send tests."
-msgstr ""
-
-#: Mail/Admin.php:153
-msgid "Send a test and check that it arrived, also in spam. \"Accepted\" only means the server took it."
-msgstr ""
-
-#: Mail/Admin.php:156
-msgid "Send a test to"
-msgstr ""
-
-#: Mail/Admin.php:157
-msgid "Send test"
-msgstr ""
-
-#: Mail/Admin.php:161
+#: Mail/Admin.php:140
+#: Mail/Admin.php:166
 msgid "3. Switch on"
 msgstr ""
 
+#: Mail/Admin.php:143
+msgid "Choose your provider and the server, encryption and port fill themselves in."
+msgstr ""
+
+#: Mail/Admin.php:143
+msgid "Saved"
+msgstr ""
+
+#: Mail/Admin.php:148
+msgid "Save connection"
+msgstr ""
+
+#: Mail/Admin.php:153
+msgid "Passed"
+msgstr ""
+
+#: Mail/Admin.php:155
+msgid "Save the connection to send tests."
+msgstr ""
+
+#: Mail/Admin.php:157
+msgid "Send a test and check that it arrived, also in spam. \"Accepted\" only means the server took it."
+msgstr ""
+
+#: Mail/Admin.php:160
+msgid "Send a test to"
+msgstr ""
+
 #: Mail/Admin.php:161
+msgid "Send test"
+msgstr ""
+
+#: Mail/Admin.php:166
 msgid "Until this step, the site keeps sending as before."
 msgstr ""
 
-#: Mail/Admin.php:164
+#: Mail/Admin.php:169
 msgid "This forgets the connection above (server, user, password and sender) and goes back to PHP mail(). Modules that send login codes are switched off, because the codes might not arrive."
 msgstr ""
 
-#: Mail/Admin.php:165
+#: Mail/Admin.php:170
 msgid "Go back to PHP mail() and forget the connection"
 msgstr ""
 
-#: Mail/Admin.php:169
+#: Mail/Admin.php:174
 msgid "Switch on SMTP for this site"
 msgstr ""
 
-#: Mail/Admin.php:172
+#: Mail/Admin.php:177
 msgid "It can be switched on once a test succeeds."
 msgstr ""
 
-#: Mail/Admin.php:186
+#: Mail/Admin.php:193
 msgid "Usually the full address of the mailbox. Not your WordPress username."
 msgstr ""
 
-#: Mail/Admin.php:187
+#: Mail/Admin.php:194
 msgid "The password of that mailbox, not the one for WordPress or your hosting."
 msgstr ""
 
-#: Mail/Admin.php:193
+#: Mail/Admin.php:200
 msgid "Mail on your own domain (recommended)"
 msgstr ""
 
-#: Mail/Admin.php:193
+#: Mail/Admin.php:200
 msgid "Sending services"
 msgstr ""
 
-#: Mail/Admin.php:193
+#: Mail/Admin.php:200
 msgid "Personal mail (not recommended)"
 msgstr ""
 
-#: Mail/Admin.php:194
+#: Mail/Admin.php:201
 msgid "Choose your provider…"
 msgstr ""
 
 #. translators: 1: site domain, 2: site domain
-#: Mail/Admin.php:206
+#: Mail/Admin.php:213
 msgid "Where is your mailbox?"
 msgstr ""
 
 #. translators: 1: site domain, 2: site domain
-#: Mail/Admin.php:206
+#: Mail/Admin.php:213
 #, php-format
 msgid "Preferably a mailbox on the domain of this site, @%1$s. This fills in server, encryption and port. If your provider is not listed, the server is usually mail.%2$s: type it by hand and confirm it with them."
 msgstr ""
 
-#: Mail/Admin.php:207
+#: Mail/Admin.php:214
 msgid "Outgoing server (SMTP)"
 msgstr ""
 
-#: Mail/Admin.php:207
+#: Mail/Admin.php:214
 msgid "The address of the server that sends the mail. Your provider gives it to you."
 msgstr ""
 
-#: Mail/Admin.php:208
+#: Mail/Admin.php:215
 msgid "Encryption and port"
 msgstr ""
 
-#: Mail/Admin.php:209
+#: Mail/Admin.php:216
 msgid "Port"
 msgstr ""
 
-#: Mail/Admin.php:209
+#: Mail/Admin.php:216
 msgid "Use what your provider says. If it does not connect, try the other option."
 msgstr ""
 
-#: Mail/Admin.php:210
+#: Mail/Admin.php:217
 msgid "Username"
 msgstr ""
 
-#: Mail/Admin.php:211
+#: Mail/Admin.php:218
 msgid "Password"
 msgstr ""
 
-#: Mail/Admin.php:211
+#: Mail/Admin.php:218
 msgid "Saved. Leave empty to keep it"
 msgstr ""
 
-#: Mail/Admin.php:211
+#: Mail/Admin.php:218
 msgid "It is stored encrypted."
 msgstr ""
 
-#: Mail/Admin.php:212
+#: Mail/Admin.php:219
 msgid "Sender address (optional)"
 msgstr ""
 
-#: Mail/Admin.php:212
+#: Mail/Admin.php:219
 msgid "The address people see. Empty uses the username above, which is normal. If you fill it in, it must be a mailbox or authorised alias on the domain of this site."
 msgstr ""
 
-#: Mail/Admin.php:214
+#: Mail/Admin.php:221
 msgid "Sender name (optional)"
 msgstr ""
 
-#: Mail/Admin.php:214
+#: Mail/Admin.php:221
 msgid "The name people see. Empty keeps whatever each plugin sets, usually \"WordPress\"."
 msgstr ""
 
-#: Mail/Admin.php:215
+#: Mail/Admin.php:222
 msgid "Addresses for security alerts"
 msgstr ""
 
 #. translators: %s: site domain
-#: Mail/Admin.php:217
+#: Mail/Admin.php:224
 #, php-format
 msgid "One per line. Besides the administrator, they receive the WordPress link to get in and fix the site if a plugin or theme breaks it (it gives access to the dashboard: trusted mailboxes only), and password-change alerts. Put at least one that is not @%s: if this domain fails, alerts still arrive."
 msgstr ""
 
-#: Mail/Admin.php:224
+#: Mail/Admin.php:231
 msgid "The username is not an e-mail address: type an address on this domain in \"Sender address\"."
 msgstr ""
 
 #. translators: %s: site domain
-#: Mail/Admin.php:226
+#: Mail/Admin.php:233
 #, php-format
 msgid "This sender is not from the domain of this site. Use an @%s address or messages may be rejected."
 msgstr ""
 
-#: Mail/Admin.php:267
+#: Mail/Admin.php:274
 msgid "Connection saved. Now send a test."
 msgstr ""
 
-#: Mail/Admin.php:268
+#: Mail/Admin.php:275
 msgid "SMTP switched on. The mail of this site now leaves through your mailbox."
 msgstr ""
 
-#: Mail/Admin.php:269
+#: Mail/Admin.php:276
 msgid "Connection forgotten. The site sends with PHP mail() again. The alert addresses were kept."
 msgstr ""
 
 #. translators: %s: e-mail address
-#: Mail/Admin.php:271
+#: Mail/Admin.php:278
 #, php-format
 msgid "Test sent to %s. The server accepted it: check that it arrived, also in spam."
 msgstr ""
 
-#: Mail/Admin.php:272
+#: Mail/Admin.php:279
 msgid "Missing data. Check server, username, password, sender and recipient."
 msgstr ""
 
-#: Mail/Admin.php:273
+#: Mail/Admin.php:280
 msgid "Not saved: the password could not be encrypted (OpenSSL is missing on the server)."
 msgstr ""
 
-#: Mail/Admin.php:274
+#: Mail/Admin.php:281
 msgid "A successful test with this connection is needed first."
 msgstr ""
 
-#: Mail/Admin.php:275
+#: Mail/Admin.php:282
 msgid "Another plugin is sending the mail of this site. Turn it off first."
 msgstr ""
 
 #. translators: 1: e-mail address, 2: error message
-#: Mail/Admin.php:280
+#: Mail/Admin.php:287
 #, php-format
 msgid "The test to %1$s failed: %2$s"
 msgstr ""
 
-#: Mail/Admin.php:290
-msgid "Another plugin"
-msgstr ""
-
-#: Mail/Admin.php:291
+#: Mail/Admin.php:298
 msgid "Recent messages"
 msgstr ""
 
-#: Mail/Admin.php:291
+#: Mail/Admin.php:298
 msgid "\"Accepted\" means the server took it, not that it reached the inbox. With PHP mail(), not even that. Message bodies are never stored."
 msgstr ""
 
-#: Mail/Admin.php:292
+#: Mail/Admin.php:299
 msgid "Via"
 msgstr ""
 
-#: Mail/Admin.php:292
+#: Mail/Admin.php:299
 msgid "To"
 msgstr ""
 
-#: Mail/Admin.php:292
+#: Mail/Admin.php:299
 msgid "Subject"
 msgstr ""
 
 #. translators: %s: error message
-#: Mail/Admin.php:296
+#: Mail/Admin.php:303
 msgid "Accepted"
 msgstr ""
 
 #. translators: %s: error message
-#: Mail/Admin.php:296
+#: Mail/Admin.php:303
 #, php-format
 msgid "Error: %s"
 msgstr ""
 
-#: Mail/Admin.php:301
+#: Mail/Admin.php:309
 msgid "Nothing yet."
-msgstr ""
-
-#: Mail/Template.php:62
-msgid "Open"
 msgstr ""
 
 #. translators: %s: site name
@@ -1289,17 +1526,20 @@ msgstr ""
 msgid "If you can read this, the mail of your site leaves correctly through this connection."
 msgstr ""
 
-#: Shield/Admin.php:29
-#: Shield/Admin.php:79
-msgid "Anti-bot shield"
+#: Shield/Admin.php:78
+msgid "Stops programs that create fake accounts before the account exists. The bot is told \"registration complete\" after a short wait, and the attempt is kept as evidence. Nothing is sent back to the attacker."
 msgstr ""
 
 #: Shield/Admin.php:86
-msgid "Stops programs that create fake accounts before the account exists. The bot is told \"registration complete\" after a short wait, and the attempt is kept as evidence. Nothing is sent back to the attacker."
+msgid "WordPress, WooCommerce and RealHomes sign-up forms."
 msgstr ""
 
 #: Shield/Admin.php:88
 msgid "Protect sign-ups (WordPress, WooCommerce and RealHomes)"
+msgstr ""
+
+#: Shield/Admin.php:88
+msgid "A hidden trap field and a signed page stamp: people never solve puzzles."
 msgstr ""
 
 #: Shield/Admin.php:89
@@ -1326,124 +1566,130 @@ msgstr ""
 msgid "Rented-server networks to watch, besides the ones already known (one per line, e.g. 198.51.100.0/24)"
 msgstr ""
 
-#: Shield/Admin.php:99
+#: Shield/Admin.php:100
 msgid "Block a sender"
 msgstr ""
 
-#: Shield/Admin.php:101
-msgid "For"
+#: Shield/Admin.php:100
+msgid "Never an administrator, nor your own address."
 msgstr ""
 
-#: Shield/Admin.php:106
 #: Shield/Admin.php:110
+#: Shield/Admin.php:120
 msgid "Reason"
 msgstr ""
 
-#: Shield/Admin.php:110
+#. translators: %d: number of active blocks
+#: Shield/Admin.php:118
+#, php-format
+msgid "Active: %d"
+msgstr ""
+
+#: Shield/Admin.php:119
 msgid "Active blocks"
 msgstr ""
 
-#: Shield/Admin.php:110
+#: Shield/Admin.php:120
 msgid "Value"
 msgstr ""
 
-#: Shield/Admin.php:110
+#: Shield/Admin.php:120
 msgid "Until (UTC)"
 msgstr ""
 
-#: Shield/Admin.php:114
+#: Shield/Admin.php:123
 msgid "Unblock"
 msgstr ""
 
-#: Shield/Admin.php:117
+#: Shield/Admin.php:126
 msgid "None."
 msgstr ""
 
-#: Shield/Admin.php:122
+#: Shield/Admin.php:132
 msgid "already blocked"
 msgstr ""
 
-#: Shield/Admin.php:122
+#: Shield/Admin.php:132
 msgid "asked for an admin role"
 msgstr ""
 
-#: Shield/Admin.php:123
+#: Shield/Admin.php:133
 msgid "role that does not exist"
 msgstr ""
 
-#: Shield/Admin.php:123
+#: Shield/Admin.php:133
 msgid "filled the trap field"
 msgstr ""
 
-#: Shield/Admin.php:124
+#: Shield/Admin.php:134
 msgid "forged page stamp"
 msgstr ""
 
-#: Shield/Admin.php:124
+#: Shield/Admin.php:134
 msgid "never loaded the page"
 msgstr ""
 
-#: Shield/Admin.php:125
+#: Shield/Admin.php:135
 msgid "too fast"
 msgstr ""
 
-#: Shield/Admin.php:125
+#: Shield/Admin.php:135
 msgid "random username"
 msgstr ""
 
-#: Shield/Admin.php:126
+#: Shield/Admin.php:136
 msgid "rented server"
 msgstr ""
 
-#: Shield/Admin.php:126
+#: Shield/Admin.php:136
 msgid "repeat offender"
 msgstr ""
 
-#: Shield/Admin.php:127
+#: Shield/Admin.php:137
 msgid "a script, not a browser"
 msgstr ""
 
-#: Shield/Admin.php:129
+#: Shield/Admin.php:139
 msgid "Recent suspicious attempts"
 msgstr ""
 
-#: Shield/Admin.php:129
+#: Shield/Admin.php:139
 msgid "Kept for 90 days. Three bot attempts in a day block the address for a week. \"Evidence\" downloads everything from that address as a CSV file to attach to an abuse report to the network provider."
 msgstr ""
 
-#: Shield/Admin.php:130
+#: Shield/Admin.php:140
 msgid "Points"
 msgstr ""
 
-#: Shield/Admin.php:130
+#: Shield/Admin.php:140
 msgid "Verdict"
 msgstr ""
 
-#: Shield/Admin.php:130
+#: Shield/Admin.php:140
 msgid "Why"
 msgstr ""
 
-#: Shield/Admin.php:130
+#: Shield/Admin.php:140
 msgid "User / e-mail"
 msgstr ""
 
-#: Shield/Admin.php:138
+#: Shield/Admin.php:148
 msgid "Bot"
 msgstr ""
 
-#: Shield/Admin.php:138
+#: Shield/Admin.php:148
 msgid "Doubtful"
 msgstr ""
 
-#: Shield/Admin.php:142
+#: Shield/Admin.php:154
 msgid "No suspicious attempts yet."
 msgstr ""
 
-#: Shield/Admin.php:142
+#: Shield/Admin.php:154
 msgid "The shield is off."
 msgstr ""
 
-#: Shield/Admin.php:155
+#: Shield/Admin.php:169
 msgid "Invalid address."
 msgstr ""
 

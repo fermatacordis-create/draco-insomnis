@@ -18,7 +18,7 @@ final class Admin
 
     public static function register(): void
     {
-        add_action('admin_menu', [self::class, 'menu'], 13);
+        add_action('admin_menu', [self::class, 'menu'], 14);
         add_action('admin_post_' . self::ACTION, [self::class, 'save']);
     }
 
@@ -48,64 +48,67 @@ final class Admin
 
     public static function render(): void
     {
-        echo '<div class="wrap">';
-        Brand::header(__('Anti-copy', 'draco-insomnis'));
-        echo '<p>' . esc_html__('Makes it harder to copy the whole site in one go, without getting in the way of visitors or search engines. People logged in and the addresses an administrator used are never limited. Start with "Log only" for a few days and look at the list below.', 'draco-insomnis') . '</p>';
+        Brand::open(__('Anti-copy', 'draco-insomnis'), __('Makes it harder to copy the whole site in one go, without getting in the way of visitors or search engines. People logged in and the addresses an administrator used are never limited. Start with "Log only" for a few days and look at the list below.', 'draco-insomnis'));
         if (Input::get('result') === 'ok') {
-            echo '<div class="notice notice-success"><p>' . esc_html__('Changes saved.', 'draco-insomnis') . '</p></div>';
+            Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
         }
-        $modes = [
-            'off' => __('Off', 'draco-insomnis'),
-            'log' => __('Log only: write down what it would stop, without stopping anything', 'draco-insomnis'),
-            'block' => __('Block', 'draco-insomnis'),
+        $modes = static fn (): array => [
+            'off' => [__('Off', 'draco-insomnis'), __('Nothing is checked.', 'draco-insomnis')],
+            'log' => [__('Log only', 'draco-insomnis'), __('Writes down what it would stop, without stopping it.', 'draco-insomnis'), 'visibility'],
+            'block' => [__('Block', 'draco-insomnis'), __('Stops it, and writes it down.', 'draco-insomnis'), 'dismiss'],
         ];
-        $radios = static function (string $name, string $current) use ($modes): void {
-            foreach ($modes as $value => $label) {
-                echo '<label style="display:block;margin:4px 0"><input type="radio" name="' . esc_attr($name) . '" value="' . esc_attr($value) . '" ' . checked($current, $value, false) . '> ' . esc_html($label) . '</label>';
-            }
+        $pill = static function (string $mode): string {
+            $state = $mode === 'block' ? 'on' : $mode;
+
+            return Brand::pill(Brand::stateLabel($state), $state);
         };
+        $rest = Guard::mode(Guard::OPTION_REST);
+        $rate = Guard::mode(Guard::OPTION_RATE);
         echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
         wp_nonce_field(self::ACTION);
         echo '<input type="hidden" name="action" value="' . esc_attr(self::ACTION) . '">';
+        echo '<div class="draco-grid">';
+        Brand::card('rest-api', __('Content API', 'draco-insomnis'), __('WordPress publishes every post, page and image as JSON at /wp-json/wp/v2/, which lets anyone download the whole site in a few requests. This closes those reads to anonymous visitors; the pages themselves stay public.', 'draco-insomnis'), $pill($rest));
+        Brand::modes('rest', $rest, $modes());
+        echo '<div class="draco-field"><label for="draco_allow">' . esc_html__('Routes that stay open', 'draco-insomnis') . '</label>';
+        echo '<textarea id="draco_allow" name="allow" rows="4" class="large-text code" placeholder="/wp/v2/posts">' . esc_textarea((string) get_option(Guard::OPTION_REST_ALLOW, '')) . '</textarea>';
+        echo '<p class="description">' . esc_html__('One per line, for example /wp/v2/posts if your theme loads more posts with JavaScript. The log below shows which routes visitors really use. Other APIs (forms, shop, embeds) are never affected.', 'draco-insomnis') . '</p></div>';
+        Brand::cardEnd();
 
-        echo '<h2>' . esc_html__('Content API', 'draco-insomnis') . '</h2>';
-        echo '<p>' . esc_html__('WordPress publishes every post, page and image as JSON at /wp-json/wp/v2/, which lets anyone download the whole site in a few requests. This closes those reads to anonymous visitors; the pages themselves stay public.', 'draco-insomnis') . '</p>';
-        $radios('rest', Guard::mode(Guard::OPTION_REST));
-        echo '<p><label for="draco_allow"><strong>' . esc_html__('Routes that stay open', 'draco-insomnis') . '</strong></label><br>';
-        echo '<textarea id="draco_allow" name="allow" rows="4" cols="60" class="code" placeholder="/wp/v2/posts">' . esc_textarea((string) get_option(Guard::OPTION_REST_ALLOW, '')) . '</textarea><br>';
-        echo '<span class="description">' . esc_html__('One per line, for example /wp/v2/posts if your theme loads more posts with JavaScript. The log below shows which routes visitors really use. Other APIs (forms, shop, embeds) are never affected.', 'draco-insomnis') . '</span></p>';
-
-        echo '<h2>' . esc_html__('Pace', 'draco-insomnis') . '</h2>';
-        echo '<p>' . esc_html__('More pages per minute than a person reads get "429 Too many requests" for the rest of that minute. Google, Bing, Apple and Yandex are recognised by their reverse DNS and never limited; a program that only pretends to be them is.', 'draco-insomnis') . '</p>';
-        $radios('rate', Guard::mode(Guard::OPTION_RATE));
+        Brand::card('performance', __('Pace', 'draco-insomnis'), __('More pages per minute than a person reads get "429 Too many requests" for the rest of that minute. Google, Bing, Apple and Yandex are recognised by their reverse DNS and never limited; a program that only pretends to be them is.', 'draco-insomnis'), $pill($rate));
+        Brand::modes('rate', $rate, $modes());
         $ip = (int) get_option(Guard::OPTION_RATE_IP, Guard::DEFAULT_RATE_IP);
         $net = (int) get_option(Guard::OPTION_RATE_NET, Guard::DEFAULT_RATE_NET);
-        echo '<p><label>' . esc_html__('Pages per minute from one address', 'draco-insomnis') . ' <input type="number" min="10" name="rate_ip" value="' . esc_attr((string) $ip) . '" class="small-text"></label></p>';
-        echo '<p><label>' . esc_html__('Pages per minute from one network (the 256 addresses around it)', 'draco-insomnis') . ' <input type="number" min="10" name="rate_net" value="' . esc_attr((string) $net) . '" class="small-text"></label></p>';
-        echo '<p class="description">' . esc_html__('Only requests that reach WordPress count: images, styles and pages served by a cache do not. Each counted request writes two small counters, so on a very busy site without an object cache keep this off or in log mode.', 'draco-insomnis') . '</p>';
+        echo '<div class="draco-inline"><div class="draco-field"><label for="draco-rate-ip">' . esc_html__('Pages per minute from one address', 'draco-insomnis') . '</label><input id="draco-rate-ip" type="number" min="10" name="rate_ip" value="' . esc_attr((string) $ip) . '" class="small-text"></div>';
+        echo '<div class="draco-field"><label for="draco-rate-net">' . esc_html__('Pages per minute from one network (the 256 addresses around it)', 'draco-insomnis') . '</label><input id="draco-rate-net" type="number" min="10" name="rate_net" value="' . esc_attr((string) $net) . '" class="small-text"></div></div>';
+        echo '<p class="draco-hint">' . esc_html__('Only requests that reach WordPress count: images, styles and pages served by a cache do not. Each counted request writes two small counters, so on a very busy site without an object cache keep this off or in log mode.', 'draco-insomnis') . '</p>';
+        Brand::cardEnd();
+        echo '</div><p>';
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
-        echo '</form>';
+        echo '</p></form>';
 
         $what = [
             'anticopy_rest' => __('content API', 'draco-insomnis'),
             'anticopy_rate_ip' => __('too fast, one address', 'draco-insomnis'),
             'anticopy_rate_net' => __('too fast, one network', 'draco-insomnis'),
         ];
-        echo '<h2>' . esc_html__('Recent', 'draco-insomnis') . '</h2>';
-        echo '<table class="widefat striped"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('What', 'draco-insomnis') . '</th><th>' . esc_html__('Address requested', 'draco-insomnis') . '</th><th>' . esc_html__('Browser', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th></tr></thead><tbody>';
+        Brand::card('list-view', __('Recent', 'draco-insomnis'), '', '', 'info', 'draco-card--flush');
+        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('What', 'draco-insomnis') . '</th><th>' . esc_html__('Address requested', 'draco-insomnis') . '</th><th>' . esc_html__('Browser', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th></tr></thead><tbody>';
         $rows = Store::recentWhere('anticopy:');
         foreach ($rows as $r) {
             $reason = (string) $r['reasons'];
             $blocked = str_ends_with($reason, '_block');
             $key = (string) preg_replace('/_(block|log)$/', '', $reason);
             $fields = json_decode((string) $r['fields'], true);
-            echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td>' . esc_html((string) $r['ip']) . '</td><td>' . esc_html($what[$key] ?? $key) . '</td><td><code>'
-                . esc_html((string) (is_array($fields) ? ($fields['referer'] ?? '') : '')) . '</code></td><td>' . esc_html(substr((string) $r['user_agent'], 0, 60)) . '</td><td>'
-                . esc_html($blocked ? __('Blocked', 'draco-insomnis') : __('Would block', 'draco-insomnis')) . '</td></tr>';
+            $result = $blocked ? Brand::pill(__('Blocked', 'draco-insomnis'), 'bad') : Brand::pill(__('Would block', 'draco-insomnis'), 'log');
+            echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td><span class="draco-code">' . esc_html((string) $r['ip']) . '</span></td><td>' . esc_html($what[$key] ?? $key) . '</td><td><code>'
+                . esc_html((string) (is_array($fields) ? ($fields['referer'] ?? '') : '')) . '</code></td><td>' . esc_html(substr((string) $r['user_agent'], 0, 60)) . '</td><td>' . wp_kses_post($result) . '</td></tr>';
         }
         if ($rows === []) {
-            echo '<tr><td colspan="6">' . esc_html__('Nothing recorded yet.', 'draco-insomnis') . '</td></tr>';
+            Brand::emptyRow(6, __('Nothing recorded yet.', 'draco-insomnis'));
         }
         echo '</tbody></table></div>';
+        Brand::cardEnd();
+        Brand::close();
     }
 }
