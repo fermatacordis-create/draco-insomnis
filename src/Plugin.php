@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DracoInsomnis;
 
 use DracoInsomnis\Admin\Brand;
+use DracoInsomnis\Gate\Gate;
 use DracoInsomnis\Mail\Admin as MailAdmin;
 use DracoInsomnis\Mail\Transport;
 use DracoInsomnis\Shield\Admin;
@@ -33,6 +34,7 @@ final class Plugin
         Admin::register();
         MailAdmin::register();
         Transport::register();
+        Gate::boot();
         add_action(self::HOOK_CLEANUP, [Store::class, 'cleanup']);
         add_action('admin_init', [self::class, 'rememberAdminIp']);
         if (get_option(self::OPTION_SHIELD, 'no') === 'yes') {
@@ -52,6 +54,7 @@ final class Plugin
     public static function deactivate(): void
     {
         wp_clear_scheduled_hook(self::HOOK_CLEANUP);
+        wp_clear_scheduled_hook(Gate::HOOK_CLEANUP);
     }
 
     /**

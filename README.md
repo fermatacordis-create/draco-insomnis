@@ -11,9 +11,10 @@ Version 0.1:
   bots a fake success and keeps evidence for abuse reports.
 - **Site mail (SMTP)** — sends the site's mail through a real mailbox, only after a successful test,
   with the password encrypted.
+- **Forms and sign-ups** — holds contact messages, comments and new accounts until the sender
+  confirms from their e-mail.
 
-Planned modules: firewall, two-step login by e-mail, and confirmation of forms and new accounts by
-e-mail.
+Planned modules: firewall and two-step login by e-mail.
 
 ## Layout
 
@@ -23,6 +24,8 @@ e-mail.
   blocks) and `Admin` (the settings screen and the evidence download).
 - `src/Mail/` — SMTP: `Settings` (one connection, encrypted password via `Crypto`), `Transport`
   (configures WordPress's PHPMailer), `Log` and `Admin`.
+- `src/Gate/` — confirmation by e-mail: `MailHold` (form mail), `CommentHold`, `RegistrationHold`,
+  `Verify` (the confirm page), `Store`, `Mailer` and `Admin`. HTML mail lives in `src/Mail/Template.php`.
 - `src/Admin/Brand.php` — the menu and the header shown on the plugin's own screens.
 
 ## Tests

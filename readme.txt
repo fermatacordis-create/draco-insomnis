@@ -35,7 +35,20 @@ Sends the mail of the site through a real mailbox instead of PHP mail(), so logi
 * **Sender that passes DMARC.** The mailbox becomes the visible sender; the original address goes to Reply-To.
 * **Log of the last 50 messages** (never their content) and extra addresses for WordPress recovery and password-change alerts.
 
-More modules are on the way: firewall, two-step login by e-mail, and confirmation of forms and new accounts by e-mail.
+= Forms and sign-ups =
+
+Holds every contact message, blog comment and new account until the sender confirms from their e-mail. Bots do not confirm, so their spam never reaches you.
+
+* **Works with** Contact Form 7, WPForms, Elementor Pro, Divi and RealHomes forms, WordPress and WooCommerce registration, and blog comments.
+* **Nothing is lost.** The message is kept exactly as the form built it, attachments included, and delivered when confirmed. Unconfirmed ones are erased after 48 hours.
+* **Mail scanners cannot confirm.** Opening the link changes nothing; the person has to press a button.
+* **New accounts stay closed** until confirmed: no login, no password reset, no welcome mail. Unconfirmed accounts are deleted after 48 hours, unless they have content or orders, which a person reviews instead. Accounts created while paying in the shop are never held.
+* **Block from any row**, by e-mail or IP, for 7 to 90 days. A blocked sender sees the same answer, so they cannot tell.
+* **Never sends what the visitor typed** to the address they wrote, so it cannot be used to send spam to strangers, and it limits how many confirmations an address or IP can trigger.
+
+Needs working site mail: it only switches on when SMTP is set up.
+
+More modules are on the way: firewall and two-step login by e-mail.
 
 = Who makes it =
 
@@ -46,7 +59,8 @@ Draco Insomnis is made by [Notorius Vision](https://notoriusvision.com), the tea
 1. Install and activate the plugin.
 2. Open **Draco Insomnis → Anti-bot shield** and tick **Protect sign-ups**.
 3. Open **Draco Insomnis → Site mail (SMTP)**: connect your mailbox, send a test, then switch it on.
-4. If the site is behind Cloudflare or another proxy, choose the matching **Visitor address** option and check that "Your address as the plugin sees it" shows your real address.
+4. Open **Draco Insomnis → Forms and sign-ups** and tick **Verify contact forms and sign-ups**.
+5. If the site is behind Cloudflare or another proxy, choose the matching **Visitor address** option and check that "Your address as the plugin sees it" shows your real address.
 
 == Frequently Asked Questions ==
 
@@ -65,4 +79,4 @@ For suspicious attempts only: date, address, browser name, username, e-mail, req
 == Changelog ==
 
 = 0.1.0 =
-* First version: anti-bot shield for sign-ups and site mail (SMTP).
+* First version: anti-bot shield for sign-ups, site mail (SMTP), and e-mail confirmation of forms, comments and new accounts.
