@@ -13,7 +13,6 @@ final class MenuTest extends TestCase
         $this->assertFalse(\DracoInsomnis\Plugin::bundled(), 'the test site runs the standalone plugin');
         add_filter('draco_insomnis_menu_parent', static fn () => 'some-other-plugin');
         $this->assertSame('', Brand::nestedParent());
-        $this->assertSame(Brand::PARENT, Brand::submenuParent());
         $_GET['page'] = 'draco-insomnis-firewall';
         $this->assertSame('tools.php', Brand::highlightParent('tools.php'), 'menu highlighting is left alone');
     }

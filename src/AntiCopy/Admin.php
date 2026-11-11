@@ -25,7 +25,10 @@ final class Admin
     public static function menu(): void
     {
         $title = __('Anti-copy', 'draco-insomnis');
-        add_submenu_page(Brand::submenuParent(), $title, $title, 'manage_options', self::SLUG, [self::class, 'render']);
+        if (Brand::nestedParent() !== '') {
+            return; // Brand::menuNested() registers it inside the host plugin's menu.
+        }
+        add_submenu_page(Brand::PARENT, $title, $title, 'manage_options', self::SLUG, [self::class, 'render']);
     }
 
     public static function save(): void
