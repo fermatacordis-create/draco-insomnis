@@ -2,6 +2,8 @@
 
 *Ab insomni custodita dracone* — guarded by the dragon that never sleeps.
 
+Author: **Soledad Sánchez Mohamed**.
+
 Open-source security for WordPress, made by [Notorius Vision](https://notoriusvision.com) — the team
 behind [OPNV Systems](https://opnv.systems) and OPNV SOLΞ.
 
