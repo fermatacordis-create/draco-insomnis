@@ -6,6 +6,8 @@ namespace DracoInsomnis;
 
 use DracoInsomnis\Admin\Brand;
 use DracoInsomnis\Gate\Gate;
+use DracoInsomnis\Login\Admin as LoginAdmin;
+use DracoInsomnis\Login\Mfa;
 use DracoInsomnis\Mail\Admin as MailAdmin;
 use DracoInsomnis\Mail\Transport;
 use DracoInsomnis\Shield\Admin;
@@ -35,6 +37,8 @@ final class Plugin
         MailAdmin::register();
         Transport::register();
         Gate::boot();
+        LoginAdmin::register();
+        Mfa::boot();
         add_action(self::HOOK_CLEANUP, [Store::class, 'cleanup']);
         add_action('admin_init', [self::class, 'rememberAdminIp']);
         if (get_option(self::OPTION_SHIELD, 'no') === 'yes') {

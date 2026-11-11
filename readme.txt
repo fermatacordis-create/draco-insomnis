@@ -48,7 +48,17 @@ Holds every contact message, blog comment and new account until the sender confi
 
 Needs working site mail: it only switches on when SMTP is set up.
 
-More modules are on the way: firewall and two-step login by e-mail.
+= Two-step login =
+
+After the right password, WordPress asks for a 6-digit code sent by e-mail. A stolen password alone is no longer enough.
+
+* **For administrators by default**, or for everyone who can edit, or for every user.
+* **The code is only sent after the right password**, expires in 10 minutes and allows 5 tries. Repeated failures block the address for 15 minutes.
+* **Trust this device for 7 days** (optional). Changing the password or e-mail of an account revokes its trusted devices.
+* **No lock-outs from missing mail.** It only switches on with SMTP working and switches itself off if that connection is forgotten.
+* **Emergency exit for the owner:** `define('DRACO_MFA_OFF', true);` in wp-config.php. Only someone with access to the server can use it, unlike a "skip" button a thief could press.
+
+More modules are on the way: firewall, and a recovery mailbox for the login code.
 
 = Who makes it =
 
@@ -60,7 +70,8 @@ Draco Insomnis is made by [Notorius Vision](https://notoriusvision.com), the tea
 2. Open **Draco Insomnis → Anti-bot shield** and tick **Protect sign-ups**.
 3. Open **Draco Insomnis → Site mail (SMTP)**: connect your mailbox, send a test, then switch it on.
 4. Open **Draco Insomnis → Forms and sign-ups** and tick **Verify contact forms and sign-ups**.
-5. If the site is behind Cloudflare or another proxy, choose the matching **Visitor address** option and check that "Your address as the plugin sees it" shows your real address.
+5. Open **Draco Insomnis → Two-step login** and tick **Ask for a code by e-mail after the password**.
+6. If the site is behind Cloudflare or another proxy, choose the matching **Visitor address** option and check that "Your address as the plugin sees it" shows your real address.
 
 == Frequently Asked Questions ==
 
@@ -79,4 +90,4 @@ For suspicious attempts only: date, address, browser name, username, e-mail, req
 == Changelog ==
 
 = 0.1.0 =
-* First version: anti-bot shield for sign-ups, site mail (SMTP), and e-mail confirmation of forms, comments and new accounts.
+* First version: anti-bot shield for sign-ups, site mail (SMTP), and e-mail confirmation of forms, comments and new accounts, and two-step login by e-mail.

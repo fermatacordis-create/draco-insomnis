@@ -13,8 +13,9 @@ Version 0.1:
   with the password encrypted.
 - **Forms and sign-ups** — holds contact messages, comments and new accounts until the sender
   confirms from their e-mail.
+- **Two-step login** — a 6-digit code by e-mail after the right password, with trusted devices.
 
-Planned modules: firewall and two-step login by e-mail.
+Planned: firewall, and a recovery mailbox for the login code.
 
 ## Layout
 
@@ -26,6 +27,8 @@ Planned modules: firewall and two-step login by e-mail.
   (configures WordPress's PHPMailer), `Log` and `Admin`.
 - `src/Gate/` — confirmation by e-mail: `MailHold` (form mail), `CommentHold`, `RegistrationHold`,
   `Verify` (the confirm page), `Store`, `Mailer` and `Admin`. HTML mail lives in `src/Mail/Template.php`.
+- `src/Login/` — two-step login: `Mfa` (the flow and the code page), `Challenge`, `TrustedDevice`
+  and `Admin`.
 - `src/Admin/Brand.php` — the menu and the header shown on the plugin's own screens.
 
 ## Tests
