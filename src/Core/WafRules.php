@@ -20,6 +20,9 @@ final class WafRules
     private const SQLI = [
         // "union select" followed by a column list, not by a word: "European Union Select Committee" passes.
         '/\bunion\b(\s|\/\*.*?\*\/|\+)+(all(\s|\/\*.*?\*\/|\+)+|distinct(\s|\/\*.*?\*\/|\+)+)?select(\s|\/\*.*?\*\/|\+)*(\d|null\b|@@|\*|0x|[\'"(]|concat|char\s*\(|group_concat|[a-z_.`]+\s*,)/is',
+        // A single column: "1' union select user_pass from wp_users-- ". Only right after a quote, a
+        // whole number value or a bracket, which is where injected SQL starts and ordinary sentences do not.
+        '/([\'")]|(^|[=&])-?\d+)(\s|\/\*.*?\*\/|\+)*\bunion\b(\s|\/\*.*?\*\/|\+)+(all(\s|\/\*.*?\*\/|\+)+)?select(\s|\/\*.*?\*\/|\+)+[a-z_.`]+(\s|\/\*.*?\*\/|\+)+from\b/is',
         '/\bselect\b.{1,120}\bfrom\b.{1,120}\b(information_schema|mysql\.user|pg_catalog)\b/is',
         '/\b(sleep|benchmark|pg_sleep)\s*\(\s*\d/i',
         '/\bwaitfor\s+delay\s+\'/i',

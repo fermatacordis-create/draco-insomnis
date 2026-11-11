@@ -122,6 +122,7 @@ final class Waf
         if (!self::blocking()) {
             return;
         }
+        self::earlyTranslations();
         $key = 'draco_waf_hits_' . md5($ip);
         $hits = (int) get_transient($key) + 1;
         set_transient($key, $hits, self::HIT_WINDOW);
@@ -135,6 +136,7 @@ final class Waf
     /** No details for the attacker: what matched stays in the log. */
     private static function deny(string $why): void
     {
+        self::earlyTranslations();
         nocache_headers();
         status_header(403);
         header('Content-Type: text/html; charset=UTF-8');
@@ -149,6 +151,24 @@ final class Waf
     }
 
     /** @param array<string, mixed> $methods @return array<string, mixed> */
+    /**
+     * The firewall answers before WordPress loads translations (on purpose: it stops the request as
+     * early as it can). Load this plugin's own file now; with no file for the language (English)
+     * there is nothing to load, and WordPress's "too early" notice is about this case only.
+     */
+    private static function earlyTranslations(): void
+    {
+        if (did_action('after_setup_theme') || is_textdomain_loaded('draco-insomnis')) {
+            return;
+        }
+        $locale = determine_locale();
+        if (!load_textdomain('draco-insomnis', DRACO_INSOMNIS_DIR . 'languages/draco-insomnis-' . $locale . '.mo', $locale)) {
+            add_filter('doing_it_wrong_trigger_error', static function ($trigger, $function, $message = '') {
+                return $function === '_load_textdomain_just_in_time' && str_contains((string) $message, 'draco-insomnis') ? false : $trigger;
+            }, 10, 3);
+        }
+    }
+
     public static function xmlrpcMethods($methods): array
     {
         $methods = (array) $methods;

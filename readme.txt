@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.1
+Stable tag: 0.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,12 +106,13 @@ For suspicious attempts only: date, address, browser name, username, e-mail, req
 
 == Changelog ==
 
+= 0.1.2 =
+* Firewall: also catches a UNION SELECT of a single column (`1' union select user_pass from wp_users`), without flagging sentences like "European Union select committee".
+* Firewall: its 403 page no longer triggers WordPress's "translation loaded too early" notice.
+* Integration and HTTP tests in a real WordPress, run on every change (GitHub Actions).
+
 = 0.1.1 =
 * Works when bundled inside another plugin (OPNV-WP): the daily cleanup is scheduled on load, not only on activation.
-* If two copies are present (standalone and bundled), only the first one runs.
-* New filter `draco_insomnis_other_sender` for plugins that hand their mail over to Draco.
-* If two copies are present (standalone and bundled), only the first one runs.
-* New filter `draco_insomnis_other_sender` for plugins that hand their mail over to Draco.
 * If two copies are present (standalone and bundled), only the first one runs.
 * New filter `draco_insomnis_other_sender` for plugins that hand their mail over to Draco.
 
