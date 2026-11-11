@@ -14,13 +14,16 @@ Version 0.1:
 - **Forms and sign-ups** — holds contact messages, comments and new accounts until the sender
   confirms from their e-mail.
 - **Two-step login** — a 6-digit code by e-mail after the right password, with trusted devices.
+- **Firewall** — precise attack signatures and scanner probes, log-only mode first, hidden user list,
+  login limits, no XML-RPC multicall.
 
-Planned: firewall, and a recovery mailbox for the login code.
+Planned: a recovery mailbox for the login code.
 
 ## Layout
 
-- `src/Core/` — plain PHP, no WordPress: scoring (`BotScore`), network lists (`NetList`) and the signed
-  page stamp (`FormStamp`). Easy to test and to reuse.
+- `src/Core/` — plain PHP, no WordPress: scoring (`BotScore`), network lists (`NetList`), the signed
+  page stamp (`FormStamp`) and the firewall signatures (`WafRules`). Easy to test and to reuse.
+- `src/Firewall/` — `Waf` (inspection, user list, login limit, XML-RPC) and `Admin`.
 - `src/Shield/` — the WordPress side: `Guard` (hooks into the sign-up forms), `Store` (attempts and
   blocks) and `Admin` (the settings screen and the evidence download).
 - `src/Mail/` — SMTP: `Settings` (one connection, encrypted password via `Crypto`), `Transport`

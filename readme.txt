@@ -58,7 +58,19 @@ After the right password, WordPress asks for a 6-digit code sent by e-mail. A st
 * **No lock-outs from missing mail.** It only switches on with SMTP working and switches itself off if that connection is forgotten.
 * **Emergency exit for the owner:** `define('DRACO_MFA_OFF', true);` in wp-config.php. Only someone with access to the server can use it, unlike a "skip" button a thief could press.
 
-More modules are on the way: firewall, and a recovery mailbox for the login code.
+= Firewall =
+
+Stops requests with the shape of an attack, and the scanners that look for weak spots.
+
+* **Precise signatures, not word lists.** Database injection, reading server files, running code and scripts in links are matched by their shape, so ordinary messages with words like "select", "update" or "delete" go through.
+* **Scanners and probes.** Tools such as sqlmap, WPScan or Nikto, and requests for .env, .git, wp-config backups, phpinfo or known web shells.
+* **Starts in log-only mode**, so you can see what it would stop before it stops anything.
+* **Automatic blocks**: five attacks in 10 minutes put the address on the block list for 7 days. Blocked addresses can still read the site, but not log in, post forms or use XML-RPC.
+* **Hides the list of user names** from anonymous visitors (?author=1 and the users REST endpoint).
+* **Limits failed logins** and always refuses XML-RPC system.multicall (hundreds of passwords in one call) and pingbacks.
+* **Never inspects people who can edit the site** and never blocks an address an administrator used recently. Emergency exit: `define('DRACO_WAF_OFF', true);` in wp-config.php.
+
+More is on the way: a recovery mailbox for the login code.
 
 = Who makes it =
 
@@ -71,7 +83,8 @@ Draco Insomnis is made by [Notorius Vision](https://notoriusvision.com), the tea
 3. Open **Draco Insomnis → Site mail (SMTP)**: connect your mailbox, send a test, then switch it on.
 4. Open **Draco Insomnis → Forms and sign-ups** and tick **Verify contact forms and sign-ups**.
 5. Open **Draco Insomnis → Two-step login** and tick **Ask for a code by e-mail after the password**.
-6. If the site is behind Cloudflare or another proxy, choose the matching **Visitor address** option and check that "Your address as the plugin sees it" shows your real address.
+6. Open **Draco Insomnis → Firewall**, switch it on in **Log only**, and move to **Block** after a few days.
+7. If the site is behind Cloudflare or another proxy, choose the matching **Visitor address** option and check that "Your address as the plugin sees it" shows your real address.
 
 == Frequently Asked Questions ==
 
@@ -90,4 +103,4 @@ For suspicious attempts only: date, address, browser name, username, e-mail, req
 == Changelog ==
 
 = 0.1.0 =
-* First version: anti-bot shield for sign-ups, site mail (SMTP), and e-mail confirmation of forms, comments and new accounts, and two-step login by e-mail.
+* First version: anti-bot shield for sign-ups, site mail (SMTP), and e-mail confirmation of forms, comments and new accounts, two-step login by e-mail, and firewall.

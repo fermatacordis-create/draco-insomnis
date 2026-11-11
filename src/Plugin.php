@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DracoInsomnis;
 
 use DracoInsomnis\Admin\Brand;
+use DracoInsomnis\Firewall\Admin as FirewallAdmin;
 use DracoInsomnis\Gate\Gate;
 use DracoInsomnis\Login\Admin as LoginAdmin;
 use DracoInsomnis\Login\Mfa;
@@ -30,7 +31,6 @@ final class Plugin
             return;
         }
         self::$booted = true;
-        load_plugin_textdomain('draco-insomnis', false, dirname(plugin_basename(DRACO_INSOMNIS_FILE)) . '/languages');
         Store::ensureTables();
         Brand::register();
         Admin::register();
@@ -38,6 +38,7 @@ final class Plugin
         Transport::register();
         Gate::boot();
         LoginAdmin::register();
+        FirewallAdmin::register();
         Mfa::boot();
         add_action(self::HOOK_CLEANUP, [Store::class, 'cleanup']);
         add_action('admin_init', [self::class, 'rememberAdminIp']);

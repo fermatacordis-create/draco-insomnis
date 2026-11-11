@@ -111,6 +111,18 @@ final class Store
         return (array) $wpdb->get_results($wpdb->prepare('SELECT * FROM ' . self::events() . ' ORDER BY id DESC LIMIT %d', $limit), ARRAY_A);
     }
 
+    /** @return list<array<string, mixed>> */
+    public static function recentWhere(string $endpointPrefix, int $limit = 50): array
+    {
+        global $wpdb;
+
+        return (array) $wpdb->get_results($wpdb->prepare(
+            'SELECT * FROM ' . self::events() . ' WHERE endpoint LIKE %s ORDER BY id DESC LIMIT %d',
+            $wpdb->esc_like($endpointPrefix) . '%',
+            $limit,
+        ), ARRAY_A);
+    }
+
     /** Everything from one address, oldest first, for an abuse report. @return list<array<string, mixed>> */
     public static function byIp(string $ip): array
     {

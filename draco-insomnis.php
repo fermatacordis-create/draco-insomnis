@@ -35,4 +35,8 @@ spl_autoload_register(static function (string $class): void {
 
 register_activation_hook(__FILE__, [\DracoInsomnis\Plugin::class, 'activate']);
 register_deactivation_hook(__FILE__, [\DracoInsomnis\Plugin::class, 'deactivate']);
+add_action('plugins_loaded', static function (): void {
+    load_plugin_textdomain('draco-insomnis', false, dirname(plugin_basename(DRACO_INSOMNIS_FILE)) . '/languages');
+}, 0);
+add_action('plugins_loaded', [\DracoInsomnis\Firewall\Waf::class, 'boot'], 1);
 add_action('plugins_loaded', [\DracoInsomnis\Plugin::class, 'boot']);
