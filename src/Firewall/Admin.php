@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Firewall;
 
+use DracoInsomnis\Input;
 use DracoInsomnis\Admin\Brand;
 use DracoInsomnis\Shield\Store;
 
@@ -34,7 +35,7 @@ final class Admin
         }
         check_admin_referer(self::ACTION);
         update_option(Waf::OPTION_ENABLED, empty($_POST['enabled']) ? 'no' : 'yes');
-        update_option(Waf::OPTION_MODE, ($_POST['mode'] ?? '') === 'block' ? 'block' : 'log');
+        update_option(Waf::OPTION_MODE, Input::post('mode') === 'block' ? 'block' : 'log');
         foreach ([Waf::OPTION_HIDE_USERS => 'hide_users', Waf::OPTION_XMLRPC_OFF => 'xmlrpc_off', Waf::OPTION_LOGIN_LIMIT => 'login_limit'] as $option => $field) {
             update_option($option, empty($_POST[$field]) ? 'no' : 'yes');
         }
@@ -49,7 +50,7 @@ final class Admin
         echo '<div class="wrap">';
         Brand::header(__('Firewall', 'draco-insomnis'));
         echo '<p>' . esc_html__('Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and the scanners that look for weak spots. People who can edit the site are never inspected.', 'draco-insomnis') . '</p>';
-        if (($_GET['result'] ?? '') === 'ok') { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only
+        if (Input::get('result') === 'ok') {
             echo '<div class="notice notice-success"><p>' . esc_html__('Changes saved.', 'draco-insomnis') . '</p></div>';
         }
         if (defined('DRACO_WAF_OFF') && DRACO_WAF_OFF) {

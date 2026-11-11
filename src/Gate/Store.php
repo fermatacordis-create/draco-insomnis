@@ -6,6 +6,8 @@ namespace DracoInsomnis\Gate;
 
 defined('ABSPATH') || exit;
 
+// phpcs:disable WordPress.DB.DirectDatabaseQuery -- the plugin's own tables have no WordPress API; every value goes through prepare().
+
 /**
  * Held submissions. A held message lives here until its sender confirms or PENDING_HOURS pass. Once it
  * is delivered or expires the body is erased; the row keeps only who sent it, for KEEP_DAYS, so the
@@ -95,7 +97,7 @@ final class Store
     public static function find(int $id): ?array
     {
         global $wpdb;
-        $row = $wpdb->get_row($wpdb->prepare('SELECT * FROM ' . self::table() . ' WHERE id = %d', $id), ARRAY_A);
+        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM %i WHERE id = %d", self::table(), $id), ARRAY_A);
 
         return is_array($row) ? $row : null;
     }
@@ -108,7 +110,8 @@ final class Store
             return null;
         }
         $row = $wpdb->get_row($wpdb->prepare(
-            'SELECT * FROM ' . self::table() . " WHERE token_hash = %s AND status = 'pending' AND created_at > %s",
+            "SELECT * FROM %i WHERE token_hash = %s AND status = 'pending' AND created_at > %s",
+            self::table(),
             hash('sha256', $token),
             gmdate('Y-m-d H:i:s', time() - self::PENDING_HOURS * 3600),
         ), ARRAY_A);
@@ -136,7 +139,8 @@ final class Store
         global $wpdb;
 
         return (array) $wpdb->get_results($wpdb->prepare(
-            'SELECT id, kind, context, email, ip, status, created_at, verified_at FROM ' . self::table() . ' ORDER BY id DESC LIMIT %d',
+            "SELECT id, kind, context, email, ip, status, created_at, verified_at FROM %i ORDER BY id DESC LIMIT %d",
+            self::table(),
             $limit,
         ), ARRAY_A);
     }
@@ -146,9 +150,10 @@ final class Store
     {
         global $wpdb;
         $wpdb->query($wpdb->prepare(
-            'UPDATE ' . self::table() . " SET status = 'expired', payload = NULL WHERE status = 'pending' AND created_at < %s",
+            "UPDATE %i SET status = 'expired', payload = NULL WHERE status = 'pending' AND created_at < %s",
+            self::table(),
             gmdate('Y-m-d H:i:s', time() - self::PENDING_HOURS * 3600),
         ));
-        $wpdb->query($wpdb->prepare('DELETE FROM ' . self::table() . ' WHERE created_at < %s', gmdate('Y-m-d H:i:s', time() - self::KEEP_DAYS * 86400)));
+        $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE created_at < %s", self::table(), gmdate('Y-m-d H:i:s', time() - self::KEEP_DAYS * 86400)));
     }
 }

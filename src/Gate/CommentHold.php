@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Gate;
 
+use DracoInsomnis\Input;
 use DracoInsomnis\Shield\Guard;
 use DracoInsomnis\Shield\Store as Blocks;
 
@@ -83,7 +84,7 @@ final class CommentHold
     /** The normal comment form goes back to the post, with the notice above the form. */
     private static function answer(int $postId): void
     {
-        $script = (string) ($_SERVER['SCRIPT_NAME'] ?? $_SERVER['PHP_SELF'] ?? '');
+        $script = Input::server('SCRIPT_NAME') !== '' ? Input::server('SCRIPT_NAME') : Input::server('PHP_SELF');
         if (!str_ends_with($script, 'wp-comments-post.php') || wp_doing_ajax() || $postId <= 0) {
             return;
         }
@@ -97,7 +98,7 @@ final class CommentHold
 
     public static function printNotice(): void
     {
-        if (($_GET[self::QUERY_ARG] ?? '') !== 'held') { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only
+        if (Input::get(self::QUERY_ARG) !== 'held') {
             return;
         }
         echo '<div class="draco-comment-notice" role="status" style="border-left:4px solid #2271b1;background:#f0f6fc;padding:12px 16px;margin:0 0 1.5em">' . esc_html(self::notice()) . '</div>';

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Shield;
 
+use DracoInsomnis\Input;
 use DracoInsomnis\Admin\Brand;
 use DracoInsomnis\Core\NetList;
 use DracoInsomnis\Plugin;
@@ -45,7 +46,7 @@ final class Admin
             update_option(Guard::OPTION_NETS, implode("\n", $nets), false);
         } elseif ($do === 'block') {
             $done = false;
-            $days = (int) ($_POST['days'] ?? 0);
+            $days = Input::postInt('days');
             $reason = sanitize_text_field(wp_unslash((string) ($_POST['reason'] ?? '')));
             foreach (['email', 'ip'] as $kind) {
                 $value = sanitize_text_field(wp_unslash((string) ($_POST[$kind] ?? '')));
@@ -55,7 +56,7 @@ final class Admin
             }
             $result = $done ? 'ok' : 'refused';
         } elseif ($do === 'unblock') {
-            Store::unblock((int) ($_POST['id'] ?? 0));
+            Store::unblock(Input::postInt('id'));
         }
         wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=' . $result));
         exit;

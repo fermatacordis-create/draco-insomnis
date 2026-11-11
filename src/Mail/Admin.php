@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Mail;
 
+use DracoInsomnis\Input;
 use DracoInsomnis\Admin\Brand;
 
 defined('ABSPATH') || exit;
@@ -54,7 +55,7 @@ final class Admin
             'smtp.sendgrid.net' => ['SendGrid', 'tls', 587, __('Type literally: apikey', 'draco-insomnis'), __('Your SendGrid API key.', 'draco-insomnis'), 'relay'],
             'smtp.postmarkapp.com' => ['Postmark', 'tls', 587, __('The Postmark Server API Token.', 'draco-insomnis'), __('The same Server API Token.', 'draco-insomnis'), 'relay'],
             'in-v3.mailjet.com' => ['Mailjet', 'tls', 587, __('Your Mailjet API key.', 'draco-insomnis'), __('Your Mailjet secret key.', 'draco-insomnis'), 'relay'],
-            'email-smtp.eu-west-1.amazonaws.com' => ['Amazon SES (Ireland)', 'tls', 587, __('The SMTP user created in Amazon SES.', 'draco-insomnis'), __('The Amazon SES SMTP password, not your AWS password.', 'draco-insomnis'), 'relay'],
+            'email-smtp.eu-west-1.amazonaws.com' => ['Amazon SES (Ireland)', 'tls', 587, __('The SMTP user created in Amazon SES.', 'draco-insomnis'), __('The Amazon SES SMTP password, not your AWS password.', 'draco-insomnis'), 'relay'], // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- an SMTP host name; nothing is loaded from it.
             'smtp-mail.outlook.com' => ['Outlook.com / Hotmail', 'tls', 587, $full, $app, 'personal'],
             'smtp.mail.yahoo.com' => ['Yahoo Mail', 'ssl', 465, $full, $app, 'personal'],
             'smtp.mail.me.com' => ['iCloud Mail', 'tls', 587, $full, $app, 'personal'],
@@ -261,7 +262,7 @@ final class Admin
 
     private static function notice(string $result): void
     {
-        $to = sanitize_email(rawurldecode((string) wp_unslash($_GET['to'] ?? ''))); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only
+        $to = sanitize_email(Input::get('to'));
         $messages = [
             'saved' => ['success', __('Connection saved. Now send a test.', 'draco-insomnis')],
             'enabled' => ['success', __('SMTP switched on. The mail of this site now leaves through your mailbox.', 'draco-insomnis')],

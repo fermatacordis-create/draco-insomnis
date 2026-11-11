@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Gate;
 
+use DracoInsomnis\Input;
 use DracoInsomnis\Shield\Guard;
 use DracoInsomnis\Shield\Store as Blocks;
 
@@ -77,8 +78,8 @@ final class MailHold
     public static function context(): string
     {
         // phpcs:disable WordPress.Security.NonceVerification.Missing -- only recognises which form is being sent
-        $uri = (string) ($_SERVER['REQUEST_URI'] ?? '');
-        $action = isset($_POST['action']) && is_string($_POST['action']) ? $_POST['action'] : '';
+        $uri = Input::server('REQUEST_URI');
+        $action = Input::post('action');
         $context = '';
         if (str_contains($uri, '/contact-form-7/v1/contact-forms/') || isset($_POST['_wpcf7'])) {
             $context = 'cf7';
@@ -245,7 +246,7 @@ final class MailHold
     /** Divi, RealHomes and Elementor have no filter for their success text, so it is replaced in the response. */
     public static function watchOutput(): void
     {
-        if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST' || is_user_logged_in()) {
+        if (Input::method() !== 'POST' || is_user_logged_in()) {
             return;
         }
         if (in_array(self::context(), ['divi', 'realhomes', 'elementor'], true) || RegistrationHold::isAjaxRegistration()) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Gate;
 
+use DracoInsomnis\Input;
 use DracoInsomnis\Admin\Brand;
 use DracoInsomnis\Mail\Template;
 use DracoInsomnis\Mail\Transport;
@@ -52,13 +53,13 @@ final class Admin
                 Store::ensureTable();
             }
         } elseif ($do === 'release') {
-            $row = Store::find((int) ($_POST['id'] ?? 0));
+            $row = Store::find(Input::postInt('id'));
             if ($row !== null && $row['status'] === 'pending' && Store::claim((int) $row['id'])) {
                 Verify::complete($row);
             }
         } elseif ($do === 'block') {
-            $row = Store::find((int) ($_POST['id'] ?? 0));
-            $days = (int) ($_POST['days'] ?? 30);
+            $row = Store::find(Input::postInt('id'));
+            $days = Input::postInt('days', 30);
             $done = false;
             if ($row !== null) {
                 /* translators: %d: submission number */
@@ -83,7 +84,7 @@ final class Admin
     {
         $enabled = get_option(Gate::OPTION_ENABLED, 'no') === 'yes';
         $result = sanitize_key((string) ($_GET['result'] ?? '')); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only
-        $blockId = (int) ($_GET['block'] ?? 0); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only
+        $blockId = Input::getInt('block');
 
         echo '<div class="wrap">';
         Brand::header(__('Forms and sign-ups', 'draco-insomnis'));

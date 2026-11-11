@@ -32,6 +32,15 @@ Version 0.1:
   `Recovery` (the second mailbox) and `Admin`.
 - `src/Admin/Brand.php` — the menu and the header shown on the plugin's own screens.
 
+## Building the ZIP
+
+```
+bin/build-zip.sh          # writes dist/draco-insomnis-<version>.zip
+```
+
+The ZIP holds only what WordPress needs (no tests, Markdown files or tooling). It passes
+[Plugin Check](https://wordpress.org/plugins/plugin-check/) with no errors or warnings.
+
 ## Tests
 
 ```

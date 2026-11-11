@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Firewall;
 
+use DracoInsomnis\Input;
 use DracoInsomnis\Core\WafRules;
 use DracoInsomnis\Plugin;
 use DracoInsomnis\Shield\Guard;
@@ -74,8 +75,8 @@ final class Waf
         if (in_array($ip, (array) get_option(Plugin::OPTION_ADMIN_IPS, []), true)) {
             return;
         }
-        $method = strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET'));
-        $uri = (string) ($_SERVER['REQUEST_URI'] ?? '/');
+        $method = Input::method();
+        $uri = Input::rawServer('REQUEST_URI');
         $path = rawurldecode((string) wp_parse_url($uri, PHP_URL_PATH));
         $query = urldecode((string) wp_parse_url($uri, PHP_URL_QUERY));
 
@@ -96,7 +97,7 @@ final class Waf
             'path' => $path,
             'query' => $query,
             'params' => WafRules::flatten(array_merge(wp_unslash($_GET), $method === 'POST' ? wp_unslash($_POST) : [])), // phpcs:ignore WordPress.Security.NonceVerification -- inspected, never acted on
-            'user_agent' => (string) ($_SERVER['HTTP_USER_AGENT'] ?? ''),
+            'user_agent' => Input::rawServer('HTTP_USER_AGENT'),
         ]);
         if ($rule === null) {
             return;
@@ -109,8 +110,8 @@ final class Waf
 
     private static function record(string $ip, string $rule, string $path, string $query): void
     {
-        $remote = (string) (filter_var((string) ($_SERVER['REMOTE_ADDR'] ?? ''), FILTER_VALIDATE_IP) ?: '0.0.0.0');
-        $ua = substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 255);
+        $remote = (string) (filter_var(Input::server('REMOTE_ADDR'), FILTER_VALIDATE_IP) ?: '0.0.0.0');
+        $ua = substr(Input::server('HTTP_USER_AGENT'), 0, 255);
         $verdict = self::blocking() ? 'bot' : 'doubtful';
         Store::log($ip, $remote, 'waf:' . $rule, ['score' => 100, 'verdict' => $verdict, 'reasons' => ['waf_' . $rule]], $ua, [
             'username' => '',

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Gate;
 
+use DracoInsomnis\Input;
 use DracoInsomnis\Shield\Guard;
 use DracoInsomnis\Shield\Store as Blocks;
 
@@ -57,7 +58,7 @@ final class RegistrationHold
 
     public static function isAjaxRegistration(): bool
     {
-        return ($_POST['action'] ?? '') === 'inspiry_ajax_register'; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+        return Input::post('action') === 'inspiry_ajax_register';
     }
 
     /**
@@ -105,7 +106,7 @@ final class RegistrationHold
         }
         $checkout = did_action('woocommerce_checkout_process') > 0
             || defined('WOOCOMMERCE_CHECKOUT')
-            || str_contains((string) ($_SERVER['REQUEST_URI'] ?? ''), '/wc/store/');
+            || str_contains(Input::server('REQUEST_URI'), '/wc/store/');
 
         return !$checkout && !apply_filters('draco_insomnis_skip_user', false);
     }
@@ -176,8 +177,9 @@ final class RegistrationHold
     /** Accounts nobody confirmed. Anything with content or orders is kept for a person to review. */
     public static function purge(): void
     {
+        // Hourly background task, 100 users at most: the meta query is the only way to find pending accounts.
         $users = get_users([
-            'meta_query' => [
+            'meta_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
                 'relation' => 'AND',
                 ['key' => self::META, 'value' => time() - Store::PENDING_HOURS * 3600, 'compare' => '<', 'type' => 'NUMERIC'],
                 ['key' => self::META_REVIEW, 'compare' => 'NOT EXISTS'],
@@ -192,7 +194,8 @@ final class RegistrationHold
             // Public profile some themes create on sign-up (RealHomes agent/agency).
             $profile = (int) get_user_meta($id, 'inspiry_role_post_id', true);
             $profile = $profile > 0 && (int) get_post_field('post_author', $profile) === $id ? $profile : 0;
-            $content = (int) $wpdb->get_var($wpdb->prepare(
+            // One count per pending account, in the hourly task; no WordPress API counts all post types at once.
+            $content = (int) $wpdb->get_var($wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
                 "SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_author = %d AND ID <> %d
                  AND post_type NOT IN ('revision','attachment','nav_menu_item','customize_changeset','oembed_cache')
                  AND post_status NOT IN ('trash','auto-draft')",

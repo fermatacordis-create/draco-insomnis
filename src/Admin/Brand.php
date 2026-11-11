@@ -45,8 +45,8 @@ final class Brand
         echo '<img src="' . esc_url($logo) . '" width="72" height="72" alt="Draco Insomnis" style="flex:none">';
         echo '<div><h1 style="margin:0;padding:0">Draco Insomnis · ' . esc_html($title) . '</h1>';
         echo '<p style="margin:2px 0 0"><em>Ab insomni custodita dracone</em> — ';
-        /* translators: %1$s, %2$s, %3$s: brand names with links */
         printf(
+            /* translators: %1$s, %2$s, %3$s: brand names with links */
             esc_html__('by %1$s · %2$s · %3$s', 'draco-insomnis'),
             '<a href="' . esc_url(self::URL_NV) . '" target="_blank" rel="noopener">Notorius Vision</a>',
             '<a href="' . esc_url(self::URL_OPNV) . '" target="_blank" rel="noopener">OPNV Systems</a>',

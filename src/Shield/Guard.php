@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Shield;
 
+use DracoInsomnis\Input;
 use DracoInsomnis\Core\BotScore;
 use DracoInsomnis\Core\FormStamp;
 use DracoInsomnis\Core\NetList;
@@ -68,12 +69,13 @@ final class Guard
         $stamp = wp_json_encode(self::stamp());
         $trap = wp_json_encode(self::trapHtml());
         $f = wp_json_encode(self::stampField());
-        echo "<script>(function(){var s={$stamp},t={$trap},f={$f};"
+        $js = "<script>(function(){var s={$stamp},t={$trap},f={$f};"
             . "function arm(){document.querySelectorAll('input[name=\"register_username\"]').forEach(function(u){var form=u.form;"
             . "if(!form||form.querySelector('input[name=\"'+f+'\"]'))return;"
             . "var h=document.createElement('input');h.type='hidden';h.name=f;h.value=s;form.appendChild(h);"
             . "form.insertAdjacentHTML('beforeend',t);});}"
             . "arm();document.addEventListener('DOMContentLoaded',arm);document.addEventListener('focusin',arm,true);})();</script>";
+        echo $js; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- every value inside is wp_json_encode()d.
     }
 
     public static function realHomes(): void
@@ -130,7 +132,7 @@ final class Guard
         $ip = self::clientIp();
         $remote = self::remoteAddr();
         $stamp = FormStamp::check(Plugin::secret(), self::post(self::stampField()), time());
-        $ua = substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 255);
+        $ua = substr(Input::server('HTTP_USER_AGENT'), 0, 255);
         $result = BotScore::evaluate([
             'blocked' => Store::isBlocked($fields['email'], $ip),
             'requested_role' => $fields['role'],
@@ -189,7 +191,7 @@ final class Guard
             'username' => substr($fields['username'], 0, 60),
             'email' => substr($fields['email'], 0, 120),
             'role' => substr($fields['role'], 0, 60),
-            'referer' => substr(esc_url_raw((string) ($_SERVER['HTTP_REFERER'] ?? '')), 0, 200),
+            'referer' => substr(esc_url_raw(Input::server('HTTP_REFERER')), 0, 200),
         ];
     }
 
@@ -206,9 +208,9 @@ final class Guard
         $mode = (string) get_option(self::OPTION_PROXY, '');
         $candidate = '';
         if ($mode === 'cf') {
-            $candidate = (string) ($_SERVER['HTTP_CF_CONNECTING_IP'] ?? '');
+            $candidate = Input::server('HTTP_CF_CONNECTING_IP');
         } elseif ($mode === 'xff') {
-            $candidate = explode(',', (string) ($_SERVER['HTTP_X_FORWARDED_FOR'] ?? ''))[0];
+            $candidate = explode(',', Input::server('HTTP_X_FORWARDED_FOR'))[0];
         }
         $ip = filter_var(trim($candidate), FILTER_VALIDATE_IP);
 
@@ -217,7 +219,7 @@ final class Guard
 
     private static function remoteAddr(): string
     {
-        $ip = filter_var(trim((string) ($_SERVER['REMOTE_ADDR'] ?? '')), FILTER_VALIDATE_IP);
+        $ip = filter_var(Input::server('REMOTE_ADDR'), FILTER_VALIDATE_IP);
 
         return is_string($ip) ? $ip : '0.0.0.0';
     }
@@ -236,8 +238,6 @@ final class Guard
 
     private static function post(string $name): string
     {
-        $v = $_POST[$name] ?? ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only scoring before the form's own nonce check
-
-        return is_string($v) ? sanitize_text_field(wp_unslash($v)) : '';
+        return Input::post($name);
     }
 }

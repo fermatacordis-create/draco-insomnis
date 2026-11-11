@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Login;
 
+use DracoInsomnis\Input;
 use DracoInsomnis\Admin\Brand;
 use DracoInsomnis\Mail\Template;
 
@@ -123,7 +124,7 @@ final class Recovery
         if ($do === 'request') {
             $result = self::request($user, sanitize_email(wp_unslash((string) ($_POST['email'] ?? ''))));
         } elseif ($do === 'confirm') {
-            $result = self::confirm($user, (string) preg_replace('/\D/', '', wp_unslash((string) ($_POST['code_new'] ?? ''))), (string) preg_replace('/\D/', '', wp_unslash((string) ($_POST['code_old'] ?? ''))));
+            $result = self::confirm($user, Input::postDigits('code_new'), Input::postDigits('code_old'));
         } else {
             delete_user_meta((int) $user->ID, self::META_PENDING);
             $result = 'cancelled';
@@ -233,7 +234,7 @@ final class Recovery
      */
     public static function lostPasswordUser($userData, $errors = null)
     {
-        $typed = isset($_POST['user_login']) && is_string($_POST['user_login']) ? trim(wp_unslash($_POST['user_login'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- WordPress's own form
+        $typed = trim(Input::post('user_login'));
         if ($userData instanceof \WP_User || !is_email($typed)) {
             return $userData;
         }

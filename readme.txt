@@ -2,7 +2,7 @@
 Contributors: notoriusvision
 Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
-Tested up to: 6.9
+Tested up to: 7.1
 Requires PHP: 8.0
 Stable tag: 0.1.0
 License: GPLv2 or later
@@ -77,6 +77,8 @@ English, Spanish (Spain and all Latin American variants), Catalan, German, Frenc
 = Who makes it =
 
 Draco Insomnis is made by [Notorius Vision](https://notoriusvision.com), the team behind [OPNV Systems](https://opnv.systems) and OPNV SOLΞ. It is the open-source security core of OPNV.
+
+The code is free software (GPLv2 or later). The names Draco Insomnis, Notorius Vision, OPNV, OPNV Systems and OPNV SOLΞ, and the dragon logo, are not part of that licence: if you publish a modified version, please give it another name and logo.
 
 == Installation ==
 

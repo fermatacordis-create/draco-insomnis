@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Login;
 
+use DracoInsomnis\Input;
 use DracoInsomnis\Mail\Template;
 use DracoInsomnis\Mail\Transport;
 use DracoInsomnis\Shield\Guard;
@@ -118,7 +119,7 @@ final class Mfa
             return new \WP_Error('draco_mfa_mail', __('The login code could not be sent by e-mail. If you own this site and are locked out, add define(\'DRACO_MFA_OFF\', true); to wp-config.php.', 'draco-insomnis'));
         }
         self::setCookie($challenge['id'], time() + Challenge::TTL);
-        $to = isset($_REQUEST['redirect_to']) ? (string) wp_unslash($_REQUEST['redirect_to']) : ''; // phpcs:ignore WordPress.Security.NonceVerification -- only remembered, validated on use
+        $to = isset($_REQUEST['redirect_to']) && is_string($_REQUEST['redirect_to']) ? esc_url_raw(wp_unslash($_REQUEST['redirect_to'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification -- only remembered, validated on use
         Challenge::setRedirect((int) $user->ID, $to);
         wp_safe_redirect(add_query_arg('action', self::ACTION, wp_login_url()));
         exit;
@@ -159,7 +160,7 @@ final class Mfa
         $id = isset($_COOKIE[self::COOKIE]) ? sanitize_key(wp_unslash((string) $_COOKIE[self::COOKIE])) : '';
         $row = Challenge::get($id);
         $info = '';
-        if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+        if (Input::method() === 'POST') {
             check_admin_referer(self::ACTION);
             if ($row === null) {
                 $errors->add('expired', __('The code has expired. Log in again.', 'draco-insomnis'));
@@ -178,7 +179,7 @@ final class Mfa
                     $errors->add('mail', __('The code could not be sent again.', 'draco-insomnis'));
                 }
             } else {
-                $code = substr((string) preg_replace('/\D/', '', (string) wp_unslash($_POST['code'] ?? '')), 0, 6);
+                $code = Input::postDigits('code');
                 $result = Challenge::check($row['id'], $code);
                 if ($result === 'ok') {
                     Recovery::onCodeAccepted($row['user_id']);
@@ -232,7 +233,7 @@ final class Mfa
         wp_set_auth_cookie($userId, $remember, is_ssl());
         $user = get_userdata($userId);
         if ($user instanceof \WP_User) {
-            do_action('wp_login', $user->user_login, $user);
+            do_action('wp_login', $user->user_login, $user); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WordPress's own hook, fired as wp_signon() would.
         }
         $to = Challenge::takeRedirect($userId);
         wp_safe_redirect($to !== '' ? $to : admin_url());

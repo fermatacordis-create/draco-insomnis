@@ -6,6 +6,8 @@ namespace DracoInsomnis\Shield;
 
 defined('ABSPATH') || exit;
 
+// phpcs:disable WordPress.DB.DirectDatabaseQuery -- the plugin's own tables have no WordPress API; every value goes through prepare().
+
 /**
  * Suspicious attempts (the evidence for an abuse report) and blocked senders.
  * Never stores passwords or anything beyond the fields listed in Guard::evidence().
@@ -97,7 +99,8 @@ final class Store
         global $wpdb;
 
         return (int) $wpdb->get_var($wpdb->prepare(
-            'SELECT COUNT(*) FROM ' . self::events() . " WHERE ip = %s AND verdict = 'bot' AND created_at > %s",
+            "SELECT COUNT(*) FROM %i WHERE ip = %s AND verdict = 'bot' AND created_at > %s",
+            self::events(),
             $ip,
             gmdate('Y-m-d H:i:s', time() - $seconds),
         ));
@@ -108,7 +111,7 @@ final class Store
     {
         global $wpdb;
 
-        return (array) $wpdb->get_results($wpdb->prepare('SELECT * FROM ' . self::events() . ' ORDER BY id DESC LIMIT %d', $limit), ARRAY_A);
+        return (array) $wpdb->get_results($wpdb->prepare("SELECT * FROM %i ORDER BY id DESC LIMIT %d", self::events(), $limit), ARRAY_A);
     }
 
     /** @return list<array<string, mixed>> */
@@ -117,7 +120,8 @@ final class Store
         global $wpdb;
 
         return (array) $wpdb->get_results($wpdb->prepare(
-            'SELECT * FROM ' . self::events() . ' WHERE endpoint LIKE %s ORDER BY id DESC LIMIT %d',
+            "SELECT * FROM %i WHERE endpoint LIKE %s ORDER BY id DESC LIMIT %d",
+            self::events(),
             $wpdb->esc_like($endpointPrefix) . '%',
             $limit,
         ), ARRAY_A);
@@ -129,7 +133,8 @@ final class Store
         global $wpdb;
 
         return (array) $wpdb->get_results($wpdb->prepare(
-            'SELECT * FROM ' . self::events() . ' WHERE ip = %s OR remote_addr = %s ORDER BY id ASC LIMIT 2000',
+            "SELECT * FROM %i WHERE ip = %s OR remote_addr = %s ORDER BY id ASC LIMIT 2000",
+            self::events(),
             $ip,
             $ip,
         ), ARRAY_A);
@@ -139,7 +144,8 @@ final class Store
     {
         global $wpdb;
         $found = $wpdb->get_var($wpdb->prepare(
-            'SELECT id FROM ' . self::blocks() . " WHERE until_at > %s AND ((kind = 'email' AND value = %s) OR (kind = 'ip' AND value = %s)) LIMIT 1",
+            "SELECT id FROM %i WHERE until_at > %s AND ((kind = 'email' AND value = %s) OR (kind = 'ip' AND value = %s)) LIMIT 1",
+            self::blocks(),
             current_time('mysql', true),
             strtolower($email),
             strtolower($ip),
@@ -197,7 +203,8 @@ final class Store
         global $wpdb;
 
         return (array) $wpdb->get_results($wpdb->prepare(
-            'SELECT * FROM ' . self::blocks() . ' WHERE until_at > %s ORDER BY until_at DESC LIMIT 200',
+            "SELECT * FROM %i WHERE until_at > %s ORDER BY until_at DESC LIMIT 200",
+            self::blocks(),
             current_time('mysql', true),
         ), ARRAY_A);
     }
@@ -205,7 +212,7 @@ final class Store
     public static function cleanup(): void
     {
         global $wpdb;
-        $wpdb->query($wpdb->prepare('DELETE FROM ' . self::events() . ' WHERE created_at < %s', gmdate('Y-m-d H:i:s', time() - self::KEEP_DAYS * 86400)));
-        $wpdb->query($wpdb->prepare('DELETE FROM ' . self::blocks() . ' WHERE until_at < %s', current_time('mysql', true)));
+        $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE created_at < %s", self::events(), gmdate('Y-m-d H:i:s', time() - self::KEEP_DAYS * 86400)));
+        $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE until_at < %s", self::blocks(), current_time('mysql', true)));
     }
 }

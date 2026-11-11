@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Gate;
 
+use DracoInsomnis\Input;
 defined('ABSPATH') || exit;
 
 /**
@@ -31,7 +32,7 @@ final class Verify
         if ($row === null) {
             self::page(__('This link was already used or has expired. If your message did not arrive, send it again from the form.', 'draco-insomnis'));
         }
-        if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+        if (Input::method() !== 'POST') {
             $ask = [
                 'user' => __('Press the button to activate your account.', 'draco-insomnis'),
                 'comment' => __('Press the button to send your comment.', 'draco-insomnis'),
