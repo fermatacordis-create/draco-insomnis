@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DracoInsomnis;
 
 use DracoInsomnis\Admin\Brand;
+use DracoInsomnis\AntiCopy\Admin as AntiCopyAdmin;
 use DracoInsomnis\Firewall\Admin as FirewallAdmin;
 use DracoInsomnis\Gate\Gate;
 use DracoInsomnis\Login\Admin as LoginAdmin;
@@ -39,6 +40,7 @@ final class Plugin
         Gate::boot();
         LoginAdmin::register();
         FirewallAdmin::register();
+        AntiCopyAdmin::register();
         Mfa::boot();
         add_action(self::HOOK_CLEANUP, [Store::class, 'cleanup']);
         add_action('admin_init', [self::class, 'rememberAdminIp']);

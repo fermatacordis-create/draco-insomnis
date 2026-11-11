@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,15 @@ English, Spanish (Spain and all Latin American variants), Catalan, German, Frenc
 
 = Who makes it =
 
+= Anti-copy =
+
+Makes it harder to copy the whole site in one go, without getting in the way of visitors or search engines.
+
+* **Content API closed to anonymous visitors.** /wp-json/wp/v2/ lists every post, page and image as JSON; reads there need a login, except the routes you keep open. Pages stay public, and other APIs (forms, shop, embeds) are untouched.
+* **Pace limit.** More pages per minute than a person reads, from one address or from one network, get "429 Too many requests" until the minute ends.
+* **Search engines are verified, not trusted.** Google, Bing, Apple and Yandex pass after a reverse and forward DNS check, kept for a day; a program that only borrows their name does not.
+* **Log first.** Both parts have a log-only mode that shows what would be stopped.
+
 Draco Insomnis is made by [Notorius Vision](https://notoriusvision.com), the team behind [OPNV Systems](https://opnv.systems) and OPNV SOLΞ. It is the open-source security core of OPNV.
 
 The code is free software (GPLv2 or later). The names Draco Insomnis, Notorius Vision, OPNV, OPNV Systems and OPNV SOLΞ, and the dragon logo, are not part of that licence: if you publish a modified version, please give it another name and logo.
@@ -105,6 +114,10 @@ Only bots wait, for at most three seconds, and at most ten slow answers per minu
 For suspicious attempts only: date, address, browser name, username, e-mail, requested role and referring page. Never passwords. Everything is deleted after 90 days, and all of it is removed when the plugin is deleted.
 
 == Changelog ==
+
+= 0.1.3 =
+* New: Anti-copy. Closes anonymous reads of the content API (/wp-json/wp/v2/), with an allow list, and limits the pace of pages per minute per address and per network with a 429. Search engines verified by reverse DNS (Google, Bing, Apple, Yandex) are never limited. Off by default, with a log-only mode.
+* Uninstall also removes the marks of accounts that were waiting for confirmation.
 
 = 0.1.2 =
 * Firewall: also catches a UNION SELECT of a single column (`1' union select user_pass from wp_users`), without flagging sentences like "European Union select committee".

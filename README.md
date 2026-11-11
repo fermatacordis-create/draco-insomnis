@@ -15,6 +15,8 @@ Version 0.1:
   confirms from their e-mail.
 - **Two-step login** — a 6-digit code by e-mail after the right password, with trusted devices and a
   recovery e-mail (a second mailbox, like the PUK of a phone).
+- **Anti-copy** — closes the bulk JSON door (/wp-json/wp/v2/) to anonymous visitors with an allow
+  list, and limits pages per minute per address and network; verified search engines are never limited.
 - **Firewall** — precise attack signatures and scanner probes, log-only mode first, hidden user list,
   login limits, no XML-RPC multicall.
 ## Layout
@@ -73,6 +75,8 @@ bin/ci-http-smoke.sh                     # 403 pages, confirmation link, sign-up
 | `draco_insomnis_skip_comment` | filter | Return `true` to let a comment through without confirming its e-mail. |
 | `draco_insomnis_mfa_required` | filter | `($required, $user)`: whether this user needs the login code. |
 | `draco_insomnis_other_sender` | filter | Name of another plugin sending the site's mail (Draco then stands aside), or `''` when a plugin that bundles Draco hands its mail over. |
+| `draco_insomnis_rest_allow` | filter | Route prefixes of /wp/v2/ that stay open to anonymous visitors when Anti-copy closes the content API. |
+| `draco_insomnis_crawler_verified` | filter | `(null, $ip, $crawler)`: return `true`/`false` to decide a crawler check yourself (tests, a local list); `null` runs the DNS check. |
 | `draco_insomnis_mail_forgotten` | action | Fired when the SMTP connection is deleted; Draco switches the login code off here, since codes might not arrive. |
 
 `wp-config.php` switches for emergencies: `define('DRACO_MFA_OFF', true);` and `define('DRACO_WAF_OFF', true);`.
