@@ -14,7 +14,7 @@ defined('ABSPATH') || exit;
 /** The owner's screen: switch the shield on, see attempts, block and unblock, download evidence. */
 final class Admin
 {
-    public const SLUG = 'draco-insomnis';
+    public const SLUG = 'draco-insomnis-shield';
     private const ACTION = 'draco_admin';
 
     public static function register(): void
@@ -75,48 +75,58 @@ final class Admin
         $proxy = (string) get_option(Guard::OPTION_PROXY, '');
         $result = sanitize_key((string) ($_GET['result'] ?? '')); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only
 
-        echo '<div class="wrap">';
-        Brand::header(__('Anti-bot shield', 'draco-insomnis'));
+        Brand::open(__('Anti-bot shield', 'draco-insomnis'), __('Stops programs that create fake accounts before the account exists. The bot is told "registration complete" after a short wait, and the attempt is kept as evidence. Nothing is sent back to the attacker.', 'draco-insomnis'));
         if ($result === 'refused') {
-            echo '<div class="notice notice-error"><p>' . esc_html__('Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address.', 'draco-insomnis') . '</p></div>';
+            Brand::notice('error', __('Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address.', 'draco-insomnis'));
         } elseif ($result === 'ok') {
-            echo '<div class="notice notice-success"><p>' . esc_html__('Changes saved.', 'draco-insomnis') . '</p></div>';
+            Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
         }
 
-        echo '<p>' . esc_html__('Stops programs that create fake accounts before the account exists. The bot is told "registration complete" after a short wait, and the attempt is kept as evidence. Nothing is sent back to the attacker.', 'draco-insomnis') . '</p>';
+        echo '<div class="draco-grid">';
+        Brand::card('shield-alt', __('Settings', 'draco-insomnis'), __('WordPress, WooCommerce and RealHomes sign-up forms.', 'draco-insomnis'), Brand::pill(Brand::stateLabel($on ? 'on' : 'off'), $on ? 'on' : 'off'));
         echo self::open('settings'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        echo '<p><label><input type="checkbox" name="shield" value="1" ' . checked($on, true, false) . '> ' . esc_html__('Protect sign-ups (WordPress, WooCommerce and RealHomes)', 'draco-insomnis') . '</label></p>';
-        echo '<p><label>' . esc_html__('Visitor address', 'draco-insomnis') . ' <select name="proxy">';
+        Brand::toggle('shield', $on, __('Protect sign-ups (WordPress, WooCommerce and RealHomes)', 'draco-insomnis'), __('A hidden trap field and a signed page stamp: people never solve puzzles.', 'draco-insomnis'));
+        echo '<div class="draco-field"><label for="draco-proxy">' . esc_html__('Visitor address', 'draco-insomnis') . '</label><select id="draco-proxy" name="proxy" style="max-width:100%">';
         foreach (['' => __('Connection address (safest; use this unless the site is behind a proxy)', 'draco-insomnis'), 'cf' => __('Cloudflare header (only if every visit goes through Cloudflare)', 'draco-insomnis'), 'xff' => __('X-Forwarded-For (only behind your own proxy or CDN)', 'draco-insomnis')] as $value => $label) {
             echo '<option value="' . esc_attr($value) . '"' . selected($proxy, $value, false) . '>' . esc_html($label) . '</option>';
         }
-        echo '</select></label><br><small>' . esc_html__('Your address as the plugin sees it:', 'draco-insomnis') . ' <code>' . esc_html(Guard::clientIp()) . '</code></small></p>';
-        echo '<p><label>' . esc_html__('Rented-server networks to watch, besides the ones already known (one per line, e.g. 198.51.100.0/24)', 'draco-insomnis') . '<br>';
-        echo '<textarea name="nets" rows="3" class="large-text code">' . esc_textarea((string) get_option(Guard::OPTION_NETS, '')) . '</textarea></label></p>';
+        echo '</select><p class="description">' . esc_html__('Your address as the plugin sees it:', 'draco-insomnis') . ' <span class="draco-code">' . esc_html(Guard::clientIp()) . '</span></p></div>';
+        echo '<div class="draco-field"><label for="draco-nets">' . esc_html__('Rented-server networks to watch, besides the ones already known (one per line, e.g. 198.51.100.0/24)', 'draco-insomnis') . '</label>';
+        echo '<textarea id="draco-nets" name="nets" rows="3" class="large-text code">' . esc_textarea((string) get_option(Guard::OPTION_NETS, '')) . '</textarea></div>';
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
         echo '</form>';
+        Brand::cardEnd();
 
-        echo '<h2>' . esc_html__('Block a sender', 'draco-insomnis') . '</h2>' . self::open('block'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        echo '<p><label>' . esc_html__('E-mail', 'draco-insomnis') . ' <input type="email" name="email" class="regular-text"></label> ';
-        echo '<label>IP <input type="text" name="ip"></label> <label>' . esc_html__('For', 'draco-insomnis') . ' <select name="days">';
+        Brand::card('dismiss', __('Block a sender', 'draco-insomnis'), __('Never an administrator, nor your own address.', 'draco-insomnis'), '', 'bad');
+        echo self::open('block'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo '<div class="draco-field"><label for="draco-b-email">' . esc_html__('E-mail', 'draco-insomnis') . '</label><input id="draco-b-email" type="email" name="email" class="large-text"></div>';
+        echo '<div class="draco-inline"><div class="draco-field"><label for="draco-b-ip">IP</label><input id="draco-b-ip" type="text" name="ip"></div>';
+        echo '<div class="draco-field"><label for="draco-b-days">' . esc_html__('For', 'draco-insomnis') . '</label><select id="draco-b-days" name="days">';
         foreach (Store::BLOCK_DAYS as $days) {
             /* translators: %d: number of days */
             echo '<option value="' . (int) $days . '"' . selected($days, 30, false) . '>' . esc_html(sprintf(__('%d days', 'draco-insomnis'), $days)) . '</option>';
         }
-        echo '</select></label> <label>' . esc_html__('Reason', 'draco-insomnis') . ' <input type="text" name="reason"></label> ';
+        echo '</select></div></div>';
+        echo '<div class="draco-field" style="margin-top:12px"><label for="draco-b-reason">' . esc_html__('Reason', 'draco-insomnis') . '</label><input id="draco-b-reason" type="text" name="reason" class="large-text"></div>';
         submit_button(__('Block', 'draco-insomnis'), 'secondary', 'submit', false);
-        echo '</p></form>';
+        echo '</form>';
+        Brand::cardEnd();
+        echo '</div>';
 
-        echo '<h2>' . esc_html__('Active blocks', 'draco-insomnis') . '</h2><table class="widefat striped"><thead><tr><th>' . esc_html__('Type', 'draco-insomnis') . '</th><th>' . esc_html__('Value', 'draco-insomnis') . '</th><th>' . esc_html__('Until (UTC)', 'draco-insomnis') . '</th><th>' . esc_html__('Reason', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
         $blocks = Store::activeBlocks();
+        /* translators: %d: number of active blocks */
+        $count = sprintf(__('Active: %d', 'draco-insomnis'), count($blocks));
+        Brand::card('lock', __('Active blocks', 'draco-insomnis'), '', Brand::pill($count, $blocks === [] ? 'off' : 'bad'), '', 'draco-card--flush');
+        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Type', 'draco-insomnis') . '</th><th>' . esc_html__('Value', 'draco-insomnis') . '</th><th>' . esc_html__('Until (UTC)', 'draco-insomnis') . '</th><th>' . esc_html__('Reason', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
         foreach ($blocks as $b) {
-            echo '<tr><td>' . esc_html((string) $b['kind']) . '</td><td>' . esc_html((string) $b['value']) . '</td><td>' . esc_html((string) $b['until_at']) . '</td><td>' . esc_html((string) $b['reason']) . '</td><td>'
+            echo '<tr><td>' . wp_kses_post(Brand::pill((string) $b['kind'], 'bad')) . '</td><td><span class="draco-code">' . esc_html((string) $b['value']) . '</span></td><td>' . esc_html((string) $b['until_at']) . '</td><td>' . esc_html((string) $b['reason']) . '</td><td>'
                 . self::open('unblock') . '<input type="hidden" name="id" value="' . (int) $b['id'] . '"><button class="button-link">' . esc_html__('Unblock', 'draco-insomnis') . '</button></form></td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
         if ($blocks === []) {
-            echo '<tr><td colspan="5">' . esc_html__('None.', 'draco-insomnis') . '</td></tr>';
+            Brand::emptyRow(5, __('None.', 'draco-insomnis'));
         }
-        echo '</tbody></table>';
+        echo '</tbody></table></div>';
+        Brand::cardEnd();
 
         $reasons = [
             'blocked' => __('already blocked', 'draco-insomnis'), 'privileged_role' => __('asked for an admin role', 'draco-insomnis'),
@@ -126,22 +136,26 @@ final class Admin
             'hosting_network' => __('rented server', 'draco-insomnis'), 'repeat_offender' => __('repeat offender', 'draco-insomnis'),
             'script_client' => __('a script, not a browser', 'draco-insomnis'),
         ];
-        echo '<h2>' . esc_html__('Recent suspicious attempts', 'draco-insomnis') . '</h2><p>' . esc_html__('Kept for 90 days. Three bot attempts in a day block the address for a week. "Evidence" downloads everything from that address as a CSV file to attach to an abuse report to the network provider.', 'draco-insomnis') . '</p>';
-        echo '<table class="widefat striped"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('Where', 'draco-insomnis') . '</th><th>' . esc_html__('Points', 'draco-insomnis') . '</th><th>' . esc_html__('Verdict', 'draco-insomnis') . '</th><th>' . esc_html__('Why', 'draco-insomnis') . '</th><th>' . esc_html__('User / e-mail', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
-        $rows = Store::recent();
-        foreach ($rows as $r) {
+        Brand::card('list-view', __('Recent suspicious attempts', 'draco-insomnis'), __('Kept for 90 days. Three bot attempts in a day block the address for a week. "Evidence" downloads everything from that address as a CSV file to attach to an abuse report to the network provider.', 'draco-insomnis'), '', 'info', 'draco-card--flush');
+        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('Where', 'draco-insomnis') . '</th><th>' . esc_html__('Points', 'draco-insomnis') . '</th><th>' . esc_html__('Verdict', 'draco-insomnis') . '</th><th>' . esc_html__('Why', 'draco-insomnis') . '</th><th>' . esc_html__('User / e-mail', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
+        // The firewall and anti-copy have their own lists.
+        $rows = array_values(array_filter(Store::recent(100), static fn (array $r): bool => !str_starts_with((string) $r['endpoint'], 'waf:') && !str_starts_with((string) $r['endpoint'], 'anticopy:')));
+        foreach (array_slice($rows, 0, 50) as $r) {
             $fields = json_decode((string) $r['fields'], true);
             $fields = is_array($fields) ? $fields : [];
             $why = array_map(static fn (string $k): string => $reasons[$k] ?? $k, array_filter(explode(',', (string) $r['reasons'])));
             $export = wp_nonce_url(admin_url('admin-post.php?action=draco_export&ip=' . rawurlencode((string) $r['ip'])), 'draco_export');
-            echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td>' . esc_html((string) $r['ip']) . '</td><td>' . esc_html((string) $r['endpoint']) . '</td><td>' . (int) $r['score'] . '</td><td>'
-                . esc_html($r['verdict'] === 'bot' ? __('Bot', 'draco-insomnis') : __('Doubtful', 'draco-insomnis')) . '</td><td>' . esc_html(implode(', ', $why)) . '</td><td>'
+            $verdict = $r['verdict'] === 'bot' ? Brand::pill(__('Bot', 'draco-insomnis'), 'bad') : Brand::pill(__('Doubtful', 'draco-insomnis'), 'warn');
+            echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td><span class="draco-code">' . esc_html((string) $r['ip']) . '</span></td><td>' . esc_html((string) $r['endpoint']) . '</td><td>' . (int) $r['score'] . '</td><td>'
+                . wp_kses_post($verdict) . '</td><td>' . esc_html(implode(', ', $why)) . '</td><td>'
                 . esc_html(trim((string) ($fields['username'] ?? '') . ' ' . (string) ($fields['email'] ?? ''))) . '</td><td><a href="' . esc_url($export) . '">' . esc_html__('Evidence', 'draco-insomnis') . '</a></td></tr>';
         }
         if ($rows === []) {
-            echo '<tr><td colspan="8">' . esc_html($on ? __('No suspicious attempts yet.', 'draco-insomnis') : __('The shield is off.', 'draco-insomnis')) . '</td></tr>';
+            Brand::emptyRow(8, $on ? __('No suspicious attempts yet.', 'draco-insomnis') : __('The shield is off.', 'draco-insomnis'), $on ? 'yes-alt' : 'marker');
         }
         echo '</tbody></table></div>';
+        Brand::cardEnd();
+        Brand::close();
     }
 
     public static function export(): void

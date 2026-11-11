@@ -16,7 +16,7 @@ final class Admin
 
     public static function register(): void
     {
-        add_action('admin_menu', [self::class, 'menu'], 18);
+        add_action('admin_menu', [self::class, 'menu'], 12);
         add_action('admin_post_' . self::ACTION, [self::class, 'save']);
     }
 
@@ -54,41 +54,48 @@ final class Admin
         $on = get_option(Mfa::OPTION_ENABLED, 'no') === 'yes';
         $who = (string) get_option(Mfa::OPTION_WHO, 'admins');
         $result = sanitize_key((string) ($_GET['result'] ?? '')); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only
-        echo '<div class="wrap">';
-        Brand::header(__('Two-step login', 'draco-insomnis'));
-        echo '<p>' . esc_html__('After the right password, WordPress asks for a 6-digit code sent by e-mail. A stolen password alone is no longer enough to get in.', 'draco-insomnis') . '</p>';
+        Brand::open(__('Two-step login', 'draco-insomnis'), __('After the right password, WordPress asks for a 6-digit code sent by e-mail. A stolen password alone is no longer enough to get in.', 'draco-insomnis'));
         if ($result === 'blocked') {
-            echo '<div class="notice notice-error"><p>' . esc_html(Mfa::blocker()) . '</p></div>';
+            Brand::notice('error', Mfa::blocker());
         } elseif ($result === 'ok') {
-            echo '<div class="notice notice-success"><p>' . esc_html__('Changes saved.', 'draco-insomnis') . '</p></div>';
+            Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
         }
         if (defined('DRACO_MFA_OFF') && DRACO_MFA_OFF) {
-            echo '<div class="notice notice-warning"><p>' . esc_html__('DRACO_MFA_OFF is set in wp-config.php: no codes are asked for. Remove that line once you are back in.', 'draco-insomnis') . '</p></div>';
+            Brand::notice('warning', __('DRACO_MFA_OFF is set in wp-config.php: no codes are asked for. Remove that line once you are back in.', 'draco-insomnis'));
         }
+        echo '<div class="draco-grid">';
+        Brand::card('lock', __('Settings', 'draco-insomnis'), '', Brand::pill(Brand::stateLabel($on ? 'on' : 'off'), $on ? 'on' : 'off'));
         echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
         wp_nonce_field(self::ACTION);
         echo '<input type="hidden" name="action" value="' . esc_attr(self::ACTION) . '">';
-        echo '<p><label><input type="checkbox" name="enabled" value="1" ' . checked($on, true, false) . '> ' . esc_html__('Ask for a code by e-mail after the password', 'draco-insomnis') . '</label></p>';
-        echo '<p>' . esc_html__('Who has to enter it:', 'draco-insomnis') . '</p><p>';
-        foreach (['admins' => __('Administrators', 'draco-insomnis'), 'editors' => __('Anyone who can write or edit content', 'draco-insomnis'), 'all' => __('Every user', 'draco-insomnis')] as $value => $label) {
-            echo '<label style="display:block;margin:4px 0"><input type="radio" name="who" value="' . esc_attr($value) . '" ' . checked($who, $value, false) . '> ' . esc_html($label) . '</label>';
-        }
-        echo '</p>';
+        Brand::toggle('enabled', $on, __('Ask for a code by e-mail after the password', 'draco-insomnis'));
+        echo '<p class="draco-field__label" style="margin-top:10px">' . esc_html__('Who has to enter it:', 'draco-insomnis') . '</p>';
+        Brand::modes('who', $who, [
+            'admins' => [__('Administrators', 'draco-insomnis'), '', 'admin-network'],
+            'editors' => [__('Anyone who can write or edit content', 'draco-insomnis'), '', 'edit'],
+            'all' => [__('Every user', 'draco-insomnis'), '', 'groups'],
+        ]);
         /* translators: %d: days */
-        echo '<p><label><input type="checkbox" name="trust" value="1" ' . checked(get_option(Mfa::OPTION_TRUST, 'yes') === 'yes', true, false) . '> ' . esc_html(sprintf(__('Offer "Trust this device for %d days"', 'draco-insomnis'), TrustedDevice::DAYS)) . '</label></p>';
+        Brand::toggle('trust', get_option(Mfa::OPTION_TRUST, 'yes') === 'yes', sprintf(__('Offer "Trust this device for %d days"', 'draco-insomnis'), TrustedDevice::DAYS));
+        echo '<p style="margin-top:12px">';
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
-        echo '</form>';
+        echo '</p></form>';
+        Brand::cardEnd();
 
-        echo '<h2>' . esc_html__('Good to know', 'draco-insomnis') . '</h2><ul style="list-style:disc;margin-left:1.5em">';
+        Brand::card('lightbulb', __('Good to know', 'draco-insomnis'), '', '', 'info');
+        echo '<ul class="draco-list">';
         foreach ([
-            __('It can only be switched on with Site mail (SMTP) working, and it switches itself off if that connection is forgotten: a code that never arrives would lock you out.', 'draco-insomnis'),
-            __('The code is only sent after the right password. It expires in 10 minutes and allows 5 tries; repeated failures block the address for 15 minutes.', 'draco-insomnis'),
-            __('Changing the password or the e-mail of an account makes all its trusted devices ask for a code again.', 'draco-insomnis'),
-            __('Login boxes that work without reloading the page (some themes) cannot show the code step: those users are asked to log in from the normal login page.', 'draco-insomnis'),
-            __('If you are ever locked out, add define(\'DRACO_MFA_OFF\', true); to wp-config.php, log in, fix the problem and remove the line. Only someone with access to the server can do this, unlike a "skip" button.', 'draco-insomnis'),
-        ] as $item) {
-            echo '<li>' . esc_html($item) . '</li>';
+            ['email-alt', __('It can only be switched on with Site mail (SMTP) working, and it switches itself off if that connection is forgotten: a code that never arrives would lock you out.', 'draco-insomnis')],
+            ['clock', __('The code is only sent after the right password. It expires in 10 minutes and allows 5 tries; repeated failures block the address for 15 minutes.', 'draco-insomnis')],
+            ['update', __('Changing the password or the e-mail of an account makes all its trusted devices ask for a code again.', 'draco-insomnis')],
+            ['admin-appearance', __('Login boxes that work without reloading the page (some themes) cannot show the code step: those users are asked to log in from the normal login page.', 'draco-insomnis')],
+            ['sos', __('If you are ever locked out, add define(\'DRACO_MFA_OFF\', true); to wp-config.php, log in, fix the problem and remove the line. Only someone with access to the server can do this, unlike a "skip" button.', 'draco-insomnis')],
+        ] as [$icon, $item]) {
+            echo '<li><span class="dashicons dashicons-' . esc_attr($icon) . '" aria-hidden="true"></span>' . esc_html($item) . '</li>';
         }
-        echo '</ul></div>';
+        echo '</ul>';
+        Brand::cardEnd();
+        echo '</div>';
+        Brand::close();
     }
 }
