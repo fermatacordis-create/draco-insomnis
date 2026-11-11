@@ -1,5 +1,4 @@
 === Draco Insomnis ===
-Contributors: Soledad Sánchez Mohamed
 Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
@@ -11,6 +10,8 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Ab insomni custodita dracone. Stops fake sign-ups without captchas, feeds bots a fake success and keeps evidence for abuse reports.
 
 == Description ==
+
+Author: Soledad Sánchez Mohamed.
 
 Bots that create fake accounts usually post straight to the registration endpoint, ask for roles that do not exist, fill every field they see and come from rented servers. Draco Insomnis scores every public sign-up on those signs before the account exists.
 
