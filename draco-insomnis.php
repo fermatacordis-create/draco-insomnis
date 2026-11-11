@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       Draco Insomnis
  * Plugin URI:        https://github.com/fermatacordis-create/draco-insomnis
- * Description:       Ab insomni custodita dracone. Open-source security by Notorius Vision (OPNV Systems · OPNV SOLΞ): anti-bot shield without captchas, e-mail confirmation of forms and sign-ups, two-step login, firewall and site mail (SMTP).
- * Version:           0.1.2
+ * Description:       Ab insomni custodita dracone. Open-source security by Notorius Vision (OPNV Systems · OPNV SOLΞ): anti-bot shield without captchas, e-mail confirmation of forms and sign-ups, two-step login, firewall, anti-copy and site mail (SMTP).
+ * Version:           0.1.3
  * Requires at least: 6.5
  * Requires PHP:      8.0
  * Author:            Notorius Vision · OPNV Systems
@@ -23,7 +23,7 @@ if (defined('DRACO_INSOMNIS_VERSION')) {
     return;
 }
 
-define('DRACO_INSOMNIS_VERSION', '0.1.2');
+define('DRACO_INSOMNIS_VERSION', '0.1.3');
 define('DRACO_INSOMNIS_FILE', __FILE__);
 define('DRACO_INSOMNIS_DIR', __DIR__ . '/');
 
@@ -45,4 +45,5 @@ add_action('plugins_loaded', static function (): void {
     load_plugin_textdomain('draco-insomnis', false, dirname(plugin_basename(DRACO_INSOMNIS_FILE)) . '/languages'); // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound
 }, 0);
 add_action('plugins_loaded', [\DracoInsomnis\Firewall\Waf::class, 'boot'], 1);
+add_action('plugins_loaded', [\DracoInsomnis\AntiCopy\Guard::class, 'boot'], 2);
 add_action('plugins_loaded', [\DracoInsomnis\Plugin::class, 'boot']);

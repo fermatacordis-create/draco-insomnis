@@ -25,7 +25,7 @@ prefix=$(wp db prefix)
 reset() {
   wp db query "TRUNCATE ${prefix}draco_events; TRUNCATE ${prefix}draco_blocks;" >/dev/null 2>&1 || true
   wp transient delete --all >/dev/null
-  for o in draco_waf_enabled draco_waf_mode draco_mfa_enabled draco_shield_enabled; do wp option delete "$o" >/dev/null 2>&1; done
+  for o in draco_waf_enabled draco_waf_mode draco_mfa_enabled draco_shield_enabled draco_anticopy_rest draco_anticopy_rest_allow draco_anticopy_rate draco_anticopy_rate_ip; do wp option delete "$o" >/dev/null 2>&1; done
   : > "$WP_DIR/wp-content/ci-mail.jsonl"
 }
 
@@ -79,6 +79,23 @@ person=$(wp user get maria1985 --field=ID 2>/dev/null || true)
 [ -n "$person" ] && pass "a person signs up" || fail "a person signs up"
 [ -n "$person" ] && wp user delete "$person" --yes >/dev/null
 wp option update users_can_register 0 >/dev/null
+reset
+
+echo "# anti-copy"
+wp option update draco_anticopy_rest block >/dev/null
+expect "content API closed to anonymous visitors" 401 "$(code "$BASE/?rest_route=/wp/v2/posts")"
+expect "a program calling itself Googlebot is not let in" 401 "$(code -A 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' "$BASE/?rest_route=/wp/v2/posts")"
+expect "the API index stays open" 200 "$(code "$BASE/?rest_route=/")"
+wp option update draco_anticopy_rest_allow /wp/v2/posts >/dev/null
+expect "a route on the allow list opens" 200 "$(code "$BASE/?rest_route=/wp/v2/posts")"
+wp option update draco_anticopy_rest off >/dev/null
+wp option update draco_anticopy_rate block >/dev/null
+wp option update draco_anticopy_rate_ip 10 >/dev/null
+codes=""
+for i in $(seq 1 25); do codes="$codes $(curl -s -A "$UA" -o /dev/null -D "$tmp/head$i" -w '%{http_code}' "$BASE/?s=page$i")"; done
+case "$codes" in *429*) pass "too many pages in a minute get 429";; *) fail "too many pages in a minute get 429 (got$codes)";; esac
+if grep -qil '^retry-after:' "$tmp"/head*; then pass "the 429 says when to come back"; else fail "the 429 says when to come back"; fi
+case "$codes" in *200*) pass "the first pages were served";; *) fail "the first pages were served";; esac
 reset
 
 echo "# login code by e-mail"
