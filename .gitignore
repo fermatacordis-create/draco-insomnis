@@ -3,3 +3,4 @@
 /.phpunit.cache/
 *.zip
 /dist/
+/.phpunit.result.cache
