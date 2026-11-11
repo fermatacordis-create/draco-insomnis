@@ -1,0 +1,17 @@
+{
+    "name": "notoriusvision/draco-insomnis",
+    "description": "Open-source security for WordPress. Ab insomni custodita dracone.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DracoInsomnis\\": "src/"
+        }
+    }
+}
