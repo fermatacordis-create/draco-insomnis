@@ -21,12 +21,95 @@ final class Brand
     public static function register(): void
     {
         add_action('admin_menu', [self::class, 'menu'], 5);
+        // A host plugin creates its own menu at the usual priority: its entry for Draco comes after.
+        add_action('admin_menu', [self::class, 'menuNested'], 99);
         add_filter('plugin_row_meta', [self::class, 'rowMeta'], 10, 2);
         add_action('admin_enqueue_scripts', [self::class, 'enqueue']);
+        // Late: other plugins set these for their own screens and may reset them for ours.
+        add_filter('parent_file', [self::class, 'highlightParent'], 999);
+        add_filter('submenu_file', [self::class, 'highlightSubmenu'], 999);
+    }
+
+    /**
+     * The menu of the plugin that bundles this copy of Draco, or '' for Draco's own menu.
+     *
+     * Only a copy bundled inside another plugin (DRACO_INSOMNIS_BUNDLED) can be moved: that
+     * plugin answers the draco_insomnis_menu_parent filter with its own menu slug. The standalone
+     * plugin always keeps its own menu, even next to that plugin, so it stays a plugin of its own.
+     */
+    public static function nestedParent(): string
+    {
+        if (!\DracoInsomnis\Plugin::bundled()) {
+            return '';
+        }
+
+        return sanitize_key((string) apply_filters('draco_insomnis_menu_parent', ''));
+    }
+
+    /** @param mixed $file */
+    public static function highlightParent($file)
+    {
+        $nested = self::nestedParent();
+        if ($nested === '' || !isset(self::modules()[self::currentPage()])) {
+            return $file;
+        }
+        // WordPress renames a top-level menu after its first entry; the highlight needs that name.
+        global $_wp_real_parent_file;
+
+        return (string) ($_wp_real_parent_file[$nested] ?? $nested);
+    }
+
+    /** @param mixed $file */
+    public static function highlightSubmenu($file)
+    {
+        return self::nestedParent() !== '' && isset(self::modules()[self::currentPage()]) ? self::PARENT : $file;
+    }
+
+    /**
+     * Inside the bundling plugin's menu. Every screen is registered there, so WordPress gives it
+     * its title and opens that menu on it; only «Draco Insomnis» is shown, the rest are reached
+     * through Draco's tabs.
+     */
+    public static function menuNested(): void
+    {
+        $nested = self::nestedParent();
+        if ($nested === '') {
+            return;
+        }
+        add_submenu_page($nested, 'Draco Insomnis', 'Draco Insomnis', 'manage_options', self::PARENT, [Overview::class, 'render']);
+        $screens = [
+            'draco-insomnis-shield' => [\DracoInsomnis\Shield\Admin::class, 'render'],
+            'draco-insomnis-forms' => [\DracoInsomnis\Gate\Admin::class, 'render'],
+            'draco-insomnis-login' => [\DracoInsomnis\Login\Admin::class, 'render'],
+            'draco-insomnis-firewall' => [\DracoInsomnis\Firewall\Admin::class, 'render'],
+            'draco-insomnis-anticopy' => [\DracoInsomnis\AntiCopy\Admin::class, 'render'],
+            'draco-insomnis-mail' => [\DracoInsomnis\Mail\Admin::class, 'render'],
+        ];
+        $modules = self::modules();
+        foreach ($screens as $slug => $render) {
+            $title = (string) ($modules[$slug][0] ?? 'Draco Insomnis');
+            add_submenu_page($nested, $title, $title, 'manage_options', $slug, $render);
+        }
+        add_action('admin_head', [self::class, 'hideNestedEntries']);
+    }
+
+    /** Only the «Draco Insomnis» entry shows in the host menu. */
+    public static function hideNestedEntries(): void
+    {
+        $rules = [];
+        foreach (array_keys(self::modules()) as $slug) {
+            if ($slug !== self::PARENT) {
+                $rules[] = '#adminmenu a[href="admin.php?page=' . $slug . '"]';
+            }
+        }
+        echo '<style>' . implode(',', $rules) . '{display:none!important}</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from the plugin's own fixed page slugs
     }
 
     public static function menu(): void
     {
+        if (self::nestedParent() !== '') {
+            return;
+        }
         $title = __('Overview', 'draco-insomnis');
         add_menu_page('Draco Insomnis', 'Draco Insomnis', 'manage_options', self::PARENT, [Overview::class, 'render'], 'dashicons-shield', 81);
         add_submenu_page(self::PARENT, $title, $title, 'manage_options', self::PARENT, [Overview::class, 'render']);

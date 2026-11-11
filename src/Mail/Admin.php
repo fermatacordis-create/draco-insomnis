@@ -26,6 +26,9 @@ final class Admin
     public static function menu(): void
     {
         $title = __('Site mail (SMTP)', 'draco-insomnis');
+        if (Brand::nestedParent() !== '') {
+            return; // Brand::menuNested() registers it inside the host plugin's menu.
+        }
         add_submenu_page(Brand::PARENT, $title, $title, 'manage_options', self::SLUG, [self::class, 'render']);
     }
 
