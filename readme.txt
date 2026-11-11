@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,15 @@ Only bots wait, for at most three seconds, and at most ten slow answers per minu
 For suspicious attempts only: date, address, browser name, username, e-mail, requested role and referring page. Never passwords. Everything is deleted after 90 days, and all of it is removed when the plugin is deleted.
 
 == Changelog ==
+
+= 0.1.1 =
+* Works when bundled inside another plugin (OPNV-WP): the daily cleanup is scheduled on load, not only on activation.
+* If two copies are present (standalone and bundled), only the first one runs.
+* New filter `draco_insomnis_other_sender` for plugins that hand their mail over to Draco.
+* If two copies are present (standalone and bundled), only the first one runs.
+* New filter `draco_insomnis_other_sender` for plugins that hand their mail over to Draco.
+* If two copies are present (standalone and bundled), only the first one runs.
+* New filter `draco_insomnis_other_sender` for plugins that hand their mail over to Draco.
 
 = 0.1.0 =
 * First version: anti-bot shield for sign-ups, site mail (SMTP), and e-mail confirmation of forms, comments and new accounts, two-step login by e-mail, and firewall.

@@ -3,7 +3,7 @@
  * Plugin Name:       Draco Insomnis
  * Plugin URI:        https://github.com/fermatacordis-create/draco-insomnis
  * Description:       Ab insomni custodita dracone. Open-source security by Notorius Vision (OPNV Systems · OPNV SOLΞ): anti-bot shield without captchas, e-mail confirmation of forms and sign-ups, two-step login, firewall and site mail (SMTP).
- * Version:           0.1.0
+ * Version:           0.1.1
  * Requires at least: 6.5
  * Requires PHP:      8.0
  * Author:            Notorius Vision · OPNV Systems
@@ -18,7 +18,12 @@ declare(strict_types=1);
 
 defined('ABSPATH') || exit;
 
-define('DRACO_INSOMNIS_VERSION', '0.1.0');
+// Another copy is already running (the standalone plugin, or the one bundled in OPNV-WP): leave it in charge.
+if (defined('DRACO_INSOMNIS_VERSION')) {
+    return;
+}
+
+define('DRACO_INSOMNIS_VERSION', '0.1.1');
 define('DRACO_INSOMNIS_FILE', __FILE__);
 define('DRACO_INSOMNIS_DIR', __DIR__ . '/');
 

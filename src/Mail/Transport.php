@@ -91,13 +91,20 @@ final class Transport
     /** Name of another active sender (an SMTP plugin, or OPNV-WP's own mail module), or ''. */
     public static function otherSender(): string
     {
+        $other = '';
         $opnv = get_option('opnv_mail_settings', []);
         if (is_array($opnv) && ($opnv['enabled'] ?? '') === 'yes') {
-            return 'OPNV-WP';
+            $other = 'OPNV-WP';
+        } else {
+            $found = preg_grep('/smtp/i', (array) get_option('active_plugins', []));
+            $other = $found === false || $found === [] ? '' : dirname((string) reset($found));
         }
-        $found = preg_grep('/smtp/i', (array) get_option('active_plugins', []));
 
-        return $found === false || $found === [] ? '' : dirname((string) reset($found));
+        /**
+         * A plugin that hands its mail over to Draco (OPNV-WP 1.0.266+) returns '' here for itself, while
+         * keeping its own settings so a downgrade still sends mail.
+         */
+        return (string) apply_filters('draco_insomnis_other_sender', $other);
     }
 
     /** Some SMTP really carries the mail: this one or another plugin. */

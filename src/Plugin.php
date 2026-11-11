@@ -42,9 +42,24 @@ final class Plugin
         Mfa::boot();
         add_action(self::HOOK_CLEANUP, [Store::class, 'cleanup']);
         add_action('admin_init', [self::class, 'rememberAdminIp']);
+        // When another plugin bundles Draco, the activation hook never runs: schedule here too.
+        add_action('init', [self::class, 'schedule']);
         if (get_option(self::OPTION_SHIELD, 'no') === 'yes') {
             Guard::register();
         }
+    }
+
+    public static function schedule(): void
+    {
+        if (!wp_next_scheduled(self::HOOK_CLEANUP)) {
+            wp_schedule_event(time() + 900, 'daily', self::HOOK_CLEANUP);
+        }
+    }
+
+    /** True when Draco runs inside another plugin (OPNV-WP) instead of as its own plugin. */
+    public static function bundled(): bool
+    {
+        return defined('DRACO_INSOMNIS_BUNDLED') && DRACO_INSOMNIS_BUNDLED;
     }
 
     public static function activate(): void
