@@ -43,10 +43,39 @@ The ZIP holds only what WordPress needs (no tests, Markdown files or tooling). I
 
 ## Tests
 
+Every push and pull request runs [CI](.github/workflows/ci.yml): PHP syntax on 8.0–8.4, unit tests,
+integration and HTTP tests on the latest WordPress and on 6.5 (the oldest supported), Plugin Check,
+and a check that the ZIP holds no development files and matches the tag.
+
 ```
 composer install
-vendor/bin/phpunit tests/unit
+vendor/bin/phpunit                       # unit: tests/unit, plain PHP, no WordPress
 ```
+
+Integration tests run inside a real, **throwaway** WordPress with the plugin installed from its ZIP.
+`bin/ci-wp-setup.sh` creates it and wipes the database you give it, so never point it at a real site:
+
+```
+DB_HOST=127.0.0.1 DB_NAME=wp_test DB_USER=root DB_PASS=root bin/ci-wp-setup.sh
+vendor/bin/phpunit -c phpunit-integration.xml.dist   # tests/integration: shield, gate, mail, login, firewall
+php -S 127.0.0.1:8080 -t /tmp/wordpress tests/ci/router.php &
+bin/ci-http-smoke.sh                     # 403 pages, confirmation link, sign-up form, login code over HTTP
+```
+
+## Hooks
+
+| Hook | Type | What for |
+| --- | --- | --- |
+| `draco_insomnis_verdict` | filter | Change the shield's verdict: `($result, $endpoint, $fields, $ip)`; `$result` has `score`, `verdict` (`clean`, `doubtful`, `bot`) and `reasons`. |
+| `draco_insomnis_hosting_nets` | filter | The list of data-centre networks (CIDR) that count as a weak bot sign. |
+| `draco_insomnis_form_context` | filter | Name a form the gate does not recognise, so its mail waits for confirmation (`''` leaves it alone). |
+| `draco_insomnis_skip_user` | filter | Return `true` to let a new account through without confirming its e-mail. |
+| `draco_insomnis_skip_comment` | filter | Return `true` to let a comment through without confirming its e-mail. |
+| `draco_insomnis_mfa_required` | filter | `($required, $user)`: whether this user needs the login code. |
+| `draco_insomnis_other_sender` | filter | Name of another plugin sending the site's mail (Draco then stands aside), or `''` when a plugin that bundles Draco hands its mail over. |
+| `draco_insomnis_mail_forgotten` | action | Fired when the SMTP connection is deleted; Draco switches the login code off here, since codes might not arrive. |
+
+`wp-config.php` switches for emergencies: `define('DRACO_MFA_OFF', true);` and `define('DRACO_WAF_OFF', true);`.
 
 ## Translations
 

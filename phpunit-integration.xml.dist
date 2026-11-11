@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Runs inside a throwaway WordPress made by bin/ci-wp-setup.sh (WP_DIR, default /tmp/wordpress). -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="tests/integration/bootstrap.php"
+         colors="true" failOnWarning="true" failOnRisky="true"
+         backupGlobals="false" backupStaticProperties="false">
+    <testsuites>
+        <testsuite name="integration">
+            <directory>tests/integration</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

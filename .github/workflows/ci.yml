@@ -1,0 +1,115 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: PHP ${{ matrix.php }} syntax
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.0', '8.1', '8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - run: find . -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l > /dev/null
+
+  unit:
+    name: Unit tests (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.2', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - run: composer install --no-interaction --no-progress
+      - run: vendor/bin/phpunit
+
+  wordpress:
+    name: WordPress ${{ matrix.wp }} — integration, HTTP and Plugin Check
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        wp: ['latest', '6.5']
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wordpress_test
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping -proot" --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      DB_HOST: 127.0.0.1:3306
+      DB_NAME: wordpress_test
+      DB_USER: root
+      DB_PASS: root
+      WP_DIR: /tmp/wordpress
+      WP_URL: http://127.0.0.1:8080
+      WP_VERSION: ${{ matrix.wp }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mysqli, zip, gd
+          tools: wp-cli
+          coverage: none
+      - run: composer install --no-interaction --no-progress
+      - name: Install WordPress with the plugin ZIP
+        run: bin/ci-wp-setup.sh
+      - name: Integration tests
+        run: vendor/bin/phpunit -c phpunit-integration.xml.dist
+      - name: HTTP tests
+        run: |
+          php -S 127.0.0.1:8080 -t "$WP_DIR" tests/ci/router.php > /tmp/php-server.log 2>&1 &
+          sleep 2
+          bin/ci-http-smoke.sh
+      - name: WordPress.org Plugin Check
+        if: matrix.wp == 'latest'
+        run: |
+          wp --path="$WP_DIR" plugin install plugin-check --activate
+          wp --path="$WP_DIR" plugin check draco-insomnis --format=csv --fields=line,column,type,code,message,file | tee /tmp/plugin-check.csv
+          if grep -qE ',(ERROR|WARNING),' /tmp/plugin-check.csv; then echo "Plugin Check found problems"; exit 1; fi
+      - name: PHP notices from the run
+        if: always()
+        run: |
+          if [ -s "$WP_DIR/wp-content/debug.log" ]; then
+            cat "$WP_DIR/wp-content/debug.log"
+            if grep -i 'draco' "$WP_DIR/wp-content/debug.log"; then echo "Draco caused PHP notices"; exit 1; fi
+          fi
+
+  package:
+    name: ZIP
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          zip=$(bin/build-zip.sh dist)
+          version=$(sed -n 's/^ \* Version: *//p' draco-insomnis.php | tr -d '[:space:]')
+          if [ "${GITHUB_REF_TYPE}" = "tag" ] && [ "${GITHUB_REF_NAME}" != "v$version" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match version $version"; exit 1
+          fi
+          if unzip -l "$zip" | grep -E 'tests/|vendor/|\.github|composer\.json|phpunit'; then echo "Development files in the ZIP"; exit 1; fi
+          sha256sum "$zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: draco-insomnis-zip
+          path: dist/*.zip
