@@ -77,6 +77,7 @@ bin/ci-http-smoke.sh                     # 403 pages, confirmation link, sign-up
 | `draco_insomnis_other_sender` | filter | Name of another plugin sending the site's mail (Draco then stands aside), or `''` when a plugin that bundles Draco hands its mail over. |
 | `draco_insomnis_rest_allow` | filter | Route prefixes of /wp/v2/ that stay open to anonymous visitors when Anti-copy closes the content API. |
 | `draco_insomnis_crawler_verified` | filter | `(null, $ip, $crawler)`: return `true`/`false` to decide a crawler check yourself (tests, a local list); `null` runs the DNS check. |
+| `draco_insomnis_menu_parent` | filter | Only for a copy bundled inside another plugin (`DRACO_INSOMNIS_BUNDLED`): the menu slug Draco hangs from, as one entry. The standalone plugin ignores it and keeps its own menu. |
 | `draco_insomnis_mail_forgotten` | action | Fired when the SMTP connection is deleted; Draco switches the login code off here, since codes might not arrive. |
 
 `wp-config.php` switches for emergencies: `define('DRACO_MFA_OFF', true);` and `define('DRACO_WAF_OFF', true);`.

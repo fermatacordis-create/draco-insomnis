@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.4
+Stable tag: 0.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -114,6 +114,9 @@ Only bots wait, for at most three seconds, and at most ten slow answers per minu
 For suspicious attempts only: date, address, browser name, username, e-mail, requested role and referring page. Never passwords. Everything is deleted after 90 days, and all of it is removed when the plugin is deleted.
 
 == Changelog ==
+
+= 0.1.5 =
+* When Draco is bundled inside another plugin, that plugin can place it in its own menu as a single entry (filter `draco_insomnis_menu_parent`); the module screens are reached through Draco's tabs. The standalone plugin always keeps its own menu.
 
 = 0.1.4 =
 * New look for every screen: a header with the module tabs and their state, cards, status labels, switches, mode choosers and clearer tables. Works on phones too.

@@ -23,10 +23,55 @@ final class Brand
         add_action('admin_menu', [self::class, 'menu'], 5);
         add_filter('plugin_row_meta', [self::class, 'rowMeta'], 10, 2);
         add_action('admin_enqueue_scripts', [self::class, 'enqueue']);
+        add_filter('parent_file', [self::class, 'highlightParent']);
+        add_filter('submenu_file', [self::class, 'highlightSubmenu']);
+    }
+
+    /**
+     * The menu of the plugin that bundles this copy of Draco, or '' for Draco's own menu.
+     *
+     * Only a copy bundled inside another plugin (DRACO_INSOMNIS_BUNDLED) can be moved: that
+     * plugin answers the draco_insomnis_menu_parent filter with its own menu slug. The standalone
+     * plugin always keeps its own menu, even next to that plugin, so it stays a plugin of its own.
+     */
+    public static function nestedParent(): string
+    {
+        if (!\DracoInsomnis\Plugin::bundled()) {
+            return '';
+        }
+
+        return sanitize_key((string) apply_filters('draco_insomnis_menu_parent', ''));
+    }
+
+    /** Where the module screens hang: Draco's own menu, or nowhere (reached through the tabs) when nested. */
+    public static function submenuParent(): string
+    {
+        return self::nestedParent() === '' ? self::PARENT : '';
+    }
+
+    /** @param mixed $file */
+    public static function highlightParent($file)
+    {
+        $nested = self::nestedParent();
+
+        return $nested !== '' && isset(self::modules()[self::currentPage()]) ? $nested : $file;
+    }
+
+    /** @param mixed $file */
+    public static function highlightSubmenu($file)
+    {
+        return self::nestedParent() !== '' && isset(self::modules()[self::currentPage()]) ? self::PARENT : $file;
     }
 
     public static function menu(): void
     {
+        $nested = self::nestedParent();
+        if ($nested !== '') {
+            // Inside the bundling plugin's menu: one entry; the other screens are reached through the tabs.
+            add_submenu_page($nested, 'Draco Insomnis', 'Draco Insomnis', 'manage_options', self::PARENT, [Overview::class, 'render']);
+
+            return;
+        }
         $title = __('Overview', 'draco-insomnis');
         add_menu_page('Draco Insomnis', 'Draco Insomnis', 'manage_options', self::PARENT, [Overview::class, 'render'], 'dashicons-shield', 81);
         add_submenu_page(self::PARENT, $title, $title, 'manage_options', self::PARENT, [Overview::class, 'render']);
