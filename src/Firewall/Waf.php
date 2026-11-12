@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Firewall;
 
-use DracoInsomnis\Input;
-use DracoInsomnis\Core\WafRules;
-use DracoInsomnis\Plugin;
+use DracoInsomnis\Core\Firewall;
 use DracoInsomnis\Shield\Guard;
-use DracoInsomnis\Shield\Store;
+use DracoInsomnis\WpHost;
 
 defined('ABSPATH') || exit;
 
 /**
- * Application firewall. Starts in "log only" mode so the owner can see what it would stop before it
- * stops anything. Never inspects people who can edit the site, and never blocks an address an
- * administrator used recently.
+ * Application firewall for WordPress. The rules and the automatic block live in Core\Firewall, shared
+ * with the other CMSs; this class adds what only WordPress has (XML-RPC, user enumeration, logins).
+ *
+ * Starts in "log only" mode so the owner can see what it would stop before it stops anything. Never
+ * inspects people who can edit the site, and never blocks an address an administrator used recently.
  *
  * Emergency exit: define('DRACO_WAF_OFF', true); in wp-config.php.
  */
@@ -26,9 +26,6 @@ final class Waf
     public const OPTION_HIDE_USERS = 'draco_waf_hide_users';
     public const OPTION_XMLRPC_OFF = 'draco_waf_xmlrpc_off';
     public const OPTION_LOGIN_LIMIT = 'draco_waf_login_limit';
-    private const HITS_TO_BLOCK = 5;
-    private const HIT_WINDOW = 600;
-    private const BLOCK_DAYS = 7;
     private const LOGIN_FAILS = 10;
     private const LOGIN_WINDOW = 600;
     private const LOGIN_BLOCK = 1800;
@@ -71,104 +68,45 @@ final class Waf
         if ((defined('WP_CLI') && WP_CLI) || wp_doing_cron() || current_user_can('edit_posts')) {
             return;
         }
-        $ip = Guard::clientIp();
-        if (in_array($ip, (array) get_option(Plugin::OPTION_ADMIN_IPS, []), true)) {
+        $request = WpHost::request();
+        $firewall = new Firewall(WpHost::get(), self::blocking());
+        if ($firewall->exempt($request)) {
             return;
         }
-        $method = Input::method();
-        $uri = Input::rawServer('REQUEST_URI');
-        $path = rawurldecode((string) wp_parse_url($uri, PHP_URL_PATH));
-        $query = urldecode((string) wp_parse_url($uri, PHP_URL_QUERY));
-
         // Addresses on the block list may read the site, but not log in, post forms or use XML-RPC.
-        $sensitive = $method === 'POST' || str_ends_with($path, '/wp-login.php') || str_ends_with($path, '/xmlrpc.php');
-        if ($sensitive && Store::isBlocked('', $ip)) {
+        if ($firewall->refusedAsBlocked($request, ['/wp-login.php', '/xmlrpc.php'])) {
             self::deny('blocked');
         }
         // WordPress's XML-RPC library adds system.multicall itself, after the xmlrpc_methods filter,
         // so it is refused here: one call can carry hundreds of password guesses.
-        if ($method === 'POST' && str_ends_with($path, '/xmlrpc.php')
+        if ($request->method === 'POST' && str_ends_with($request->path, '/xmlrpc.php')
             && preg_match('#<methodName>\s*system\.multicall\s*</methodName>#i', (string) file_get_contents('php://input', false, null, 0, 65536)) === 1) {
-            self::record($ip, 'multicall', $path, '');
+            $firewall->record($request, 'multicall');
             self::deny('multicall');
         }
-
-        $rule = WafRules::inspect([
-            'path' => $path,
-            'query' => $query,
-            'params' => WafRules::flatten(array_merge(wp_unslash($_GET), $method === 'POST' ? wp_unslash($_POST) : [])), // phpcs:ignore WordPress.Security.NonceVerification -- inspected, never acted on
-            'user_agent' => Input::rawServer('HTTP_USER_AGENT'),
-        ]);
-        if ($rule === null) {
-            return;
-        }
-        self::record($ip, $rule, $path, $query);
-        if (self::blocking()) {
+        $rule = $firewall->inspect($request);
+        if ($rule !== null && $firewall->blocking()) {
             self::deny($rule);
-        }
-    }
-
-    private static function record(string $ip, string $rule, string $path, string $query): void
-    {
-        $remote = (string) (filter_var(Input::server('REMOTE_ADDR'), FILTER_VALIDATE_IP) ?: '0.0.0.0');
-        $ua = substr(Input::server('HTTP_USER_AGENT'), 0, 255);
-        $verdict = self::blocking() ? 'bot' : 'doubtful';
-        Store::log($ip, $remote, 'waf:' . $rule, ['score' => 100, 'verdict' => $verdict, 'reasons' => ['waf_' . $rule]], $ua, [
-            'username' => '',
-            'email' => '',
-            'role' => '',
-            'referer' => substr($path . ($query !== '' ? '?' . $query : ''), 0, 200),
-        ]);
-        if (!self::blocking()) {
-            return;
-        }
-        self::earlyTranslations();
-        $key = 'draco_waf_hits_' . md5($ip);
-        $hits = (int) get_transient($key) + 1;
-        set_transient($key, $hits, self::HIT_WINDOW);
-        $trusted = $ip === $remote || (string) get_option(Guard::OPTION_PROXY, '') !== '';
-        if ($hits >= self::HITS_TO_BLOCK && $trusted && !Store::isBlocked('', $ip)) {
-            /* translators: %d: number of attacks */
-            Store::block('ip', $ip, self::BLOCK_DAYS, sprintf(__('Firewall: %d attacks in 10 minutes', 'draco-insomnis'), $hits), true);
         }
     }
 
     /** No details for the attacker: what matched stays in the log. */
     private static function deny(string $why): void
     {
-        self::earlyTranslations();
+        WpHost::earlyTranslations();
         nocache_headers();
         status_header(403);
         header('Content-Type: text/html; charset=UTF-8');
         header('X-Robots-Tag: noindex, nofollow');
-        $ref = substr(hash('sha256', $why . '|' . microtime(true)), 0, 10);
-        echo '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><title>403</title>'
-            . '<style>body{font:16px/1.5 system-ui,sans-serif;background:#f4f5f7;color:#1d2327;display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0;padding:20px;box-sizing:border-box}main{background:#fff;border-radius:12px;padding:32px;max-width:440px;box-shadow:0 2px 12px rgba(0,0,0,.08);text-align:center}</style></head><body><main>'
-            . '<h1 style="font-size:20px">' . esc_html__('Request blocked', 'draco-insomnis') . '</h1>'
-            . '<p>' . esc_html__('This request was stopped for security reasons. If you think this is a mistake, contact the owner of the site.', 'draco-insomnis') . '</p>'
-            . '<p style="color:#64748b;font-size:13px">Ref. ' . esc_html($ref) . '</p></main></body></html>';
+        echo Firewall::page( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- every text is escaped inside page()
+            __('Request blocked', 'draco-insomnis'),
+            __('This request was stopped for security reasons. If you think this is a mistake, contact the owner of the site.', 'draco-insomnis'),
+            $why
+        );
         exit;
     }
 
     /** @param array<string, mixed> $methods @return array<string, mixed> */
-    /**
-     * The firewall answers before WordPress loads translations (on purpose: it stops the request as
-     * early as it can). Load this plugin's own file now; with no file for the language (English)
-     * there is nothing to load, and WordPress's "too early" notice is about this case only.
-     */
-    private static function earlyTranslations(): void
-    {
-        if (did_action('after_setup_theme') || is_textdomain_loaded('draco-insomnis')) {
-            return;
-        }
-        $locale = determine_locale();
-        if (!load_textdomain('draco-insomnis', DRACO_INSOMNIS_DIR . 'languages/draco-insomnis-' . $locale . '.mo', $locale)) {
-            add_filter('doing_it_wrong_trigger_error', static function ($trigger, $function, $message = '') {
-                return $function === '_load_textdomain_just_in_time' && str_contains((string) $message, 'draco-insomnis') ? false : $trigger;
-            }, 10, 3);
-        }
-    }
-
     public static function xmlrpcMethods($methods): array
     {
         $methods = (array) $methods;
