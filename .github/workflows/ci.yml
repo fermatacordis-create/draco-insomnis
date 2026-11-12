@@ -142,6 +142,18 @@ jobs:
           done
           for f in $(find "$check/language" -name '*.ini'); do php -r 'parse_ini_file($argv[1]) !== false || exit(1);' "$f" || { echo "Bad INI: ${f#$check/}"; exit 1; }; done
           sha256sum "$zip"
+      - name: Build the Moodle plugin
+        run: |
+          zip=$(bin/build-moodle.sh dist)
+          check=$(mktemp -d)
+          unzip -q "$zip" -d "$check"
+          [ -f "$check/dracoinsomnis/version.php" ] || { echo "version.php not in dracoinsomnis/"; exit 1; }
+          python3 -c "import sys, xml.dom.minidom; xml.dom.minidom.parse(sys.argv[1])" "$check/dracoinsomnis/db/install.xml"
+          for f in $(find "$check" -name '*.php'); do
+            php -l "$f" > /dev/null
+            case "$f" in */evidence.php) ;; *) grep -q "MOODLE_INTERNAL" "$f" || { echo "No MOODLE_INTERNAL guard in ${f#$check/}"; exit 1; } ;; esac
+          done
+          sha256sum "$zip"
       - uses: actions/upload-artifact@v4
         with:
           name: draco-insomnis-zip

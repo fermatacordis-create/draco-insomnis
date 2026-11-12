@@ -23,10 +23,10 @@ Version 0.1:
   login limits, no XML-RPC multicall.
 
 Also for **PrestaShop** 8 and 9 (module `dracoinsomnis`), **Drupal** 10.3 and 11 (module
-`draco_insomnis`) and **Joomla** 5 and 6 (plugin `plg_system_dracoinsomnis`): the anti-bot shield on
-sign-ups, the firewall and the anti-copy pace limit. These CMSs have their own SMTP and two-step
-login, so those stay WordPress-only. Moodle comes next. Every package is built from the same
-`src/Core`, so an improvement there reaches all of them with the next build.
+`draco_insomnis`), **Joomla** 5 and 6 (plugin `plg_system_dracoinsomnis`) and **Moodle** 4.5 to 5.x
+(plugin `local_dracoinsomnis`): the anti-bot shield on sign-ups, the firewall and the anti-copy pace
+limit. These CMSs have their own SMTP and two-step login, so those stay WordPress-only. Every package
+is built from the same `src/Core`, so an improvement there reaches all of them with the next build.
 
 ## Layout
 
@@ -46,6 +46,10 @@ login, so those stay WordPress-only. Moodle comes next. Every package is built f
   are the plugin's parameters, the secret derives from the site's own), `Store`, and the plugin class:
   firewall and pace on `onAfterInitialise`, the shield on `onAfterRoute` (before com_users creates
   the account) and `onAfterRender` (fields into `member-registration`), CSV and unblock via `com_ajax`.
+- `cms/moodle/local_dracoinsomnis/` — the Moodle local plugin: `moodle_host` (adapter), `store`,
+  firewall and pace on the `\core\hook\after_config` hook (only page loads count: AJAX, web services
+  and files do not), the shield through `extend_signup_form` / `validate_extend_signup_form`, admin
+  settings plus an evidence page, a daily cleanup task and the privacy metadata.
 - `src/Firewall/` — `Waf` (inspection, user list, login limit, XML-RPC) and `Admin`.
 - `src/Shield/` — the WordPress side: `Guard` (hooks into the sign-up forms), `Store` (attempts and
   blocks) and `Admin` (the settings screen and the evidence download).
@@ -90,6 +94,16 @@ bin/build-joomla.sh       # writes dist/plg_system_dracoinsomnis-joomla-<version
 Install it from **System → Install → Extensions**, then enable **System - Draco Insomnis**; every
 part starts off. English and Spanish included. Emergency exit: `define('DRACO_WAF_OFF', true);` in
 `defines.php` at the site root.
+
+```
+bin/build-moodle.sh       # writes dist/local_dracoinsomnis-moodle-<version>.zip
+```
+
+Install it from **Site administration → Plugins → Install plugins** (or unpack it in `local/`
+and run the upgrade); every part starts off. Settings: **Site administration → Plugins → Local
+plugins → Draco Insomnis**. Moodle plugins ship English only; other languages come through Moodle's
+language packs (AMOS) once the plugin is in the Moodle plugins directory. Emergency exit:
+`define('DRACO_WAF_OFF', true);` in `config.php`.
 
 ## Tests
 
