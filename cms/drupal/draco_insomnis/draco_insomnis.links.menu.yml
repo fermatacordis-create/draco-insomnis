@@ -1,0 +1,5 @@
+draco_insomnis.settings:
+  title: 'Draco Insomnis'
+  description: 'Anti-bot shield for sign-ups, firewall and anti-copy limits.'
+  route_name: draco_insomnis.settings
+  parent: system.admin_config_system

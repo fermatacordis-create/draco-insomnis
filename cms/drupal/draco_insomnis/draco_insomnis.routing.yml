@@ -1,0 +1,23 @@
+draco_insomnis.settings:
+  path: '/admin/config/system/draco-insomnis'
+  defaults:
+    _form: '\Drupal\draco_insomnis\Form\SettingsForm'
+    _title: 'Draco Insomnis'
+  requirements:
+    _permission: 'administer draco insomnis'
+
+draco_insomnis.unblock:
+  path: '/admin/config/system/draco-insomnis/unblock/{id}'
+  defaults:
+    _controller: '\Drupal\draco_insomnis\Controller\EvidenceController::unblock'
+  requirements:
+    _permission: 'administer draco insomnis'
+    _csrf_token: 'TRUE'
+    id: '\d+'
+
+draco_insomnis.evidence:
+  path: '/admin/config/system/draco-insomnis/evidence/{ip}'
+  defaults:
+    _controller: '\Drupal\draco_insomnis\Controller\EvidenceController::csv'
+  requirements:
+    _permission: 'administer draco insomnis'

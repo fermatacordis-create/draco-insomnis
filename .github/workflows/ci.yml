@@ -120,6 +120,15 @@ jobs:
           done
           for d in $(find "$check/dracoinsomnis" -type d); do [ -f "$d/index.php" ] || { echo "No index.php in ${d#$check/}"; exit 1; }; done
           sha256sum "$zip"
+      - name: Build the Drupal module
+        run: |
+          zip=$(bin/build-drupal.sh dist)
+          check=$(mktemp -d)
+          unzip -q "$zip" -d "$check"
+          for f in $(find "$check" -name '*.php' -o -name '*.module' -o -name '*.install'); do php -l "$f" > /dev/null; done
+          for f in $(find "$check" -name '*.yml'); do python3 -c "import sys, yaml; yaml.safe_load(open(sys.argv[1]))" "$f" || { echo "Bad YAML: ${f#$check/}"; exit 1; }; done
+          [ -f "$check/draco_insomnis/lib/Core/Shield.php" ] || { echo "Engines missing from lib/Core"; exit 1; }
+          sha256sum "$zip"
       - uses: actions/upload-artifact@v4
         with:
           name: draco-insomnis-zip

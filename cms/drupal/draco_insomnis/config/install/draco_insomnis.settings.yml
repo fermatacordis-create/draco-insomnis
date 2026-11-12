@@ -1,0 +1,7 @@
+shield: false
+waf_mode: 'off'
+pace_mode: 'off'
+anticopy_rate_ip: 120
+anticopy_rate_net: 600
+proxy_header: ''
+hosting_nets: ''

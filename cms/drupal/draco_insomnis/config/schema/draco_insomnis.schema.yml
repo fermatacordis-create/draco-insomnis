@@ -1,0 +1,25 @@
+draco_insomnis.settings:
+  type: config_object
+  label: 'Draco Insomnis settings'
+  mapping:
+    shield:
+      type: boolean
+      label: 'Protect user sign-ups'
+    waf_mode:
+      type: string
+      label: 'Firewall mode: off, log or block'
+    pace_mode:
+      type: string
+      label: 'Anti-copy pace limit mode: off, log or block'
+    anticopy_rate_ip:
+      type: integer
+      label: 'Pages per minute, per address'
+    anticopy_rate_net:
+      type: integer
+      label: 'Pages per minute, per network'
+    proxy_header:
+      type: string
+      label: 'Visitor address: empty, cf or xff'
+    hosting_nets:
+      type: string
+      label: 'Rented-server networks, one CIDR per line'
