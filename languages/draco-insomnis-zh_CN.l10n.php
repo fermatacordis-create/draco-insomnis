@@ -384,5 +384,7 @@ return array (
     'A hidden trap field and a signed page stamp: people never solve puzzles.' => '隐藏的陷阱字段和签名的页面印记：真人永远不用做谜题。',
     'Never an administrator, nor your own address.' => '绝不封锁管理员，也不封锁你自己的地址。',
     'Active: %d' => '生效中：%d',
+    'The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses below.' => '已忽略该请求头：此连接（%s）既不是来自 Cloudflare，也不是来自受信任的代理。如果你的代理在互联网上，请在下方添加它的地址。',
+    'Trusted proxies (one per line, e.g. 203.0.113.10 or 203.0.113.0/24; empty = this server and private networks)' => '受信任的代理（每行一个，例如 203.0.113.10 或 203.0.113.0/24；留空 = 本服务器和私有网络）',
   ),
 );

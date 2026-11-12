@@ -7,6 +7,7 @@ namespace DracoInsomnis\Login;
 use DracoInsomnis\Input;
 use DracoInsomnis\Admin\Brand;
 use DracoInsomnis\Mail\Template;
+use DracoInsomnis\Shield\Store;
 
 defined('ABSPATH') || exit;
 
@@ -67,8 +68,7 @@ final class Recovery
     {
         $recovery = self::email($userId);
         $key = self::SWITCHES . $userId;
-        $hits = (int) get_transient($key) + 1;
-        set_transient($key, $hits, HOUR_IN_SECONDS);
+        $hits = Store::bump($key, HOUR_IN_SECONDS);
         if ($recovery === '' || $hits > self::MAX_SWITCHES_HOUR) {
             return false;
         }

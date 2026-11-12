@@ -73,6 +73,7 @@ final class Admin
         }
         $proxy = (string) \Tools::getValue(Settings::PROXY);
         Settings::set(Settings::PROXY, in_array($proxy, Settings::PROXIES, true) ? $proxy : '');
+        Settings::set(Settings::TRUSTED, implode("\n", NetList::parse((string) \Tools::getValue(Settings::TRUSTED))));
         Settings::set(Settings::NETS, implode("\n", NetList::parse((string) \Tools::getValue(Settings::NETS))));
     }
 
@@ -82,9 +83,13 @@ final class Admin
 
         return '<div class="panel"><h3><i class="icon-shield"></i> Draco Insomnis</h3>'
             . '<p><em>Ab insomni custodita dracone.</em> ' . self::h($this->t('Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.')) . '</p>'
-            . '<p>' . self::h($this->t('Your address as the module sees it:')) . ' <code>' . self::h($request->ip(Settings::get(Settings::PROXY))) . '</code> '
+            . '<p>' . self::h($this->t('Your address as the module sees it:')) . ' <code>' . self::h($request->via(PsHost::get())) . '</code> '
             . self::h($this->t('(connection address:')) . ' <code>' . self::h($request->remote()) . '</code>). '
-            . self::h($this->t('If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".')) . '</p></div>';
+            . self::h($this->t('If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".')) . '</p>'
+            . ($request->proxyHeaderIgnored(Settings::get(Settings::PROXY), Settings::get(Settings::TRUSTED))
+                ? '<p class="alert alert-warning">' . self::h(sprintf($this->t('The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".'), $request->remote())) . '</p>'
+                : '')
+            . '</div>';
     }
 
     private function form(): string
@@ -130,8 +135,15 @@ final class Admin
                         'options' => ['query' => [
                             ['id' => '', 'name' => $this->t('Connection address (recommended)')],
                             ['id' => 'cf', 'name' => $this->t('Cloudflare (CF-Connecting-IP)')],
-                            ['id' => 'xff', 'name' => $this->t('Other proxy (first X-Forwarded-For)')],
+                            ['id' => 'xff', 'name' => $this->t('Other proxy (X-Forwarded-For)')],
                         ], 'id' => 'id', 'name' => 'name'],
+                    ],
+                    [
+                        'type' => 'textarea',
+                        'label' => $this->t('Trusted proxies'),
+                        'name' => Settings::TRUSTED,
+                        'rows' => 2,
+                        'desc' => $this->t('Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare\'s own ranges are already known.'),
                     ],
                     [
                         'type' => 'textarea',
@@ -160,6 +172,7 @@ final class Admin
             Settings::RATE_IP => Settings::get(Settings::RATE_IP) ?: '120',
             Settings::RATE_NET => Settings::get(Settings::RATE_NET) ?: '600',
             Settings::PROXY => Settings::get(Settings::PROXY),
+            Settings::TRUSTED => Settings::get(Settings::TRUSTED),
             Settings::NETS => Settings::get(Settings::NETS),
         ];
 

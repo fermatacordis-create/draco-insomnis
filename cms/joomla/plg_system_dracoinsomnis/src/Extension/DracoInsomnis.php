@@ -59,7 +59,7 @@ final class DracoInsomnis extends CMSPlugin implements SubscriberInterface
         $host = $this->host();
         if ($app->isClient('administrator')) {
             if ($user && $user->authorise('core.admin')) {
-                $host->rememberAdminIp(JoomlaHost::request()->ip($host->setting('proxy_header')));
+                $host->rememberAdminIp(JoomlaHost::request()->via($host));
             }
             return;
         }

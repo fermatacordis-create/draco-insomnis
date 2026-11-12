@@ -22,8 +22,13 @@ return [
     'anticopy_rate_net' => (int) env('DRACO_RATE_NET', 600),
 
     // Where the visitor address comes from: '' (the connection, recommended), 'cf' (Cloudflare) or
-    // 'xff' (first X-Forwarded-For). Only change it when the app is behind that proxy.
+    // 'xff' (X-Forwarded-For). Only change it when the app is behind that proxy.
     'proxy_header' => env('DRACO_PROXY_HEADER', ''),
+
+    // The proxies allowed to set that header (addresses or CIDR, comma-separated). Empty: this machine
+    // and private networks. Cloudflare's ranges are already known. A header from any other connection
+    // is ignored, so nobody can pose as another address.
+    'trusted_proxies' => env('DRACO_TRUSTED_PROXIES', ''),
 
     // Extra rented-server networks (CIDR, one per line), added to the ones Draco knows.
     'hosting_nets' => env('DRACO_HOSTING_NETS', ''),

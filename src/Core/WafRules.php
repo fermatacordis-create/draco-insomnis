@@ -68,7 +68,11 @@ final class WafRules
         if (preg_match(self::PROBES, $path) === 1) {
             return 'probe';
         }
-        $everything = array_merge([$path, $query], array_map('strval', $params));
+        // Encoded twice (%2527 → %27 → '): the request arrives decoded once, so look at the second
+        // decoding too. Nothing is changed, only inspected.
+        $path2 = self::decodedAgain($path);
+        $query2 = self::decodedAgain($query);
+        $everything = array_merge([$path, $query, $path2, $query2], array_map('strval', $params), array_map(static fn ($v): string => self::decodedAgain((string) $v), $params));
         foreach (['sqli' => self::SQLI, 'traversal' => self::TRAVERSAL, 'code' => self::CODE] as $rule => $patterns) {
             foreach ($everything as $value) {
                 if ($value !== '' && self::any($patterns, $value)) {
@@ -76,13 +80,24 @@ final class WafRules
                 }
             }
         }
-        foreach ([$path, $query] as $value) {
+        foreach ([$path, $query, $path2, $query2] as $value) {
             if ($value !== '' && self::any(self::XSS_URL, $value)) {
                 return 'xss';
             }
         }
 
         return null;
+    }
+
+    /** The value decoded once more when it still holds %XX sequences; '' when there is nothing more to decode. */
+    private static function decodedAgain(string $value): string
+    {
+        if (preg_match('/%[0-9a-f]{2}/i', $value) !== 1) {
+            return '';
+        }
+        $again = rawurldecode($value);
+
+        return $again === $value ? '' : $again;
     }
 
     /** @param list<string> $patterns */

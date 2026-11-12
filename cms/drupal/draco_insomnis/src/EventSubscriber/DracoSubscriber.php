@@ -34,7 +34,7 @@ final class DracoSubscriber implements EventSubscriberInterface {
     }
     $account = \Drupal::currentUser();
     if ($account->hasPermission('administer site configuration')) {
-      DrupalHost::get()->rememberAdminIp(DrupalHost::request($request)->ip(DrupalHost::get()->setting('proxy_header')));
+      DrupalHost::get()->rememberAdminIp(DrupalHost::request($request)->via(DrupalHost::get()));
     }
     if ($account->hasPermission('bypass draco insomnis firewall')) {
       return;

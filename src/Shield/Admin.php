@@ -8,6 +8,7 @@ use DracoInsomnis\Input;
 use DracoInsomnis\Admin\Brand;
 use DracoInsomnis\Core\NetList;
 use DracoInsomnis\Plugin;
+use DracoInsomnis\WpHost;
 
 defined('ABSPATH') || exit;
 
@@ -45,6 +46,8 @@ final class Admin
             update_option(Plugin::OPTION_SHIELD, empty($_POST['shield']) ? 'no' : 'yes');
             $proxy = sanitize_key((string) ($_POST['proxy'] ?? ''));
             update_option(Guard::OPTION_PROXY, in_array($proxy, ['cf', 'xff'], true) ? $proxy : '');
+            $trusted = NetList::parse(sanitize_textarea_field(wp_unslash((string) ($_POST['trusted'] ?? ''))));
+            update_option(Guard::OPTION_TRUSTED, implode("\n", $trusted), false);
             $nets = NetList::parse(sanitize_textarea_field(wp_unslash((string) ($_POST['nets'] ?? ''))));
             update_option(Guard::OPTION_NETS, implode("\n", $nets), false);
         } elseif ($do === 'block') {
@@ -93,7 +96,15 @@ final class Admin
         foreach (['' => __('Connection address (safest; use this unless the site is behind a proxy)', 'draco-insomnis'), 'cf' => __('Cloudflare header (only if every visit goes through Cloudflare)', 'draco-insomnis'), 'xff' => __('X-Forwarded-For (only behind your own proxy or CDN)', 'draco-insomnis')] as $value => $label) {
             echo '<option value="' . esc_attr($value) . '"' . selected($proxy, $value, false) . '>' . esc_html($label) . '</option>';
         }
-        echo '</select><p class="description">' . esc_html__('Your address as the plugin sees it:', 'draco-insomnis') . ' <span class="draco-code">' . esc_html(Guard::clientIp()) . '</span></p></div>';
+        echo '</select><p class="description">' . esc_html__('Your address as the plugin sees it:', 'draco-insomnis') . ' <span class="draco-code">' . esc_html(Guard::clientIp()) . '</span></p>';
+        $trusted = (string) get_option(Guard::OPTION_TRUSTED, '');
+        if (WpHost::request()->proxyHeaderIgnored($proxy, $trusted)) {
+            /* translators: %s: the connection address, e.g. 203.0.113.7 */
+            echo '<p class="description" style="color:#b32d2e">' . esc_html(sprintf(__('The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses below.', 'draco-insomnis'), WpHost::request()->remote())) . '</p>';
+        }
+        echo '</div>';
+        echo '<div class="draco-field"><label for="draco-trusted">' . esc_html__('Trusted proxies (one per line, e.g. 203.0.113.10 or 203.0.113.0/24; empty = this server and private networks)', 'draco-insomnis') . '</label>';
+        echo '<textarea id="draco-trusted" name="trusted" rows="2" class="large-text code">' . esc_textarea($trusted) . '</textarea></div>';
         echo '<div class="draco-field"><label for="draco-nets">' . esc_html__('Rented-server networks to watch, besides the ones already known (one per line, e.g. 198.51.100.0/24)', 'draco-insomnis') . '</label>';
         echo '<textarea id="draco-nets" name="nets" rows="3" class="large-text code">' . esc_textarea((string) get_option(Guard::OPTION_NETS, '')) . '</textarea></div>';
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);

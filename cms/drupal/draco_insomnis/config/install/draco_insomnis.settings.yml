@@ -4,4 +4,5 @@ pace_mode: 'off'
 anticopy_rate_ip: 120
 anticopy_rate_net: 600
 proxy_header: ''
+trusted_proxies: ''
 hosting_nets: ''

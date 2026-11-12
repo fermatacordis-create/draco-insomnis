@@ -384,5 +384,7 @@ return array (
     'A hidden trap field and a signed page stamp: people never solve puzzles.' => '隠しトラップ欄と署名付きのページスタンプ：人がパズルを解く必要はありません。',
     'Never an administrator, nor your own address.' => '管理者やあなた自身のアドレスは決してブロックしません。',
     'Active: %d' => '有効：%d',
+    'The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses below.' => 'ヘッダーは無視されます：この接続（%s）は Cloudflare からも信頼できるプロキシからも来ていません。プロキシがインターネット上にある場合は、そのアドレスを下に追加してください。',
+    'Trusted proxies (one per line, e.g. 203.0.113.10 or 203.0.113.0/24; empty = this server and private networks)' => '信頼できるプロキシ（1 行に 1 つ、例：203.0.113.10 または 203.0.113.0/24。空欄 = このサーバーとプライベートネットワーク）',
   ),
 );

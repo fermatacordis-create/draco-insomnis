@@ -41,6 +41,19 @@ final class LoginTest extends TestCase
         $this->assertNull(Challenge::get($row['id']));
     }
 
+    public function test_tries_are_counted_atomically_in_the_counters_table(): void
+    {
+        global $wpdb;
+        $row = Challenge::create(7, '123456');
+        Challenge::check($row['id'], '000000');
+        Challenge::check($row['id'], '000001');
+        $this->assertSame('2', $wpdb->get_var($wpdb->prepare('SELECT n FROM %i WHERE k = %s', \DracoInsomnis\Shield\Store::counters(), 'draco_mfa_try_' . $row['id'])));
+        $this->assertSame(1, \DracoInsomnis\Shield\Store::bump('draco_test_' . $row['id'], 60));
+        $this->assertSame(2, \DracoInsomnis\Shield\Store::bump('draco_test_' . $row['id'], 60));
+        $wpdb->query($wpdb->prepare('UPDATE %i SET expires_at = %d WHERE k = %s', \DracoInsomnis\Shield\Store::counters(), time() - 1, 'draco_test_' . $row['id']));
+        $this->assertSame(1, \DracoInsomnis\Shield\Store::bump('draco_test_' . $row['id'], 60), 'an expired counter starts again');
+    }
+
     public function test_a_new_code_cancels_the_previous_one_and_old_codes_expire(): void
     {
         $first = Challenge::create(7, '111111');

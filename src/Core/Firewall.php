@@ -24,7 +24,7 @@ final class Firewall
     /** Addresses an administrator used are never inspected. */
     public function exempt(Request $r): bool
     {
-        return in_array($r->ip($this->host->setting('proxy_header')), $this->host->adminIps(), true);
+        return in_array($r->via($this->host), $this->host->adminIps(), true);
     }
 
     /**
@@ -39,7 +39,7 @@ final class Firewall
             $sensitive = $sensitive || str_ends_with($r->path, $ending);
         }
 
-        return $sensitive && $this->host->events()->isBlocked('', $r->ip($this->host->setting('proxy_header')));
+        return $sensitive && $this->host->events()->isBlocked('', $r->via($this->host));
     }
 
     /** The rule this request breaks, recorded; null when it breaks none. */
@@ -65,7 +65,7 @@ final class Firewall
 
     public function record(Request $r, string $rule): void
     {
-        $ip = $r->ip($this->host->setting('proxy_header'));
+        $ip = $r->via($this->host);
         $remote = $r->remote();
         $events = $this->host->events();
         $events->log($ip, $remote, 'waf:' . $rule, ['score' => 100, 'verdict' => $this->blocking ? 'bot' : 'doubtful', 'reasons' => ['waf_' . $rule]], substr($r->userAgent, 0, 255), [

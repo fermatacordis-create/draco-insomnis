@@ -63,7 +63,7 @@ final class Shield
      */
     public function judge(Request $r, string $endpoint, array $fields, ?array $roles, int $now): array
     {
-        $ip = $r->ip($this->host->setting('proxy_header'));
+        $ip = $r->via($this->host);
         $remote = $r->remote();
         $events = $this->host->events();
         $stamp = FormStamp::check($this->host->secret(), $r->field($this->stampField()), $now);

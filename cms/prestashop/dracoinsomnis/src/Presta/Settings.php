@@ -23,11 +23,12 @@ final class Settings
     public const RATE_NET = 'DRACO_ANTICOPY_RATE_NET';
     public const PROXY = 'DRACO_PROXY_HEADER';
     public const NETS = 'DRACO_HOSTING_NETS';
+    public const TRUSTED = 'DRACO_TRUSTED_PROXIES';
     public const ADMIN_IPS = 'DRACO_ADMIN_IPS';
     public const MODES = ['off', 'log', 'block'];
     public const PROXIES = ['', 'cf', 'xff'];
 
-    private const ALL = [self::SECRET, self::SHIELD, self::WAF_MODE, self::PACE_MODE, self::RATE_IP, self::RATE_NET, self::PROXY, self::NETS, self::ADMIN_IPS];
+    private const ALL = [self::SECRET, self::SHIELD, self::WAF_MODE, self::PACE_MODE, self::RATE_IP, self::RATE_NET, self::PROXY, self::TRUSTED, self::NETS, self::ADMIN_IPS];
 
     public static function install(): bool
     {
@@ -94,7 +95,7 @@ final class Settings
         if (!isset($context->employee) || !\Validate::isLoadedObject($context->employee)) {
             return;
         }
-        $ip = PsHost::request()->ip(self::get(self::PROXY));
+        $ip = PsHost::request()->via(PsHost::get());
         $list = self::adminIps();
         if (($list[0] ?? null) === $ip) {
             return;

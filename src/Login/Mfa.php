@@ -8,6 +8,7 @@ use DracoInsomnis\Input;
 use DracoInsomnis\Mail\Template;
 use DracoInsomnis\Mail\Transport;
 use DracoInsomnis\Shield\Guard;
+use DracoInsomnis\Shield\Store;
 
 defined('ABSPATH') || exit;
 
@@ -254,8 +255,7 @@ final class Mfa
     public static function recordFailure(): void
     {
         $key = 'draco_login_fail_' . md5(Guard::clientIp());
-        $hits = (int) get_transient($key) + 1;
-        set_transient($key, $hits, self::FAIL_WINDOW);
+        $hits = Store::bump($key, self::FAIL_WINDOW);
         if ($hits >= self::FAILS) {
             set_transient('draco_login_block_' . md5(Guard::clientIp()), 1, self::BLOCK_SECONDS);
         }

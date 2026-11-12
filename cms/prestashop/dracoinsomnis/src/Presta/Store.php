@@ -156,7 +156,7 @@ final class Store implements EventStore
             if (filter_var($value, FILTER_VALIDATE_IP) === false || in_array($value, Settings::adminIps(), true)) {
                 return false;
             }
-            if (!$automatic && $value === strtolower(PsHost::request()->ip(Settings::get(Settings::PROXY)))) {
+            if (!$automatic && $value === strtolower(PsHost::request()->via(PsHost::get()))) {
                 return false;
             }
         } elseif ($kind === 'email') {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DracoInsomnis\Gate;
 
 use DracoInsomnis\Mail\Template;
+use DracoInsomnis\Shield\Store as Counters;
 
 defined('ABSPATH') || exit;
 
@@ -36,10 +37,7 @@ final class Mailer
 
     private static function count(string $key, int $ttl): int
     {
-        $hits = (int) get_transient($key) + 1;
-        set_transient($key, $hits, $ttl);
-
-        return $hits;
+        return Counters::bump($key, $ttl);
     }
 
     public static function verifyUrl(string $token): string

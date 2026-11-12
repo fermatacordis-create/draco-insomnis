@@ -22,6 +22,7 @@ final class Guard
     public const OPTION_NETS = 'draco_hosting_nets';
     /** '' = trust only the connection address; 'cf' = Cloudflare header; 'xff' = first X-Forwarded-For entry. */
     public const OPTION_PROXY = 'draco_proxy_header';
+    public const OPTION_TRUSTED = 'draco_trusted_proxies';
 
     public static function register(): void
     {
@@ -136,6 +137,6 @@ final class Guard
 
     public static function clientIp(): string
     {
-        return WpHost::request()->ip((string) get_option(self::OPTION_PROXY, ''));
+        return WpHost::request()->via(WpHost::get());
     }
 }

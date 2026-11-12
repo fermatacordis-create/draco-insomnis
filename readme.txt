@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.6
+Stable tag: 0.1.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,11 @@ Only bots wait, for at most three seconds, and at most ten slow answers per minu
 For suspicious attempts only: date, address, browser name, username, e-mail, requested role and referring page. Never passwords. Everything is deleted after 90 days, and all of it is removed when the plugin is deleted.
 
 == Changelog ==
+
+= 0.1.7 =
+* Security: the visitor address is read from a proxy header (Cloudflare or X-Forwarded-For) only when the connection really comes from that proxy: Cloudflare's own ranges, or the new "Trusted proxies" list (empty = this server and private networks). Before, anyone could send the header straight to the site and pose as another address, even an administrator's, which is never inspected by the firewall. X-Forwarded-For is now read from the right, skipping trusted proxies, because whatever is on the left was written by the visitor. The settings screens warn when the header is being ignored. Same fix on PrestaShop, Drupal, Joomla, Moodle and Laravel (DRACO_TRUSTED_PROXIES).
+* Security: every WordPress counter (two-step login codes, failed logins, account recovery, confirmation e-mails, firewall hits, anti-copy pace) now adds up in one database statement, in a new table. Requests sent at the same moment can no longer all read the same count and get more tries than allowed.
+* Firewall: values encoded twice (%2527) are also inspected once decoded again.
 
 = 0.1.6 =
 * One release, one package per CMS at the same version: WordPress, PrestaShop, Drupal, Joomla, Moodle and Laravel, all on the shared engines (src/Core).

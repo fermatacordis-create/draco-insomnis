@@ -36,7 +36,7 @@ final class Firewall
             $ability = config('draco.bypass_ability');
             if ($user !== null && $ability && Gate::forUser($user)->allows($ability)) {
                 $host = Guard::host();
-                $host->rememberAdminIp(LaravelHost::request($request)->ip($host->setting('proxy_header')));
+                $host->rememberAdminIp(LaravelHost::request($request)->via($host));
 
                 return $next($request);
             }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Login;
 
+use DracoInsomnis\Shield\Store;
+
 defined('ABSPATH') || exit;
 
 /** One pending login code per user. The code itself is never stored, only its keyed hash. */
@@ -14,6 +16,7 @@ final class Challenge
     private const KEY = 'draco_mfa_';
     private const USER = 'draco_mfa_uid_';
     private const REDIRECT = 'draco_mfa_to_';
+    private const TRIES = 'draco_mfa_try_';
 
     public static function newCode(): string
     {
@@ -57,13 +60,12 @@ final class Challenge
         if ($row === null) {
             return 'expired';
         }
-        $row['attempts']++;
-        if ($row['attempts'] > self::MAX_ATTEMPTS) {
+        // Counted in one atomic step: codes sent at the same moment cannot all see the same count.
+        if (Store::bump(self::TRIES . $id, self::TTL) > self::MAX_ATTEMPTS) {
             self::delete($id);
 
             return 'locked';
         }
-        set_transient(self::KEY . $id, $row, max(1, $row['expires_at'] - time()));
         if (preg_match('/^\d{6}$/', $code) !== 1 || !hash_equals($row['hash'], self::hash($code))) {
             return 'wrong';
         }

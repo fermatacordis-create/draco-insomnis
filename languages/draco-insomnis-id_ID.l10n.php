@@ -384,5 +384,7 @@ return array (
     'A hidden trap field and a signed page stamp: people never solve puzzles.' => 'Kolom jebakan tersembunyi dan stempel halaman bertanda tangan: manusia tidak pernah memecahkan teka-teki.',
     'Never an administrator, nor your own address.' => 'Tidak pernah administrator, atau alamat Anda sendiri.',
     'Active: %d' => 'Aktif: %d',
+    'The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses below.' => 'Header diabaikan: koneksi ini (%s) tidak berasal dari Cloudflare maupun dari proxy tepercaya. Jika proxy Anda berada di internet, tambahkan alamatnya di bawah.',
+    'Trusted proxies (one per line, e.g. 203.0.113.10 or 203.0.113.0/24; empty = this server and private networks)' => 'Proxy tepercaya (satu per baris, mis. 203.0.113.10 atau 203.0.113.0/24; kosong = server ini dan jaringan privat)',
   ),
 );

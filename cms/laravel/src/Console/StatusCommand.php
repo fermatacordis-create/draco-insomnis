@@ -23,6 +23,7 @@ final class StatusCommand extends Command
             ['Firewall', LaravelHost::mode('waf_mode') . (config('draco.waf_off') ? ' (DRACO_WAF_OFF)' : '')],
             ['Anti-copy pace limit', LaravelHost::mode('pace_mode') . ' (' . (int) config('draco.anticopy_rate_ip') . '/min per address)'],
             ['Visitor address', (string) config('draco.proxy_header') ?: 'connection address'],
+            ['Trusted proxies', (string) config('draco.trusted_proxies') ?: 'this machine and private networks' . (config('draco.proxy_header') === 'cf' ? ', Cloudflare' : '')],
         ]);
 
         $blocks = Store::activeBlocks();

@@ -41,7 +41,7 @@ final class hook_callbacks {
         $loggedin = isloggedin() && !isguestuser();
 
         if ($loggedin && is_siteadmin()) {
-            $host->remember_admin_ip($request->ip($proxy));
+            $host->remember_admin_ip($request->via($host));
             return;
         }
 

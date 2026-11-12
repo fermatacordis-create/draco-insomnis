@@ -31,11 +31,29 @@ final class ShieldTest extends TestCase
         $_SERVER['HTTP_CF_CONNECTING_IP'] = '198.51.100.2';
         $this->assertSame(self::VISITOR_IP, Guard::clientIp(), 'forged headers are ignored by default');
         update_option(Guard::OPTION_PROXY, 'xff');
+        $this->assertSame(self::VISITOR_IP, Guard::clientIp(), 'a header sent straight to the site is ignored');
+        update_option(Guard::OPTION_PROXY, 'cf');
+        $this->assertSame(self::VISITOR_IP, Guard::clientIp(), 'a Cloudflare header that does not come from Cloudflare is ignored');
+
+        // Through nginx on the same machine: read from the right, the visitor's own text on the left is ignored.
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '192.0.2.50, 198.51.100.1';
+        update_option(Guard::OPTION_PROXY, 'xff');
         $this->assertSame('198.51.100.1', Guard::clientIp());
+
+        // Through Cloudflare.
+        $_SERVER['REMOTE_ADDR'] = '172.68.1.20';
         update_option(Guard::OPTION_PROXY, 'cf');
         $this->assertSame('198.51.100.2', Guard::clientIp());
         $_SERVER['HTTP_CF_CONNECTING_IP'] = 'not-an-ip';
-        $this->assertSame(self::VISITOR_IP, Guard::clientIp());
+        $this->assertSame('172.68.1.20', Guard::clientIp());
+
+        // A public load balancer, once listed.
+        $_SERVER['REMOTE_ADDR'] = '198.51.100.9';
+        update_option(Guard::OPTION_PROXY, 'xff');
+        $this->assertSame('198.51.100.9', Guard::clientIp());
+        update_option(Guard::OPTION_TRUSTED, '198.51.100.9');
+        $this->assertSame('198.51.100.1', Guard::clientIp());
     }
 
     public function test_a_bot_sign_up_is_refused_and_kept_as_evidence(): void

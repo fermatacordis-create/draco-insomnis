@@ -9,6 +9,7 @@ use DracoInsomnis\Core\Host;
 use DracoInsomnis\Core\Request;
 use DracoInsomnis\Core\WafRules;
 use DracoInsomnis\Shield\Events;
+use DracoInsomnis\Shield\Store;
 
 defined('ABSPATH') || exit;
 
@@ -69,10 +70,7 @@ final class WpHost implements Host
 
     public function bump(string $key, int $ttl): int
     {
-        $count = (int) get_transient($key) + 1;
-        set_transient($key, $count, $ttl);
-
-        return $count;
+        return Store::bump($key, $ttl);
     }
 
     public function recall(string $key): ?string
