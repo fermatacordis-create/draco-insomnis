@@ -69,13 +69,13 @@ final class Guard
         $stamp = wp_json_encode(self::stamp());
         $trap = wp_json_encode(self::trapHtml());
         $f = wp_json_encode(self::stampField());
-        $js = "<script>(function(){var s={$stamp},t={$trap},f={$f};"
+        $js = "(function(){var s={$stamp},t={$trap},f={$f};"
             . "function arm(){document.querySelectorAll('input[name=\"register_username\"]').forEach(function(u){var form=u.form;"
             . "if(!form||form.querySelector('input[name=\"'+f+'\"]'))return;"
             . "var h=document.createElement('input');h.type='hidden';h.name=f;h.value=s;form.appendChild(h);"
             . "form.insertAdjacentHTML('beforeend',t);});}"
-            . "arm();document.addEventListener('DOMContentLoaded',arm);document.addEventListener('focusin',arm,true);})();</script>";
-        echo $js; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- every value inside is wp_json_encode()d.
+            . "arm();document.addEventListener('DOMContentLoaded',arm);document.addEventListener('focusin',arm,true);})();";
+        wp_print_inline_script_tag($js); // Every value inside is wp_json_encode()d.
     }
 
     public static function realHomes(): void

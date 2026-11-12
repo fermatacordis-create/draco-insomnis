@@ -90,7 +90,7 @@ final class Brand
             $title = (string) ($modules[$slug][0] ?? 'Draco Insomnis');
             add_submenu_page($nested, $title, $title, 'manage_options', $slug, $render);
         }
-        add_action('admin_head', [self::class, 'hideNestedEntries']);
+        add_action('admin_enqueue_scripts', [self::class, 'hideNestedEntries']);
     }
 
     /** Only the «Draco Insomnis» entry shows in the host menu. */
@@ -102,7 +102,9 @@ final class Brand
                 $rules[] = '#adminmenu a[href="admin.php?page=' . $slug . '"]';
             }
         }
-        echo '<style>' . implode(',', $rules) . '{display:none!important}</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from the plugin's own fixed page slugs
+        wp_register_style('draco-insomnis-menu', false, [], DRACO_INSOMNIS_VERSION);
+        wp_enqueue_style('draco-insomnis-menu');
+        wp_add_inline_style('draco-insomnis-menu', implode(',', $rules) . '{display:none!important}');
     }
 
     public static function menu(): void
