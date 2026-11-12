@@ -200,7 +200,8 @@ final class LoginTest extends TestCase
     {
         $admin = $this->user('administrator');
         $this->assertFalse(Recovery::useRecovery($admin->ID), 'none saved');
-        delete_transient('draco_mfa_switch_' . $admin->ID);
+        global $wpdb;
+        $wpdb->delete(\DracoInsomnis\Shield\Store::counters(), ['k' => 'draco_mfa_switch_' . $admin->ID]);
         update_user_meta($admin->ID, Recovery::META, 'backup@example.net');
         $this->assertSame($admin->user_email, Recovery::destination($admin));
         $this->assertTrue(Recovery::useRecovery($admin->ID));
