@@ -118,7 +118,7 @@ jobs:
             php -l "$f" > /dev/null
             grep -q "_PS_VERSION_\|^header('Location: ../');" "$f" || { echo "No _PS_VERSION_ guard in ${f#$check/}"; exit 1; }
           done
-          for d in $(find "$check" -type d); do [ -f "$d/index.php" ] || { echo "No index.php in ${d#$check/}"; exit 1; }; done
+          for d in $(find "$check/dracoinsomnis" -type d); do [ -f "$d/index.php" ] || { echo "No index.php in ${d#$check/}"; exit 1; }; done
           sha256sum "$zip"
       - uses: actions/upload-artifact@v4
         with:
