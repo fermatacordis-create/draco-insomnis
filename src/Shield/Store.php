@@ -10,7 +10,7 @@ defined('ABSPATH') || exit;
 
 /**
  * Suspicious attempts (the evidence for an abuse report) and blocked senders.
- * Never stores passwords or anything beyond the fields listed in Guard::evidence().
+ * Never stores passwords or anything beyond the fields the engines in src/Core pass.
  */
 final class Store
 {
