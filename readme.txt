@@ -1,4 +1,5 @@
 === Draco Insomnis ===
+Contributors: opnvsole
 Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
