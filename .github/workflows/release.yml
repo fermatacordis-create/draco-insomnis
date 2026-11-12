@@ -1,0 +1,55 @@
+name: Release
+
+# Pushing a tag vX.Y.Z publishes one GitHub release with one package per CMS, all built from the same
+# commit. Before tagging: bin/set-version.sh X.Y.Z, a changelog entry in readme.txt, and a green CI.
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish the five packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - name: Tag and versions agree
+        run: bin/versions.sh --check "${GITHUB_REF_NAME#v}"
+      - name: Unit tests of the shared engines
+        run: |
+          composer install --no-interaction --no-progress
+          vendor/bin/phpunit
+      - name: Build
+        run: |
+          rm -rf release && mkdir release
+          bin/build-all.sh release | tee release/files.txt
+          (cd release && sha256sum *.zip > SHA256SUMS.txt && cat SHA256SUMS.txt)
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          notes=$(awk -v v="= $version =" '$0 == v {on = 1; next} on && /^= / {exit} on {print}' readme.txt)
+          {
+            echo "One package per CMS, all built from the same commit and the same engines (src/Core)."
+            echo
+            echo "| CMS | Package |"
+            echo "| --- | --- |"
+            echo "| WordPress 6.5+ | \`draco-insomnis-$version.zip\` |"
+            echo "| PrestaShop 8 and 9 | \`dracoinsomnis-prestashop-$version.zip\` |"
+            echo "| Drupal 10.3 and 11 | \`draco_insomnis-drupal-$version.zip\` |"
+            echo "| Joomla 5 and 6 | \`plg_system_dracoinsomnis-joomla-$version.zip\` |"
+            echo "| Moodle 4.5 to 5.x | \`local_dracoinsomnis-moodle-$version.zip\` |"
+            echo
+            echo "Checksums in \`SHA256SUMS.txt\`."
+            if [ -n "$notes" ]; then echo; echo "## Changes"; echo; echo "$notes"; fi
+          } > release/notes.md
+          gh release create "$GITHUB_REF_NAME" release/*.zip release/SHA256SUMS.txt \
+            --title "Draco Insomnis $version" --notes-file release/notes.md
