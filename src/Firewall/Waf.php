@@ -98,11 +98,12 @@ final class Waf
         status_header(403);
         header('Content-Type: text/html; charset=UTF-8');
         header('X-Robots-Tag: noindex, nofollow');
-        echo Firewall::page( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- every text is escaped inside page()
+        $page = Firewall::page(
             __('Request blocked', 'draco-insomnis'),
             __('This request was stopped for security reasons. If you think this is a mistake, contact the owner of the site.', 'draco-insomnis'),
             $why
         );
+        echo $page; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- every text is escaped inside Firewall::page()
         exit;
     }
 
