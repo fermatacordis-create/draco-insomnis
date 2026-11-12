@@ -95,6 +95,38 @@ jobs:
             if grep -i 'draco' "$WP_DIR/wp-content/debug.log"; then echo "Draco caused PHP notices"; exit 1; fi
           fi
 
+  laravel:
+    name: Laravel ${{ matrix.laravel }} package (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - laravel: '11'
+            testbench: '^9.0'
+            php: '8.3'
+          - laravel: '13'
+            testbench: '^11.0'
+            php: '8.4'
+    defaults:
+      run:
+        working-directory: cms/laravel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo_sqlite
+          coverage: none
+      - name: Install
+        run: |
+          # Every Laravel 11 release has open advisories, so Composer refuses it by default. This is a
+          # throwaway test install only: the package itself supports 11 because our own apps run it.
+          composer config policy.advisories.block false
+          composer require --dev --no-interaction --no-progress -W "orchestra/testbench:${{ matrix.testbench }}"
+          composer show laravel/framework | grep -E '^versions'
+      - run: vendor/bin/phpunit
+
   package:
     name: ZIP
     runs-on: ubuntu-latest
@@ -141,6 +173,15 @@ jobs:
             grep -q "_JEXEC" "$f" || { echo "No _JEXEC guard in ${f#$check/}"; exit 1; }
           done
           for f in $(find "$check/language" -name '*.ini'); do php -r 'parse_ini_file($argv[1]) !== false || exit(1);' "$f" || { echo "Bad INI: ${f#$check/}"; exit 1; }; done
+          sha256sum "$zip"
+      - name: Build the Laravel package
+        run: |
+          zip=$(bin/build-laravel.sh dist)
+          check=$(mktemp -d)
+          unzip -q "$zip" -d "$check"
+          [ -f "$check/draco-insomnis-laravel/core/Shield.php" ] && [ ! -L "$check/draco-insomnis-laravel/core" ] || { echo "core/ missing or still a link"; exit 1; }
+          php -r '$j = json_decode(file_get_contents($argv[1]), true); exit(isset($j["version"], $j["extra"]["laravel"]["providers"]) ? 0 : 1);' "$check/draco-insomnis-laravel/composer.json" || { echo "composer.json without version or provider"; exit 1; }
+          for f in $(find "$check" -name '*.php'); do php -l "$f" > /dev/null; done
           sha256sum "$zip"
       - name: Build the Moodle plugin
         run: |

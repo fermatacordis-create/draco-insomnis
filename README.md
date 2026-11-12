@@ -25,8 +25,10 @@ Version 0.1:
 Also for **PrestaShop** 8 and 9 (module `dracoinsomnis`), **Drupal** 10.3 and 11 (module
 `draco_insomnis`), **Joomla** 5 and 6 (plugin `plg_system_dracoinsomnis`) and **Moodle** 4.5 to 5.x
 (plugin `local_dracoinsomnis`): the anti-bot shield on sign-ups, the firewall and the anti-copy pace
-limit. These CMSs have their own SMTP and two-step login, so those stay WordPress-only. Every package
-is built from the same `src/Core`, so an improvement there reaches all of them with the next build.
+limit. These CMSs have their own SMTP and two-step login, so those stay WordPress-only. And for
+**Laravel** 11 to 13 apps, as a Composer package (`notoriusvision/draco-insomnis-laravel`). Every
+package is built from the same `src/Core`, so an improvement there reaches all of them with the next
+build.
 
 ## Layout
 
@@ -105,9 +107,36 @@ plugins → Draco Insomnis**. Moodle plugins ship English only; other languages 
 language packs (AMOS) once the plugin is in the Moodle plugins directory. Emergency exit:
 `define('DRACO_WAF_OFF', true);` in `config.php`.
 
+## Laravel
+
+`cms/laravel` is a Composer package (Laravel 11, 12 and 13; `core/` is a link to `src/Core`, copied
+into the ZIP by `bin/build-laravel.sh`). Install it from the release ZIP with an artifact repository:
+
+```
+composer config repositories.draco '{"type": "artifact", "url": "path/to/folder-with-the-zip"}'
+composer require notoriusvision/draco-insomnis-laravel
+php artisan migrate                       # draco_events and draco_blocks
+php artisan vendor:publish --tag=draco-config   # optional: config/draco.php
+```
+
+- **Firewall and pace limit** switch on from `.env` (`DRACO_WAF_MODE=log`, then `block`;
+  `DRACO_PACE_MODE`). A global middleware checks requests without a session before routing, so
+  probes for paths like `/.env` are seen too; the same middleware at the end of the `web` and `api`
+  groups checks requests with a session once the user is known. Users who pass the Gate ability in
+  `DRACO_BYPASS_ABILITY` are never inspected and their addresses are never blocked. Only HTML page
+  loads count towards the pace limit, never JSON API calls. `/up` is excepted (`except` in the config).
+- **Sign-up shield** (`DRACO_SHIELD=true`): add `->middleware('draco.signup')` to the registration
+  route and `@dracoFields` inside its form. A bot gets an ordinary validation error on the e-mail
+  field (422 for JSON clients) and no account.
+- **Artisan**: `draco:status`, `draco:evidence <ip>` (CSV for an abuse report), `draco:block <ip|email>`
+  / `draco:block --unblock=<id>`, and `draco:cleanup` (scheduled daily by the package).
+- Counters live in the app's cache store (`DRACO_CACHE_STORE`; Redis or database with several servers).
+- English and Spanish messages. Emergency exit: `DRACO_WAF_OFF=true`.
+
 ## Releasing
 
-Every release carries the five packages with the same version, built from the same commit:
+Every release carries one package per platform with the same version, built from the same commit
+(the Laravel package takes the version at build time):
 
 ```
 bin/set-version.sh 0.2.0     # WordPress header, constant and Stable tag; PrestaShop, Drupal, Joomla, Moodle

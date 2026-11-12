@@ -1,0 +1,45 @@
+{
+    "name": "notoriusvision/draco-insomnis-laravel",
+    "description": "Draco Insomnis for Laravel. Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit.",
+    "type": "library",
+    "license": "GPL-2.0-or-later",
+    "keywords": ["laravel", "security", "anti-spam", "honeypot", "firewall", "rate-limit", "bots"],
+    "homepage": "https://github.com/fermatacordis-create/draco-insomnis",
+    "authors": [
+        {"name": "Notorius Vision", "homepage": "https://notoriusvision.com"}
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/http": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/database": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/cache": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/console": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/validation": "^11.0 || ^12.0 || ^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0 || ^10.0 || ^11.0",
+        "phpunit/phpunit": "^11.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "DracoInsomnis\\Laravel\\": "src/",
+            "DracoInsomnis\\Core\\": "core/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DracoInsomnis\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": ["DracoInsomnis\\Laravel\\DracoServiceProvider"]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
