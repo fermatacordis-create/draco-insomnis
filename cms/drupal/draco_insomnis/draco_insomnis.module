@@ -1,0 +1,64 @@
+<?php
+
+/**
+ * @file
+ * Draco Insomnis for Drupal: the shield on the user sign-up form, and cleanup.
+ *
+ * The deciding code is the same as in the WordPress plugin (lib/Core); this module only connects it
+ * to Drupal.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Markup;
+use Drupal\draco_insomnis\DrupalHost;
+use Drupal\draco_insomnis\Store;
+
+require_once __DIR__ . '/lib/autoload.php';
+
+/**
+ * Implements hook_form_FORM_ID_alter() for user_register_form.
+ *
+ * Adds the signed page stamp and the invisible trap to the public sign-up form.
+ */
+function draco_insomnis_form_user_register_form_alter(array &$form, FormStateInterface $form_state): void {
+  if (!DrupalHost::shieldOn() || \Drupal::currentUser()->hasPermission('administer users')) {
+    return;
+  }
+  $shield = new \DracoInsomnis\Core\Shield(DrupalHost::get());
+  $form['draco_insomnis'] = [
+    '#markup' => Markup::create($shield->fieldsHtml(time())),
+    '#weight' => 100,
+  ];
+  // Without a #validate list Drupal calls the form's own ::validateForm(); once we add one, it must
+  // stay in the list, or the account is never built and the sign-up fails for everybody.
+  $form['#validate'] = $form['#validate'] ?? ['::validateForm'];
+  array_unshift($form['#validate'], 'draco_insomnis_register_validate');
+}
+
+/**
+ * Judges the sign-up before the account exists. A bot gets a plain refusal after a short wait.
+ */
+function draco_insomnis_register_validate(array &$form, FormStateInterface $form_state): void {
+  if (\Drupal::currentUser()->hasPermission('administer users')) {
+    return;
+  }
+  $shield = new \DracoInsomnis\Core\Shield(DrupalHost::get());
+  $result = $shield->judge(DrupalHost::request(\Drupal::request()), 'drupal_register', [
+    'username' => (string) $form_state->getValue('name'),
+    'email' => (string) $form_state->getValue('mail'),
+    'role' => '',
+  ], NULL, time());
+  if ($result['verdict'] === 'bot') {
+    $shield->slowDown();
+    $form_state->setErrorByName('', t('The registration could not be completed.'));
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function draco_insomnis_cron(): void {
+  Store::cleanup();
+}

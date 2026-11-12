@@ -22,9 +22,9 @@ Version 0.1:
 - **Firewall** — precise attack signatures and scanner probes, log-only mode first, hidden user list,
   login limits, no XML-RPC multicall.
 
-Also for **PrestaShop** 8 and 9 (module `dracoinsomnis`): the anti-bot shield on customer sign-ups
-(account page and checkout), the firewall and the anti-copy pace limit. PrestaShop already has its own
-SMTP and back-office two-step login, so those stay WordPress-only. Drupal, Joomla and Moodle come next.
+Also for **PrestaShop** 8 and 9 (module `dracoinsomnis`) and **Drupal** 10.3 and 11 (module
+`draco_insomnis`): the anti-bot shield on sign-ups, the firewall and the anti-copy pace limit. Both
+CMSs have their own SMTP and two-step login, so those stay WordPress-only. Joomla and Moodle come next.
 
 ## Layout
 
@@ -36,6 +36,10 @@ SMTP and back-office two-step login, so those stay WordPress-only. Drupal, Jooml
 - `src/WpHost.php` — the WordPress adapter for the engines.
 - `cms/prestashop/dracoinsomnis/` — the PrestaShop module: `PsHost` (adapter), `Store` (its own
   tables, also used for counters), `Front` (hooks), `Settings` and `Admin` (the configuration page).
+- `cms/drupal/draco_insomnis/` — the Drupal module: `DrupalHost` (adapter), `Store`, `Guard`, a
+  middleware that checks anonymous requests before the page cache, a subscriber for requests with a
+  session (after authentication, so users with "Bypass the Draco Insomnis firewall" are left alone),
+  the shield on `user_register_form`, and the settings form with the evidence and the block list.
 - `src/Firewall/` — `Waf` (inspection, user list, login limit, XML-RPC) and `Admin`.
 - `src/Shield/` — the WordPress side: `Guard` (hooks into the sign-up forms), `Store` (attempts and
   blocks) and `Admin` (the settings screen and the evidence download).
@@ -63,6 +67,15 @@ bin/build-prestashop.sh   # writes dist/dracoinsomnis-prestashop-<version>.zip
 The PrestaShop ZIP carries its own copy of `src/Core`, with the `_PS_VERSION_` guard PrestaShop asks
 for in every PHP file, and an `index.php` in every folder. Install it from **Modules → Upload a
 module**; every part starts off. Spanish translation included (`translations/es-ES`).
+
+```
+bin/build-drupal.sh       # writes dist/draco_insomnis-drupal-<version>.zip
+```
+
+The Drupal archive carries its own copy of `src/Core` in `lib/Core`. Unpack it in
+`modules/custom/` and enable it (`drush en draco_insomnis`); every part starts off. Settings live in
+**Configuration → System → Draco Insomnis**. Emergency exit: `$settings['draco_waf_off'] = TRUE;` in
+`settings.php`.
 
 ## Tests
 

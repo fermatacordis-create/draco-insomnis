@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * @file
+ * Tables for the evidence, the block list and short-lived counters.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_schema().
+ */
+function draco_insomnis_schema(): array {
+  $schema['draco_insomnis_events'] = [
+    'description' => 'Suspicious attempts: the evidence for an abuse report. Never passwords.',
+    'fields' => [
+      'id' => ['type' => 'serial', 'unsigned' => TRUE, 'size' => 'big', 'not null' => TRUE],
+      'created_at' => ['type' => 'varchar', 'length' => 19, 'not null' => TRUE, 'description' => 'UTC, Y-m-d H:i:s'],
+      'ip' => ['type' => 'varchar', 'length' => 45, 'not null' => TRUE],
+      'remote_addr' => ['type' => 'varchar', 'length' => 45, 'not null' => TRUE],
+      'endpoint' => ['type' => 'varchar', 'length' => 40, 'not null' => TRUE],
+      'score' => ['type' => 'int', 'unsigned' => TRUE, 'size' => 'small', 'not null' => TRUE],
+      'verdict' => ['type' => 'varchar', 'length' => 10, 'not null' => TRUE],
+      'reasons' => ['type' => 'varchar', 'length' => 190, 'not null' => TRUE, 'default' => ''],
+      'user_agent' => ['type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''],
+      'fields' => ['type' => 'text', 'not null' => FALSE],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'ip_created' => ['ip', 'created_at'],
+      'verdict_created' => ['verdict', 'created_at'],
+    ],
+  ];
+  $schema['draco_insomnis_blocks'] = [
+    'description' => 'Blocked addresses and e-mails.',
+    'fields' => [
+      'id' => ['type' => 'serial', 'unsigned' => TRUE, 'size' => 'big', 'not null' => TRUE],
+      'kind' => ['type' => 'varchar', 'length' => 8, 'not null' => TRUE],
+      'value' => ['type' => 'varchar', 'length' => 190, 'not null' => TRUE],
+      'reason' => ['type' => 'varchar', 'length' => 190, 'not null' => TRUE, 'default' => ''],
+      'created_at' => ['type' => 'varchar', 'length' => 19, 'not null' => TRUE],
+      'until_at' => ['type' => 'varchar', 'length' => 19, 'not null' => TRUE],
+    ],
+    'primary key' => ['id'],
+    'indexes' => ['lookup' => ['kind', 'value', 'until_at']],
+  ];
+  $schema['draco_insomnis_cache'] = [
+    'description' => 'Short-lived counters and values (per-minute limits, crawler checks).',
+    'fields' => [
+      'k' => ['type' => 'varchar', 'length' => 190, 'not null' => TRUE],
+      'n' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'v' => ['type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''],
+      'expires' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+    ],
+    'primary key' => ['k'],
+    'indexes' => ['expires' => ['expires']],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function draco_insomnis_install(): void {
+  \Drupal\draco_insomnis\DrupalHost::get()->secret();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function draco_insomnis_uninstall(): void {
+  \Drupal::state()->deleteMultiple(['draco_insomnis.secret', 'draco_insomnis.admin_ips']);
+}

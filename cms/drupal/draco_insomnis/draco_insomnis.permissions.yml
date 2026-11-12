@@ -1,0 +1,8 @@
+administer draco insomnis:
+  title: 'Administer Draco Insomnis'
+  description: 'Change the settings, see the evidence and unblock addresses.'
+  restrict access: true
+bypass draco insomnis firewall:
+  title: 'Bypass the Draco Insomnis firewall'
+  description: 'Requests of these users are never inspected. Give it to editors who write code or SQL in their content.'
+  restrict access: true

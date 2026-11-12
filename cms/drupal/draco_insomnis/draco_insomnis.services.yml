@@ -1,0 +1,11 @@
+services:
+  # Before the page cache (200): anonymous requests are checked even when Drupal serves a cached page.
+  draco_insomnis.middleware:
+    class: Drupal\draco_insomnis\StackMiddleware\DracoMiddleware
+    tags:
+      - { name: http_middleware, priority: 250 }
+  # Requests with a session: after authentication (300), so editors can be left alone.
+  draco_insomnis.subscriber:
+    class: Drupal\draco_insomnis\EventSubscriber\DracoSubscriber
+    tags:
+      - { name: event_subscriber }
