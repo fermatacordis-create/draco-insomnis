@@ -6,7 +6,7 @@
 	<copyright>(C) 2026 Notorius Vision</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorUrl>https://notoriusvision.com</authorUrl>
-	<version>0.1.6</version>
+	<version>0.1.7</version>
 	<description>PLG_SYSTEM_DRACOINSOMNIS_XML_DESCRIPTION</description>
 	<namespace path="src">Notorius\Plugin\System\DracoInsomnis</namespace>
 	<files>
@@ -86,6 +86,7 @@
 					<option value="cf">PLG_SYSTEM_DRACOINSOMNIS_PROXY_CF</option>
 					<option value="xff">PLG_SYSTEM_DRACOINSOMNIS_PROXY_XFF</option>
 				</field>
+				<field name="trusted_proxies" type="textarea" rows="2" label="PLG_SYSTEM_DRACOINSOMNIS_TRUSTED_LABEL" description="PLG_SYSTEM_DRACOINSOMNIS_TRUSTED_DESC" filter="string" />
 				<field name="hosting_nets" type="textarea" rows="4" label="PLG_SYSTEM_DRACOINSOMNIS_NETS_LABEL" description="PLG_SYSTEM_DRACOINSOMNIS_NETS_DESC" filter="string" />
 				<field name="evidence" type="dracoevidence" label="" />
 			</fieldset>

@@ -50,9 +50,13 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('evidence', 'local_dracoinsomnis'));
 $request = moodle_host::request();
 echo html_writer::tag('p', get_string('yourip', 'local_dracoinsomnis', (object) [
-    'ip' => s($request->ip(moodle_host::get()->setting('proxy_header'))),
+    'ip' => s($request->via(moodle_host::get())),
     'remote' => s($request->remote()),
 ]));
+$host = moodle_host::get();
+if ($request->proxyHeaderIgnored($host->setting('proxy_header'), $host->setting('trusted_proxies'))) {
+    echo $OUTPUT->notification(get_string('proxyignored', 'local_dracoinsomnis', s($request->remote())), 'warning');
+}
 
 echo $OUTPUT->heading(get_string('blocks', 'local_dracoinsomnis'), 3);
 $blocks = store::active_blocks();

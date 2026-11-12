@@ -384,5 +384,7 @@ return array (
     'A hidden trap field and a signed page stamp: people never solve puzzles.' => 'एक छिपा जाल-फ़ील्ड और पेज पर हस्ताक्षरित मुहर: लोगों को कभी पहेलियाँ नहीं सुलझानी पड़तीं।',
     'Never an administrator, nor your own address.' => 'कभी कोई व्यवस्थापक नहीं, न ही आपका अपना पता।',
     'Active: %d' => 'सक्रिय: %d',
+    'The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses below.' => 'हेडर को अनदेखा किया गया है: यह कनेक्शन (%s) न तो Cloudflare से आता है और न ही किसी भरोसेमंद प्रॉक्सी से। अगर आपका प्रॉक्सी इंटरनेट पर है, तो उसके पते नीचे जोड़ें।',
+    'Trusted proxies (one per line, e.g. 203.0.113.10 or 203.0.113.0/24; empty = this server and private networks)' => 'भरोसेमंद प्रॉक्सी (हर पंक्ति में एक, जैसे 203.0.113.10 या 203.0.113.0/24; खाली = यह सर्वर और निजी नेटवर्क)',
   ),
 );

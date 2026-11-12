@@ -58,15 +58,16 @@ final class NetList
         return (ord($base[$whole]) & $mask) === (ord($addr[$whole]) & $mask);
     }
 
-    /** One CIDR per line; comments after # and junk lines are dropped. @return list<string> */
+    /** CIDRs one per line (or separated by commas or spaces); comments after # and junk lines are dropped. @return list<string> */
     public static function parse(string $text): array
     {
         $out = [];
         foreach (preg_split('/\R/', $text) ?: [] as $line) {
-            $line = trim((string) preg_replace('/#.*/', '', $line));
-            $ip = explode('/', $line, 2)[0];
-            if ($line !== '' && filter_var($ip, FILTER_VALIDATE_IP) !== false) {
-                $out[] = $line;
+            foreach (preg_split('/[\s,]+/', (string) preg_replace('/#.*/', '', $line)) ?: [] as $item) {
+                $ip = explode('/', $item, 2)[0];
+                if ($item !== '' && filter_var($ip, FILTER_VALIDATE_IP) !== false) {
+                    $out[] = $item;
+                }
             }
         }
 

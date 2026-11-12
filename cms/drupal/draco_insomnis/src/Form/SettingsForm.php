@@ -38,11 +38,16 @@ final class SettingsForm extends ConfigFormBase {
       'text' => ['#markup' => '<p><em>Ab insomni custodita dracone.</em> ' . $this->t('Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.') . '</p>'],
       'ip' => [
         '#markup' => '<p>' . $this->t('Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".', [
-          '%ip' => $request->ip((string) $config->get('proxy_header')),
+          '%ip' => $request->ip((string) $config->get('proxy_header'), (string) $config->get('trusted_proxies')),
           '%remote' => $request->remote(),
         ]) . '</p>',
       ],
     ];
+    if ($request->proxyHeaderIgnored((string) $config->get('proxy_header'), (string) $config->get('trusted_proxies'))) {
+      $form['intro']['ignored'] = [
+        '#markup' => '<p class="messages messages--warning">' . $this->t('The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".', ['%remote' => $request->remote()]) . '</p>',
+      ];
+    }
     $form['shield'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Protect user sign-ups'),
@@ -82,10 +87,17 @@ final class SettingsForm extends ConfigFormBase {
       '#options' => [
         '' => $this->t('Connection address (recommended)'),
         'cf' => $this->t('Cloudflare (CF-Connecting-IP)'),
-        'xff' => $this->t('Other proxy (first X-Forwarded-For)'),
+        'xff' => $this->t('Other proxy (X-Forwarded-For)'),
       ],
       '#default_value' => (string) $config->get('proxy_header'),
       '#description' => $this->t('Leave "Connection address" unless the site is behind a proxy: a header can be forged by anyone.'),
+    ];
+    $form['trusted_proxies'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Trusted proxies'),
+      '#rows' => 2,
+      '#default_value' => (string) $config->get('trusted_proxies'),
+      '#description' => $this->t("Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."),
     ];
     $form['hosting_nets'] = [
       '#type' => 'textarea',
@@ -112,6 +124,7 @@ final class SettingsForm extends ConfigFormBase {
       ->set('anticopy_rate_ip', $rate($form_state->getValue('anticopy_rate_ip'), 120))
       ->set('anticopy_rate_net', $rate($form_state->getValue('anticopy_rate_net'), 600))
       ->set('proxy_header', in_array($proxy, ['', 'cf', 'xff'], TRUE) ? $proxy : '')
+      ->set('trusted_proxies', implode("\n", NetList::parse((string) $form_state->getValue('trusted_proxies'))))
       ->set('hosting_nets', implode("\n", NetList::parse((string) $form_state->getValue('hosting_nets'))))
       ->save();
     parent::submitForm($form, $form_state);

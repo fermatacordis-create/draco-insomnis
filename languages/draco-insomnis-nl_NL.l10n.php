@@ -384,5 +384,7 @@ return array (
     'A hidden trap field and a signed page stamp: people never solve puzzles.' => 'Een verborgen valveld en een ondertekende paginastempel: mensen lossen nooit puzzels op.',
     'Never an administrator, nor your own address.' => 'Nooit een beheerder, en niet je eigen adres.',
     'Active: %d' => 'Actief: %d',
+    'The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses below.' => 'De header wordt genegeerd: deze verbinding (%s) komt niet van Cloudflare of van een vertrouwde proxy. Staat je proxy op internet, voeg dan hieronder zijn adressen toe.',
+    'Trusted proxies (one per line, e.g. 203.0.113.10 or 203.0.113.0/24; empty = this server and private networks)' => 'Vertrouwde proxy’s (één per regel, bijv. 203.0.113.10 of 203.0.113.0/24; leeg = deze server en privénetwerken)',
   ),
 );

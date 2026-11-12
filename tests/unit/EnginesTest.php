@@ -77,12 +77,59 @@ final class EnginesTest extends TestCase
         $this->assertSame(['kind' => 'ip', 'value' => self::VISITOR, 'days' => 7, 'reason' => 'auto_block:3'], $this->host->blocks[0]);
     }
 
-    public function test_a_forged_proxy_header_is_ignored_unless_trusted(): void
+    public function test_a_proxy_header_sent_straight_to_the_site_is_ignored(): void
     {
+        // The visitor connects directly and writes the headers itself.
         $r = new Request('POST', '/', '', [], [], self::BROWSER, self::BROWSER, self::VISITOR, '198.51.100.2', '198.51.100.1, 10.0.0.1');
         $this->assertSame(self::VISITOR, $r->ip(''));
-        $this->assertSame('198.51.100.2', $r->ip('cf'));
-        $this->assertSame('198.51.100.1', $r->ip('xff'));
+        $this->assertSame(self::VISITOR, $r->ip('cf'));
+        $this->assertSame(self::VISITOR, $r->ip('xff'));
+        $this->assertTrue($r->proxyHeaderIgnored('cf'));
+        $this->assertTrue($r->proxyHeaderIgnored('xff'));
+        $this->assertFalse($r->proxyHeaderIgnored(''));
+    }
+
+    public function test_cloudflare_header_is_believed_only_from_cloudflare(): void
+    {
+        $viaCloudflare = new Request('GET', '/', '', [], [], self::BROWSER, self::BROWSER, '172.68.1.20', self::VISITOR);
+        $this->assertSame(self::VISITOR, $viaCloudflare->ip('cf'));
+        $this->assertFalse($viaCloudflare->proxyHeaderIgnored('cf'));
+        $viaCloudflare6 = new Request('GET', '/', '', [], [], self::BROWSER, self::BROWSER, '2a06:98c0:3600::103', self::VISITOR);
+        $this->assertSame(self::VISITOR, $viaCloudflare6->ip('cf'));
+        // A proxy of the site's own, in front of Cloudflare's header, once listed.
+        $ownProxy = new Request('GET', '/', '', [], [], self::BROWSER, self::BROWSER, '198.51.100.9', self::VISITOR);
+        $this->assertSame('198.51.100.9', $ownProxy->ip('cf'));
+        $this->assertSame(self::VISITOR, $ownProxy->ip('cf', "198.51.100.9 # load balancer"));
+        // Junk in the header: the connection address.
+        $junk = new Request('GET', '/', '', [], [], self::BROWSER, self::BROWSER, '172.68.1.20', 'not-an-ip');
+        $this->assertSame('172.68.1.20', $junk->ip('cf'));
+    }
+
+    public function test_forwarded_for_is_read_from_the_right_and_skips_trusted_proxies(): void
+    {
+        // nginx on the same machine; the visitor wrote "1.2.3.4" itself, the proxy added the real address.
+        $local = new Request('GET', '/', '', [], [], self::BROWSER, self::BROWSER, '127.0.0.1', '', '1.2.3.4, ' . self::VISITOR);
+        $this->assertSame(self::VISITOR, $local->ip('xff'));
+        // Two of the site's proxies: a public load balancer and a private one.
+        $chain = new Request('GET', '/', '', [], [], self::BROWSER, self::BROWSER, '198.51.100.9', '', '1.2.3.4, ' . self::VISITOR . ', 10.0.0.5');
+        $this->assertSame('198.51.100.9', $chain->ip('xff'), 'a public proxy must be listed');
+        $this->assertSame(self::VISITOR, $chain->ip('xff', "198.51.100.0/24\n10.0.0.0/8"));
+        $this->assertSame(self::VISITOR, $chain->ip('xff', '198.51.100.0/24, 10.0.0.0/8'));
+        // Junk in the chain stops the walk at the last trusted hop.
+        $junk = new Request('GET', '/', '', [], [], self::BROWSER, self::BROWSER, '127.0.0.1', '', 'evil, x');
+        $this->assertSame('127.0.0.1', $junk->ip('xff'));
+    }
+
+    public function test_a_forged_header_cannot_pose_as_an_administrator(): void
+    {
+        $this->host->admins = ['192.0.2.50'];
+        $this->host->settings['proxy_header'] = 'xff';
+        $firewall = new Firewall($this->host, true);
+        $direct = new Request('GET', '/', "s=1' union select user_pass from users-- ", [], [], self::BROWSER, self::BROWSER, self::VISITOR, '', '192.0.2.50');
+        $this->assertFalse($firewall->exempt($direct));
+        $this->assertSame('sqli', $firewall->inspect($direct));
+        $local = new Request('GET', '/', '', [], [], self::BROWSER, self::BROWSER, '127.0.0.1', '', '192.0.2.50');
+        $this->assertTrue($firewall->exempt($local));
     }
 
     public function test_the_verdict_can_be_changed_by_site_code(): void

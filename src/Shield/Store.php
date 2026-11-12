@@ -16,7 +16,7 @@ final class Store
 {
     public const KEEP_DAYS = 90;
     public const BLOCK_DAYS = [7, 15, 30, 90];
-    private const SCHEMA = '1';
+    private const SCHEMA = '2';
     private const SCHEMA_OPTION = 'draco_schema';
     /** One flood must not fill the database: past this, attempts from that IP in the hour are only counted. */
     private const MAX_ROWS_PER_IP_HOUR = 30;
@@ -33,6 +33,48 @@ final class Store
         global $wpdb;
 
         return $wpdb->prefix . 'draco_blocks';
+    }
+
+    public static function counters(): string
+    {
+        global $wpdb;
+
+        return $wpdb->prefix . 'draco_counters';
+    }
+
+    /**
+     * Adds one to a counter that lives $ttl seconds from its first count and returns the new value, in a
+     * single statement: two requests at the same moment never read the same value (a transient would
+     * be read, added to and saved in three steps, and both would count the same try).
+     */
+    public static function bump(string $key, int $ttl): int
+    {
+        global $wpdb;
+        self::ensureTables();
+        $now = time();
+        $key = substr($key, 0, 190);
+        $suppress = $wpdb->suppress_errors(true);
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- an atomic counter cannot be cached
+        $done = $wpdb->query($wpdb->prepare(
+            'INSERT INTO %i (k, n, expires_at) VALUES (%s, LAST_INSERT_ID(1), %d)
+             ON DUPLICATE KEY UPDATE n = LAST_INSERT_ID(IF(expires_at < %d, 1, n + 1)), expires_at = IF(expires_at < %d, %d, expires_at)',
+            self::counters(),
+            $key,
+            $now + $ttl,
+            $now,
+            $now,
+            $now + $ttl,
+        ));
+        $count = $done === false ? 0 : (int) $wpdb->get_var('SELECT LAST_INSERT_ID()'); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $wpdb->suppress_errors($suppress);
+        if ($count > 0) {
+            return $count;
+        }
+        // Without the table (a database that refuses it): the old way, good enough on a quiet site.
+        $count = (int) get_transient($key) + 1;
+        set_transient($key, $count, $ttl);
+
+        return $count;
     }
 
     public static function ensureTables(): void
@@ -68,6 +110,13 @@ final class Store
             PRIMARY KEY  (id),
             KEY lookup (kind, value, until_at)
         ) $charset;");
+        dbDelta('CREATE TABLE ' . self::counters() . " (
+            k varchar(190) NOT NULL,
+            n int(10) unsigned NOT NULL DEFAULT 0,
+            expires_at int(10) unsigned NOT NULL,
+            PRIMARY KEY  (k),
+            KEY expires_at (expires_at)
+        ) $charset;");
         update_option(self::SCHEMA_OPTION, self::SCHEMA);
     }
 
@@ -75,8 +124,7 @@ final class Store
     public static function log(string $ip, string $remoteAddr, string $endpoint, array $result, string $userAgent, array $fields): void
     {
         $key = 'draco_rows_' . md5($ip);
-        $rows = (int) get_transient($key) + 1;
-        set_transient($key, $rows, HOUR_IN_SECONDS);
+        $rows = self::bump($key, HOUR_IN_SECONDS);
         if ($rows > self::MAX_ROWS_PER_IP_HOUR) {
             return;
         }
@@ -214,5 +262,6 @@ final class Store
         global $wpdb;
         $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE created_at < %s", self::events(), gmdate('Y-m-d H:i:s', time() - self::KEEP_DAYS * 86400)));
         $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE until_at < %s", self::blocks(), current_time('mysql', true)));
+        $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE expires_at < %d", self::counters(), time()));
     }
 }

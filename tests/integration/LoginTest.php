@@ -41,6 +41,19 @@ final class LoginTest extends TestCase
         $this->assertNull(Challenge::get($row['id']));
     }
 
+    public function test_tries_are_counted_atomically_in_the_counters_table(): void
+    {
+        global $wpdb;
+        $row = Challenge::create(7, '123456');
+        Challenge::check($row['id'], '000000');
+        Challenge::check($row['id'], '000001');
+        $this->assertSame('2', $wpdb->get_var($wpdb->prepare('SELECT n FROM %i WHERE k = %s', \DracoInsomnis\Shield\Store::counters(), 'draco_mfa_try_' . $row['id'])));
+        $this->assertSame(1, \DracoInsomnis\Shield\Store::bump('draco_test_' . $row['id'], 60));
+        $this->assertSame(2, \DracoInsomnis\Shield\Store::bump('draco_test_' . $row['id'], 60));
+        $wpdb->query($wpdb->prepare('UPDATE %i SET expires_at = %d WHERE k = %s', \DracoInsomnis\Shield\Store::counters(), time() - 1, 'draco_test_' . $row['id']));
+        $this->assertSame(1, \DracoInsomnis\Shield\Store::bump('draco_test_' . $row['id'], 60), 'an expired counter starts again');
+    }
+
     public function test_a_new_code_cancels_the_previous_one_and_old_codes_expire(): void
     {
         $first = Challenge::create(7, '111111');
@@ -187,7 +200,8 @@ final class LoginTest extends TestCase
     {
         $admin = $this->user('administrator');
         $this->assertFalse(Recovery::useRecovery($admin->ID), 'none saved');
-        delete_transient('draco_mfa_switch_' . $admin->ID);
+        global $wpdb;
+        $wpdb->delete(\DracoInsomnis\Shield\Store::counters(), ['k' => 'draco_mfa_switch_' . $admin->ID]);
         update_user_meta($admin->ID, Recovery::META, 'backup@example.net');
         $this->assertSame($admin->user_email, Recovery::destination($admin));
         $this->assertTrue(Recovery::useRecovery($admin->ID));

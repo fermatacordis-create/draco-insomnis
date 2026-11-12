@@ -40,6 +40,8 @@ if ($hassiteconfig) {
             'cf' => get_string('proxycf', 'local_dracoinsomnis'),
             'xff' => get_string('proxyxff', 'local_dracoinsomnis'),
         ]));
+    $settings->add(new admin_setting_configtextarea('local_dracoinsomnis/trusted_proxies',
+        get_string('trusted', 'local_dracoinsomnis'), get_string('trusted_desc', 'local_dracoinsomnis'), '', PARAM_RAW_TRIMMED, 60, 2));
     $settings->add(new admin_setting_configtextarea('local_dracoinsomnis/hosting_nets',
         get_string('nets', 'local_dracoinsomnis'), get_string('nets_desc', 'local_dracoinsomnis'), '', PARAM_RAW_TRIMMED, 60, 4));
     $ADMIN->add('localplugins', $settings);

@@ -28,9 +28,13 @@ final class DracointroField extends FormField
     {
         $h = static fn (string $s): string => htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
         $proxy = (string) ($this->form->getValue('proxy_header', 'params') ?? '');
+        $trusted = (string) ($this->form->getValue('trusted_proxies', 'params') ?? '');
         $request = JoomlaHost::request();
+        $ignored = $request->proxyHeaderIgnored($proxy, $trusted)
+            ? '<p class="mb-0 mt-2 text-danger">' . Text::sprintf('PLG_SYSTEM_DRACOINSOMNIS_PROXY_IGNORED', '<code>' . $h($request->remote()) . '</code>') . '</p>'
+            : '';
 
         return '<div class="alert alert-info"><p><em>Ab insomni custodita dracone.</em> ' . $h(Text::_('PLG_SYSTEM_DRACOINSOMNIS_INTRO')) . '</p>'
-            . '<p class="mb-0">' . Text::sprintf('PLG_SYSTEM_DRACOINSOMNIS_YOUR_IP', '<code>' . $h($request->ip($proxy)) . '</code>', '<code>' . $h($request->remote()) . '</code>') . '</p></div>';
+            . '<p class="mb-0">' . Text::sprintf('PLG_SYSTEM_DRACOINSOMNIS_YOUR_IP', '<code>' . $h($request->ip($proxy, $trusted)) . '</code>', '<code>' . $h($request->remote()) . '</code>') . '</p>' . $ignored . '</div>';
     }
 }

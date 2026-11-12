@@ -28,7 +28,7 @@ final class Pace
      */
     public function count(Request $r, int $now): array
     {
-        $ip = $r->ip($this->host->setting('proxy_header'));
+        $ip = $r->via($this->host);
         $minute = intdiv($now, self::WINDOW);
         $ipHits = $this->host->bump('draco_rl_i_' . md5($ip) . '_' . $minute, self::WINDOW * 2);
         $netHits = $this->host->bump('draco_rl_n_' . md5(Crawler::network($ip)) . '_' . $minute, self::WINDOW * 2);
@@ -52,7 +52,7 @@ final class Pace
     /** The addresses an administrator used, and search engines verified by DNS. */
     public function exempt(Request $r): bool
     {
-        $ip = $r->ip($this->host->setting('proxy_header'));
+        $ip = $r->via($this->host);
         if (in_array($ip, $this->host->adminIps(), true)) {
             return true;
         }
@@ -107,7 +107,7 @@ final class Pace
     /** Never counts towards the shield's bot verdicts: a fast reader or a shared office is not a bot. */
     public function record(Request $r, string $kind, bool $block, string $path): void
     {
-        $this->host->events()->log($r->ip($this->host->setting('proxy_header')), $r->remote(), 'anticopy:' . $kind, ['score' => 0, 'verdict' => 'doubtful', 'reasons' => ['anticopy_' . $kind . '_' . ($block ? 'block' : 'log')]], substr($r->userAgent, 0, 255), [
+        $this->host->events()->log($r->via($this->host), $r->remote(), 'anticopy:' . $kind, ['score' => 0, 'verdict' => 'doubtful', 'reasons' => ['anticopy_' . $kind . '_' . ($block ? 'block' : 'log')]], substr($r->userAgent, 0, 255), [
             'username' => '',
             'email' => '',
             'role' => '',

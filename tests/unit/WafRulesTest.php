@@ -49,6 +49,9 @@ final class WafRulesTest extends TestCase
             'script in url' => [['path' => '/', 'query' => 's=<script>alert(1)</script>'], 'xss'],
             'svg onload' => [['path' => '/', 'query' => 'q=<svg/onload=alert(1)>'], 'xss'],
             'javascript scheme' => [['path' => '/', 'query' => 'redirect=javascript:alert(document.cookie)'], 'xss'],
+            'sqli encoded twice' => [['path' => '/', 'query' => 'id=1%27%20union%20select%201,user_pass%20from%20wp_users--%20'], 'sqli'],
+            'traversal encoded twice' => [['path' => '/', 'params' => ['%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd']], 'traversal'],
+            'script encoded twice' => [['path' => '/', 'query' => 's=%3Cscript%3Ealert(1)%3C/script%3E'], 'xss'],
         ];
     }
 
@@ -68,6 +71,8 @@ final class WafRulesTest extends TestCase
             'home' => [['path' => '/']],
             'search select' => [['path' => '/', 'query' => 's=select your product']],
             'search union' => [['path' => '/', 'query' => 's=european union select committee']],
+            'percent sign in a search' => [['path' => '/', 'query' => 's=descuento 100%25 & 50%2525']],
+            'encoded link in a param' => [['path' => '/', 'params' => ['https%3A%2F%2Fexample.org%2Fa%3Fb%3D1']]],
             'union sentence in a form' => [['path' => '/', 'params' => ['The European Union select committee from Brussels met today.']]],
             'union sentence after a year' => [['path' => '/', 'params' => ['Since 1993 Union select members from all regions.']]],            'utm' => [['path' => '/oferta/', 'query' => 'utm_source=newsletter&utm_campaign=update-2026']],
             'message with sql words' => [['path' => '/wp-json/contact-form-7/v1/contact-forms/7/feedback', 'params' => [

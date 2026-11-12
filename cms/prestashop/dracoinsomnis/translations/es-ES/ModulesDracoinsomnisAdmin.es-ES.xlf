@@ -159,8 +159,8 @@
         <target>Cloudflare (CF-Connecting-IP)</target>
       </trans-unit>
       <trans-unit id="40">
-        <source>Other proxy (first X-Forwarded-For)</source>
-        <target>Otro proxy (primera X-Forwarded-For)</target>
+        <source>Other proxy (X-Forwarded-For)</source>
+        <target>Otro proxy (X-Forwarded-For)</target>
       </trans-unit>
       <trans-unit id="41">
         <source>Rented-server networks</source>
@@ -205,6 +205,18 @@
       <trans-unit id="51">
         <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
         <target>Esta petición se ha parado por motivos de seguridad. Si crees que es un error, contacta con el responsable de la tienda.</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>Trusted proxies</source>
+        <target>Proxies de confianza</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known.</source>
+        <target>Solo las conexiones desde estas direcciones pueden indicar la IP del visitante con una cabecera. Una dirección o rango por línea. Vacío: este servidor y las redes privadas. Los rangos de Cloudflare ya los conoce el módulo.</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
+        <target>Se ignora la cabecera: esta conexión (%s) no viene de Cloudflare ni de un proxy de confianza. Si tu proxy está en internet, añade sus direcciones en «Proxies de confianza».</target>
       </trans-unit>
     </body>
   </file>

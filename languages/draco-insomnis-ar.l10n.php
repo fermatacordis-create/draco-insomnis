@@ -384,5 +384,7 @@ return array (
     'A hidden trap field and a signed page stamp: people never solve puzzles.' => 'حقل فخ مخفي وختم صفحة موقَّع: لا يحل البشر الألغاز أبدًا.',
     'Never an administrator, nor your own address.' => 'ليس مديرًا أبدًا، ولا عنوانك أنت.',
     'Active: %d' => 'نشطة: %d',
+    'The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses below.' => 'يتم تجاهل الترويسة: هذا الاتصال (%s) لا يأتي من Cloudflare ولا من وكيل موثوق. إذا كان الوكيل الخاص بك على الإنترنت، فأضف عناوينه أدناه.',
+    'Trusted proxies (one per line, e.g. 203.0.113.10 or 203.0.113.0/24; empty = this server and private networks)' => 'الوكلاء الموثوقون (واحد في كل سطر، مثل 203.0.113.10 أو 203.0.113.0/24؛ فارغ = هذا الخادم والشبكات الخاصة)',
   ),
 );

@@ -46,6 +46,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         Submissions::ensureTable();
         $wpdb->query('TRUNCATE TABLE ' . Store::events());
         $wpdb->query('TRUNCATE TABLE ' . Store::blocks());
+        $wpdb->query('TRUNCATE TABLE ' . Store::counters());
         $wpdb->query('TRUNCATE TABLE ' . Submissions::table());
 
         $this->mails = [];

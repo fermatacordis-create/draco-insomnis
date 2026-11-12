@@ -20,6 +20,9 @@ draco_insomnis.settings:
     proxy_header:
       type: string
       label: 'Visitor address: empty, cf or xff'
+    trusted_proxies:
+      type: string
+      label: 'Trusted proxies, one address or CIDR per line'
     hosting_nets:
       type: string
       label: 'Rented-server networks, one CIDR per line'

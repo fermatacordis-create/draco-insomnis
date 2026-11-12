@@ -6,6 +6,7 @@ namespace DracoInsomnis\Firewall;
 
 use DracoInsomnis\Core\Firewall;
 use DracoInsomnis\Shield\Guard;
+use DracoInsomnis\Shield\Store;
 use DracoInsomnis\WpHost;
 
 defined('ABSPATH') || exit;
@@ -140,8 +141,7 @@ final class Waf
     public static function loginFailed(): void
     {
         $key = 'draco_waf_login_' . md5(Guard::clientIp());
-        $fails = (int) get_transient($key) + 1;
-        set_transient($key, $fails, self::LOGIN_WINDOW);
+        $fails = Store::bump($key, self::LOGIN_WINDOW);
         if ($fails >= self::LOGIN_FAILS) {
             set_transient('draco_waf_login_lock_' . md5(Guard::clientIp()), 1, self::LOGIN_BLOCK);
         }
