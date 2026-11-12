@@ -50,9 +50,14 @@ final class Request
         '2a06:98c0::/29', '2c0f:f248::/32',
     ];
 
-    /** The proxies trusted when the administrator listed none: the machine itself and private networks. */
+    /**
+     * The proxies trusted when the administrator listed none: the machine itself and networks that
+     * cannot be reached from the internet (private, carrier-grade NAT and link-local), where a
+     * hosting's own front servers live.
+     */
     public const LOCAL_PROXIES = [
-        '127.0.0.0/8', '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '::1/128', 'fc00::/7',
+        '127.0.0.0/8', '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '100.64.0.0/10', '169.254.0.0/16',
+        '::1/128', 'fc00::/7', 'fe80::/10',
     ];
 
     /** The visitor's address with the site's settings ("proxy_header", "trusted_proxies"). */

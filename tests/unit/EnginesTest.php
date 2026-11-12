@@ -115,6 +115,11 @@ final class EnginesTest extends TestCase
         $this->assertSame('198.51.100.9', $chain->ip('xff'), 'a public proxy must be listed');
         $this->assertSame(self::VISITOR, $chain->ip('xff', "198.51.100.0/24\n10.0.0.0/8"));
         $this->assertSame(self::VISITOR, $chain->ip('xff', '198.51.100.0/24, 10.0.0.0/8'));
+        // Front servers on carrier-grade NAT or link-local addresses are local too.
+        foreach (['100.64.3.4', '169.254.10.1', 'fe80::1'] as $front) {
+            $r = new Request('GET', '/', '', [], [], self::BROWSER, self::BROWSER, $front, '', self::VISITOR);
+            $this->assertSame(self::VISITOR, $r->ip('xff'), $front);
+        }
         // Junk in the chain stops the walk at the last trusted hop.
         $junk = new Request('GET', '/', '', [], [], self::BROWSER, self::BROWSER, '127.0.0.1', '', 'evil, x');
         $this->assertSame('127.0.0.1', $junk->ip('xff'));
