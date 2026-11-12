@@ -235,10 +235,7 @@ final class Admin
             /* translators: %s: site domain */
             'otherDomain' => sprintf(__('This sender is not from the domain of this site. Use an @%s address or messages may be rejected.', 'draco-insomnis'), $domain),
         ]);
-        ?>
-        <script>
-        (function () {
-            var t = <?php echo $text; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_json_encode ?>;
+        $js = '(function () {' . "\n" . '            var t = ' . $text . ';' . "\n" . <<<'JS'
             var $ = function (id) { return document.getElementById(id); };
             var provider = $('draco-mail-provider'), secure = $('draco-mail-secure'), port = $('draco-mail-port');
             if (!provider) { return; }
@@ -266,8 +263,8 @@ final class Admin
             $('draco-mail-from').addEventListener('input', check);
             check();
         })();
-        </script>
-        <?php
+        JS;
+        wp_print_inline_script_tag($js);
     }
 
     private static function notice(string $result): void
