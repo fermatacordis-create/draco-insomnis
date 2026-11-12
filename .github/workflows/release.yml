@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   release:
-    name: Build and publish the five packages
+    name: Build and publish one package per platform
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -47,6 +47,7 @@ jobs:
             echo "| Drupal 10.3 and 11 | \`draco_insomnis-drupal-$version.zip\` |"
             echo "| Joomla 5 and 6 | \`plg_system_dracoinsomnis-joomla-$version.zip\` |"
             echo "| Moodle 4.5 to 5.x | \`local_dracoinsomnis-moodle-$version.zip\` |"
+            echo "| Laravel 11 to 13 (Composer package) | \`draco-insomnis-laravel-$version.zip\` |"
             echo
             echo "Checksums in \`SHA256SUMS.txt\`."
             if [ -n "$notes" ]; then echo; echo "## Changes"; echo; echo "$notes"; fi

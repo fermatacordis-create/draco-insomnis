@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Builds the five packages from the same commit (and the same src/Core), after checking that they all
-# carry the same version.
+# Builds every package (WordPress, PrestaShop, Drupal, Joomla, Moodle, Laravel) from the same commit
+# and the same src/Core, after checking that they all carry the same version. The Laravel package
+# takes the WordPress version at build time.
 # Usage: bin/build-all.sh [output-dir]   (default: ./dist)
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -11,3 +12,4 @@ bin/build-prestashop.sh "$out"
 bin/build-drupal.sh "$out"
 bin/build-joomla.sh "$out"
 bin/build-moodle.sh "$out"
+bin/build-laravel.sh "$out"
