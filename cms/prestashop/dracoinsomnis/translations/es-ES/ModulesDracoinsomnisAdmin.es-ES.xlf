@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="dracoinsomnis" source-language="en-US" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Off</source>
+        <target>Apagado</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Block</source>
+        <target>Bloquear</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Settings</source>
+        <target>Ajustes</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Firewall</source>
+        <target>Cortafuegos</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Visitor address</source>
+        <target>IP del visitante</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Save</source>
+        <target>Guardar</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Reason</source>
+        <target>Motivo</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Until (UTC)</source>
+        <target>Hasta (UTC)</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Unblock</source>
+        <target>Desbloquear</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Nothing yet.</source>
+        <target>Todavía nada.</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Date (UTC)</source>
+        <target>Fecha (UTC)</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Where</source>
+        <target>Dónde</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Verdict</source>
+        <target>Veredicto</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>The registration could not be completed.</source>
+        <target>No se ha podido completar el registro.</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Request blocked</source>
+        <target>Petición bloqueada</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>Firewall: %d attacks in 10 minutes</source>
+        <target>Cortafuegos: %d ataques en 10 minutos</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>Automatic: %d bot attempts in 24 h</source>
+        <target>Automático: %d intentos de bot en 24 h</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Draco Insomnis</source>
+        <target>Draco Insomnis</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Stops fake customer sign-ups without captchas, firewall and anti-copy limits. Open source.</source>
+        <target>Frena las altas falsas de clientes sin captchas, con cortafuegos y límites anti-copia. Código abierto.</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Settings saved.</source>
+        <target>Ajustes guardados.</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Address unblocked.</source>
+        <target>Dirección desbloqueada.</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.</source>
+        <target>Frena las altas falsas de clientes sin captchas: los bots no consiguen cuenta y cada intento sospechoso se guarda 90 días como prueba para denunciarlo. Nunca se envía nada de vuelta al atacante.</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Your address as the module sees it:</source>
+        <target>Tu dirección tal como la ve el módulo:</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>(connection address:</source>
+        <target>(dirección de la conexión:</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".</source>
+        <target>Si la tienda está detrás de Cloudflare u otro proxy y no coinciden con tu dirección real, elige la opción que corresponda en «IP del visitante».</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Log only: record what it would stop</source>
+        <target>Solo registrar lo que pararía</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Protect customer sign-ups</source>
+        <target>Proteger las altas de clientes</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Adds an invisible trap and a signed page stamp to the sign-up form (account page and checkout). Bots get no account; three bot attempts in a day block the address for a week.</source>
+        <target>Añade una trampa invisible y un sello firmado de la página al formulario de alta (página de cuenta y pedido). Los bots no consiguen cuenta; tres intentos de bot en un día bloquean la dirección una semana.</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Yes</source>
+        <target>Sí</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>No</source>
+        <target>No</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with "Log only" and move to "Block" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still browse, but not post. Emergency exit: define('DRACO_WAF_OFF', true); in config/defines_custom.inc.php.</source>
+        <target>Para las peticiones con forma de ataque (inyección en la base de datos, lectura de archivos del servidor, ejecución de código, scripts en enlaces) y los escáneres como sqlmap o Nikto. Empieza con «Solo registrar» y pasa a «Bloquear» al cabo de unos días. Cinco ataques en 10 minutos bloquean la dirección una semana; las direcciones bloqueadas pueden seguir viendo la tienda, pero no enviar nada. Salida de emergencia: define('DRACO_WAF_OFF', true); en config/defines_custom.inc.php.</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Anti-copy pace limit</source>
+        <target>Límite de ritmo anti-copia</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>More pages per minute than a person reads get "429 Too many requests" until the minute ends. Logged-in customers, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited.</source>
+        <target>Quien pide más páginas por minuto de las que lee una persona recibe «429 Too many requests» hasta que acaba el minuto. Nunca se limita a los clientes con sesión iniciada, a tus propias direcciones ni a los buscadores verificados por DNS (Google, Bing, Apple, Yandex).</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Pages per minute, per address</source>
+        <target>Páginas por minuto, por dirección</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Pages per minute, per network</source>
+        <target>Páginas por minuto, por red</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other.</source>
+        <target>Una red /24 en IPv4 o /64 en IPv6: lo que usa un copiador cuando va cambiando entre direcciones vecinas.</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Leave "Connection address" unless the shop is behind a proxy: a header can be forged by anyone.</source>
+        <target>Deja «Dirección de la conexión» salvo que la tienda esté detrás de un proxy: cualquiera puede falsificar una cabecera.</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Connection address (recommended)</source>
+        <target>Dirección de la conexión (recomendado)</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Cloudflare (CF-Connecting-IP)</source>
+        <target>Cloudflare (CF-Connecting-IP)</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Other proxy (first X-Forwarded-For)</source>
+        <target>Otro proxy (primera X-Forwarded-For)</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>Rented-server networks</source>
+        <target>Redes de servidores de alquiler</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot.</source>
+        <target>Un rango por línea (CIDR), que se suma a los que el módulo ya conoce. Estar en esta lista solo suma puntos: por sí sola nunca convierte a nadie en bot.</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>Blocked addresses</source>
+        <target>Direcciones bloqueadas</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Nothing blocked right now.</source>
+        <target>Ahora mismo no hay nada bloqueado.</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>Address or e-mail</source>
+        <target>Dirección o correo</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Last suspicious attempts</source>
+        <target>Últimos intentos sospechosos</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider.</source>
+        <target>Se guardan 90 días. Nunca contraseñas. El CSV de una dirección reúne todo lo que hizo, listo para adjuntarlo a una denuncia a su proveedor de red.</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Address</source>
+        <target>Dirección</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Signs</source>
+        <target>Señales</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>Data</source>
+        <target>Datos</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
+        <target>Esta petición se ha parado por motivos de seguridad. Si crees que es un error, contacta con el responsable de la tienda.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

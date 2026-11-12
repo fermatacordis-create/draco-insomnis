@@ -21,10 +21,21 @@ Version 0.1:
   list, and limits pages per minute per address and network; verified search engines are never limited.
 - **Firewall** — precise attack signatures and scanner probes, log-only mode first, hidden user list,
   login limits, no XML-RPC multicall.
+
+Also for **PrestaShop** 8 and 9 (module `dracoinsomnis`): the anti-bot shield on customer sign-ups
+(account page and checkout), the firewall and the anti-copy pace limit. PrestaShop already has its own
+SMTP and back-office two-step login, so those stay WordPress-only. Drupal, Joomla and Moodle come next.
+
 ## Layout
 
-- `src/Core/` — plain PHP, no WordPress: scoring (`BotScore`), network lists (`NetList`), the signed
-  page stamp (`FormStamp`) and the firewall signatures (`WafRules`). Easy to test and to reuse.
+- `src/Core/` — plain PHP, no CMS. The building blocks: scoring (`BotScore`), network lists
+  (`NetList`), the signed page stamp (`FormStamp`), firewall signatures (`WafRules`) and crawler
+  names (`Crawler`). The engines every CMS shares: `Shield` (judging sign-ups, evidence, automatic
+  blocks), `Firewall` and `Pace` (anti-copy), which only talk to the CMS through two small interfaces,
+  `Host` and `EventStore`. `tests/unit/MemoryHost.php` is the reference of how an adapter must behave.
+- `src/WpHost.php` — the WordPress adapter for the engines.
+- `cms/prestashop/dracoinsomnis/` — the PrestaShop module: `PsHost` (adapter), `Store` (its own
+  tables, also used for counters), `Front` (hooks), `Settings` and `Admin` (the configuration page).
 - `src/Firewall/` — `Waf` (inspection, user list, login limit, XML-RPC) and `Admin`.
 - `src/Shield/` — the WordPress side: `Guard` (hooks into the sign-up forms), `Store` (attempts and
   blocks) and `Admin` (the settings screen and the evidence download).
@@ -44,6 +55,14 @@ bin/build-zip.sh          # writes dist/draco-insomnis-<version>.zip
 
 The ZIP holds only what WordPress needs (no tests, Markdown files or tooling). It passes
 [Plugin Check](https://wordpress.org/plugins/plugin-check/) with no errors or warnings.
+
+```
+bin/build-prestashop.sh   # writes dist/dracoinsomnis-prestashop-<version>.zip
+```
+
+The PrestaShop ZIP carries its own copy of `src/Core`, with the `_PS_VERSION_` guard PrestaShop asks
+for in every PHP file, and an `index.php` in every folder. Install it from **Modules → Upload a
+module**; every part starts off. Spanish translation included (`translations/es-ES`).
 
 ## Tests
 
