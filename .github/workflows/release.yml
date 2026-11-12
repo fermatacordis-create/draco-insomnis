@@ -42,7 +42,7 @@ jobs:
             echo
             echo "| CMS | Package |"
             echo "| --- | --- |"
-            echo "| WordPress 6.5+ | \`draco-insomnis-$version.zip\` |"
+            echo "| WordPress 6.5+ | \`draco-insomnis-wordpress-$version.zip\` |"
             echo "| PrestaShop 8 and 9 | \`dracoinsomnis-prestashop-$version.zip\` |"
             echo "| Drupal 10.3 and 11 | \`draco_insomnis-drupal-$version.zip\` |"
             echo "| Joomla 5 and 6 | \`plg_system_dracoinsomnis-joomla-$version.zip\` |"

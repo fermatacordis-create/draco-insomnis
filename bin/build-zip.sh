@@ -15,7 +15,7 @@ tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 mkdir "$tmp/draco-insomnis"
 cp -r draco-insomnis.php uninstall.php readme.txt LICENSE src languages assets "$tmp/draco-insomnis/"
-zip_path="$(cd "$out" && pwd)/draco-insomnis-$version.zip"
+zip_path="$(cd "$out" && pwd)/draco-insomnis-wordpress-$version.zip"
 rm -f "$zip_path"
 (cd "$tmp" && zip -qr "$zip_path" draco-insomnis)
 echo "$zip_path"

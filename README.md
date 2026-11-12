@@ -66,7 +66,7 @@ build.
 ## Building the ZIP
 
 ```
-bin/build-zip.sh          # writes dist/draco-insomnis-<version>.zip
+bin/build-zip.sh          # writes dist/draco-insomnis-wordpress-<version>.zip
 ```
 
 The ZIP holds only what WordPress needs (no tests, Markdown files or tooling). It passes
