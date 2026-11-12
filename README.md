@@ -105,6 +105,21 @@ plugins → Draco Insomnis**. Moodle plugins ship English only; other languages 
 language packs (AMOS) once the plugin is in the Moodle plugins directory. Emergency exit:
 `define('DRACO_WAF_OFF', true);` in `config.php`.
 
+## Releasing
+
+Every release carries the five packages with the same version, built from the same commit:
+
+```
+bin/set-version.sh 0.2.0     # WordPress header, constant and Stable tag; PrestaShop, Drupal, Joomla, Moodle
+# add "= 0.2.0 =" to the changelog in readme.txt, open a PR, wait for a green CI, merge
+git tag v0.2.0 && git push origin v0.2.0
+```
+
+The tag starts [Release](.github/workflows/release.yml): it refuses to go on unless the tag and the
+five versions agree (`bin/versions.sh --check`), runs the unit tests, builds the five ZIPs
+(`bin/build-all.sh`) and publishes one GitHub release with them, their SHA-256 sums and the changelog
+entry of that version.
+
 ## Tests
 
 Every push and pull request runs [CI](.github/workflows/ci.yml): PHP syntax on 8.0–8.4, unit tests,
