@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.7
+Stable tag: 0.1.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,9 @@ Only bots wait, for at most three seconds, and at most ten slow answers per minu
 For suspicious attempts only: date, address, browser name, username, e-mail, requested role and referring page. Never passwords. Everything is deleted after 90 days, and all of it is removed when the plugin is deleted.
 
 == Changelog ==
+
+= 0.1.8 =
+* With no "Trusted proxies" listed, the front servers of a hosting on carrier-grade NAT (100.64.0.0/10) or link-local addresses (169.254.0.0/16, fe80::/10) are trusted too, like private networks. Sites that chose X-Forwarded-For behind such a front server keep seeing the real visitor address after 0.1.7.
 
 = 0.1.7 =
 * Security: the visitor address is read from a proxy header (Cloudflare or X-Forwarded-For) only when the connection really comes from that proxy: Cloudflare's own ranges, or the new "Trusted proxies" list (empty = this server and private networks). Before, anyone could send the header straight to the site and pose as another address, even an administrator's, which is never inspected by the firewall. X-Forwarded-For is now read from the right, skipping trusted proxies, because whatever is on the left was written by the visitor. The settings screens warn when the header is being ignored. Same fix on PrestaShop, Drupal, Joomla, Moodle and Laravel (DRACO_TRUSTED_PROXIES).
