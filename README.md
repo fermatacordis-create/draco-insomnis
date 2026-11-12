@@ -22,9 +22,11 @@ Version 0.1:
 - **Firewall** — precise attack signatures and scanner probes, log-only mode first, hidden user list,
   login limits, no XML-RPC multicall.
 
-Also for **PrestaShop** 8 and 9 (module `dracoinsomnis`) and **Drupal** 10.3 and 11 (module
-`draco_insomnis`): the anti-bot shield on sign-ups, the firewall and the anti-copy pace limit. Both
-CMSs have their own SMTP and two-step login, so those stay WordPress-only. Joomla and Moodle come next.
+Also for **PrestaShop** 8 and 9 (module `dracoinsomnis`), **Drupal** 10.3 and 11 (module
+`draco_insomnis`) and **Joomla** 5 and 6 (plugin `plg_system_dracoinsomnis`): the anti-bot shield on
+sign-ups, the firewall and the anti-copy pace limit. These CMSs have their own SMTP and two-step
+login, so those stay WordPress-only. Moodle comes next. Every package is built from the same
+`src/Core`, so an improvement there reaches all of them with the next build.
 
 ## Layout
 
@@ -40,6 +42,10 @@ CMSs have their own SMTP and two-step login, so those stay WordPress-only. Jooml
   middleware that checks anonymous requests before the page cache, a subscriber for requests with a
   session (after authentication, so users with "Bypass the Draco Insomnis firewall" are left alone),
   the shield on `user_register_form`, and the settings form with the evidence and the block list.
+- `cms/joomla/plg_system_dracoinsomnis/` — the Joomla system plugin: `JoomlaHost` (adapter; settings
+  are the plugin's parameters, the secret derives from the site's own), `Store`, and the plugin class:
+  firewall and pace on `onAfterInitialise`, the shield on `onAfterRoute` (before com_users creates
+  the account) and `onAfterRender` (fields into `member-registration`), CSV and unblock via `com_ajax`.
 - `src/Firewall/` — `Waf` (inspection, user list, login limit, XML-RPC) and `Admin`.
 - `src/Shield/` — the WordPress side: `Guard` (hooks into the sign-up forms), `Store` (attempts and
   blocks) and `Admin` (the settings screen and the evidence download).
@@ -76,6 +82,14 @@ The Drupal archive carries its own copy of `src/Core` in `lib/Core`. Unpack it i
 `modules/custom/` and enable it (`drush en draco_insomnis`); every part starts off. Settings live in
 **Configuration → System → Draco Insomnis**. Emergency exit: `$settings['draco_waf_off'] = TRUE;` in
 `settings.php`.
+
+```
+bin/build-joomla.sh       # writes dist/plg_system_dracoinsomnis-joomla-<version>.zip
+```
+
+Install it from **System → Install → Extensions**, then enable **System - Draco Insomnis**; every
+part starts off. English and Spanish included. Emergency exit: `define('DRACO_WAF_OFF', true);` in
+`defines.php` at the site root.
 
 ## Tests
 

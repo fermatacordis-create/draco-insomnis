@@ -129,6 +129,19 @@ jobs:
           for f in $(find "$check" -name '*.yml'); do python3 -c "import sys, yaml; yaml.safe_load(open(sys.argv[1]))" "$f" || { echo "Bad YAML: ${f#$check/}"; exit 1; }; done
           [ -f "$check/draco_insomnis/lib/Core/Shield.php" ] || { echo "Engines missing from lib/Core"; exit 1; }
           sha256sum "$zip"
+      - name: Build the Joomla plugin
+        run: |
+          zip=$(bin/build-joomla.sh dist)
+          check=$(mktemp -d)
+          unzip -q "$zip" -d "$check"
+          [ -f "$check/dracoinsomnis.xml" ] || { echo "Manifest not at the ZIP root"; exit 1; }
+          python3 -c "import sys, xml.dom.minidom; xml.dom.minidom.parse(sys.argv[1])" "$check/dracoinsomnis.xml"
+          for f in $(find "$check" -name '*.php'); do
+            php -l "$f" > /dev/null
+            grep -q "_JEXEC" "$f" || { echo "No _JEXEC guard in ${f#$check/}"; exit 1; }
+          done
+          for f in $(find "$check/language" -name '*.ini'); do php -r 'parse_ini_file($argv[1]) !== false || exit(1);' "$f" || { echo "Bad INI: ${f#$check/}"; exit 1; }; done
+          sha256sum "$zip"
       - uses: actions/upload-artifact@v4
         with:
           name: draco-insomnis-zip

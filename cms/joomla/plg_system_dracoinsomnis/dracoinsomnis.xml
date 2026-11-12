@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_dracoinsomnis</name>
+	<author>Notorius Vision</author>
+	<creationDate>2026-11</creationDate>
+	<copyright>(C) 2026 Notorius Vision</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorUrl>https://notoriusvision.com</authorUrl>
+	<version>0.1.0</version>
+	<description>PLG_SYSTEM_DRACOINSOMNIS_XML_DESCRIPTION</description>
+	<namespace path="src">Notorius\Plugin\System\DracoInsomnis</namespace>
+	<files>
+		<folder plugin="dracoinsomnis">services</folder>
+		<folder>src</folder>
+		<folder>lib</folder>
+		<folder>sql</folder>
+		<filename>LICENSE.txt</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_system_dracoinsomnis.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_dracoinsomnis.sys.ini</language>
+		<language tag="es-ES">language/es-ES/plg_system_dracoinsomnis.ini</language>
+		<language tag="es-ES">language/es-ES/plg_system_dracoinsomnis.sys.ini</language>
+	</languages>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+	<config>
+		<fields name="params" addfieldprefix="Notorius\Plugin\System\DracoInsomnis\Field">
+			<fieldset name="basic">
+				<field name="intro" type="dracointro" label="" />
+				<field
+					name="shield"
+					type="radio"
+					label="PLG_SYSTEM_DRACOINSOMNIS_SHIELD_LABEL"
+					description="PLG_SYSTEM_DRACOINSOMNIS_SHIELD_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="waf_mode"
+					type="list"
+					label="PLG_SYSTEM_DRACOINSOMNIS_WAF_LABEL"
+					description="PLG_SYSTEM_DRACOINSOMNIS_WAF_DESC"
+					default="off"
+					filter="word"
+				>
+					<option value="off">PLG_SYSTEM_DRACOINSOMNIS_MODE_OFF</option>
+					<option value="log">PLG_SYSTEM_DRACOINSOMNIS_MODE_LOG</option>
+					<option value="block">PLG_SYSTEM_DRACOINSOMNIS_MODE_BLOCK</option>
+				</field>
+				<field
+					name="pace_mode"
+					type="list"
+					label="PLG_SYSTEM_DRACOINSOMNIS_PACE_LABEL"
+					description="PLG_SYSTEM_DRACOINSOMNIS_PACE_DESC"
+					default="off"
+					filter="word"
+				>
+					<option value="off">PLG_SYSTEM_DRACOINSOMNIS_MODE_OFF</option>
+					<option value="log">PLG_SYSTEM_DRACOINSOMNIS_MODE_LOG</option>
+					<option value="block">PLG_SYSTEM_DRACOINSOMNIS_MODE_BLOCK</option>
+				</field>
+				<field name="anticopy_rate_ip" type="number" label="PLG_SYSTEM_DRACOINSOMNIS_RATE_IP_LABEL" default="120" min="10" filter="integer" />
+				<field name="anticopy_rate_net" type="number" label="PLG_SYSTEM_DRACOINSOMNIS_RATE_NET_LABEL" description="PLG_SYSTEM_DRACOINSOMNIS_RATE_NET_DESC" default="600" min="10" filter="integer" />
+				<field
+					name="proxy_header"
+					type="list"
+					label="PLG_SYSTEM_DRACOINSOMNIS_PROXY_LABEL"
+					description="PLG_SYSTEM_DRACOINSOMNIS_PROXY_DESC"
+					default=""
+					filter="word"
+				>
+					<option value="">PLG_SYSTEM_DRACOINSOMNIS_PROXY_NONE</option>
+					<option value="cf">PLG_SYSTEM_DRACOINSOMNIS_PROXY_CF</option>
+					<option value="xff">PLG_SYSTEM_DRACOINSOMNIS_PROXY_XFF</option>
+				</field>
+				<field name="hosting_nets" type="textarea" rows="4" label="PLG_SYSTEM_DRACOINSOMNIS_NETS_LABEL" description="PLG_SYSTEM_DRACOINSOMNIS_NETS_DESC" filter="string" />
+				<field name="evidence" type="dracoevidence" label="" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>
