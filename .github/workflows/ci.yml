@@ -202,7 +202,7 @@ jobs:
             folders: -e PS_FOLDER_ADMIN=admin-ci -e PS_FOLDER_INSTALL=install-ci
           # The 9 image cannot rename its admin folder (admin-dev) during the automatic install: keep its name.
           - ps: '9'
-            folders: -e PS_FOLDER_ADMIN=admin-dev
+            folders: -e PS_FOLDER_ADMIN=admin-dev -e PS_FOLDER_INSTALL=install
     services:
       mysql:
         image: mysql:8.0
