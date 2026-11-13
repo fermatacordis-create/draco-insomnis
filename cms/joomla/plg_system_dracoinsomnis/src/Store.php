@@ -137,21 +137,88 @@ final class Store implements EventStore
             ->bind(':now', $now)->bind(':email', $email)->bind(':ip', $ip)
             ->setLimit(1);
 
-        return (bool) $db->setQuery($query)->loadResult() || ($ip !== '' && \DracoInsomnis\Core\NetList::contains(self::activeNets(), $ip));
+        return (bool) $db->setQuery($query)->loadResult() || ($ip !== '' && \DracoInsomnis\Core\NetList::contains(self::activeValues('net'), $ip));
     }
 
-    /** @return list<string> Blocked ranges in force, read once per request. */
-    public static function activeNets(): array
+    /**
+     * Values of one kind in force: 'net' (blocked ranges) or 'allow' (addresses let through after a
+     * review). Read once per request.
+     *
+     * @return list<string>
+     */
+    public static function activeValues(string $kind): array
     {
-        static $nets = null;
-        if ($nets === null) {
+        static $cache = [];
+        if (!isset($cache[$kind])) {
             $db = self::db();
             $now = self::now();
-            $nets = array_map('strval', (array) $db->setQuery($db->getQuery(true)->select($db->quoteName('value'))->from($db->quoteName('#__dracoinsomnis_blocks'))
-                ->where($db->quoteName('kind') . " = 'net'")->where($db->quoteName('until_at') . ' > :now')->bind(':now', $now)->setLimit(500))->loadColumn());
+            $cache[$kind] = array_map('strval', (array) $db->setQuery($db->getQuery(true)->select($db->quoteName('value'))->from($db->quoteName('#__dracoinsomnis_blocks'))
+                ->where($db->quoteName('kind') . ' = :kind')->where($db->quoteName('until_at') . ' > :now')->bind(':kind', $kind)->bind(':now', $now)->setLimit(500))->loadColumn());
         }
 
-        return $nets;
+        return $cache[$kind];
+    }
+
+    /** Lets an address through the firewall and the block list for a while (1, 7, 30 days or 0 = forever). */
+    public static function allow(string $ip, int $days, string $reason): bool
+    {
+        $ip = strtolower(trim($ip));
+        if (filter_var($ip, FILTER_VALIDATE_IP) === false || !\in_array($days, [1, 7, 30, 0], true)) {
+            return false;
+        }
+        $db = self::db();
+        $db->setQuery($db->getQuery(true)->delete($db->quoteName('#__dracoinsomnis_blocks'))
+            ->where($db->quoteName('kind') . " IN ('ip', 'allow')")->where($db->quoteName('value') . ' = :v')->bind(':v', $ip))->execute();
+        $row = (object) [
+            'kind' => 'allow',
+            'value' => $ip,
+            'reason' => substr($reason, 0, 190),
+            'created_at' => self::now(),
+            'until_at' => \DracoInsomnis\Core\Blocklist::untilAt($days, time()),
+        ];
+
+        return $db->insertObject('#__dracoinsomnis_blocks', $row);
+    }
+
+    /** Review requests, pending first. */
+    public static function reviews(int $limit = 50): array
+    {
+        $db = self::db();
+        $endpoint = \DracoInsomnis\Core\Review::ENDPOINT;
+        $rows = (array) $db->setQuery($db->getQuery(true)->select('*')->from($db->quoteName('#__dracoinsomnis_events'))
+            ->where($db->quoteName('endpoint') . ' = :e')->bind(':e', $endpoint)->order($db->quoteName('id') . ' DESC')->setLimit($limit))->loadAssocList();
+        usort($rows, static fn (array $a, array $b): int => ($a['verdict'] === 'pending' ? 0 : 1) <=> ($b['verdict'] === 'pending' ? 0 : 1));
+
+        return $rows;
+    }
+
+    public static function review(int $id): ?array
+    {
+        $db = self::db();
+        $endpoint = \DracoInsomnis\Core\Review::ENDPOINT;
+        $row = $db->setQuery($db->getQuery(true)->select('*')->from($db->quoteName('#__dracoinsomnis_events'))
+            ->where($db->quoteName('id') . ' = :id')->where($db->quoteName('endpoint') . ' = :e')
+            ->bind(':id', $id, ParameterType::INTEGER)->bind(':e', $endpoint))->loadAssoc();
+
+        return \is_array($row) ? $row : null;
+    }
+
+    public static function setVerdict(int $id, string $verdict): void
+    {
+        $db = self::db();
+        $verdict = substr($verdict, 0, 10);
+        $db->setQuery($db->getQuery(true)->update($db->quoteName('#__dracoinsomnis_events'))->set($db->quoteName('verdict') . ' = :v')
+            ->where($db->quoteName('id') . ' = :id')->bind(':v', $verdict)->bind(':id', $id, ParameterType::INTEGER))->execute();
+    }
+
+    /** Firewall events of the last $seconds, for the summary. */
+    public static function wafRows(int $seconds): array
+    {
+        $db = self::db();
+        $since = gmdate('Y-m-d H:i:s', time() - $seconds);
+
+        return (array) $db->setQuery($db->getQuery(true)->select($db->quoteName(['ip', 'verdict', 'reasons']))->from($db->quoteName('#__dracoinsomnis_events'))
+            ->where($db->quoteName('endpoint') . " LIKE 'waf:%'")->where($db->quoteName('created_at') . ' > :since')->bind(':since', $since)->setLimit(5000))->loadAssocList();
     }
 
     /** Never blocks an administrator's e-mail or an address an administrator used recently. */

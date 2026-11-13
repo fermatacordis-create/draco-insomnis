@@ -92,6 +92,13 @@ final class JoomlaHost implements Host
 
     public function adminIps(): array
     {
+        // Plus the addresses a person let through after a review.
+        return array_values(array_unique(array_merge(self::storedAdminIps(), Store::activeValues('allow'))));
+    }
+
+    /** @return list<string> */
+    private static function storedAdminIps(): array
+    {
         $list = json_decode((string) Store::recall('draco_admin_ips'), true);
 
         return \is_array($list) ? array_values(array_filter($list, 'is_string')) : [];
@@ -100,7 +107,7 @@ final class JoomlaHost implements Host
     /** The last ten addresses administrators worked from: never blocked, never limited. */
     public function rememberAdminIp(string $ip): void
     {
-        $list = $this->adminIps();
+        $list = self::storedAdminIps();
         if (($list[0] ?? null) === $ip) {
             return;
         }

@@ -130,6 +130,33 @@ param geo_mode off; param geo_countries ''; param geo_action log; param waf_mode
 rm -f "$geo"
 reset
 
+echo "== review request from the block page"
+param pace_mode off
+param waf_mode block
+page=$(curl -s -A "$UA" "$(attack)")
+echo "$page" | grep -q 'name="draco_review"' && ok "the block page has the review form" || ko "no review form"
+rts=$(val "$page" draco_ts); rsig=$(val "$page" draco_sig); rrule=$(val "$page" draco_rule)
+c=$(curl -s -o /dev/null -w '%{http_code}' -A "$UA" -d draco_review=1 -d "draco_rule=$rrule" -d "draco_ts=$rts" -d "draco_sig=$rsig" -d draco_email=ana@example.org -d 'draco_message=I was searching' "$BASE/index.php?$(cb)")
+[ "$c" = 200 ] && ok "review request answered ($c)" || ko "review request $c"
+[ "$(sql "SELECT COUNT(*) FROM #__dracoinsomnis_events WHERE endpoint='review' AND verdict='pending'")" = 1 ] && ok "kept as a pending review" || ko "review not kept"
+curl -s -o /dev/null -A "$UA" -d draco_review=1 -d "draco_rule=$rrule" -d "draco_ts=$rts" -d draco_sig=forged -d draco_email=bot@spam.example -d 'draco_message=spam' "$BASE/index.php?$(cb)"
+[ "$(sql "SELECT COUNT(*) FROM #__dracoinsomnis_events WHERE endpoint='review'")" = 1 ] && ok "a forged review is dropped" || ko "forged review kept"
+me=$(sql "SELECT ip FROM #__dracoinsomnis_events WHERE endpoint='review' LIMIT 1")
+sql "INSERT INTO #__dracoinsomnis_blocks (kind, value, reason, created_at, until_at) VALUES ('allow', '$me', 'e2e', UTC_TIMESTAMP(), UTC_TIMESTAMP() + INTERVAL 1 DAY)"
+c=$(code "$(attack)"); [ "$c" = 200 ] && ok "an address let through is not inspected" || ko "allowed address still blocked ($c)"
+sql "DELETE FROM #__dracoinsomnis_blocks WHERE kind='allow'"
+
+echo "== firewall test button"
+tok=$($PHP -r 'require getcwd() . "/configuration.php"; $c = new JConfig; $ts = time(); echo $ts, ".", hash_hmac("sha256", "waf-test|" . $ts, hash("sha256", "draco-insomnis|" . $c->secret));')
+before=$(sql "SELECT COUNT(*) FROM #__dracoinsomnis_events")
+h=$(curl -s -D - -o /dev/null -A "$UA" -H "X-Draco-Test: $tok" "$BASE/index.php?$(cb)" | tr -d '\r')
+echo "$h" | grep -qi '^x-draco-test-result: sqli|block' && ok "signed test answered: blocked" || ko "test answer: $(echo "$h" | grep -i 'draco-test' | head -1)"
+h=$(curl -s -D - -o /dev/null -A "$UA" -H "X-Draco-Test: 1.forged" "$BASE/index.php?$(cb)" | tr -d '\r')
+echo "$h" | grep -qi '^x-draco-test-result:' && ko "a forged test header was answered" || ok "a forged test header is ignored"
+[ "$(sql "SELECT COUNT(*) FROM #__dracoinsomnis_events")" = "$before" ] && ok "a test is never logged" || ko "test logged"
+param waf_mode off
+reset
+
 echo "== anti-copy pace"
 param pace_mode block
 param anticopy_rate_ip 10
