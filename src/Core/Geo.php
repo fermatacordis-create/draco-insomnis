@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Core;
 
+// phpcs:disable WordPress.WP.AlternativeFunctions -- random-access reads (fseek) of a read-only binary file: WP_Filesystem has no seek, and this engine runs outside WordPress too.
+
 /**
  * The country of an address, from the file bin/build-geo.php writes (DB-IP Lite, CC BY 4.0). Plain PHP:
  * a binary search over fixed-size records, about 20 reads, no extension and nothing sent anywhere.
