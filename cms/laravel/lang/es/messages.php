@@ -7,5 +7,10 @@ return [
     'review_body' => 'Un visitante parado por el cortafuegos pide una revisión. Abre la página de Draco Insomnis para dejarle pasar o no.',
     'rejected' => 'No se ha podido completar el registro.',
     'blocked_title' => 'Petición bloqueada',
-    'blocked_text' => 'Esta petición se ha parado por motivos de seguridad. Si crees que es un error, contacta con el responsable del sitio.',
+    'blocked_text' => 'Esta petición se ha parado por motivos de seguridad. Si crees que es un error, cuéntale al responsable del sitio qué estabas haciendo:',
+    'review_sent_title' => 'Petición enviada',
+    'review_sent_text' => 'Gracias. El responsable del sitio lo mirará y, si fue un error, te dejará pasar.',
+    'review_email' => 'Tu correo',
+    'review_message' => '¿Qué estabas haciendo?',
+    'review_button' => 'Pedir revisión',
 ];

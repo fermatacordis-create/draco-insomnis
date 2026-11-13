@@ -77,4 +77,15 @@ final class ReviewProbeTest extends TestCase
         ];
         $this->assertSame(['total' => 3, 'blocked' => 2, 'rules' => ['waf_sqli' => 2, 'waf_scanner' => 1], 'ips' => ['198.51.100.1' => 2, '198.51.100.2' => 1]], Summary::waf($rows));
     }
+
+    public function test_the_block_page_never_says_which_rule_matched(): void
+    {
+        $host = new MemoryHost();
+        $form = (new Review($host))->form($this->req('203.0.113.9'), 'sqli', self::NOW, ['email' => 'E', 'message' => 'M', 'button' => 'B']);
+        $this->assertStringNotContainsString('sqli', $form);
+        $sealed = Review::seal($host->secret(), '203.0.113.9', (string) self::NOW, 'sqli');
+        $this->assertSame('sqli', Review::open($host->secret(), '203.0.113.9', (string) self::NOW, $sealed));
+        $this->assertSame('', Review::open($host->secret(), '203.0.113.9', (string) self::NOW, 'sqli'));
+        $this->assertNotSame('sqli', Review::open($host->secret(), '198.51.100.1', (string) self::NOW, $sealed), 'another address cannot read it');
+    }
 }

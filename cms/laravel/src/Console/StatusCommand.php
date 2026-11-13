@@ -26,6 +26,18 @@ final class StatusCommand extends Command
             ['Trusted proxies', (string) config('draco.trusted_proxies') ?: 'this machine and private networks' . (config('draco.proxy_header') === 'cf' ? ', Cloudflare' : '')],
         ]);
 
+        $sum = \DracoInsomnis\Core\Summary::waf(Store::wafRows(7 * 86400));
+        $this->line('<info>Firewall: last 7 days</info> — ' . $sum['total'] . ' attacks seen, ' . $sum['blocked'] . ' blocked');
+        foreach (['What' => $sum['rules'], 'Busiest addresses' => $sum['ips']] as $title => $counts) {
+            if ($counts !== []) {
+                $this->line('  ' . $title . ': ' . implode(' · ', array_map(static fn ($k, $n) => str_replace('waf_', '', (string) $k) . ': ' . $n, array_keys($counts), $counts)));
+            }
+        }
+        $pending = count(array_filter(Store::reviews(50), static fn ($r) => $r->verdict === 'pending'));
+        if ($pending > 0) {
+            $this->line("<comment>$pending review request(s) waiting: php artisan draco:reviews</comment>");
+        }
+
         $blocks = Store::activeBlocks();
         $this->line('<info>Blocked addresses</info> (' . count($blocks) . ')');
         if ($blocks !== []) {

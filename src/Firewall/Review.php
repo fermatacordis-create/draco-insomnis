@@ -36,7 +36,8 @@ final class Review
 
         return '<form method="post" action="">'
             . '<input type="hidden" name="' . self::FIELD . '" value="1">'
-            . '<input type="hidden" name="draco_rule" value="' . $h($why) . '">'
+            // Sealed: the block page never says what matched.
+            . '<input type="hidden" name="draco_rule" value="' . $h(\DracoInsomnis\Core\Review::seal(Plugin::secret(), Guard::clientIp(), $ts, $why)) . '">'
             . '<input type="hidden" name="draco_ts" value="' . $h($ts) . '">'
             . '<input type="hidden" name="draco_sig" value="' . $h(self::sign(Guard::clientIp(), $why, $ts)) . '">'
             . '<p class="hp"><label>Website <input type="text" name="draco_website" tabindex="-1" autocomplete="off"></label></p>'
@@ -69,8 +70,8 @@ final class Review
      */
     public static function accept(array $post, string $ip): bool
     {
-        $rule = sanitize_key((string) ($post['draco_rule'] ?? ''));
         $ts = (string) ($post['draco_ts'] ?? '');
+        $rule = \DracoInsomnis\Core\Review::open(Plugin::secret(), $ip, $ts, (string) ($post['draco_rule'] ?? ''));
         $sig = (string) ($post['draco_sig'] ?? '');
         $email = sanitize_email((string) ($post['draco_email'] ?? ''));
         $message = substr(sanitize_textarea_field((string) ($post['draco_message'] ?? '')), 0, 500);
@@ -90,7 +91,7 @@ final class Review
     /** The hidden fields of a form shown to $ip now, for tests and for form(). @return array<string, string> */
     public static function signedFields(string $ip, string $rule, int $ts): array
     {
-        return ['draco_rule' => $rule, 'draco_ts' => (string) $ts, 'draco_sig' => self::sign($ip, $rule, (string) $ts)];
+        return ['draco_rule' => \DracoInsomnis\Core\Review::seal(Plugin::secret(), $ip, (string) $ts, $rule), 'draco_ts' => (string) $ts, 'draco_sig' => self::sign($ip, $rule, (string) $ts)];
     }
 
     private static function save(string $ip, string $email, string $message, string $rule): void

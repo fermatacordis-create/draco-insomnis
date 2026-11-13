@@ -37,7 +37,7 @@ final class Review
 
         return '<form method="post" action="">'
             . '<input type="hidden" name="' . self::FIELD . '" value="1">'
-            . '<input type="hidden" name="draco_rule" value="' . $h($rule) . '">'
+            . '<input type="hidden" name="draco_rule" value="' . $h(self::seal($this->host->secret(), $r->via($this->host), $ts, $rule)) . '">'
             . '<input type="hidden" name="draco_ts" value="' . $h($ts) . '">'
             . '<input type="hidden" name="draco_sig" value="' . $h($this->sign($r->via($this->host), $rule, $ts)) . '">'
             . '<p class="hp"><label>Website <input type="text" name="draco_website" tabindex="-1" autocomplete="off"></label></p>'
@@ -64,8 +64,8 @@ final class Review
     public function accept(Request $r, array $post, int $now): bool
     {
         $ip = $r->via($this->host);
-        $rule = preg_replace('/[^a-z0-9_]/', '', strtolower((string) ($post['draco_rule'] ?? ''))) ?? '';
         $ts = (string) ($post['draco_ts'] ?? '');
+        $rule = self::open($this->host->secret(), $ip, $ts, (string) ($post['draco_rule'] ?? ''));
         $sig = (string) ($post['draco_sig'] ?? '');
         $email = strtolower(trim((string) ($post['draco_email'] ?? '')));
         // Tags out (the text is always escaped when shown; this only keeps the queue readable).
@@ -95,6 +95,29 @@ final class Review
         return true;
     }
 
+    /**
+     * The rule that stopped the request, hidden from the visitor: the block page never says what
+     * matched. XOR with a key from the site secret, the address and the moment; the signature still
+     * covers the plain rule, so a changed value is refused.
+     */
+    public static function seal(string $secret, string $ip, string $ts, string $rule): string
+    {
+        $rule = substr(preg_replace('/[^a-z0-9_]/', '', strtolower($rule)) ?? '', 0, 32);
+
+        return bin2hex(str_pad($rule, 32, "\0") ^ hash_hmac('sha256', 'review-rule|' . $ip . '|' . $ts, $secret, true));
+    }
+
+    /** The rule from seal(), or '' when the value is not one. */
+    public static function open(string $secret, string $ip, string $ts, string $sealed): string
+    {
+        if (strlen($sealed) !== 64 || !ctype_xdigit($sealed)) {
+            return '';
+        }
+        $rule = rtrim((string) hex2bin($sealed) ^ hash_hmac('sha256', 'review-rule|' . $ip . '|' . $ts, $secret, true), "\0");
+
+        return preg_match('/^[a-z0-9_]*$/', $rule) === 1 ? $rule : '';
+    }
+
     private function sign(string $ip, string $rule, string $ts): string
     {
         return hash_hmac('sha256', 'review|' . $ip . '|' . $rule . '|' . $ts, $this->host->secret());
@@ -103,6 +126,6 @@ final class Review
     /** The hidden fields of a form shown to $ip at $ts, for tests. @return array<string, string> */
     public function signedFields(string $ip, string $rule, int $ts): array
     {
-        return ['draco_rule' => $rule, 'draco_ts' => (string) $ts, 'draco_sig' => $this->sign($ip, $rule, (string) $ts)];
+        return ['draco_rule' => self::seal($this->host->secret(), $ip, (string) $ts, $rule), 'draco_ts' => (string) $ts, 'draco_sig' => $this->sign($ip, $rule, (string) $ts)];
     }
 }

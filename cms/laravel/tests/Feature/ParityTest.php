@@ -48,4 +48,40 @@ final class ParityTest extends TestCase
         $this->get('/login')->assertForbidden();
         @unlink($file);
     }
+
+    private static function field(string $html, string $name): string
+    {
+        return preg_match('/name="' . $name . '" value="([^"]*)"/', $html, $m) ? html_entity_decode($m[1]) : '';
+    }
+
+    public function test_a_blocked_visitor_can_ask_for_a_review_and_be_let_through(): void
+    {
+        config(['draco.waf_mode' => 'block']);
+        $page = $this->get('/?q=1%27%20union%20select%20password%20from%20users--%20')->assertForbidden()->getContent();
+        $this->assertStringContainsString('name="draco_review"', $page);
+        $post = ['draco_review' => '1', 'draco_rule' => self::field($page, 'draco_rule'), 'draco_ts' => self::field($page, 'draco_ts'),
+            'draco_sig' => self::field($page, 'draco_sig'), 'draco_email' => 'ana@example.org', 'draco_message' => 'I was <b>searching</b>'];
+        $this->post('/', $post)->assertOk();
+        $this->post('/', ['draco_sig' => 'forged'] + $post)->assertOk();
+        $reviews = Store::reviews();
+        $this->assertCount(1, $reviews);
+        $this->assertSame('pending', $reviews[0]->verdict);
+        $this->assertStringContainsString('I was searching', (string) $reviews[0]->fields);
+
+        $this->artisan('draco:reviews')->assertSuccessful();
+        $this->artisan('draco:reviews', ['id' => $reviews[0]->id, '--approve' => '1'])->assertSuccessful();
+        $this->assertSame('approved', Store::review((int) $reviews[0]->id)->verdict);
+        $this->get('/?q=1%27%20union%20select%20password%20from%20users--%20')->assertOk();
+    }
+
+    public function test_the_signed_test_request_is_answered_and_never_logged(): void
+    {
+        config(['draco.waf_mode' => 'block']);
+        $host = new \DracoInsomnis\Laravel\LaravelHost();
+        $this->get('/', ['X-Draco-Test' => \DracoInsomnis\Core\TestProbe::token($host, time())])->assertHeader('X-Draco-Test-Result', 'sqli|block');
+        $this->get('/', ['X-Draco-Test' => '1.forged'])->assertOk()->assertHeaderMissing('X-Draco-Test-Result');
+        $this->assertSame([], $this->events());
+        $this->get('/?q=1%27%20union%20select%20password%20from%20users--%20')->assertForbidden();
+        $this->assertSame(1, \DracoInsomnis\Core\Summary::waf(Store::wafRows(86400))['total']);
+    }
 }
