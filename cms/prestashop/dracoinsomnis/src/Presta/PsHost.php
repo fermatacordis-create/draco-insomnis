@@ -116,7 +116,24 @@ final class PsHost implements Host
             return sprintf($translator->trans('Firewall: %d attacks in 10 minutes', [], 'Modules.Dracoinsomnis.Admin'), $number);
         }
 
+        if ($id === 'review_subject') {
+            return sprintf($translator->trans('[%s] Someone asks you to review a firewall block', [], 'Modules.Dracoinsomnis.Admin'), (string) \Configuration::get('PS_SHOP_NAME'));
+        }
+        if ($id === 'review_body') {
+            return $translator->trans('A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.', [], 'Modules.Dracoinsomnis.Admin');
+        }
+
         return sprintf($translator->trans('Automatic: %d bot attempts in 24 h', [], 'Modules.Dracoinsomnis.Admin'), $number);
+    }
+
+    public function notifyOwner(string $subject, string $body): void
+    {
+        try {
+            $lang = (int) \Configuration::get('PS_LANG_DEFAULT');
+            \Mail::send($lang, 'draco_notice', $subject, ['{message}' => $body], (string) \Configuration::get('PS_SHOP_EMAIL'), null, null, null, null, null, _PS_MODULE_DIR_ . 'dracoinsomnis/mails/');
+        } catch (\Throwable $e) {
+            // A notice that cannot be sent never breaks the visitor's request.
+        }
     }
 
     public function events(): EventStore

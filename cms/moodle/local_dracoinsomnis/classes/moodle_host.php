@@ -168,7 +168,23 @@ final class moodle_host implements Host {
     }
 
     public function text(string $id, int $number): string {
+        global $SITE;
+        if ($id === 'review_subject') {
+            return get_string('reviewsubject', 'local_dracoinsomnis', format_string($SITE->shortname ?? ''));
+        }
+        if ($id === 'review_body') {
+            return get_string('reviewbody', 'local_dracoinsomnis') . "\n\n" . (new \moodle_url('/local/dracoinsomnis/evidence.php'))->out(false);
+        }
         return get_string($id === 'waf_block' ? 'wafblock' : 'autoblock', 'local_dracoinsomnis', $number);
+    }
+
+    public function notifyOwner(string $subject, string $body): void {
+        try {
+            email_to_user(get_admin(), \core_user::get_noreply_user(), $subject, $body);
+        } catch (\Throwable $e) {
+            // A notice that cannot be sent never breaks the visitor's request.
+            unset($e);
+        }
     }
 
     public function events(): EventStore {
