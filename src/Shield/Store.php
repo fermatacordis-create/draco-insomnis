@@ -383,8 +383,9 @@ final class Store
         global $wpdb;
         $since = gmdate('Y-m-d H:i:s', time() - $days * 86400);
         $rows = (array) $wpdb->get_results($wpdb->prepare(
-            "SELECT reasons, verdict, COUNT(*) n FROM %i WHERE endpoint LIKE 'waf:%%' AND created_at > %s GROUP BY reasons, verdict",
+            'SELECT reasons, verdict, COUNT(*) n FROM %i WHERE endpoint LIKE %s AND created_at > %s GROUP BY reasons, verdict',
             self::events(),
+            $wpdb->esc_like('waf:') . '%',
             $since,
         ), ARRAY_A);
         $out = ['total' => 0, 'blocked' => 0, 'rules' => [], 'ips' => []];
@@ -396,8 +397,9 @@ final class Store
         }
         arsort($out['rules']);
         foreach ((array) $wpdb->get_results($wpdb->prepare(
-            "SELECT ip, COUNT(*) n FROM %i WHERE endpoint LIKE 'waf:%%' AND created_at > %s GROUP BY ip ORDER BY n DESC LIMIT 5",
+            'SELECT ip, COUNT(*) n FROM %i WHERE endpoint LIKE %s AND created_at > %s GROUP BY ip ORDER BY n DESC LIMIT 5',
             self::events(),
+            $wpdb->esc_like('waf:') . '%',
             $since,
         ), ARRAY_A) as $r) {
             $out['ips'][(string) $r['ip']] = (int) $r['n'];
