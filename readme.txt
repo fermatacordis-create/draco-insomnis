@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.8
+Stable tag: 0.1.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,13 @@ Only bots wait, for at most three seconds, and at most ten slow answers per minu
 For suspicious attempts only: date, address, browser name, username, e-mail, requested role and referring page. Never passwords. Everything is deleted after 90 days, and all of it is removed when the plugin is deleted.
 
 == Changelog ==
+
+= 0.1.9 =
+* Firewall: people it stops can ask for a review from the block page (e-mail and what they were doing). The form is signed, has a trap field and a limit per address and per day; the owner gets one notice an hour at most, and lets them through for 24 hours, 7 days, 30 days or for good, denies, or marks the address as an attacker. Draco never writes to the person who asks.
+* Firewall: "Test the firewall" button. It sends a harmless attack-shaped request to the site and says whether it was blocked, only logged, or stopped earlier by the hosting. It is not logged or counted.
+* Firewall: summary of the last 7 days (what it stopped and the busiest addresses).
+* Block list: ranges (CIDR, no wider than /16 for IPv4 or /32 for IPv6) and "Forever". Never a range that holds an administrator's address or your own.
+* For now these are in the WordPress plugin; the other CMS get them once their tests run in CI.
 
 = 0.1.8 =
 * With no "Trusted proxies" listed, the front servers of a hosting on carrier-grade NAT (100.64.0.0/10) or link-local addresses (169.254.0.0/16, fe80::/10) are trusted too, like private networks. Sites that chose X-Forwarded-For behind such a front server keep seeing the real visitor address after 0.1.7.

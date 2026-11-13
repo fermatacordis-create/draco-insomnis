@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DracoInsomnis\Firewall;
 
 use DracoInsomnis\Core\Firewall;
+use DracoInsomnis\Plugin;
 use DracoInsomnis\Shield\Guard;
 use DracoInsomnis\Shield\Store;
 use DracoInsomnis\WpHost;
@@ -69,6 +70,9 @@ final class Waf
         if ((defined('WP_CLI') && WP_CLI) || wp_doing_cron() || current_user_can('edit_posts')) {
             return;
         }
+        if (Review::handle() || self::answerTest()) {
+            return;
+        }
         $request = WpHost::request();
         $firewall = new Firewall(WpHost::get(), self::blocking());
         if ($firewall->exempt($request)) {
@@ -101,10 +105,42 @@ final class Waf
         header('X-Robots-Tag: noindex, nofollow');
         $page = Firewall::page(
             __('Request blocked', 'draco-insomnis'),
-            __('This request was stopped for security reasons. If you think this is a mistake, contact the owner of the site.', 'draco-insomnis'),
-            $why
+            __('This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:', 'draco-insomnis'),
+            $why,
+            Review::form($why)
         );
         echo $page; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- every text is escaped inside Firewall::page()
+        exit;
+    }
+
+    public const TEST_HEADER = 'HTTP_X_DRACO_TEST';
+    public const TEST_ATTACK = "1' union select user_pass from wp_users-- ";
+
+    /** Header value that proves the request is the owner's test (signed, valid for a minute). */
+    public static function testToken(int $ts): string
+    {
+        return $ts . '.' . hash_hmac('sha256', 'waf-test|' . $ts, Plugin::secret());
+    }
+
+    /**
+     * The "Test the firewall" button sends an attack-shaped request to the site itself with a signed
+     * header. It is judged by the same rules, but nothing is logged or counted (it would otherwise put
+     * the server's own address on the block list), and the answer says what would have happened.
+     */
+    private static function answerTest(): bool
+    {
+        $token = isset($_SERVER[self::TEST_HEADER]) ? (string) $_SERVER[self::TEST_HEADER] : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- compared with hash_equals only
+        if ($token === '') {
+            return false;
+        }
+        $ts = (int) strtok($token, '.');
+        if (abs(time() - $ts) > 60 || !hash_equals(self::testToken($ts), $token)) {
+            return false;
+        }
+        $rule = \DracoInsomnis\Core\WafRules::inspect(['path' => '/', 'query' => 'draco_test=' . self::TEST_ATTACK, 'params' => [self::TEST_ATTACK], 'user_agent' => 'Draco test']);
+        nocache_headers();
+        header('X-Draco-Test-Result: ' . ($rule ?? 'none') . '|' . (self::blocking() ? 'block' : 'log'));
+        status_header($rule !== null && self::blocking() ? 403 : 200);
         exit;
     }
 

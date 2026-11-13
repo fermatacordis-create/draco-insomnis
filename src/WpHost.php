@@ -65,7 +65,11 @@ final class WpHost implements Host
 
     public function adminIps(): array
     {
-        return array_values(array_map('strval', (array) get_option(Plugin::OPTION_ADMIN_IPS, [])));
+        // Addresses an administrator used, plus the ones a person let through after a review.
+        return array_values(array_unique(array_merge(
+            array_map('strval', (array) get_option(Plugin::OPTION_ADMIN_IPS, [])),
+            Store::activeValues('allow'),
+        )));
     }
 
     public function bump(string $key, int $ttl): int
