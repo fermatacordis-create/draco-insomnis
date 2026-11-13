@@ -200,9 +200,12 @@ jobs:
         include:
           - ps: '8'
             folders: -e PS_FOLDER_ADMIN=admin-ci -e PS_FOLDER_INSTALL=install-ci
-          # The 9 image cannot rename its admin folder (admin-dev) during the automatic install: keep its name.
+            auto: '1'
+          # The 9 image's automatic install fails at its very end (it removes install/, which the 9 installer
+          # already removed): run the same installer by hand instead.
           - ps: '9'
-            folders: -e PS_FOLDER_ADMIN=admin-dev -e PS_FOLDER_INSTALL=install
+            folders: -e PS_FOLDER_ADMIN=admin-dev
+            auto: '0'
     services:
       mysql:
         image: mysql:8.0
@@ -220,9 +223,17 @@ jobs:
         run: |
           docker run -d --name ps --network host \
             -e DB_SERVER=127.0.0.1 -e DB_USER=root -e DB_PASSWD=root -e DB_NAME=prestashop -e DB_PREFIX=ps_ \
-            -e PS_INSTALL_AUTO=1 -e PS_DOMAIN=127.0.0.1 -e PS_LANGUAGE=en -e PS_COUNTRY=ES \
+            -e PS_INSTALL_AUTO=${{ matrix.auto }} -e PS_DOMAIN=127.0.0.1 -e PS_LANGUAGE=en -e PS_COUNTRY=ES \
             ${{ matrix.folders }} -e ADMIN_MAIL=admin@example.org -e ADMIN_PASSWD=Draco-CI-2026-admin \
             prestashop/prestashop:${{ matrix.ps }}
+          if [ "${{ matrix.auto }}" = 0 ]; then
+            for i in $(seq 1 60); do docker exec ps test -f /var/www/html/install/index_cli.php && break; sleep 3; done
+            docker exec -u www-data ps php -d memory_limit=-1 /var/www/html/install/index_cli.php --domain=127.0.0.1 \
+              --db_server=127.0.0.1:3306 --db_name=prestashop --db_user=root --db_password=root --prefix=ps_ \
+              --firstname=Draco --lastname=CI --password=Draco-CI-2026-admin --email=admin@example.org \
+              --language=en --country=es --all_languages=0 --newsletter=0 --send_email=0 --ssl=0
+            docker exec ps rm -rf /var/www/html/install
+          fi
           for i in $(seq 1 90); do [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1/)" = 200 ] && break; sleep 5; done
           echo "shop: $(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1/)"
           zip=$(bin/build-prestashop.sh /tmp/dist)
