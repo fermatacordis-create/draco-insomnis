@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Firewall;
 
+use DracoInsomnis\Input;
 use DracoInsomnis\Plugin;
 use DracoInsomnis\Shield\Guard;
 use DracoInsomnis\Shield\Store;
@@ -50,8 +51,7 @@ final class Review
     /** True when this request is a review request; it is answered and the request ends. */
     public static function handle(): bool
     {
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- visitors have no session: the form is signed (sign()) instead.
-        if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST' || ($_POST[self::FIELD] ?? '') !== '1') {
+        if (Input::method() !== 'POST' || Input::post(self::FIELD) !== '1') {
             return false;
         }
         self::accept(wp_unslash($_POST), Guard::clientIp()); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput -- signed form; every field is sanitised in accept()
@@ -121,11 +121,12 @@ final class Review
         status_header(200);
         header('Content-Type: text/html; charset=UTF-8');
         header('X-Robots-Tag: noindex, nofollow');
-        echo \DracoInsomnis\Core\Firewall::page( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped inside page()
+        $page = \DracoInsomnis\Core\Firewall::page(
             __('Request sent', 'draco-insomnis'),
             __('Thank you. The owner of the site will look at it and, if it was a mistake, let you through.', 'draco-insomnis'),
             'review'
         );
+        echo $page; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- every text is escaped inside Firewall::page()
         exit;
     }
 
