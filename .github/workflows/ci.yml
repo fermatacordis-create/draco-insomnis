@@ -217,6 +217,7 @@ jobs:
     env:
       BASE: http://127.0.0.1
       MYSQL: mysql -h127.0.0.1 -uroot -proot prestashop
+      DOCKER_SHOP: ps
     steps:
       - uses: actions/checkout@v4
       - name: Install PrestaShop ${{ matrix.ps }} (official image) and the module ZIP
