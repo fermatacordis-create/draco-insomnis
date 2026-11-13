@@ -236,7 +236,7 @@ jobs:
         run: tests/e2e/prestashop.sh
       - name: PHP errors from the run
         if: always()
-        run: docker logs ps 2>&1 | grep -iE 'fatal|draco|exception' | tail -20 || true
+        run: docker logs ps 2>&1 | tail -40 || true
 
   laravel:
     name: Laravel ${{ matrix.laravel }} package (PHP ${{ matrix.php }})
