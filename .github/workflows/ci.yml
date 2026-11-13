@@ -229,10 +229,17 @@ jobs:
             prestashop/prestashop:${{ matrix.ps }}
           if [ "${{ matrix.auto }}" = 0 ]; then
             for i in $(seq 1 60); do docker exec ps test -f /var/www/html/install/index_cli.php && break; sleep 3; done
-            docker exec -u www-data ps php -d memory_limit=-1 /var/www/html/install/index_cli.php --domain=127.0.0.1 \
+            # The installer ends by renaming admin/ to a random name and sometimes cannot (the image is still
+            # setting the folder up): that is the only error let through, the tests never use the back office.
+            set +e
+            out=$(docker exec -u www-data ps php -d memory_limit=-1 /var/www/html/install/index_cli.php --domain=127.0.0.1 \
               --db_server=127.0.0.1:3306 --db_name=prestashop --db_user=root --db_password=root --prefix=ps_ \
               --firstname=Draco --lastname=CI --password=Draco-CI-2026-admin --email=admin@example.org \
-              --language=en --country=es --all_languages=0 --newsletter=0 --send_email=0 --ssl=0
+              --language=en --country=es --all_languages=0 --newsletter=0 --send_email=0 --ssl=0 2>&1)
+            rc=$?
+            set -e
+            echo "$out"
+            if [ "$rc" != 0 ] && [ "$(echo "$out" | grep -ciE 'error|exception' | tr -d ' ')" != "$(echo "$out" | grep -ciE 'admin folder could not be renamed|^Errors 1:' | tr -d ' ')" ]; then exit "$rc"; fi
             docker exec ps rm -rf /var/www/html/install
           fi
           for i in $(seq 1 90); do [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1/)" = 200 ] && break; sleep 5; done
