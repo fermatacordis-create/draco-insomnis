@@ -1814,3 +1814,53 @@ msgstr ""
 
 msgid "No requests."
 msgstr ""
+
+msgid "country not allowed"
+msgstr ""
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try \"Update the country list\" later."
+msgstr ""
+
+msgid "Country list downloaded."
+msgstr ""
+
+msgid "Countries"
+msgstr ""
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Refuse the countries listed"
+msgstr ""
+
+msgid "Only the countries listed"
+msgstr ""
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr ""
+
+msgid "The whole site"
+msgstr ""
+
+msgid "What to do"
+msgstr ""
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr ""
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr ""
+
+#, php-format
+msgid "Country list of %s."
+msgstr ""
+
+msgid "Update the country list"
+msgstr ""
+
+#, php-format
+msgid "IP geolocation by %s (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr ""

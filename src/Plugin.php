@@ -40,6 +40,7 @@ final class Plugin
         Gate::boot();
         LoginAdmin::register();
         FirewallAdmin::register();
+        \DracoInsomnis\Firewall\GeoFilter::register();
         AntiCopyAdmin::register();
         Mfa::boot();
         add_action(self::HOOK_CLEANUP, [Store::class, 'cleanup']);
