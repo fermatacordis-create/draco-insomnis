@@ -66,7 +66,7 @@ final class Admin
         }
         update_option(Waf::OPTION_ENABLED, empty($_POST['enabled']) ? 'no' : 'yes');
         update_option(Waf::OPTION_MODE, Input::post('mode') === 'block' ? 'block' : 'log');
-        foreach ([Waf::OPTION_HIDE_USERS => 'hide_users', Waf::OPTION_XMLRPC_OFF => 'xmlrpc_off', Waf::OPTION_LOGIN_LIMIT => 'login_limit'] as $option => $field) {
+        foreach ([Waf::OPTION_HIDE_USERS => 'hide_users', Waf::OPTION_XMLRPC_OFF => 'xmlrpc_off', Waf::OPTION_LOGIN_LIMIT => 'login_limit', Headers::OPTION_SAFE => 'headers', Headers::OPTION_HSTS => 'hsts'] as $option => $field) {
             update_option($option, empty($_POST[$field]) ? 'no' : 'yes');
         }
         wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=ok'));
@@ -143,6 +143,8 @@ final class Admin
         ]);
         Brand::toggle('hide_users', get_option(Waf::OPTION_HIDE_USERS, 'yes') === 'yes', __('Hide the list of user names from anonymous visitors (?author=1 and /wp-json/wp/v2/users), the first step of password attacks', 'draco-insomnis'));
         Brand::toggle('login_limit', get_option(Waf::OPTION_LOGIN_LIMIT, 'yes') === 'yes', __('Limit failed logins: 10 in 10 minutes lock that address out of the login for 30 minutes', 'draco-insomnis'));
+        Brand::toggle('headers', get_option(Headers::OPTION_SAFE, 'no') === 'yes', __('Send security headers on public pages (no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content)', 'draco-insomnis'), __('Safe for almost every site. If another plugin or the server already sends one of them, Draco leaves it alone.', 'draco-insomnis'));
+        Brand::toggle('hsts', get_option(Headers::OPTION_HSTS, 'no') === 'yes', __('Force HTTPS in browsers for 6 months (HSTS)', 'draco-insomnis'), __('Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.', 'draco-insomnis'));
         Brand::toggle('xmlrpc_off', get_option(Waf::OPTION_XMLRPC_OFF, 'no') === 'yes', __('Turn off XML-RPC completely (leave it on if you use Jetpack or the WordPress mobile app; its riskiest parts are always off)', 'draco-insomnis'));
         echo '<p style="margin-top:12px">';
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);

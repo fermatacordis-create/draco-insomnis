@@ -41,6 +41,8 @@ final class Plugin
         LoginAdmin::register();
         FirewallAdmin::register();
         \DracoInsomnis\Firewall\GeoFilter::register();
+        \DracoInsomnis\Firewall\Headers::register();
+        \DracoInsomnis\Login\Passwords::register();
         AntiCopyAdmin::register();
         Mfa::boot();
         add_action(self::HOOK_CLEANUP, [Store::class, 'cleanup']);

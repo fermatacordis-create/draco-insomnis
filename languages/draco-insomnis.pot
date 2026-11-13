@@ -1864,3 +1864,56 @@ msgstr ""
 #, php-format
 msgid "IP geolocation by %s (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
 msgstr ""
+
+#, php-format
+msgid "The password must have at least %d characters."
+msgstr ""
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr ""
+
+msgid "Your password appears in known data breaches."
+msgstr ""
+
+msgid "Attackers try those first. Change it now:"
+msgstr ""
+
+msgid "Change my password"
+msgstr ""
+
+msgid "Passwords"
+msgstr ""
+
+msgid "Applied when someone chooses a password: profile, reset and WooCommerce sign-up. Existing passwords keep working."
+msgstr ""
+
+msgid "Minimum length"
+msgstr ""
+
+msgid "No minimum (WordPress default)"
+msgstr ""
+
+#, php-format
+msgid "%d characters"
+msgstr ""
+
+msgid "recommended"
+msgstr ""
+
+msgid "Refuse passwords that appear in known data breaches, and warn people who log in with one"
+msgstr ""
+
+msgid "Asks Have I Been Pwned with only the first 5 characters of the password's SHA-1: the password never leaves your site. If the service does not answer in 3 seconds, the password is accepted."
+msgstr ""
+
+msgid "Send security headers on public pages (no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content)"
+msgstr ""
+
+msgid "Safe for almost every site. If another plugin or the server already sends one of them, Draco leaves it alone."
+msgstr ""
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr ""
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr ""
