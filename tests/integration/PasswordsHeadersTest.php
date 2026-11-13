@@ -55,7 +55,7 @@ final class PasswordsHeadersTest extends TestCase
     public function test_a_service_that_does_not_answer_never_locks_anyone_out(): void
     {
         update_option(Passwords::OPTION_BREACHED, 'yes');
-        add_filter('pre_http_request', fn () => new \WP_Error('http_request_failed', 'timeout'), 5);
+        add_filter('pre_http_request', fn () => new \WP_Error('http_request_failed', 'timeout'), 20); // after the stub above
         $this->assertSame('', Passwords::problem('password123'));
     }
 
