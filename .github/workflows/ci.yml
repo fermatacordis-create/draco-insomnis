@@ -239,7 +239,11 @@ jobs:
             rc=$?
             set -e
             echo "$out"
-            if [ "$rc" != 0 ] && [ "$(echo "$out" | grep -ciE 'error|exception' | tr -d ' ')" != "$(echo "$out" | grep -ciE 'admin folder could not be renamed|^Errors 1:' | tr -d ' ')" ]; then exit "$rc"; fi
+            if [ "$rc" != 0 ]; then
+              rest=$(echo "$out" | grep -viE 'admin folder could not be renamed|^Errors [0-9]+:$')
+              if ! echo "$out" | grep -qi 'admin folder could not be renamed' || echo "$rest" | grep -qiE 'error|exception|fatal'; then exit "$rc"; fi
+              echo "(only the admin/ rename failed: going on)"
+            fi
             docker exec ps rm -rf /var/www/html/install
           fi
           for i in $(seq 1 90); do [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1/)" = 200 ] && break; sleep 5; done
