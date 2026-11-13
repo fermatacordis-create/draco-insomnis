@@ -17,6 +17,11 @@ final class CleanupCommand extends Command
     public function handle(): int
     {
         $this->info(Store::cleanup() . ' rows removed.');
+        $host = new \DracoInsomnis\Laravel\LaravelHost();
+        if (in_array($host->setting('geo_mode'), ['block', 'allow'], true) && \DracoInsomnis\Core\GeoUpdate::stale($host->setting('geo_file'), time())) {
+            $error = \DracoInsomnis\Core\GeoUpdate::update($host->setting('geo_file'));
+            $error === '' ? $this->info('Country list updated.') : $this->warn('Country list not updated: ' . $error);
+        }
 
         return self::SUCCESS;
     }

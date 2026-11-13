@@ -66,6 +66,9 @@ final class LaravelHost implements Host
     public function setting(string $name): string
     {
         $value = config('draco.' . $name);
+        if ($name === 'geo_file' && (!is_string($value) || $value === '')) {
+            return storage_path('app/draco/draco-geo.bin');
+        }
 
         return is_scalar($value) ? (string) $value : '';
     }

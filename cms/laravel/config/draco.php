@@ -33,6 +33,20 @@ return [
     // Extra rented-server networks (CIDR, one per line), added to the ones Draco knows.
     'hosting_nets' => env('DRACO_HOSTING_NETS', ''),
 
+    // Country filter (off by default): 'off', 'block' (refuse the countries listed) or 'allow' (only
+    // those), for 'sensitive' (login, sign-up, anything posted) or the whole 'site', and 'log' first.
+    // The list (DB-IP Lite, CC BY 4.0) is downloaded by draco:cleanup and looked up locally.
+    'geo_mode' => env('DRACO_GEO_MODE', 'off'),
+    'geo_countries' => env('DRACO_GEO_COUNTRIES', ''),
+    'geo_scope' => env('DRACO_GEO_SCOPE', 'sensitive'),
+    'geo_action' => env('DRACO_GEO_ACTION', 'log'),
+    'geo_file' => env('DRACO_GEO_FILE', ''),
+
+    // Security headers on answers (nosniff, SAMEORIGIN, Referrer-Policy, Permissions-Policy), and HSTS
+    // over HTTPS for 6 months. Both off by default; never one the app already set.
+    'headers' => (bool) env('DRACO_HEADERS', false),
+    'hsts' => (bool) env('DRACO_HSTS', false),
+
     // A Gate ability: users who pass it are never inspected by the firewall, and the addresses they
     // work from are never blocked or limited. null = nobody is exempt by role.
     'bypass_ability' => env('DRACO_BYPASS_ABILITY'),

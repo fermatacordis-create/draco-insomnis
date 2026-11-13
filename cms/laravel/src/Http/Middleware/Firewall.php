@@ -29,7 +29,7 @@ final class Firewall
                 return $answer;
             }
 
-            return $next($request);
+            return Guard::headers($request, $next($request));
         }
         if ($hasSession) {
             $user = $request->user();

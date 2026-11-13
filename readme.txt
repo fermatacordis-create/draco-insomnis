@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.12
+Stable tag: 0.1.13
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,12 @@ The country filter uses IP geolocation by DB-IP (https://db-ip.com), "IP to Coun
 Only if "Refuse passwords that appear in known data breaches" is switched on, Draco asks Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com) with the first 5 characters of the SHA-1 of a password being chosen or used to log in. The password itself and its full hash are never sent. Terms: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy: https://haveibeenpwned.com/Privacy
 
 == Changelog ==
+
+= 0.1.13 =
+* PrestaShop, Drupal, Joomla, Moodle and Laravel catch up with WordPress (parity 1): country filter (same local DB-IP Lite list, downloaded when the filter is switched on and refreshed by each CMS's daily task), blocks for ranges and "Forever", a form to block an address or range by hand, and security headers. All off by default.
+* One request path for every CMS (Core\Gatekeeper): exemptions, block list, country, firewall rules and pace limit in the same order everywhere.
+* CI: every change is tested end to end in a fresh install of Drupal 10.3 and 11, Joomla 5 and 6, PrestaShop 8 and 9 and Moodle 4.5 and 5.3, besides WordPress and Laravel.
+* Still WordPress only, for a later version: review requests from the block page, the firewall test button and summary, and password rules.
 
 = 0.1.12 =
 * Ten more languages, chosen for the countries where cheap hosting and unpatched sites are most common: Vietnamese, Bengali, Urdu, Persian, Filipino, Thai, Ukrainian, Swahili, Malay and Tamil (39 locales in all). Native speakers: corrections are very welcome.
