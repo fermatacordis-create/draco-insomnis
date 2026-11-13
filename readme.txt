@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.13
+Stable tag: 0.1.14
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,11 @@ The country filter uses IP geolocation by DB-IP (https://db-ip.com), "IP to Coun
 Only if "Refuse passwords that appear in known data breaches" is switched on, Draco asks Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com) with the first 5 characters of the SHA-1 of a password being chosen or used to log in. The password itself and its full hash are never sent. Terms: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy: https://haveibeenpwned.com/Privacy
 
 == Changelog ==
+
+= 0.1.14 =
+* Security fix for every version since 0.1.9: the review form on the block page carried the name of the rule that matched (for example "sqli") in a hidden field, and the block page must never say what matched. The rule now travels sealed with the site's secret.
+* PrestaShop, Drupal, Joomla, Moodle and Laravel catch up with WordPress (parity 2): a person stopped by the firewall can ask for a review from the block page (signed form, trap field, 3 a day per address, 50 a day per site; the owner gets one e-mail an hour at most and Draco never writes to the person); the owner lets them through for 24 hours, 7 days, 30 days or forever, denies, or marks an attacker. "Test the firewall" sends a harmless attack-shaped request to the site and says what happened, without logging it. A 7-day summary of what the firewall stopped. In Laravel, as Artisan commands: draco:reviews, draco:test and the summary in draco:status.
+* Still WordPress only, for the next versions: password rules (0.1.15) and the 39 languages (0.1.16).
 
 = 0.1.13 =
 * PrestaShop, Drupal, Joomla, Moodle and Laravel catch up with WordPress (parity 1): country filter (same local DB-IP Lite list, downloaded when the filter is switched on and refreshed by each CMS's daily task), blocks for ranges and "Forever", a form to block an address or range by hand, and security headers. All off by default.

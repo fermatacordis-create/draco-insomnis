@@ -116,19 +116,95 @@ final class store implements EventStore {
             [time(), strtolower($email), strtolower($ip)])) {
             return true;
         }
-        return $ip !== '' && \DracoInsomnis\Core\NetList::contains(self::active_nets(), $ip);
+        return $ip !== '' && \DracoInsomnis\Core\NetList::contains(self::active_values('net'), $ip);
     }
 
     /**
-     * Blocked ranges in force, read once per request.
+     * Values of one kind in force, read once per request: 'net' (blocked ranges) or 'allow'
+     * (addresses let through after a review).
      *
+     * @param string $kind
      * @return string[]
      */
-    public static function active_nets(): array {
+    public static function active_values(string $kind): array {
         global $DB;
-        static $nets = null;
-        return $nets ??= array_values(array_map('strval', $DB->get_fieldset_select('local_dracoinsomnis_blocks', 'value',
-            "kind = 'net' AND timeuntil > ?", [time()])));
+        static $cache = [];
+        return $cache[$kind] ??= array_values(array_map('strval', $DB->get_fieldset_select('local_dracoinsomnis_blocks', 'value',
+            'kind = ? AND timeuntil > ?', [$kind, time()])));
+    }
+
+    /**
+     * Lets an address through the firewall and the block list for a while.
+     *
+     * @param string $ip
+     * @param int $days 1, 7, 30 or 0 = forever
+     * @param string $reason
+     * @return bool
+     */
+    public static function allow(string $ip, int $days, string $reason): bool {
+        global $DB;
+        $ip = strtolower(trim($ip));
+        if (filter_var($ip, FILTER_VALIDATE_IP) === false || !in_array($days, [1, 7, 30, 0], true)) {
+            return false;
+        }
+        $DB->delete_records_select('local_dracoinsomnis_blocks', "kind IN ('ip', 'allow') AND value = ?", [$ip]);
+        $DB->insert_record('local_dracoinsomnis_blocks', (object) [
+            'kind' => 'allow',
+            'value' => $ip,
+            'reason' => substr($reason, 0, 190),
+            'timecreated' => time(),
+            'timeuntil' => \DracoInsomnis\Core\Blocklist::untilTs($days, time()),
+        ]);
+        return true;
+    }
+
+    /**
+     * Review requests, pending first.
+     *
+     * @param int $limit
+     * @return array
+     */
+    public static function reviews(int $limit = 50): array {
+        global $DB;
+        $rows = array_values($DB->get_records('local_dracoinsomnis_events', ['endpoint' => \DracoInsomnis\Core\Review::ENDPOINT], 'id DESC', '*', 0, $limit));
+        usort($rows, static fn ($a, $b): int => ($a->verdict === 'pending' ? 0 : 1) <=> ($b->verdict === 'pending' ? 0 : 1));
+        return $rows;
+    }
+
+    /**
+     * One review request.
+     *
+     * @param int $id
+     * @return \stdClass|null
+     */
+    public static function review(int $id): ?\stdClass {
+        global $DB;
+        $row = $DB->get_record('local_dracoinsomnis_events', ['id' => $id, 'endpoint' => \DracoInsomnis\Core\Review::ENDPOINT]);
+        return $row ?: null;
+    }
+
+    /**
+     * Writes the decision on a review request.
+     *
+     * @param int $id
+     * @param string $verdict
+     */
+    public static function set_verdict(int $id, string $verdict): void {
+        global $DB;
+        $DB->set_field('local_dracoinsomnis_events', 'verdict', substr($verdict, 0, 10), ['id' => $id]);
+    }
+
+    /**
+     * Firewall events of the last $seconds, for the summary.
+     *
+     * @param int $seconds
+     * @return array
+     */
+    public static function waf_rows(int $seconds): array {
+        global $DB;
+        $rows = $DB->get_records_select('local_dracoinsomnis_events', $DB->sql_like('endpoint', '?') . ' AND timecreated > ?',
+            ['waf' . ':%', time() - $seconds], '', 'id, ip, verdict, reasons', 0, 5000);
+        return array_map(static fn ($r): array => ['ip' => $r->ip, 'verdict' => $r->verdict, 'reasons' => $r->reasons], array_values($rows));
     }
 
     public function block(string $kind, string $value, int $days, string $reason, bool $automatic = false): bool {

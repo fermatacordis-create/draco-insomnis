@@ -6,6 +6,8 @@ namespace DracoInsomnis\Laravel;
 
 use DracoInsomnis\Core\Firewall;
 use DracoInsomnis\Core\Gatekeeper;
+use DracoInsomnis\Core\Review;
+use DracoInsomnis\Core\TestProbe;
 use DracoInsomnis\Core\SecurityHeaders;
 use DracoInsomnis\Core\Shield;
 use Illuminate\Http\Request;
@@ -29,7 +31,17 @@ final class Guard
         $waf = config('draco.waf_off') ? 'off' : LaravelHost::mode('waf_mode');
         // Only pages a person reads count for the pace limit: JSON API clients are not scrapers of pages.
         $pages = $pace && in_array($http->getMethod(), ['GET', 'HEAD'], true) && $http->acceptsHtml();
-        $answer = (new Gatekeeper($host))->decide(LaravelHost::request($http), $waf, LaravelHost::mode('pace_mode'), ['/login', '/register', '/password'], $pages);
+        $request = LaravelHost::request($http);
+        $probe = TestProbe::answer($host, (string) $http->headers->get(TestProbe::HEADER, ''), $waf, time());
+        if ($probe !== null) {
+            return new Response('', $probe['status'], [TestProbe::RESULT => $probe['result'], 'Cache-Control' => 'no-store']);
+        }
+        if (Review::isRequest($request, $http->request->all())) {
+            (new Review($host))->accept($request, $http->request->all(), time());
+
+            return self::page((string) __('draco::messages.review_sent_title'), (string) __('draco::messages.review_sent_text'), 'review', '', 200);
+        }
+        $answer = (new Gatekeeper($host))->decide($request, $waf, LaravelHost::mode('pace_mode'), ['/login', '/register', '/password'], $pages);
         if ($answer === null) {
             return null;
         }
@@ -42,7 +54,7 @@ final class Guard
             ]);
         }
 
-        return self::deny($answer['why']);
+        return self::deny($answer['why'], $request);
     }
 
     /** Security headers on the answer, when switched on; never one the app already set. */
@@ -71,9 +83,20 @@ final class Guard
     }
 
     /** No details for the attacker: what matched stays in the log. */
-    private static function deny(string $why): Response
+    private static function deny(string $why, \DracoInsomnis\Core\Request $request): Response
     {
-        return new Response(Firewall::page((string) __('draco::messages.blocked_title'), (string) __('draco::messages.blocked_text'), $why), 403, [
+        $form = (new Review(self::host()))->form($request, $why, time(), [
+            'email' => (string) __('draco::messages.review_email'),
+            'message' => (string) __('draco::messages.review_message'),
+            'button' => (string) __('draco::messages.review_button'),
+        ]);
+
+        return self::page((string) __('draco::messages.blocked_title'), (string) __('draco::messages.blocked_text'), $why, $form, 403);
+    }
+
+    private static function page(string $title, string $text, string $why, string $form, int $status): Response
+    {
+        return new Response(Firewall::page($title, $text, $why, $form), $status, [
             'Content-Type' => 'text/html; charset=UTF-8',
             'Cache-Control' => 'no-store',
             'X-Robots-Tag' => 'noindex, nofollow',

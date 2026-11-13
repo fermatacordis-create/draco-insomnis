@@ -39,10 +39,16 @@ interface Host
     public function filter(string $name, $value, ...$args);
 
     /**
-     * The few texts the engines store, in the site's language: "auto_block" and "waf_block", each
-     * with a number of attempts.
+     * The few texts the engines store or send, in the site's language: "auto_block" and "waf_block",
+     * each with a number of attempts; "review_subject" and "review_body" (number unused).
      */
     public function text(string $id, int $number): string;
 
     public function events(): EventStore;
+
+    /**
+     * One short e-mail to the site's owner or administrators, through the CMS's own mailer. Used for
+     * review requests (at most one an hour). Texts come from text('review_subject') and text('review_body').
+     */
+    public function notifyOwner(string $subject, string $body): void;
 }

@@ -9,6 +9,8 @@ namespace local_dracoinsomnis;
 
 use DracoInsomnis\Core\Firewall;
 use DracoInsomnis\Core\Gatekeeper;
+use DracoInsomnis\Core\Review;
+use DracoInsomnis\Core\TestProbe;
 use DracoInsomnis\Core\SecurityHeaders;
 
 defined('MOODLE_INTERNAL') || die();
@@ -48,6 +50,19 @@ final class hook_callbacks {
 
         $bypass = $loggedin && has_capability('local/dracoinsomnis:bypassfirewall', \context_system::instance());
         $waf = ($bypass || (defined('DRACO_WAF_OFF') && DRACO_WAF_OFF)) ? 'off' : moodle_host::mode('waf_mode');
+        $probe = TestProbe::answer($host, (string) ($_SERVER['HTTP_X_DRACO_TEST'] ?? ''), $waf, time());
+        if ($probe !== null) {
+            if (!headers_sent()) {
+                http_response_code($probe['status']);
+                header(TestProbe::RESULT . ': ' . $probe['result']);
+                header('Cache-Control: no-store');
+            }
+            die();
+        }
+        if (Review::isRequest($request, $_POST)) {
+            (new Review($host))->accept($request, $_POST, time());
+            self::page(get_string('reviewsenttitle', 'local_dracoinsomnis'), get_string('reviewsenttext', 'local_dracoinsomnis'), 'review', '', 200);
+        }
         // Only page loads count for the pace limit: one Moodle page makes many AJAX, web service and file requests.
         $answer = (new Gatekeeper($host))->decide($request, $waf, moodle_host::mode('pace_mode'),
             ['/login/index.php', '/login/signup.php', '/login/forgot_password.php'], !$loggedin && !self::not_a_page($request->path));
@@ -92,13 +107,31 @@ final class hook_callbacks {
      * @param string $why
      */
     private static function deny(string $why): void {
+        $form = (new Review(moodle_host::get()))->form(moodle_host::request(), $why, time(), [
+            'email' => get_string('reviewemail', 'local_dracoinsomnis'),
+            'message' => get_string('reviewmessage', 'local_dracoinsomnis'),
+            'button' => get_string('reviewbutton', 'local_dracoinsomnis'),
+        ]);
+        self::page(get_string('blockedtitle', 'local_dracoinsomnis'), get_string('blockedtext', 'local_dracoinsomnis'), $why, $form, 403);
+    }
+
+    /**
+     * A plain page that ends the request.
+     *
+     * @param string $title
+     * @param string $text
+     * @param string $why
+     * @param string $form
+     * @param int $status
+     */
+    private static function page(string $title, string $text, string $why, string $form, int $status): void {
         if (!headers_sent()) {
-            http_response_code(403);
+            http_response_code($status);
             header('Content-Type: text/html; charset=UTF-8');
             header('Cache-Control: no-store');
             header('X-Robots-Tag: noindex, nofollow');
         }
-        echo Firewall::page(get_string('blockedtitle', 'local_dracoinsomnis'), get_string('blockedtext', 'local_dracoinsomnis'), $why);
+        echo Firewall::page($title, $text, $why, $form);
         die();
     }
 

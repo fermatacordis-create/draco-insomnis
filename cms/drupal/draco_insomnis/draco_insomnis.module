@@ -66,3 +66,13 @@ function draco_insomnis_cron(): void {
     \DracoInsomnis\Core\GeoUpdate::update($host->setting('geo_file'));
   }
 }
+
+/**
+ * Implements hook_mail(): the notice to the owner (review requests).
+ */
+function draco_insomnis_mail(string $key, array &$message, array $params): void {
+  if ($key === 'notice') {
+    $message['subject'] = (string) $params['subject'];
+    $message['body'][] = (string) $params['body'];
+  }
+}

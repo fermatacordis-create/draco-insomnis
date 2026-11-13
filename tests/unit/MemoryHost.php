@@ -6,7 +6,7 @@ namespace Tests\Unit;
 use DracoInsomnis\Core\EventStore;
 use DracoInsomnis\Core\Host;
 
-foreach (['Host', 'EventStore', 'Request', 'BotScore', 'FormStamp', 'NetList', 'Crawler', 'WafRules', 'Shield', 'Firewall', 'Pace'] as $class) {
+foreach (['Host', 'EventStore', 'Request', 'BotScore', 'FormStamp', 'NetList', 'Crawler', 'WafRules', 'Shield', 'Firewall', 'Pace', 'Review', 'TestProbe', 'Summary'] as $class) {
     require_once dirname(__DIR__, 2) . '/src/Core/' . $class . '.php';
 }
 
@@ -25,6 +25,8 @@ final class MemoryHost implements Host, EventStore
     public array $blocks = [];
     /** @var array<string, \Closure> */
     public array $filters = [];
+    /** @var list<array{0: string, 1: string}> */
+    public array $notices = [];
 
     public function secret(): string
     {
@@ -102,5 +104,10 @@ final class MemoryHost implements Host, EventStore
         $this->blocks[] = ['kind' => $kind, 'value' => $value, 'days' => $days, 'reason' => $reason];
 
         return true;
+    }
+
+    public function notifyOwner(string $subject, string $body): void
+    {
+        $this->notices[] = [$subject, $body];
     }
 }

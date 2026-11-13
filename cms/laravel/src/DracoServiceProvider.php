@@ -7,7 +7,9 @@ namespace DracoInsomnis\Laravel;
 use DracoInsomnis\Laravel\Console\BlockCommand;
 use DracoInsomnis\Laravel\Console\CleanupCommand;
 use DracoInsomnis\Laravel\Console\EvidenceCommand;
+use DracoInsomnis\Laravel\Console\ReviewsCommand;
 use DracoInsomnis\Laravel\Console\StatusCommand;
+use DracoInsomnis\Laravel\Console\TestCommand;
 use DracoInsomnis\Laravel\Http\Middleware\Firewall;
 use DracoInsomnis\Laravel\Http\Middleware\SignupShield;
 use Illuminate\Console\Scheduling\Schedule;
@@ -22,7 +24,7 @@ use Illuminate\Support\ServiceProvider;
  *   middleware at the end of the configured groups for requests with one.
  * - Sign-up shield: the 'draco.signup' middleware on the registration route and @dracoFields in
  *   its form.
- * - Artisan: draco:status, draco:evidence, draco:block, draco:cleanup (scheduled daily).
+ * - Artisan: draco:status, draco:evidence, draco:block, draco:reviews, draco:test, draco:cleanup (scheduled daily).
  */
 final class DracoServiceProvider extends ServiceProvider
 {
@@ -53,7 +55,7 @@ final class DracoServiceProvider extends ServiceProvider
         });
 
         if ($this->app->runningInConsole()) {
-            $this->commands([StatusCommand::class, EvidenceCommand::class, BlockCommand::class, CleanupCommand::class]);
+            $this->commands([StatusCommand::class, EvidenceCommand::class, BlockCommand::class, CleanupCommand::class, ReviewsCommand::class, TestCommand::class]);
             $this->callAfterResolving(Schedule::class, static function (Schedule $schedule): void {
                 $schedule->command('draco:cleanup')->daily();
             });

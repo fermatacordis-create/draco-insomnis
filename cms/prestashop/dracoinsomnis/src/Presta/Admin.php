@@ -46,12 +46,18 @@ final class Admin
             $done = (new Store())->block('ip', $value, (int) \Tools::getValue('draco_block_days'), (string) \Tools::getValue('draco_block_reason'));
             $out .= $done ? $this->module->displayConfirmation(sprintf($this->t('Blocked: %s'), $value)) : $this->module->displayError($this->t('Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.'));
         }
+        if (\Tools::isSubmit('draco_review')) {
+            $out .= $this->review((int) \Tools::getValue('draco_review'), (string) \Tools::getValue('draco_decision'), (int) \Tools::getValue('draco_days'));
+        }
+        if (\Tools::isSubmit('draco_test')) {
+            $out .= $this->test();
+        }
         if (\Tools::isSubmit('draco_unblock')) {
             Store::unblock((int) \Tools::getValue('draco_unblock'));
             $out .= $this->module->displayConfirmation($this->module->t('Address unblocked.'));
         }
 
-        return $out . $this->intro() . $this->form() . $this->blocks() . $this->events();
+        return $out . $this->intro() . $this->summary() . $this->reviews() . $this->form() . $this->blocks() . $this->events();
     }
 
     private function t(string $text): string
@@ -252,6 +258,100 @@ final class Admin
         ];
 
         return $helper->generateForm([$fields]);
+    }
+
+    /** A review request: let through (for 1, 7, 30 or 0 = forever days), deny, or mark as an attacker. */
+    private function review(int $id, string $decision, int $days): string
+    {
+        $row = Store::review($id);
+        if ($row === null || !in_array($decision, ['approve', 'deny', 'attacker'], true)) {
+            return '';
+        }
+        $fields = json_decode((string) $row['fields'], true);
+        $reason = sprintf($this->t('Review: %s'), is_array($fields) ? (string) ($fields['email'] ?? '') : '');
+        $done = match ($decision) {
+            'approve' => Store::allow((string) $row['ip'], $days, $reason),
+            'attacker' => (new Store())->block('ip', (string) $row['ip'], 90, $reason, true),
+            default => true,
+        };
+        Store::setVerdict($id, ['approve' => 'approved', 'deny' => 'denied', 'attacker' => 'attacker'][$decision]);
+
+        return $done ? $this->module->displayConfirmation($this->t('Done.')) : $this->module->displayError($this->t('It could not be done for that address.'));
+    }
+
+    /** Sends the harmless attack-shaped request to the shop itself and says what happened. */
+    private function test(): string
+    {
+        $result = \DracoInsomnis\Core\TestProbe::run(PsHost::get(), \Context::getContext()->shop->getBaseURL(true), time());
+        [$rule, $mode] = array_pad(explode('|', $result, 2), 2, '');
+        if ($rule === 'off') {
+            return $this->module->displayWarning($this->t('The firewall is off: switch it on and save, then test again.'));
+        }
+        if ($rule === 'error' || $rule === 'unseen') {
+            return $this->module->displayWarning($this->t('The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.'));
+        }
+        if ($rule === 'upstream') {
+            return $this->module->displayConfirmation($this->t("The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers."));
+        }
+        if ($rule === 'none') {
+            return $this->module->displayError($this->t('The test attack was not recognised. Please report it to Draco Insomnis.'));
+        }
+
+        return $this->module->displayConfirmation($mode === 'block'
+            ? $this->t('Works: a database injection was recognised and blocked (403).')
+            : $this->t('Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.'));
+    }
+
+    private function summary(): string
+    {
+        $sum = \DracoInsomnis\Core\Summary::waf(Store::wafRows(7 * 86400));
+        $html = '<div class="panel"><h3><i class="icon-bar-chart"></i> ' . self::h($this->t('Firewall: last 7 days')) . '</h3>'
+            . '<p>' . self::h(sprintf($this->t('%1$d attacks seen, %2$d blocked.'), $sum['total'], $sum['blocked'])) . '</p>';
+        $parts = [];
+        foreach ($sum['rules'] as $rule => $n) {
+            $parts[] = self::h(str_replace('waf_', '', (string) $rule)) . ': ' . (int) $n;
+        }
+        if ($parts !== []) {
+            $html .= '<p><strong>' . self::h($this->t('What:')) . '</strong> ' . implode(' · ', $parts) . '</p>';
+        }
+        $parts = [];
+        foreach ($sum['ips'] as $ip => $n) {
+            $parts[] = '<code>' . self::h((string) $ip) . '</code>: ' . (int) $n;
+        }
+        if ($parts !== []) {
+            $html .= '<p><strong>' . self::h($this->t('Busiest addresses:')) . '</strong> ' . implode(' · ', $parts) . '</p>';
+        }
+
+        return $html . '<form method="post" action="' . self::h($this->url()) . '" style="margin:0"><button class="btn btn-primary" name="draco_test" value="1" id="draco-test">' . self::h($this->t('Test the firewall')) . '</button> '
+            . '<span class="help-block" style="display:inline">' . self::h($this->t('Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.')) . '</span></form></div>';
+    }
+
+    private function reviews(): string
+    {
+        $rows = Store::reviews(50);
+        $html = '<div class="panel" id="draco-reviews"><h3><i class="icon-envelope"></i> ' . self::h($this->t('Review requests')) . '</h3>'
+            . '<p class="help-block">' . self::h($this->t('People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.')) . '</p>';
+        if ($rows === []) {
+            return $html . '<p>' . self::h($this->t('No requests.')) . '</p></div>';
+        }
+        $states = ['approved' => $this->t('Let through'), 'denied' => $this->t('Denied'), 'attacker' => $this->t('Attacker: blocked')];
+        $html .= '<table class="table"><thead><tr><th>' . self::h($this->t('Date (UTC)')) . '</th><th>' . self::h($this->t('Address')) . '</th><th>' . self::h($this->t('E-mail')) . '</th><th>' . self::h($this->t('Message')) . '</th><th></th></tr></thead><tbody>';
+        foreach ($rows as $row) {
+            $fields = json_decode((string) $row['fields'], true);
+            $fields = is_array($fields) ? $fields : [];
+            if ($row['verdict'] === 'pending') {
+                $actions = '<form method="post" action="' . self::h($this->url()) . '" style="margin:0"><input type="hidden" name="draco_review" value="' . (int) $row['id_event'] . '">';
+                foreach ([[$this->t('Let through 24 hours'), 'approve', 1], [$this->t('7 days'), 'approve', 7], [$this->t('30 days'), 'approve', 30], [$this->t('Forever'), 'approve', 0], [$this->t('Deny'), 'deny', 0], [$this->t('Attacker'), 'attacker', 0]] as [$label, $decision, $d]) {
+                    $actions .= '<button class="btn btn-default btn-sm" name="draco_decision" value="' . $decision . '" onclick="this.form.draco_days.value=' . $d . '">' . self::h($label) . '</button> ';
+                }
+                $actions .= '<input type="hidden" name="draco_days" value="0"></form>';
+            } else {
+                $actions = self::h($states[(string) $row['verdict']] ?? (string) $row['verdict']);
+            }
+            $html .= '<tr><td>' . self::h((string) $row['created_at']) . '</td><td><code>' . self::h((string) $row['ip']) . '</code></td><td>' . self::h((string) ($fields['email'] ?? '')) . '</td><td><small>' . self::h((string) ($fields['referer'] ?? '')) . '</small></td><td class="text-right">' . $actions . '</td></tr>';
+        }
+
+        return $html . '</tbody></table></div>';
     }
 
     private function blocks(): string

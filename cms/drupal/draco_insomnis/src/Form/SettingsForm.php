@@ -158,6 +158,8 @@ final class SettingsForm extends ConfigFormBase {
     ];
 
     $form = parent::buildForm($form, $form_state);
+    $form['summary'] = $this->summary() + ['#weight' => 190];
+    $form['reviews'] = $this->reviewsTable() + ['#weight' => 195];
     $form['blocks'] = $this->blocksTable() + ['#weight' => 200];
     $form['events'] = $this->eventsTable() + ['#weight' => 210];
     return $form;
@@ -194,6 +196,67 @@ final class SettingsForm extends ConfigFormBase {
       $done = (new Store())->block('ip', $value, (int) $form_state->getValue('block_days'), (string) $form_state->getValue('block_reason'));
       $done ? $this->messenger()->addStatus($this->t('Blocked: @value', ['@value' => $value])) : $this->messenger()->addError($this->t('Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address.'));
     }
+  }
+
+  private function summary(): array {
+    $sum = \DracoInsomnis\Core\Summary::waf(Store::wafRows(7 * 86400));
+    $items = [];
+    foreach ($sum['rules'] as $rule => $n) {
+      $items[] = str_replace('waf_', '', $rule) . ': ' . $n;
+    }
+    $ips = [];
+    foreach ($sum['ips'] as $ip => $n) {
+      $ips[] = $ip . ': ' . $n;
+    }
+    return [
+      '#type' => 'details',
+      '#title' => $this->t('Firewall: last 7 days'),
+      '#open' => TRUE,
+      'line' => ['#markup' => '<p>' . $this->t('@total attacks seen, @blocked blocked.', ['@total' => $sum['total'], '@blocked' => $sum['blocked']]) . '</p>'],
+      'rules' => ['#theme' => 'item_list', '#title' => $this->t('What'), '#items' => $items],
+      'ips' => ['#theme' => 'item_list', '#title' => $this->t('Busiest addresses'), '#items' => $ips],
+      'test' => [
+        '#type' => 'link',
+        '#title' => $this->t('Test the firewall'),
+        '#url' => Url::fromRoute('draco_insomnis.test'),
+        '#attributes' => ['class' => ['button']],
+        '#suffix' => '<p class="description">' . $this->t('Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged.') . '</p>',
+      ],
+    ];
+  }
+
+  private function reviewsTable(): array {
+    $rows = [];
+    $states = ['approved' => $this->t('Let through'), 'denied' => $this->t('Denied'), 'attacker' => $this->t('Attacker: blocked')];
+    foreach (Store::reviews(50) as $row) {
+      $fields = json_decode((string) $row['fields'], TRUE);
+      $actions = $states[(string) $row['verdict']] ?? '';
+      if ($row['verdict'] === 'pending') {
+        $link = fn (string $title, string $decision, int $days = 0): array => ['#type' => 'link', '#title' => $title, '#url' => Url::fromRoute('draco_insomnis.review', ['id' => $row['id'], 'decision' => $decision, 'days' => $days]), '#suffix' => ' '];
+        $actions = ['data' => [
+          $link((string) $this->t('Let through 24 hours'), 'approve', 1),
+          $link((string) $this->t('7 days'), 'approve', 7),
+          $link((string) $this->t('30 days'), 'approve', 30),
+          $link((string) $this->t('Forever'), 'approve', 0),
+          $link((string) $this->t('Deny'), 'deny'),
+          $link((string) $this->t('Attacker'), 'attacker'),
+        ]];
+      }
+      $rows[] = [$row['created_at'], $row['ip'], is_array($fields) ? (string) ($fields['email'] ?? '') : '', is_array($fields) ? (string) ($fields['referer'] ?? '') : '', $actions];
+    }
+    return [
+      '#type' => 'details',
+      '#title' => $this->t('Review requests'),
+      '#open' => TRUE,
+      '#attributes' => ['id' => 'draco-reviews'],
+      'help' => ['#markup' => '<p>' . $this->t('People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.') . '</p>'],
+      'table' => [
+        '#type' => 'table',
+        '#header' => [$this->t('Date (UTC)'), $this->t('Address'), $this->t('E-mail'), $this->t('Message'), ''],
+        '#rows' => $rows,
+        '#empty' => $this->t('No requests.'),
+      ],
+    ];
   }
 
   private function blocksTable(): array {

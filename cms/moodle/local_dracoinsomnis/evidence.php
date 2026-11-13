@@ -22,6 +22,38 @@ use local_dracoinsomnis\store;
 admin_externalpage_setup('local_dracoinsomnis_evidence');
 
 $action = optional_param('action', '', PARAM_ALPHA);
+if ($action === 'review') {
+    require_sesskey();
+    $row = store::review(required_param('id', PARAM_INT));
+    $decision = required_param('decision', PARAM_ALPHA);
+    if ($row !== null && in_array($decision, ['approve', 'deny', 'attacker'], true)) {
+        $fields = json_decode((string) $row->fields, true);
+        $reason = get_string('reviewreason', 'local_dracoinsomnis', is_array($fields) ? (string) ($fields['email'] ?? '') : '');
+        $done = match ($decision) {
+            'approve' => store::allow((string) $row->ip, optional_param('days', 1, PARAM_INT), $reason),
+            'attacker' => (new store())->block('ip', (string) $row->ip, 90, $reason, true),
+            default => true,
+        };
+        store::set_verdict((int) $row->id, ['approve' => 'approved', 'deny' => 'denied', 'attacker' => 'attacker'][$decision]);
+        redirect(new moodle_url($PAGE->url, [], 'draco-reviews'), get_string($done ? 'done' : 'notdone', 'local_dracoinsomnis'), null,
+            $done ? \core\output\notification::NOTIFY_SUCCESS : \core\output\notification::NOTIFY_ERROR);
+    }
+    redirect($PAGE->url);
+}
+if ($action === 'test') {
+    require_sesskey();
+    $result = \DracoInsomnis\Core\TestProbe::run(moodle_host::get(), (new moodle_url('/'))->out(false), time());
+    [$rule, $mode] = array_pad(explode('|', $result, 2), 2, '');
+    [$key, $type] = match (true) {
+        $rule === 'off' => ['testoff', \core\output\notification::NOTIFY_WARNING],
+        $rule === 'error', $rule === 'unseen' => ['testunreachable', \core\output\notification::NOTIFY_WARNING],
+        $rule === 'upstream' => ['testupstream', \core\output\notification::NOTIFY_SUCCESS],
+        $rule === 'none' => ['testnone', \core\output\notification::NOTIFY_ERROR],
+        $mode === 'block' => ['testblocked', \core\output\notification::NOTIFY_SUCCESS],
+        default => ['testlogged', \core\output\notification::NOTIFY_SUCCESS],
+    };
+    redirect($PAGE->url, get_string($key, 'local_dracoinsomnis'), null, $type);
+}
 if ($action === 'unblock') {
     require_sesskey();
     store::unblock(required_param('id', PARAM_INT));
@@ -65,6 +97,56 @@ echo html_writer::tag('p', get_string('yourip', 'local_dracoinsomnis', (object) 
 $host = moodle_host::get();
 if ($request->proxyHeaderIgnored($host->setting('proxy_header'), $host->setting('trusted_proxies'))) {
     echo $OUTPUT->notification(get_string('proxyignored', 'local_dracoinsomnis', s($request->remote())), 'warning');
+}
+
+$sum = \DracoInsomnis\Core\Summary::waf(store::waf_rows(7 * 86400));
+echo $OUTPUT->heading(get_string('summary', 'local_dracoinsomnis'), 3);
+echo html_writer::tag('p', get_string('summaryline', 'local_dracoinsomnis', (object) ['total' => $sum['total'], 'blocked' => $sum['blocked']]));
+$parts = [];
+foreach ($sum['rules'] as $rule => $n) {
+    $parts[] = s(str_replace('waf_', '', (string) $rule)) . ': ' . (int) $n;
+}
+if ($parts) {
+    echo html_writer::tag('p', html_writer::tag('strong', get_string('summarywhat', 'local_dracoinsomnis')) . ' ' . implode(' · ', $parts));
+}
+$parts = [];
+foreach ($sum['ips'] as $ip => $n) {
+    $parts[] = html_writer::tag('code', s((string) $ip)) . ': ' . (int) $n;
+}
+if ($parts) {
+    echo html_writer::tag('p', html_writer::tag('strong', get_string('summaryips', 'local_dracoinsomnis')) . ' ' . implode(' · ', $parts));
+}
+echo html_writer::tag('p', html_writer::link(new moodle_url($PAGE->url, ['action' => 'test', 'sesskey' => sesskey()]),
+    get_string('test', 'local_dracoinsomnis'), ['class' => 'btn btn-primary', 'id' => 'draco-test']) . ' '
+    . html_writer::tag('small', get_string('testhelp', 'local_dracoinsomnis'), ['class' => 'text-muted']));
+
+echo $OUTPUT->heading(get_string('reviews', 'local_dracoinsomnis'), 3, null, 'draco-reviews');
+echo html_writer::tag('p', get_string('reviewshelp', 'local_dracoinsomnis'), ['class' => 'text-muted']);
+$reviews = store::reviews(50);
+if (!$reviews) {
+    echo html_writer::tag('p', get_string('noreviews', 'local_dracoinsomnis'));
+} else {
+    $states = ['approved' => 'reviewapproved', 'denied' => 'reviewdenied', 'attacker' => 'reviewattacker'];
+    $table = new html_table();
+    $table->head = [get_string('coldate', 'local_dracoinsomnis'), get_string('colip', 'local_dracoinsomnis'),
+        get_string('colemail', 'local_dracoinsomnis'), get_string('colmessage', 'local_dracoinsomnis'), ''];
+    foreach ($reviews as $row) {
+        $fields = json_decode((string) $row->fields, true);
+        $fields = is_array($fields) ? $fields : [];
+        if ($row->verdict === 'pending') {
+            $actions = '';
+            foreach ([['review1', 'approve', 1], ['review7', 'approve', 7], ['review30', 'approve', 30], ['forever', 'approve', 0],
+                    ['reviewdeny', 'deny', 0], ['reviewattackerbtn', 'attacker', 0]] as [$key, $decision, $d]) {
+                $url = new moodle_url($PAGE->url, ['action' => 'review', 'id' => $row->id, 'decision' => $decision, 'days' => $d, 'sesskey' => sesskey()]);
+                $actions .= html_writer::link($url, get_string($key, 'local_dracoinsomnis'), ['class' => 'btn btn-sm btn-secondary mr-1']);
+            }
+        } else {
+            $actions = isset($states[$row->verdict]) ? get_string($states[$row->verdict], 'local_dracoinsomnis') : s($row->verdict);
+        }
+        $table->data[] = [gmdate('Y-m-d H:i:s', (int) $row->timecreated), html_writer::tag('code', s($row->ip)),
+            s((string) ($fields['email'] ?? '')), s((string) ($fields['referer'] ?? '')), $actions];
+    }
+    echo html_writer::table($table);
 }
 
 echo $OUTPUT->heading(get_string('blocks', 'local_dracoinsomnis'), 3);

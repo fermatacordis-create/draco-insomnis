@@ -21,3 +21,23 @@ draco_insomnis.evidence:
     _controller: '\Drupal\draco_insomnis\Controller\EvidenceController::csv'
   requirements:
     _permission: 'administer draco insomnis'
+
+draco_insomnis.review:
+  path: '/admin/config/system/draco-insomnis/review/{id}/{decision}/{days}'
+  defaults:
+    _controller: '\Drupal\draco_insomnis\Controller\EvidenceController::review'
+    days: 0
+  requirements:
+    _permission: 'administer draco insomnis'
+    _csrf_token: 'TRUE'
+    id: '\d+'
+    decision: 'approve|deny|attacker'
+    days: '\d+'
+
+draco_insomnis.test:
+  path: '/admin/config/system/draco-insomnis/test'
+  defaults:
+    _controller: '\Drupal\draco_insomnis\Controller\EvidenceController::test'
+  requirements:
+    _permission: 'administer draco insomnis'
+    _csrf_token: 'TRUE'

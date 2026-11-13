@@ -79,7 +79,9 @@ final class LaravelHost implements Host
 
         return array_values(array_unique(array_filter(array_merge(
             (array) config('draco.admin_ips', []),
-            is_array($remembered) ? $remembered : []
+            is_array($remembered) ? $remembered : [],
+            // Plus the addresses a person let through after a review.
+            Store::activeValues('allow')
         ), 'is_string')));
     }
 
@@ -125,7 +127,25 @@ final class LaravelHost implements Host
 
     public function text(string $id, int $number): string
     {
+        if ($id === 'review_subject' || $id === 'review_body') {
+            return (string) __('draco::messages.' . $id, ['site' => (string) config('app.name')])
+                . ($id === 'review_body' ? "\n\nphp artisan draco:reviews" : '');
+        }
+
         return (string) __('draco::messages.' . ($id === 'waf_block' ? 'waf_block' : 'auto_block'), ['count' => $number]);
+    }
+
+    public function notifyOwner(string $subject, string $body): void
+    {
+        $to = (string) (config('draco.notify') ?: config('mail.from.address'));
+        if ($to === '') {
+            return;
+        }
+        try {
+            \Illuminate\Support\Facades\Mail::raw($body, static fn ($m) => $m->to($to)->subject($subject));
+        } catch (\Throwable $e) {
+            // A notice that cannot be sent never breaks the visitor's request.
+        }
     }
 
     public function events(): EventStore

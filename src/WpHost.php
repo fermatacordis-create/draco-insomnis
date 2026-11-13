@@ -128,4 +128,9 @@ final class WpHost implements Host
             }, 10, 3);
         }
     }
+
+    public function notifyOwner(string $subject, string $body): void
+    {
+        wp_mail((string) get_option('admin_email'), $subject, $body);
+    }
 }

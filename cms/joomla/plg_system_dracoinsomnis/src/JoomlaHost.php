@@ -92,6 +92,13 @@ final class JoomlaHost implements Host
 
     public function adminIps(): array
     {
+        // Plus the addresses a person let through after a review.
+        return array_values(array_unique(array_merge(self::storedAdminIps(), Store::activeValues('allow'))));
+    }
+
+    /** @return list<string> */
+    private static function storedAdminIps(): array
+    {
         $list = json_decode((string) Store::recall('draco_admin_ips'), true);
 
         return \is_array($list) ? array_values(array_filter($list, 'is_string')) : [];
@@ -100,7 +107,7 @@ final class JoomlaHost implements Host
     /** The last ten addresses administrators worked from: never blocked, never limited. */
     public function rememberAdminIp(string $ip): void
     {
-        $list = $this->adminIps();
+        $list = self::storedAdminIps();
         if (($list[0] ?? null) === $ip) {
             return;
         }
@@ -134,7 +141,28 @@ final class JoomlaHost implements Host
 
     public function text(string $id, int $number): string
     {
+        if ($id === 'review_subject') {
+            return Text::sprintf('PLG_SYSTEM_DRACOINSOMNIS_REVIEW_SUBJECT', (string) \Joomla\CMS\Factory::getApplication()->get('sitename'));
+        }
+        if ($id === 'review_body') {
+            return Text::_('PLG_SYSTEM_DRACOINSOMNIS_REVIEW_BODY') . "\n\n" . \Joomla\CMS\Uri\Uri::root() . 'administrator/index.php?option=com_plugins&view=plugins&filter[folder]=system&filter[search]=draco';
+        }
+
         return Text::sprintf($id === 'waf_block' ? 'PLG_SYSTEM_DRACOINSOMNIS_WAF_BLOCK' : 'PLG_SYSTEM_DRACOINSOMNIS_AUTO_BLOCK', $number);
+    }
+
+    public function notifyOwner(string $subject, string $body): void
+    {
+        try {
+            $app = \Joomla\CMS\Factory::getApplication();
+            $mailer = \Joomla\CMS\Factory::getContainer()->get(\Joomla\CMS\Mail\MailerFactoryInterface::class)->createMailer();
+            $mailer->addRecipient((string) $app->get('mailfrom'));
+            $mailer->setSubject($subject);
+            $mailer->setBody($body);
+            $mailer->Send();
+        } catch (\Throwable $e) {
+            // A notice that cannot be sent never breaks the visitor's request.
+        }
     }
 
     public function events(): EventStore

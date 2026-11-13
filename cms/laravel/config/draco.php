@@ -51,6 +51,10 @@ return [
     // work from are never blocked or limited. null = nobody is exempt by role.
     'bypass_ability' => env('DRACO_BYPASS_ABILITY'),
 
+    // Who gets the e-mail when a visitor asks to review a block (at most one an hour). Empty: the
+    // MAIL_FROM_ADDRESS. The queue itself is in php artisan draco:reviews.
+    'notify' => env('DRACO_NOTIFY', ''),
+
     // Addresses that are never blocked or limited (comma-separated), on top of the remembered ones.
     'admin_ips' => array_filter(array_map('trim', explode(',', (string) env('DRACO_ADMIN_IPS', '')))),
 

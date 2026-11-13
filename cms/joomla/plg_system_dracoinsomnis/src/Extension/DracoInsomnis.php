@@ -10,6 +10,8 @@ namespace Notorius\Plugin\System\DracoInsomnis\Extension;
 
 use DracoInsomnis\Core\Firewall;
 use DracoInsomnis\Core\Gatekeeper;
+use DracoInsomnis\Core\Review;
+use DracoInsomnis\Core\TestProbe;
 use DracoInsomnis\Core\Geo;
 use DracoInsomnis\Core\GeoUpdate;
 use DracoInsomnis\Core\SecurityHeaders;
@@ -74,6 +76,19 @@ final class DracoInsomnis extends CMSPlugin implements SubscriberInterface
         $staff = $user && !$user->guest && $user->authorise('core.login.admin');
         $guest = !$user || $user->guest;
         $waf = ($staff || (\defined('DRACO_WAF_OFF') && DRACO_WAF_OFF)) ? 'off' : $host->mode('waf_mode');
+        $probe = TestProbe::answer($host, (string) ($_SERVER['HTTP_X_DRACO_TEST'] ?? ''), $waf, time());
+        if ($probe !== null) {
+            if (!headers_sent()) {
+                http_response_code($probe['status']);
+                header(TestProbe::RESULT . ': ' . $probe['result']);
+                header('Cache-Control: no-store');
+            }
+            $app->close();
+        }
+        if (Review::isRequest($request, $_POST)) {
+            (new Review($host))->accept($request, $_POST, time());
+            $this->page(Text::_('PLG_SYSTEM_DRACOINSOMNIS_REVIEW_SENT_TITLE'), Text::_('PLG_SYSTEM_DRACOINSOMNIS_REVIEW_SENT_TEXT'), 'review', '', 200);
+        }
         $answer = (new Gatekeeper($host))->decide($request, $waf, $host->mode('pace_mode'), ['com_users', '/login', '/registration', '/component/users'], $guest);
         if ($answer !== null) {
             $answer['status'] === 429 ? $this->tooMany($answer['retry']) : $this->deny($answer['why']);
@@ -153,6 +168,15 @@ final class DracoInsomnis extends CMSPlugin implements SubscriberInterface
         }
         $input = $app->getInput();
         $action = $input->getCmd('action');
+        $back = (string) $input->server->getString('HTTP_REFERER', 'index.php?option=com_plugins');
+        if ($action === 'review') {
+            $this->review($input->getInt('id'), $input->getCmd('decision'), $input->getInt('days'));
+            $app->redirect($back);
+        }
+        if ($action === 'test') {
+            $this->test();
+            $app->redirect($back);
+        }
         if ($action === 'unblock') {
             Store::unblock($input->getInt('id'));
             $app->enqueueMessage(Text::_('PLG_SYSTEM_DRACOINSOMNIS_UNBLOCKED'));
@@ -219,16 +243,60 @@ final class DracoInsomnis extends CMSPlugin implements SubscriberInterface
         $db->setQuery($db->getQuery(true)->update($db->quoteName('#__extensions'))->set($db->quoteName('params') . ' = :p')->where($db->quoteName('extension_id') . ' = :id')->bind(':p', $json)->bind(':id', $id, \Joomla\Database\ParameterType::INTEGER))->execute();
     }
 
-    /** No details for the attacker: what matched stays in the log. */
+    /** A review request: let through (for 1, 7, 30 or 0 = forever days), deny, or mark as an attacker. */
+    private function review(int $id, string $decision, int $days): void
+    {
+        $row = Store::review($id);
+        if ($row === null || !\in_array($decision, ['approve', 'deny', 'attacker'], true)) {
+            return;
+        }
+        $fields = json_decode((string) $row['fields'], true);
+        $reason = Text::sprintf('PLG_SYSTEM_DRACOINSOMNIS_REVIEW_REASON', \is_array($fields) ? (string) ($fields['email'] ?? '') : '');
+        $done = match ($decision) {
+            'approve' => Store::allow((string) $row['ip'], $days, $reason),
+            'attacker' => (new Store())->block('ip', (string) $row['ip'], 90, $reason, true),
+            default => true,
+        };
+        Store::setVerdict($id, ['approve' => 'approved', 'deny' => 'denied', 'attacker' => 'attacker'][$decision]);
+        $this->getApplication()->enqueueMessage(Text::_($done ? 'PLG_SYSTEM_DRACOINSOMNIS_DONE' : 'PLG_SYSTEM_DRACOINSOMNIS_NOT_DONE'), $done ? 'message' : 'error');
+    }
+
+    /** Sends the harmless attack-shaped request to the site itself and says what happened. */
+    private function test(): void
+    {
+        $result = TestProbe::run($this->host(), \Joomla\CMS\Uri\Uri::root(), time());
+        [$rule, $mode] = array_pad(explode('|', $result, 2), 2, '');
+        [$key, $type] = match (true) {
+            $rule === 'off' => ['PLG_SYSTEM_DRACOINSOMNIS_TEST_OFF', 'warning'],
+            $rule === 'error', $rule === 'unseen' => ['PLG_SYSTEM_DRACOINSOMNIS_TEST_UNREACHABLE', 'warning'],
+            $rule === 'upstream' => ['PLG_SYSTEM_DRACOINSOMNIS_TEST_UPSTREAM', 'message'],
+            $rule === 'none' => ['PLG_SYSTEM_DRACOINSOMNIS_TEST_NONE', 'error'],
+            $mode === 'block' => ['PLG_SYSTEM_DRACOINSOMNIS_TEST_BLOCKED', 'message'],
+            default => ['PLG_SYSTEM_DRACOINSOMNIS_TEST_LOGGED', 'message'],
+        };
+        $this->getApplication()->enqueueMessage(Text::_($key), $type);
+    }
+
+    /** No details for the attacker: what matched stays in the log. They may ask for a review. */
     private function deny(string $why): void
     {
+        $form = (new Review($this->host()))->form(JoomlaHost::request(), $why, time(), [
+            'email' => Text::_('PLG_SYSTEM_DRACOINSOMNIS_REVIEW_EMAIL'),
+            'message' => Text::_('PLG_SYSTEM_DRACOINSOMNIS_REVIEW_MESSAGE'),
+            'button' => Text::_('PLG_SYSTEM_DRACOINSOMNIS_REVIEW_BUTTON'),
+        ]);
+        $this->page(Text::_('PLG_SYSTEM_DRACOINSOMNIS_BLOCKED_TITLE'), Text::_('PLG_SYSTEM_DRACOINSOMNIS_BLOCKED_TEXT'), $why, $form, 403);
+    }
+
+    private function page(string $title, string $text, string $why, string $form, int $status): void
+    {
         if (!headers_sent()) {
-            http_response_code(403);
+            http_response_code($status);
             header('Content-Type: text/html; charset=UTF-8');
             header('Cache-Control: no-store');
             header('X-Robots-Tag: noindex, nofollow');
         }
-        echo Firewall::page(Text::_('PLG_SYSTEM_DRACOINSOMNIS_BLOCKED_TITLE'), Text::_('PLG_SYSTEM_DRACOINSOMNIS_BLOCKED_TEXT'), $why);
+        echo Firewall::page($title, $text, $why, $form);
         $this->getApplication()->close();
     }
 

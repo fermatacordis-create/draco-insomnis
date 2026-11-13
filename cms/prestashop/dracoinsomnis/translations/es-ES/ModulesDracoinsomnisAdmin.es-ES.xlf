@@ -318,6 +318,142 @@
         <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
         <target>Nunca un empleado ni tu propia dirección. Rangos como mucho /16 (IPv4) o /32 (IPv6).</target>
       </trans-unit>
+      <trans-unit id="80">
+        <source>[%s] Someone asks you to review a firewall block</source>
+        <target>[%s] Alguien pide que revises un bloqueo del cortafuegos</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.</source>
+        <target>Un visitante parado por el cortafuegos pide una revisión. Abre el módulo Draco Insomnis para dejarle pasar o no.</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Request sent</source>
+        <target>Petición enviada</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.</source>
+        <target>Gracias. El dueño de la tienda lo mirará y, si fue un error, te dejará pasar.</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>Your e-mail</source>
+        <target>Tu correo</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>What were you doing?</source>
+        <target>¿Qué estabas haciendo?</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Ask for a review</source>
+        <target>Pedir revisión</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:</source>
+        <target>Esta petición se ha parado por seguridad. Si crees que es un error, cuéntale al dueño de la tienda qué estabas haciendo:</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Review: %s</source>
+        <target>Revisión: %s</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Done.</source>
+        <target>Hecho.</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>It could not be done for that address.</source>
+        <target>No se ha podido hacer con esa dirección.</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>The firewall is off: switch it on and save, then test again.</source>
+        <target>El cortafuegos está apagado: enciéndelo, guarda y vuelve a probar.</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.</source>
+        <target>La prueba no ha podido llegar a la tienda desde el propio servidor (algunos alojamientos no lo permiten). El cortafuegos puede funcionar igual: mira los últimos intentos.</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers.</source>
+        <target>La prueba se ha parado antes de llegar a PrestaShop, en el cortafuegos del alojamiento. Bien: dos capas.</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>The test attack was not recognised. Please report it to Draco Insomnis.</source>
+        <target>No se ha reconocido el ataque de prueba. Avisa a Draco Insomnis, por favor.</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Works: a database injection was recognised and blocked (403).</source>
+        <target>Funciona: se ha reconocido una inyección de base de datos y se ha bloqueado (403).</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.</source>
+        <target>Funciona: se ha reconocido una inyección de base de datos. En «Solo registrar» se anota pero no se para; cambia a «Bloquear» cuando quieras.</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Firewall: last 7 days</source>
+        <target>Cortafuegos: últimos 7 días</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>%1$d attacks seen, %2$d blocked.</source>
+        <target>%1$d ataques vistos, %2$d bloqueados.</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>What:</source>
+        <target>Qué:</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>Busiest addresses:</source>
+        <target>Direcciones más activas:</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Test the firewall</source>
+        <target>Probar el cortafuegos</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.</source>
+        <target>Envía a la tienda una petición inofensiva con forma de ataque y te dice qué ha pasado. No se registra.</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>Review requests</source>
+        <target>Peticiones de revisión</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.</source>
+        <target>Quien haya sido parado por el cortafuegos puede pedirlo desde la página de bloqueo. Déjale pasar un tiempo si fue un error. Draco nunca le escribe: contéstale desde tu correo si quieres.</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>No requests.</source>
+        <target>No hay peticiones.</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Let through</source>
+        <target>Dejado pasar</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>Denied</source>
+        <target>Denegado</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>Attacker: blocked</source>
+        <target>Atacante: bloqueado</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>E-mail</source>
+        <target>Correo</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Message</source>
+        <target>Mensaje</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>Let through 24 hours</source>
+        <target>Dejar pasar 24 horas</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Deny</source>
+        <target>Denegar</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>Attacker</source>
+        <target>Atacante</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

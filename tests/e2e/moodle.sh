@@ -140,6 +140,36 @@ cfg geo_mode off; cfg geo_countries ''; cfg geo_action log; cfg waf_mode off
 rm -f "$geo"
 reset
 
+echo "== review request from the block page"
+cfg pace_mode off
+cfg waf_mode block
+page=$(curl -s -A "$UA" "$(attack)")
+echo "$page" | grep -q 'name="draco_review"' && ok "the block page has the review form" || ko "no review form"
+rts=$(val "$page" draco_ts); rsig=$(val "$page" draco_sig); rrule=$(val "$page" draco_rule)
+c=$(curl -s -o /dev/null -w '%{http_code}' -A "$UA" -d draco_review=1 -d "draco_rule=$rrule" -d "draco_ts=$rts" -d "draco_sig=$rsig" -d draco_email=ana@example.org -d 'draco_message=I was searching' "$LOGIN?$(cb)")
+[ "$c" = 200 ] && ok "review request answered ($c)" || ko "review request $c"
+[ "$(cnt "SELECT COUNT(*) FROM {local_dracoinsomnis_events} WHERE endpoint='review' AND verdict='pending'")" = 1 ] && ok "kept as a pending review" || ko "review not kept"
+curl -s -o /dev/null -A "$UA" -d draco_review=1 -d "draco_rule=$rrule" -d "draco_ts=$rts" -d draco_sig=forged -d draco_email=bot@spam.example -d 'draco_message=spam' "$LOGIN?$(cb)"
+[ "$(cnt "SELECT COUNT(*) FROM {local_dracoinsomnis_events} WHERE endpoint='review'")" = 1 ] && ok "a forged review is dropped" || ko "forged review kept"
+me=$(q "SELECT id, ip FROM {local_dracoinsomnis_events} WHERE endpoint='review'" | cut -d'|' -f2 | head -1)
+$P -r 'define("CLI_SCRIPT", true); require getcwd()."/config.php"; echo \local_dracoinsomnis\store::allow($argv[1], 1, "e2e") ? "ok" : "no";' "$me" | grep -q ok && ok "let through for 24 hours" || ko "allow failed"
+c=$(code "$(attack)"); [ "$c" = 200 ] && ok "an address let through is not inspected" || ko "allowed address still blocked ($c)"
+$P -r 'define("CLI_SCRIPT", true); require getcwd()."/config.php"; $DB->delete_records("local_dracoinsomnis_blocks", ["kind" => "allow"]);'
+
+echo "== firewall test button"
+secret=$($P admin/cli/cfg.php --component=local_dracoinsomnis --name=secret)
+tok=$($P -r '$ts = time(); echo $ts, ".", hash_hmac("sha256", "waf-test|" . $ts, $argv[1]);' "$secret")
+before=$(cnt "SELECT COUNT(*) FROM {local_dracoinsomnis_events}")
+h=$(curl -s -D - -o /dev/null -A "$UA" -H "X-Draco-Test: $tok" "$LOGIN?$(cb)" | tr -d '\r')
+echo "$h" | grep -qi '^x-draco-test-result: sqli|block' && ok "signed test answered: blocked" || ko "test answer: $(echo "$h" | grep -i 'draco-test' | head -1)"
+h=$(curl -s -D - -o /dev/null -A "$UA" -H "X-Draco-Test: 1.forged" "$LOGIN?$(cb)" | tr -d '\r')
+echo "$h" | grep -qi '^x-draco-test-result:' && ko "a forged test header was answered" || ok "a forged test header is ignored"
+[ "$(cnt "SELECT COUNT(*) FROM {local_dracoinsomnis_events}")" = "$before" ] && ok "a test is never logged" || ko "test logged"
+n=$($P -r 'define("CLI_SCRIPT", true); require getcwd()."/config.php"; echo \DracoInsomnis\Core\Summary::waf(\local_dracoinsomnis\store::waf_rows(86400))["total"];' 2>/dev/null)
+[ "${n:-0}" -ge 1 ] && ok "summary counts the attacks ($n)" || ko "summary empty"
+cfg waf_mode off
+reset
+
 echo "== anti-copy pace"
 cfg pace_mode block
 cfg anticopy_rate_ip 10
