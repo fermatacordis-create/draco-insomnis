@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.11
+Stable tag: 0.1.12
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,7 +84,7 @@ Makes it harder to copy the whole site in one go, without getting in the way of 
 
 = Languages =
 
-English, Spanish (Spain and all Latin American variants), Catalan, German, French, Italian, Portuguese (Portugal and Brazil), Dutch, Polish, Russian, Turkish, Japanese, Simplified Chinese, Korean, Arabic, Hindi and Indonesian. Corrections from native speakers are very welcome, especially for the Asian and Middle Eastern languages.
+English, Spanish (Spain and all Latin American variants), Catalan, German, French, Italian, Portuguese (Portugal and Brazil), Dutch, Polish, Russian, Turkish, Japanese, Simplified Chinese, Korean, Arabic, Hindi, Indonesian, Vietnamese, Bengali, Urdu, Persian, Filipino, Thai, Ukrainian, Swahili, Malay and Tamil. Corrections from native speakers are very welcome, especially for the Asian, African and Middle Eastern languages.
 
 = Who makes it =
 
@@ -125,6 +125,9 @@ The country filter uses IP geolocation by DB-IP (https://db-ip.com), "IP to Coun
 Only if "Refuse passwords that appear in known data breaches" is switched on, Draco asks Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com) with the first 5 characters of the SHA-1 of a password being chosen or used to log in. The password itself and its full hash are never sent. Terms: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy: https://haveibeenpwned.com/Privacy
 
 == Changelog ==
+
+= 0.1.12 =
+* Ten more languages, chosen for the countries where cheap hosting and unpatched sites are most common: Vietnamese, Bengali, Urdu, Persian, Filipino, Thai, Ukrainian, Swahili, Malay and Tamil (39 locales in all). Native speakers: corrections are very welcome.
 
 = 0.1.11 =
 * Passwords (off by default): a minimum length, and refusing passwords that appear in known data breaches. The check asks Have I Been Pwned with only the first 5 characters of the password's SHA-1 (k-anonymity, padded answer): the password never leaves the site, and if the service does not answer in 3 seconds the password is accepted. At login a breached password is not refused; the person is told on the dashboard to change it. Applied in the profile, the password reset and the WooCommerce sign-up.
