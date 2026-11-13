@@ -138,7 +138,7 @@ jobs:
       - name: PHP errors from the run
         if: always()
         run: |
-          cd "$DR_DIR" && vendor/bin/drush watchdog:show --severity=Error --count=20 2>/dev/null || true
+          cd "$DR_DIR" && vendor/bin/drush watchdog:show --severity=Error --count=2 --extended 2>/dev/null | head -80 || true
           grep -iE 'fatal|draco' /tmp/php-server.log | head -20 || true
 
   joomla:
