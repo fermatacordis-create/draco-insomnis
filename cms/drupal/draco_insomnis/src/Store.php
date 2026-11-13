@@ -14,7 +14,7 @@ use DracoInsomnis\Core\EventStore;
 final class Store implements EventStore {
 
   public const KEEP_DAYS = 90;
-  public const BLOCK_DAYS = [7, 15, 30, 90];
+  public const BLOCK_DAYS = \DracoInsomnis\Core\Blocklist::DAYS;
   /** One flood must not fill the database: past this, attempts from that IP in the hour are only counted. */
   private const MAX_ROWS_PER_IP_HOUR = 30;
 
@@ -93,7 +93,17 @@ final class Store implements EventStore {
     $match = $query->orConditionGroup()
       ->condition($query->andConditionGroup()->condition('kind', 'email')->condition('value', strtolower($email)))
       ->condition($query->andConditionGroup()->condition('kind', 'ip')->condition('value', strtolower($ip)));
-    return (bool) $query->condition('until_at', self::now(), '>')->condition($match)->range(0, 1)->execute()->fetchField();
+    if ((bool) $query->condition('until_at', self::now(), '>')->condition($match)->range(0, 1)->execute()->fetchField()) {
+      return TRUE;
+    }
+    return $ip !== '' && \DracoInsomnis\Core\NetList::contains(self::activeNets(), $ip);
+  }
+
+  /** @return list<string> Blocked ranges in force, read once per request. */
+  public static function activeNets(): array {
+    static $nets = NULL;
+    return $nets ??= array_map('strval', self::db()->select('draco_insomnis_blocks', 'b')->fields('b', ['value'])
+      ->condition('kind', 'net')->condition('until_at', self::now(), '>')->range(0, 500)->execute()->fetchCol());
   }
 
   /**
@@ -104,10 +114,16 @@ final class Store implements EventStore {
     if (!in_array($days, self::BLOCK_DAYS, TRUE)) {
       return FALSE;
     }
-    if ($kind === 'ip') {
-      if (filter_var($value, FILTER_VALIDATE_IP) === FALSE || in_array($value, DrupalHost::get()->adminIps(), TRUE)) {
+    if ($kind === 'ip' || $kind === 'net') {
+      $protected = DrupalHost::get()->adminIps();
+      if (!$automatic) {
+        $protected[] = DrupalHost::request(\Drupal::request())->via(DrupalHost::get());
+      }
+      $address = \DracoInsomnis\Core\Blocklist::address($value, $days, $protected);
+      if ($address === NULL) {
         return FALSE;
       }
+      ['kind' => $kind, 'value' => $value] = $address;
     }
     elseif ($kind === 'email') {
       $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['mail' => $value]);
@@ -124,7 +140,7 @@ final class Store implements EventStore {
       'value' => $value,
       'reason' => substr($reason, 0, 190),
       'created_at' => self::now(),
-      'until_at' => gmdate('Y-m-d H:i:s', time() + $days * 86400),
+      'until_at' => \DracoInsomnis\Core\Blocklist::untilAt($days, time()),
     ])->execute();
     return TRUE;
   }

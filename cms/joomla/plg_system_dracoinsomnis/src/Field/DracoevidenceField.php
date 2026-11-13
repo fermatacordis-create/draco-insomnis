@@ -44,7 +44,7 @@ final class DracoevidenceField extends FormField
         } else {
             $html .= '<table class="table table-sm"><thead><tr><th>' . self::h(Text::_('PLG_SYSTEM_DRACOINSOMNIS_COL_VALUE')) . '</th><th>' . self::h(Text::_('PLG_SYSTEM_DRACOINSOMNIS_COL_REASON')) . '</th><th>' . self::h(Text::_('PLG_SYSTEM_DRACOINSOMNIS_COL_UNTIL')) . '</th><th></th></tr></thead><tbody>';
             foreach ($blocks as $row) {
-                $html .= '<tr><td><code>' . self::h((string) $row['value']) . '</code></td><td>' . self::h((string) $row['reason']) . '</td><td>' . self::h((string) $row['until_at']) . '</td>'
+                $html .= '<tr><td><code>' . self::h((string) $row['value']) . '</code></td><td>' . self::h((string) $row['reason']) . '</td><td>' . self::h(\DracoInsomnis\Core\Blocklist::isForever((string) $row['until_at']) ? Text::_('PLG_SYSTEM_DRACOINSOMNIS_FOREVER') : (string) $row['until_at']) . '</td>'
                     . '<td class="text-end"><a class="btn btn-sm btn-secondary" href="' . self::h(self::link(['action' => 'unblock', 'id' => (int) $row['id']])) . '">' . self::h(Text::_('PLG_SYSTEM_DRACOINSOMNIS_UNBLOCK')) . '</a></td></tr>';
             }
             $html .= '</tbody></table>';

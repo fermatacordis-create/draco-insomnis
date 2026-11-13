@@ -85,6 +85,47 @@ setcfg DRACO_SHIELD 0
 rm -f "$jar"
 reset
 
+# Files the shop reads: in CI the shop runs in a container (DOCKER_SHOP), in a lab it is this folder.
+SHOPDIR=$([ -n "${DOCKER_SHOP:-}" ] && echo /var/www/html || pwd)
+put_file() { if [ -n "${DOCKER_SHOP:-}" ]; then docker exec "$DOCKER_SHOP" mkdir -p "$(dirname "$2")"; docker cp "$1" "$DOCKER_SHOP:$2"; docker exec "$DOCKER_SHOP" chmod 644 "$2"; else mkdir -p "$(dirname "$2")"; cp "$1" "$2"; fi; }
+del_file() { if [ -n "${DOCKER_SHOP:-}" ]; then docker exec "$DOCKER_SHOP" rm -f "$1"; else rm -f "$1"; fi; }
+ATTACK="$BASE/?q=1%27%20union%20select%20passwd%20from%20ps_employee--%20"
+
+echo "== security headers"
+setcfg DRACO_PACE_MODE off
+setcfg DRACO_HEADERS 1
+h=$(curl -s -D - -o /dev/null -A "$UA" "$BASE/" | tr -d '\r')
+echo "$h" | grep -qi '^x-content-type-options: nosniff' && ok "security headers sent when on" || ko "no security headers"
+setcfg DRACO_HEADERS 0
+h=$(curl -s -D - -o /dev/null -A "$UA" "$BASE/" | tr -d '\r')
+echo "$h" | grep -qi '^permissions-policy:' && ko "headers still sent when off" || ok "no headers when off"
+
+echo "== range blocked forever"
+setcfg DRACO_WAF_MODE log
+code "$ATTACK" >/dev/null
+me=$(sql "SELECT ip FROM ps_draco_events ORDER BY id_event DESC LIMIT 1")
+net=$($PHP -r '$b = inet_pton($argv[1]); $v6 = strlen($b) === 16; $keep = $v6 ? 6 : 3; $b = substr($b, 0, $keep) . str_repeat("\0", strlen($b) - $keep); echo inet_ntop($b), $v6 ? "/48" : "/24";' "$me")
+sql "INSERT INTO ps_draco_blocks (kind, value, reason, created_at, until_at) VALUES ('net', '$net', 'e2e range', UTC_TIMESTAMP(), '9999-12-31 23:59:59')"
+c=$(code "$BASE/"); [ "$c" = 200 ] && ok "an address in the range $net can still browse" || ko "range read $c"
+c=$(code -X POST -d 'x=1' "$BASE/"); [ "$c" = 403 ] && ok "an address in the range cannot post" || ko "range post $c"
+reset
+
+echo "== country filter"
+geo="$SHOPDIR/var/dracoinsomnis/draco-geo.bin"
+tmpgeo=$(mktemp)
+$PHP -r '$ip = inet_pton($argv[2]); $v6 = strlen($ip) === 16; $n = $v6 ? 16 : 4; $zero = str_repeat("\0", $n); $next = $ip; for ($i = $n - 1; $i >= 0; $i--) { $c = ord($next[$i]); if ($c < 255) { $next[$i] = chr($c + 1); break; } $next[$i] = "\0"; } $rows = [[$zero, "--"], [$ip, "CN"], [$next, "--"]]; $bin = "DRGEO1" . gmdate("Ymd") . pack("NN", $v6 ? 0 : 3, $v6 ? 3 : 0); foreach ($rows as [$a, $c]) { $bin .= $a . $c; } file_put_contents($argv[1], $bin);' "$tmpgeo" "$me"
+put_file "$tmpgeo" "$geo"; rm -f "$tmpgeo"
+setcfg DRACO_WAF_MODE log; setcfg DRACO_GEO_COUNTRIES CN; setcfg DRACO_GEO_ACTION block; setcfg DRACO_GEO_MODE block
+c=$(code "$BASE/"); [ "$c" = 200 ] && ok "country filter leaves browsing alone" || ko "geo read $c"
+c=$(code "$BASE/index.php?controller=authentication"); [ "$c" = 403 ] && ok "a listed country cannot open the login page" || ko "geo login $c"
+[ "$(sql "SELECT COUNT(*) FROM ps_draco_events WHERE endpoint='waf:geo'")" -ge 1 ] && ok "kept as evidence (waf:geo)" || ko "geo evidence"
+[ "$(sql "SELECT COUNT(*) FROM ps_draco_blocks")" = 0 ] && ok "a country never blocks the address" || ko "geo blocked the address"
+setcfg DRACO_GEO_MODE allow
+c=$(code -L "$BASE/index.php?controller=authentication"); [ "$c" = 200 ] && ok "only-listed mode lets the listed country in" || ko "geo allow $c"
+setcfg DRACO_GEO_MODE off; setcfg DRACO_GEO_COUNTRIES ''; setcfg DRACO_GEO_ACTION log; setcfg DRACO_WAF_MODE off
+del_file "$geo"
+reset
+
 echo "== anti-copy pace"
 setcfg DRACO_PACE_MODE block
 setcfg DRACO_ANTICOPY_RATE_IP 10

@@ -24,5 +24,9 @@ class cleanup extends \core\task\scheduled_task {
 
     public function execute() {
         \local_dracoinsomnis\store::cleanup();
+        $host = \local_dracoinsomnis\moodle_host::get();
+        if (in_array($host->setting('geo_mode'), ['block', 'allow'], true) && \DracoInsomnis\Core\GeoUpdate::stale($host->setting('geo_file'), time())) {
+            \DracoInsomnis\Core\GeoUpdate::update($host->setting('geo_file'));
+        }
     }
 }

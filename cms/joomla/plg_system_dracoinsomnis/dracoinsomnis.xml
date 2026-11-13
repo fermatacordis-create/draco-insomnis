@@ -6,7 +6,7 @@
 	<copyright>(C) 2026 Notorius Vision</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorUrl>https://notoriusvision.com</authorUrl>
-	<version>0.1.12</version>
+	<version>0.1.13</version>
 	<description>PLG_SYSTEM_DRACOINSOMNIS_XML_DESCRIPTION</description>
 	<namespace path="src">Notorius\Plugin\System\DracoInsomnis</namespace>
 	<files>
@@ -88,6 +88,39 @@
 				</field>
 				<field name="trusted_proxies" type="textarea" rows="2" label="PLG_SYSTEM_DRACOINSOMNIS_TRUSTED_LABEL" description="PLG_SYSTEM_DRACOINSOMNIS_TRUSTED_DESC" filter="string" />
 				<field name="hosting_nets" type="textarea" rows="4" label="PLG_SYSTEM_DRACOINSOMNIS_NETS_LABEL" description="PLG_SYSTEM_DRACOINSOMNIS_NETS_DESC" filter="string" />
+				<field name="geo_note" type="note" label="PLG_SYSTEM_DRACOINSOMNIS_GEO_LABEL" description="PLG_SYSTEM_DRACOINSOMNIS_GEO_DESC" />
+				<field name="geo_mode" type="list" label="PLG_SYSTEM_DRACOINSOMNIS_GEO_MODE" default="off" filter="word">
+					<option value="off">PLG_SYSTEM_DRACOINSOMNIS_MODE_OFF</option>
+					<option value="block">PLG_SYSTEM_DRACOINSOMNIS_GEO_REFUSE</option>
+					<option value="allow">PLG_SYSTEM_DRACOINSOMNIS_GEO_ONLY</option>
+				</field>
+				<field name="geo_scope" type="list" label="PLG_SYSTEM_DRACOINSOMNIS_GEO_SCOPE" default="sensitive" filter="word">
+					<option value="sensitive">PLG_SYSTEM_DRACOINSOMNIS_GEO_SENSITIVE</option>
+					<option value="site">PLG_SYSTEM_DRACOINSOMNIS_GEO_SITE</option>
+				</field>
+				<field name="geo_action" type="list" label="PLG_SYSTEM_DRACOINSOMNIS_GEO_ACTION" default="log" filter="word">
+					<option value="log">PLG_SYSTEM_DRACOINSOMNIS_MODE_LOG</option>
+					<option value="block">PLG_SYSTEM_DRACOINSOMNIS_MODE_BLOCK</option>
+				</field>
+				<field name="geo_countries" type="text" label="PLG_SYSTEM_DRACOINSOMNIS_GEO_COUNTRIES" description="PLG_SYSTEM_DRACOINSOMNIS_GEO_CREDIT" filter="string" />
+				<field name="headers" type="radio" layout="joomla.form.field.radio.switcher" label="PLG_SYSTEM_DRACOINSOMNIS_HEADERS_LABEL" description="PLG_SYSTEM_DRACOINSOMNIS_HEADERS_DESC" default="0" filter="integer">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="hsts" type="radio" layout="joomla.form.field.radio.switcher" label="PLG_SYSTEM_DRACOINSOMNIS_HSTS_LABEL" description="PLG_SYSTEM_DRACOINSOMNIS_HSTS_DESC" default="0" filter="integer">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="block_note" type="note" label="PLG_SYSTEM_DRACOINSOMNIS_BLOCK_LABEL" description="PLG_SYSTEM_DRACOINSOMNIS_BLOCK_DESC" />
+				<field name="block_value" type="text" label="PLG_SYSTEM_DRACOINSOMNIS_BLOCK_VALUE" filter="string" />
+				<field name="block_days" type="list" label="PLG_SYSTEM_DRACOINSOMNIS_BLOCK_DAYS" default="30" filter="integer">
+					<option value="7">PLG_SYSTEM_DRACOINSOMNIS_DAYS_7</option>
+					<option value="15">PLG_SYSTEM_DRACOINSOMNIS_DAYS_15</option>
+					<option value="30">PLG_SYSTEM_DRACOINSOMNIS_DAYS_30</option>
+					<option value="90">PLG_SYSTEM_DRACOINSOMNIS_DAYS_90</option>
+					<option value="0">PLG_SYSTEM_DRACOINSOMNIS_FOREVER</option>
+				</field>
+				<field name="block_reason" type="text" label="PLG_SYSTEM_DRACOINSOMNIS_BLOCK_REASON" filter="string" />
 				<field name="evidence" type="dracoevidence" label="" />
 			</fieldset>
 		</fields>

@@ -11,7 +11,7 @@ use Illuminate\Console\Command;
 final class BlockCommand extends Command
 {
     protected $signature = 'draco:block {value? : IP address or e-mail to block}
-        {--days=7 : 7, 15, 30 or 90}
+        {--days=7 : 7, 15, 30, 90 or 0 (forever)}
         {--reason= : Why}
         {--unblock= : ID of a block to lift (see draco:status)}';
 
@@ -31,14 +31,15 @@ final class BlockCommand extends Command
             return self::SUCCESS;
         }
         $value = (string) $this->argument('value');
-        $kind = filter_var($value, FILTER_VALIDATE_IP) !== false ? 'ip' : 'email';
+        $kind = filter_var($value, FILTER_VALIDATE_IP) !== false || str_contains($value, '/') ? 'ip' : 'email';
         $reason = (string) ($this->option('reason') ?: 'Manual');
         if (!(new Store())->block($kind, $value, (int) $this->option('days'), $reason)) {
             $this->error('Not blocked: invalid value or days, or it belongs to someone who is never blocked.');
 
             return self::FAILURE;
         }
-        $this->info("Blocked $value for " . (int) $this->option('days') . ' days.');
+        $days = (int) $this->option('days');
+        $this->info("Blocked $value " . ($days === 0 ? 'forever.' : "for $days days."));
 
         return self::SUCCESS;
     }

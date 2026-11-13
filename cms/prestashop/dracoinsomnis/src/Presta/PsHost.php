@@ -69,7 +69,13 @@ final class PsHost implements Host
 
     public function setting(string $name): string
     {
-        return Settings::get('DRACO_' . strtoupper($name));
+        $value = Settings::get('DRACO_' . strtoupper($name));
+        if ($name === 'geo_file' && $value === '') {
+            // Public data, refreshed monthly; in var/ so module updates keep it.
+            return _PS_ROOT_DIR_ . '/var/dracoinsomnis/draco-geo.bin';
+        }
+
+        return $value;
     }
 
     public function adminIps(): array

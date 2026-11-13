@@ -21,7 +21,7 @@ if (!defined('_PS_VERSION_')) {
 final class Store implements EventStore
 {
     public const KEEP_DAYS = 90;
-    public const BLOCK_DAYS = [7, 15, 30, 90];
+    public const BLOCK_DAYS = \DracoInsomnis\Core\Blocklist::DAYS;
     /** One flood must not fill the database: past this, attempts from that IP in the hour are only counted. */
     private const MAX_ROWS_PER_IP_HOUR = 30;
 
@@ -141,8 +141,24 @@ final class Store implements EventStore
 
     public function isBlocked(string $email, string $ip): bool
     {
-        return (bool) self::db()->getValue('SELECT id_block FROM ' . self::table('blocks') . " WHERE until_at > '" . self::now() . "'
-            AND ((kind = 'email' AND value = '" . pSQL(strtolower($email)) . "') OR (kind = 'ip' AND value = '" . pSQL(strtolower($ip)) . "'))", false);
+        if ((bool) self::db()->getValue('SELECT id_block FROM ' . self::table('blocks') . " WHERE until_at > '" . self::now() . "'
+            AND ((kind = 'email' AND value = '" . pSQL(strtolower($email)) . "') OR (kind = 'ip' AND value = '" . pSQL(strtolower($ip)) . "'))", false)) {
+            return true;
+        }
+
+        return $ip !== '' && \DracoInsomnis\Core\NetList::contains(self::activeNets(), $ip);
+    }
+
+    /** @return list<string> Blocked ranges in force, read once per request. */
+    public static function activeNets(): array
+    {
+        static $nets = null;
+        if ($nets === null) {
+            $rows = (array) self::db()->executeS('SELECT value FROM ' . self::table('blocks') . " WHERE kind = 'net' AND until_at > '" . self::now() . "' LIMIT 500", true, false);
+            $nets = array_values(array_map(static fn (array $r): string => (string) $r['value'], $rows));
+        }
+
+        return $nets;
     }
 
     /** Never blocks an employee's e-mail or an address an employee used recently. */
@@ -152,13 +168,16 @@ final class Store implements EventStore
         if (!in_array($days, self::BLOCK_DAYS, true)) {
             return false;
         }
-        if ($kind === 'ip') {
-            if (filter_var($value, FILTER_VALIDATE_IP) === false || in_array($value, Settings::adminIps(), true)) {
+        if ($kind === 'ip' || $kind === 'net') {
+            $protected = Settings::adminIps();
+            if (!$automatic) {
+                $protected[] = strtolower(PsHost::request()->via(PsHost::get()));
+            }
+            $address = \DracoInsomnis\Core\Blocklist::address($value, $days, $protected);
+            if ($address === null) {
                 return false;
             }
-            if (!$automatic && $value === strtolower(PsHost::request()->via(PsHost::get()))) {
-                return false;
-            }
+            ['kind' => $kind, 'value' => $value] = $address;
         } elseif ($kind === 'email') {
             if (!\Validate::isEmail($value) || \Employee::employeeExists($value)) {
                 return false;
@@ -172,7 +191,7 @@ final class Store implements EventStore
             'value' => pSQL($value),
             'reason' => pSQL(substr($reason, 0, 190)),
             'created_at' => self::now(),
-            'until_at' => gmdate('Y-m-d H:i:s', time() + $days * 86400),
+            'until_at' => \DracoInsomnis\Core\Blocklist::untilAt($days, time()),
         ]);
     }
 
@@ -210,5 +229,9 @@ final class Store implements EventStore
         self::db()->execute('DELETE FROM ' . self::table('events') . " WHERE created_at < '" . gmdate('Y-m-d H:i:s', time() - self::KEEP_DAYS * 86400) . "'");
         self::db()->execute('DELETE FROM ' . self::table('blocks') . " WHERE until_at < '" . self::now() . "'");
         self::db()->execute('DELETE FROM ' . self::table('cache') . ' WHERE expires < ' . time());
+        $host = PsHost::get();
+        if (in_array($host->setting('geo_mode'), ['block', 'allow'], true) && \DracoInsomnis\Core\GeoUpdate::stale($host->setting('geo_file'), time())) {
+            \DracoInsomnis\Core\GeoUpdate::update($host->setting('geo_file'));
+        }
     }
 }

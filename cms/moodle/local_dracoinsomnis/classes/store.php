@@ -26,7 +26,7 @@ final class store implements EventStore {
     /** Days the evidence is kept. */
     public const KEEP_DAYS = 90;
     /** Allowed block lengths, in days. */
-    public const BLOCK_DAYS = [7, 15, 30, 90];
+    public const BLOCK_DAYS = \DracoInsomnis\Core\Blocklist::DAYS;
     /** One flood must not fill the database: past this, attempts from that IP in the hour are only counted. */
     private const MAX_ROWS_PER_IP_HOUR = 30;
 
@@ -111,9 +111,24 @@ final class store implements EventStore {
 
     public function isBlocked(string $email, string $ip): bool {
         global $DB;
-        return $DB->record_exists_select('local_dracoinsomnis_blocks',
+        if ($DB->record_exists_select('local_dracoinsomnis_blocks',
             "timeuntil > ? AND ((kind = 'email' AND value = ?) OR (kind = 'ip' AND value = ?))",
-            [time(), strtolower($email), strtolower($ip)]);
+            [time(), strtolower($email), strtolower($ip)])) {
+            return true;
+        }
+        return $ip !== '' && \DracoInsomnis\Core\NetList::contains(self::active_nets(), $ip);
+    }
+
+    /**
+     * Blocked ranges in force, read once per request.
+     *
+     * @return string[]
+     */
+    public static function active_nets(): array {
+        global $DB;
+        static $nets = null;
+        return $nets ??= array_values(array_map('strval', $DB->get_fieldset_select('local_dracoinsomnis_blocks', 'value',
+            "kind = 'net' AND timeuntil > ?", [time()])));
     }
 
     public function block(string $kind, string $value, int $days, string $reason, bool $automatic = false): bool {
@@ -122,10 +137,16 @@ final class store implements EventStore {
         if (!in_array($days, self::BLOCK_DAYS, true)) {
             return false;
         }
-        if ($kind === 'ip') {
-            if (filter_var($value, FILTER_VALIDATE_IP) === false || in_array($value, moodle_host::get()->adminIps(), true)) {
+        if ($kind === 'ip' || $kind === 'net') {
+            $protected = moodle_host::get()->adminIps();
+            if (!$automatic) {
+                $protected[] = moodle_host::request()->via(moodle_host::get());
+            }
+            $address = \DracoInsomnis\Core\Blocklist::address($value, $days, $protected);
+            if ($address === null) {
                 return false;
             }
+            ['kind' => $kind, 'value' => $value] = $address;
         } else if ($kind === 'email') {
             if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
                 return false;
@@ -143,7 +164,7 @@ final class store implements EventStore {
             'value' => $value,
             'reason' => substr($reason, 0, 190),
             'timecreated' => time(),
-            'timeuntil' => time() + $days * 86400,
+            'timeuntil' => \DracoInsomnis\Core\Blocklist::untilTs($days, time()),
         ]);
         return true;
     }

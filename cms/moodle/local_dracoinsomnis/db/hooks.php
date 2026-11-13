@@ -17,6 +17,10 @@ defined('MOODLE_INTERNAL') || die();
 
 $callbacks = [
     [
+        'hook' => \core\hook\output\before_http_headers::class,
+        'callback' => [\local_dracoinsomnis\hook_callbacks::class, 'before_http_headers'],
+    ],
+    [
         'hook' => \core\hook\after_config::class,
         'callback' => [\local_dracoinsomnis\hook_callbacks::class, 'after_config'],
         'priority' => 1000,

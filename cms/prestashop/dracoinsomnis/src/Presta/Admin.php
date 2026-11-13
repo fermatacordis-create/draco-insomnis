@@ -34,6 +34,17 @@ final class Admin
         if (\Tools::isSubmit('submitDracoSettings')) {
             $this->save();
             $out .= $this->module->displayConfirmation($this->module->t('Settings saved.'));
+            $host = PsHost::get();
+            if (in_array($host->setting('geo_mode'), ['block', 'allow'], true) && \DracoInsomnis\Core\Geo::built($host->setting('geo_file')) === '') {
+                $out .= \DracoInsomnis\Core\GeoUpdate::update($host->setting('geo_file')) === ''
+                    ? $this->module->displayConfirmation($this->t('Country list downloaded.'))
+                    : $this->module->displayError($this->t('The country list could not be downloaded. The filter does nothing until it is there; save again later.'));
+            }
+        }
+        if (\Tools::isSubmit('draco_block')) {
+            $value = trim((string) \Tools::getValue('draco_block_value'));
+            $done = (new Store())->block('ip', $value, (int) \Tools::getValue('draco_block_days'), (string) \Tools::getValue('draco_block_reason'));
+            $out .= $done ? $this->module->displayConfirmation(sprintf($this->t('Blocked: %s'), $value)) : $this->module->displayError($this->t('Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.'));
         }
         if (\Tools::isSubmit('draco_unblock')) {
             Store::unblock((int) \Tools::getValue('draco_unblock'));
@@ -75,6 +86,13 @@ final class Admin
         Settings::set(Settings::PROXY, in_array($proxy, Settings::PROXIES, true) ? $proxy : '');
         Settings::set(Settings::TRUSTED, implode("\n", NetList::parse((string) \Tools::getValue(Settings::TRUSTED))));
         Settings::set(Settings::NETS, implode("\n", NetList::parse((string) \Tools::getValue(Settings::NETS))));
+        $geo = (string) \Tools::getValue(Settings::GEO_MODE);
+        Settings::set(Settings::GEO_MODE, in_array($geo, ['block', 'allow'], true) ? $geo : 'off');
+        Settings::set(Settings::GEO_SCOPE, \Tools::getValue(Settings::GEO_SCOPE) === 'site' ? 'site' : 'sensitive');
+        Settings::set(Settings::GEO_ACTION, \Tools::getValue(Settings::GEO_ACTION) === 'block' ? 'block' : 'log');
+        Settings::set(Settings::GEO_COUNTRIES, implode(', ', \DracoInsomnis\Core\Geo::parseList((string) \Tools::getValue(Settings::GEO_COUNTRIES))));
+        Settings::set(Settings::HEADERS, \Tools::getValue(Settings::HEADERS) ? '1' : '0');
+        Settings::set(Settings::HSTS, \Tools::getValue(Settings::HSTS) ? '1' : '0');
     }
 
     private function intro(): string
@@ -139,6 +157,57 @@ final class Admin
                         ], 'id' => 'id', 'name' => 'name'],
                     ],
                     [
+                        'type' => 'select',
+                        'label' => $this->t('Countries'),
+                        'name' => Settings::GEO_MODE,
+                        'desc' => $this->t('Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).'),
+                        'options' => ['query' => [
+                            ['id' => 'off', 'name' => $this->t('Off')],
+                            ['id' => 'block', 'name' => $this->t('Refuse the countries listed')],
+                            ['id' => 'allow', 'name' => $this->t('Only the countries listed')],
+                        ], 'id' => 'id', 'name' => 'name'],
+                    ],
+                    [
+                        'type' => 'select',
+                        'label' => $this->t('Where'),
+                        'name' => Settings::GEO_SCOPE,
+                        'options' => ['query' => [
+                            ['id' => 'sensitive', 'name' => $this->t('Logging in, signing up and forms (recommended)')],
+                            ['id' => 'site', 'name' => $this->t('The whole shop')],
+                        ], 'id' => 'id', 'name' => 'name'],
+                    ],
+                    [
+                        'type' => 'select',
+                        'label' => $this->t('What to do'),
+                        'name' => Settings::GEO_ACTION,
+                        'options' => ['query' => [
+                            ['id' => 'log', 'name' => $this->t('Log only: record what it would stop')],
+                            ['id' => 'block', 'name' => $this->t('Block')],
+                        ], 'id' => 'id', 'name' => 'name'],
+                    ],
+                    [
+                        'type' => 'text',
+                        'label' => $this->t('Countries (two-letter codes, e.g. ES, FR, DE)'),
+                        'name' => Settings::GEO_COUNTRIES,
+                        'desc' => $this->t('IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.'),
+                    ],
+                    [
+                        'type' => 'switch',
+                        'label' => $this->t('Security headers'),
+                        'name' => Settings::HEADERS,
+                        'is_bool' => true,
+                        'desc' => $this->t('On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.'),
+                        'values' => [['id' => 'h_on', 'value' => 1, 'label' => $this->t('Yes')], ['id' => 'h_off', 'value' => 0, 'label' => $this->t('No')]],
+                    ],
+                    [
+                        'type' => 'switch',
+                        'label' => $this->t('Force HTTPS for 6 months (HSTS)'),
+                        'name' => Settings::HSTS,
+                        'is_bool' => true,
+                        'desc' => $this->t('Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.'),
+                        'values' => [['id' => 's_on', 'value' => 1, 'label' => $this->t('Yes')], ['id' => 's_off', 'value' => 0, 'label' => $this->t('No')]],
+                    ],
+                    [
                         'type' => 'textarea',
                         'label' => $this->t('Trusted proxies'),
                         'name' => Settings::TRUSTED,
@@ -173,6 +242,12 @@ final class Admin
             Settings::RATE_NET => Settings::get(Settings::RATE_NET) ?: '600',
             Settings::PROXY => Settings::get(Settings::PROXY),
             Settings::TRUSTED => Settings::get(Settings::TRUSTED),
+            Settings::GEO_MODE => Settings::get(Settings::GEO_MODE) ?: 'off',
+            Settings::GEO_SCOPE => Settings::get(Settings::GEO_SCOPE) ?: 'sensitive',
+            Settings::GEO_ACTION => Settings::get(Settings::GEO_ACTION) ?: 'log',
+            Settings::GEO_COUNTRIES => Settings::get(Settings::GEO_COUNTRIES),
+            Settings::HEADERS => Settings::get(Settings::HEADERS) === '1',
+            Settings::HSTS => Settings::get(Settings::HSTS) === '1',
             Settings::NETS => Settings::get(Settings::NETS),
         ];
 
@@ -183,12 +258,22 @@ final class Admin
     {
         $rows = Store::activeBlocks();
         $html = '<div class="panel"><h3><i class="icon-ban"></i> ' . self::h($this->t('Blocked addresses')) . ' (' . count($rows) . ')</h3>';
+        $days = ['7' => $this->t('7 days'), '15' => $this->t('15 days'), '30' => $this->t('30 days'), '90' => $this->t('90 days'), '0' => $this->t('Forever')];
+        $html .= '<form method="post" action="' . self::h($this->url()) . '" class="form-inline" style="margin-bottom:15px">'
+            . '<input type="text" name="draco_block_value" class="form-control" required placeholder="' . self::h($this->t('IP or range (e.g. 203.0.113.0/24)')) . '" aria-label="' . self::h($this->t('IP or range (e.g. 203.0.113.0/24)')) . '"> '
+            . '<select name="draco_block_days" class="form-control" aria-label="' . self::h($this->t('For')) . '">';
+        foreach ($days as $value => $label) {
+            $html .= '<option value="' . $value . '"' . ($value === '30' ? ' selected' : '') . '>' . self::h($label) . '</option>';
+        }
+        $html .= '</select> <input type="text" name="draco_block_reason" class="form-control" placeholder="' . self::h($this->t('Reason')) . '" aria-label="' . self::h($this->t('Reason')) . '"> '
+            . '<button class="btn btn-default" name="draco_block" value="1">' . self::h($this->t('Block')) . '</button>'
+            . '<p class="help-block">' . self::h($this->t('Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).')) . '</p></form>';
         if ($rows === []) {
             return $html . '<p>' . self::h($this->t('Nothing blocked right now.')) . '</p></div>';
         }
         $html .= '<table class="table"><thead><tr><th>' . self::h($this->t('Address or e-mail')) . '</th><th>' . self::h($this->t('Reason')) . '</th><th>' . self::h($this->t('Until (UTC)')) . '</th><th></th></tr></thead><tbody>';
         foreach ($rows as $row) {
-            $html .= '<tr><td><code>' . self::h((string) $row['value']) . '</code></td><td>' . self::h((string) $row['reason']) . '</td><td>' . self::h((string) $row['until_at']) . '</td>'
+            $html .= '<tr><td><code>' . self::h((string) $row['value']) . '</code></td><td>' . self::h((string) $row['reason']) . '</td><td>' . self::h(\DracoInsomnis\Core\Blocklist::isForever((string) $row['until_at']) ? $this->t('Forever') : (string) $row['until_at']) . '</td>'
                 . '<td class="text-right"><form method="post" action="' . self::h($this->url()) . '" style="margin:0"><button class="btn btn-default btn-sm" name="draco_unblock" value="' . (int) $row['id_block'] . '">' . self::h($this->t('Unblock')) . '</button></form></td></tr>';
         }
 

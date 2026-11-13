@@ -22,7 +22,7 @@ use Joomla\Database\ParameterType;
 final class Store implements EventStore
 {
     public const KEEP_DAYS = 90;
-    public const BLOCK_DAYS = [7, 15, 30, 90];
+    public const BLOCK_DAYS = \DracoInsomnis\Core\Blocklist::DAYS;
     /** One flood must not fill the database: past this, attempts from that IP in the hour are only counted. */
     private const MAX_ROWS_PER_IP_HOUR = 30;
 
@@ -137,7 +137,21 @@ final class Store implements EventStore
             ->bind(':now', $now)->bind(':email', $email)->bind(':ip', $ip)
             ->setLimit(1);
 
-        return (bool) $db->setQuery($query)->loadResult();
+        return (bool) $db->setQuery($query)->loadResult() || ($ip !== '' && \DracoInsomnis\Core\NetList::contains(self::activeNets(), $ip));
+    }
+
+    /** @return list<string> Blocked ranges in force, read once per request. */
+    public static function activeNets(): array
+    {
+        static $nets = null;
+        if ($nets === null) {
+            $db = self::db();
+            $now = self::now();
+            $nets = array_map('strval', (array) $db->setQuery($db->getQuery(true)->select($db->quoteName('value'))->from($db->quoteName('#__dracoinsomnis_blocks'))
+                ->where($db->quoteName('kind') . " = 'net'")->where($db->quoteName('until_at') . ' > :now')->bind(':now', $now)->setLimit(500))->loadColumn());
+        }
+
+        return $nets;
     }
 
     /** Never blocks an administrator's e-mail or an address an administrator used recently. */
@@ -147,14 +161,17 @@ final class Store implements EventStore
         if (!\in_array($days, self::BLOCK_DAYS, true)) {
             return false;
         }
-        if ($kind === 'ip') {
-            if (filter_var($value, FILTER_VALIDATE_IP) === false) {
-                return false;
-            }
+        if ($kind === 'ip' || $kind === 'net') {
             $list = json_decode((string) self::recall('draco_admin_ips'), true);
-            if (\is_array($list) && \in_array($value, $list, true)) {
+            $protected = \is_array($list) ? array_values(array_map('strval', $list)) : [];
+            if (!$automatic) {
+                $protected[] = strtolower(JoomlaHost::request()->ip('', ''));
+            }
+            $address = \DracoInsomnis\Core\Blocklist::address($value, $days, $protected);
+            if ($address === null) {
                 return false;
             }
+            ['kind' => $kind, 'value' => $value] = $address;
         } elseif ($kind === 'email') {
             if (filter_var($value, FILTER_VALIDATE_EMAIL) === false || self::isAdminEmail($value)) {
                 return false;
@@ -167,7 +184,7 @@ final class Store implements EventStore
             'value' => $value,
             'reason' => substr($reason, 0, 190),
             'created_at' => self::now(),
-            'until_at' => gmdate('Y-m-d H:i:s', time() + $days * 86400),
+            'until_at' => \DracoInsomnis\Core\Blocklist::untilAt($days, time()),
         ];
 
         return self::db()->insertObject('#__dracoinsomnis_blocks', $row);
@@ -231,5 +248,10 @@ final class Store implements EventStore
         $db->setQuery($db->getQuery(true)->delete($db->quoteName('#__dracoinsomnis_events'))->where($db->quoteName('created_at') . ' < :old')->bind(':old', $old))->execute();
         $db->setQuery($db->getQuery(true)->delete($db->quoteName('#__dracoinsomnis_blocks'))->where($db->quoteName('until_at') . ' < :now')->bind(':now', $now))->execute();
         $db->setQuery($db->getQuery(true)->delete($db->quoteName('#__dracoinsomnis_cache'))->where($db->quoteName('expires') . ' < :t')->bind(':t', $time, ParameterType::INTEGER))->execute();
+        $plugin = \Joomla\CMS\Plugin\PluginHelper::getPlugin('system', 'dracoinsomnis');
+        $host = new JoomlaHost(new \Joomla\Registry\Registry(\is_object($plugin) ? (string) $plugin->params : ''));
+        if ($host->setting('geo_mode') !== '' && $host->setting('geo_mode') !== 'off' && \DracoInsomnis\Core\GeoUpdate::stale($host->setting('geo_file'), $time)) {
+            \DracoInsomnis\Core\GeoUpdate::update($host->setting('geo_file'));
+        }
     }
 }

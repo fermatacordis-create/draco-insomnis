@@ -98,6 +98,49 @@ gcodes=""; for i in $(seq 1 25); do c=$(curl -s -o /dev/null -w '%{http_code}' -
 echo "     fake Googlebot codes:$gcodes"
 [[ "$gcodes" == *429* ]] && ok "fake Googlebot is not trusted" || ko "fake googlebot never limited"
 
+echo "== security headers"
+cset pace_mode off
+cset anticopy_rate_ip 120
+reset
+cset headers true
+h=$(curl -s -D - -o /dev/null -A "$UA" "$BASE/?$(cb)" | tr -d '\r')
+echo "$h" | grep -qi '^x-content-type-options: nosniff' && ok "security headers sent when on" || ko "no security headers"
+cset headers false
+h=$(curl -s -D - -o /dev/null -A "$UA" "$BASE/?$(cb)" | tr -d '\r')
+echo "$h" | grep -qi '^permissions-policy:' && ko "headers still sent when off" || ok "no headers when off"
+
+echo "== range blocked forever"
+cset waf_mode log
+code "$(attack)" >/dev/null
+me=$(sql "SELECT ip FROM draco_insomnis_events ORDER BY id DESC LIMIT 1")
+net=$("$PHPBIN" -r '$b = inet_pton($argv[1]); $v6 = strlen($b) === 16; $keep = $v6 ? 6 : 3; $b = substr($b, 0, $keep) . str_repeat("\0", strlen($b) - $keep); echo inet_ntop($b), $v6 ? "/48" : "/24";' "$me")
+$D php:eval "echo (new \\Drupal\\draco_insomnis\\Store())->block('ip', '$net', 0, 'e2e range', TRUE) ? 'ok' : 'refused';" 2>/dev/null | grep -q ok && ok "range $net stored" || ko "range refused ($net, me=$me)"
+[ "$(sql "SELECT CONCAT(kind,'|',until_at) FROM draco_insomnis_blocks WHERE value='$net'")" = "net|9999-12-31 23:59:59" ] && ok "kept as a range, forever" || ko "range row: $(sql "SELECT CONCAT(kind,'|',until_at) FROM draco_insomnis_blocks WHERE value='$net'")"
+c=$(code "$BASE/?$(cb)"); [ "$c" = 200 ] && ok "an address in the range can still read" || ko "range read $c"
+c=$(code -X POST -d 'x=1' "$BASE/node?$(cb)"); [ "$c" = 403 ] && ok "an address in the range cannot post" || ko "range post $c"
+$D php:eval '(new \Drupal\draco_insomnis\Store())->block("ip", "10.0.0.0/8", 30, "too wide", TRUE) ? print("stored") : print("refused");' 2>/dev/null | grep -q refused && ok "a range wider than /16 is refused" || ko "wide range stored"
+reset
+
+echo "== country filter"
+geo=$($D php:eval 'echo \Drupal\draco_insomnis\DrupalHost::get()->setting("geo_file");' 2>/dev/null)
+"$PHPBIN" -r '$ip = inet_pton($argv[2]); $v6 = strlen($ip) === 16; $n = $v6 ? 16 : 4; $zero = str_repeat("\0", $n); $next = $ip; for ($i = $n - 1; $i >= 0; $i--) { $c = ord($next[$i]); if ($c < 255) { $next[$i] = chr($c + 1); break; } $next[$i] = "\0"; } $rows = [[$zero, "--"], [$ip, "CN"], [$next, "--"]]; $bin = "DRGEO1" . gmdate("Ymd") . pack("NN", $v6 ? 0 : 3, $v6 ? 3 : 0); foreach ($rows as [$a, $c]) { $bin .= $a . $c; } @mkdir(dirname($argv[1]), 0777, true); file_put_contents($argv[1], $bin);' "$geo" "$me"
+cset waf_mode log
+cset geo_countries CN
+cset geo_action block
+cset geo_mode block
+c=$(code "$BASE/?$(cb)"); [ "$c" = 200 ] && ok "country filter leaves reading alone" || ko "geo read $c"
+c=$(code "$BASE/user/login?$(cb)"); [ "$c" = 403 ] && ok "a listed country cannot open the login page" || ko "geo login $c"
+[ "$(sql "SELECT COUNT(*) FROM draco_insomnis_events WHERE endpoint='waf:geo'")" -ge 1 ] && ok "kept as evidence (waf:geo)" || ko "geo evidence"
+[ "$(sql "SELECT COUNT(*) FROM draco_insomnis_blocks")" = 0 ] && ok "a country never blocks the address" || ko "geo blocked the address"
+cset geo_mode allow
+c=$(code "$BASE/user/login?$(cb)"); [ "$c" = 200 ] && ok "only-listed mode lets the listed country in" || ko "geo allow $c"
+cset geo_mode off
+cset geo_countries ''
+cset geo_action log
+cset waf_mode off
+rm -f "$geo"
+reset
+
 echo "== administrator (last: logging in remembers this address as an administrator's)"
 cset pace_mode off
 uli=$($D uli --uri="$BASE" --no-browser 2>/dev/null | tail -1)

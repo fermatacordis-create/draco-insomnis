@@ -9,7 +9,8 @@ declare(strict_types=1);
 namespace DracoInsomnis\Presta;
 
 use DracoInsomnis\Core\Firewall;
-use DracoInsomnis\Core\Pace;
+use DracoInsomnis\Core\Gatekeeper;
+use DracoInsomnis\Core\SecurityHeaders;
 use DracoInsomnis\Core\Shield;
 
 if (!defined('_PS_VERSION_')) {
@@ -29,36 +30,15 @@ final class Front
         $host = PsHost::get();
         $request = PsHost::request();
 
-        $waf = Settings::mode(Settings::WAF_MODE);
-        if ($waf !== 'off' && !(defined('DRACO_WAF_OFF') && DRACO_WAF_OFF)) {
-            $firewall = new Firewall($host, $waf === 'block');
-            if (!$firewall->exempt($request)) {
-                // Addresses on the block list may browse the shop, but not post anything.
-                if ($firewall->refusedAsBlocked($request, [])) {
-                    self::deny($module, 'blocked');
-                }
-                $rule = $firewall->inspect($request);
-                if ($rule !== null && $firewall->blocking()) {
-                    self::deny($module, $rule);
-                }
-            }
+        $waf = (defined('DRACO_WAF_OFF') && DRACO_WAF_OFF) ? 'off' : Settings::mode(Settings::WAF_MODE);
+        // POST is always sensitive; these are the login, sign-up and password pages in their usual addresses.
+        $answer = (new Gatekeeper($host))->decide($request, $waf, Settings::mode(Settings::PACE_MODE),
+            ['controller=authentication', 'controller=registration', 'controller=password', '/login', '/registration', '/password-recovery', '/registro', '/iniciar-sesion'],
+            !self::customerLoggedIn());
+        if ($answer !== null) {
+            $answer['status'] === 429 ? self::tooMany($answer['retry']) : self::deny($module, $answer['why']);
         }
-
-        $pace = Settings::mode(Settings::PACE_MODE);
-        if ($pace !== 'off' && !self::customerLoggedIn()) {
-            $engine = new Pace($host);
-            $count = $engine->count($request, time());
-            if ($count['over'] !== '' && !$engine->exempt($request)) {
-                $block = $pace === 'block';
-                // One line per address and minute is enough evidence; the rest only counts.
-                if ($count['first']) {
-                    $engine->record($request, 'rate_' . $count['over'], $block, $request->path);
-                }
-                if ($block) {
-                    self::tooMany($count['retry']);
-                }
-            }
-        }
+        SecurityHeaders::send(SecurityHeaders::wanted($host, \Tools::usingSecureMode()));
 
         Store::maybeCleanup();
     }

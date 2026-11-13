@@ -218,6 +218,106 @@
         <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
         <target>Se ignora la cabecera: esta conexión (%s) no viene de Cloudflare ni de un proxy de confianza. Si tu proxy está en internet, añade sus direcciones en «Proxies de confianza».</target>
       </trans-unit>
+      <trans-unit id="55">
+        <source>Country list downloaded.</source>
+        <target>Lista de países descargada.</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>The country list could not be downloaded. The filter does nothing until it is there; save again later.</source>
+        <target>No se pudo descargar la lista de países. El filtro no hace nada hasta tenerla; vuelve a guardar más tarde.</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>Blocked: %s</source>
+        <target>Bloqueado: %s</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.</source>
+        <target>No se ha bloqueado nada: el valor no es válido, pertenece a un empleado o es tu propia dirección.</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Countries</source>
+        <target>Países</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).</source>
+        <target>Tus clientes pueden venir de muchos países, y un atacante cambia de país con una VPN. Filtra solo el acceso, las altas y los formularios, y empieza con «Solo registrar». Los empleados, las personas a las que dejas pasar y los buscadores nunca se filtran. Necesita el cortafuegos encendido (registrar o bloquear).</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Refuse the countries listed</source>
+        <target>Rechazar los países de la lista</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Only the countries listed</source>
+        <target>Solo los países de la lista</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>Logging in, signing up and forms (recommended)</source>
+        <target>Acceso, altas y formularios (recomendado)</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>The whole shop</source>
+        <target>Toda la tienda</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>What to do</source>
+        <target>Qué hacer</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>Countries (two-letter codes, e.g. ES, FR, DE)</source>
+        <target>Países (códigos de dos letras, p. ej. ES, FR, DE)</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.</source>
+        <target>Geolocalización IP de DB-IP (db-ip.com, CC BY 4.0), descargada al encender el filtro y consultada en tu propio servidor: no se envía ninguna dirección a ningún sitio.</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Security headers</source>
+        <target>Cabeceras de seguridad</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.</source>
+        <target>En las páginas de la tienda: sin adivinar tipos de archivo, sin que otros sitios te enmarquen, menos datos de procedencia, sin cámara, micrófono ni ubicación para contenido incrustado. Nunca una que ya se envíe.</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Force HTTPS for 6 months (HSTS)</source>
+        <target>Forzar HTTPS durante 6 meses (HSTS)</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</source>
+        <target>Solo si toda la tienda funciona con HTTPS y va a seguir así: los navegadores lo recuerdan y rechazan HTTP hasta que caduque.</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>7 days</source>
+        <target>7 días</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>15 days</source>
+        <target>15 días</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>30 days</source>
+        <target>30 días</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>90 days</source>
+        <target>90 días</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Forever</source>
+        <target>Para siempre</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>IP or range (e.g. 203.0.113.0/24)</source>
+        <target>IP o rango (p. ej. 203.0.113.0/24)</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>For</source>
+        <target>Durante</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
+        <target>Nunca un empleado ni tu propia dirección. Rangos como mucho /16 (IPv4) o /32 (IPv6).</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

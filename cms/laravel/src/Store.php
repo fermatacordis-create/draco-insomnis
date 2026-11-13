@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Gate;
 final class Store implements EventStore
 {
     public const KEEP_DAYS = 90;
-    public const BLOCK_DAYS = [7, 15, 30, 90];
+    public const BLOCK_DAYS = \DracoInsomnis\Core\Blocklist::DAYS;
     /** One flood must not fill the database: past this, attempts from that IP in the hour are only counted. */
     private const MAX_ROWS_PER_IP_HOUR = 30;
 
@@ -59,11 +59,20 @@ final class Store implements EventStore
 
     public function isBlocked(string $email, string $ip): bool
     {
-        return self::db()->table('draco_blocks')->where('until_at', '>', self::now())
+        $found = self::db()->table('draco_blocks')->where('until_at', '>', self::now())
             ->where(function ($q) use ($email, $ip) {
                 $q->where(fn ($w) => $w->where('kind', 'email')->where('value', strtolower($email)))
                     ->orWhere(fn ($w) => $w->where('kind', 'ip')->where('value', strtolower($ip)));
             })->exists();
+
+        return $found || ($ip !== '' && \DracoInsomnis\Core\NetList::contains(self::activeNets(), $ip));
+    }
+
+    /** @return list<string> Blocked ranges in force. */
+    public static function activeNets(): array
+    {
+        return array_values(array_map('strval', self::db()->table('draco_blocks')->where('kind', 'net')
+            ->where('until_at', '>', self::now())->limit(500)->pluck('value')->all()));
     }
 
     /** Never blocks the addresses of exempt users, nor the e-mail of a user who passes the bypass ability. */
@@ -73,10 +82,12 @@ final class Store implements EventStore
         if (!in_array($days, self::BLOCK_DAYS, true)) {
             return false;
         }
-        if ($kind === 'ip') {
-            if (filter_var($value, FILTER_VALIDATE_IP) === false || in_array($value, (new LaravelHost())->adminIps(), true)) {
+        if ($kind === 'ip' || $kind === 'net') {
+            $address = \DracoInsomnis\Core\Blocklist::address($value, $days, (new LaravelHost())->adminIps());
+            if ($address === null) {
                 return false;
             }
+            ['kind' => $kind, 'value' => $value] = $address;
         } elseif ($kind === 'email') {
             if (filter_var($value, FILTER_VALIDATE_EMAIL) === false || self::exemptEmail($value)) {
                 return false;
@@ -89,7 +100,7 @@ final class Store implements EventStore
             'value' => $value,
             'reason' => substr($reason, 0, 190),
             'created_at' => self::now(),
-            'until_at' => gmdate('Y-m-d H:i:s', time() + $days * 86400),
+            'until_at' => \DracoInsomnis\Core\Blocklist::untilAt($days, time()),
         ]);
 
         return true;

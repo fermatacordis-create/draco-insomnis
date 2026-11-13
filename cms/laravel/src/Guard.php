@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace DracoInsomnis\Laravel;
 
 use DracoInsomnis\Core\Firewall;
-use DracoInsomnis\Core\Pace;
+use DracoInsomnis\Core\Gatekeeper;
+use DracoInsomnis\Core\SecurityHeaders;
 use DracoInsomnis\Core\Shield;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,45 +26,35 @@ final class Guard
             return null;
         }
         $host = self::host();
-        $request = LaravelHost::request($http);
+        $waf = config('draco.waf_off') ? 'off' : LaravelHost::mode('waf_mode');
+        // Only pages a person reads count for the pace limit: JSON API clients are not scrapers of pages.
+        $pages = $pace && in_array($http->getMethod(), ['GET', 'HEAD'], true) && $http->acceptsHtml();
+        $answer = (new Gatekeeper($host))->decide(LaravelHost::request($http), $waf, LaravelHost::mode('pace_mode'), ['/login', '/register', '/password'], $pages);
+        if ($answer === null) {
+            return null;
+        }
+        if ($answer['status'] === 429) {
+            return new Response('Too many requests. Please wait a minute.', 429, [
+                'Retry-After' => (string) $answer['retry'],
+                'Content-Type' => 'text/plain; charset=UTF-8',
+                'Cache-Control' => 'no-store',
+                'X-Robots-Tag' => 'noindex',
+            ]);
+        }
 
-        $waf = LaravelHost::mode('waf_mode');
-        if ($waf !== 'off' && !config('draco.waf_off')) {
-            $firewall = new Firewall($host, $waf === 'block');
-            if (!$firewall->exempt($request)) {
-                // Addresses on the block list may read, but not post, log in or call the API with POST.
-                if ($firewall->refusedAsBlocked($request, ['/login'])) {
-                    return self::deny('blocked');
-                }
-                $rule = $firewall->inspect($request);
-                if ($rule !== null && $firewall->blocking()) {
-                    return self::deny($rule);
-                }
+        return self::deny($answer['why']);
+    }
+
+    /** Security headers on the answer, when switched on; never one the app already set. */
+    public static function headers(Request $http, Response $response): Response
+    {
+        foreach (SecurityHeaders::wanted(self::host(), $http->isSecure()) as $name => $value) {
+            if (!$response->headers->has($name)) {
+                $response->headers->set($name, $value);
             }
         }
 
-        // Only pages a person reads count: JSON API clients are not scrapers of pages.
-        $mode = LaravelHost::mode('pace_mode');
-        if ($pace && $mode !== 'off' && in_array($http->getMethod(), ['GET', 'HEAD'], true) && $http->acceptsHtml()) {
-            $engine = new Pace($host);
-            $count = $engine->count($request, time());
-            if ($count['over'] !== '' && !$engine->exempt($request)) {
-                $block = $mode === 'block';
-                if ($count['first']) {
-                    $engine->record($request, 'rate_' . $count['over'], $block, $request->path);
-                }
-                if ($block) {
-                    return new Response('Too many requests. Please wait a minute.', 429, [
-                        'Retry-After' => (string) max(1, $count['retry']),
-                        'Content-Type' => 'text/plain; charset=UTF-8',
-                        'Cache-Control' => 'no-store',
-                        'X-Robots-Tag' => 'noindex',
-                    ]);
-                }
-            }
-        }
-
-        return null;
+        return $response;
     }
 
     private static function excepted(Request $http): bool

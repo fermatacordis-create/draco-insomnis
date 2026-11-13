@@ -82,6 +82,10 @@ final class JoomlaHost implements Host
     public function setting(string $name): string
     {
         $value = $this->params->get($name, '');
+        if ($name === 'geo_file' && (!\is_string($value) || $value === '')) {
+            // Public data, refreshed monthly; outside the plugin folder so updates keep it.
+            return JPATH_ROOT . '/media/plg_system_dracoinsomnis/draco-geo.bin';
+        }
 
         return \is_scalar($value) ? (string) $value : '';
     }

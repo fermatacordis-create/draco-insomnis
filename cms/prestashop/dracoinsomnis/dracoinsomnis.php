@@ -29,7 +29,7 @@ class DracoInsomnis extends Module
     {
         $this->name = 'dracoinsomnis';
         $this->tab = 'administration';
-        $this->version = '0.1.12';
+        $this->version = '0.1.13';
         $this->author = 'Notorius Vision';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => _PS_VERSION_];
