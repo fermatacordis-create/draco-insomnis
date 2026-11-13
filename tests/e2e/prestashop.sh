@@ -31,6 +31,7 @@ echo "== tables"
 reset
 
 echo "== everything off: the shop works as before"
+setcfg DRACO_SHIELD 0; setcfg DRACO_WAF_MODE off; setcfg DRACO_PACE_MODE off
 c=$(code "$BASE/"); [ "$c" = 200 ] && ok "home 200" || ko "home $c"
 c=$(code "$BASE/?q=1%27%20union%20select%20passwd%20from%20ps_employee--%20"); [ "$c" = 200 ] && ok "attack passes while off ($c)" || ko "off attack $c"
 

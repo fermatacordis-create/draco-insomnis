@@ -42,6 +42,7 @@ reset() { cnt "SELECT 1" >/dev/null; $P -r 'define("CLI_SCRIPT", true); require 
 reset
 
 echo "== everything off"
+cfg shield 0; cfg waf_mode off; cfg pace_mode off
 c=$(code "$LOGIN?$(cb)"); [ "$c" = 200 ] && ok "login page 200" || ko "login $c"
 c=$(code "$(attack)"); [ "$c" = 200 ] && ok "attack passes while off" || ko "off attack $c"
 

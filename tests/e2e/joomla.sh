@@ -39,6 +39,7 @@ reset() { sql "DELETE FROM #__dracoinsomnis_events"; sql "DELETE FROM #__dracoin
 reset
 
 echo "== everything off"
+param shield 0; param waf_mode off; param pace_mode off
 c=$(code "$BASE/index.php?$(cb)"); [ "$c" = 200 ] && ok "home 200" || ko "home $c"
 c=$(code "$(attack)"); [ "$c" = 200 ] && ok "attack passes while off" || ko "off attack $c"
 

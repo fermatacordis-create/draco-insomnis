@@ -25,6 +25,7 @@ echo "== install"
 reset
 
 echo "== everything off"
+cset shield false; cset waf_mode off; cset pace_mode off
 c=$(code "$BASE/?$(cb)"); [ "$c" = 200 ] && ok "home 200" || ko "home $c"
 c=$(code "$(attack)"); [ "$c" = 200 ] && ok "attack passes while off" || ko "off attack $c"
 
