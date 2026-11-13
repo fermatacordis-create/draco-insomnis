@@ -47,6 +47,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $wpdb->query('TRUNCATE TABLE ' . Store::events());
         $wpdb->query('TRUNCATE TABLE ' . Store::blocks());
         $wpdb->query('TRUNCATE TABLE ' . Store::counters());
+        $wpdb->query('TRUNCATE TABLE ' . Store::reviews());
         $wpdb->query('TRUNCATE TABLE ' . Submissions::table());
 
         $this->mails = [];
@@ -126,6 +127,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             \DracoInsomnis\Gate\MailHold::class => ['submission' => 0, 'held' => false, 'dropped' => false, 'releasing' => false],
             \DracoInsomnis\Gate\RegistrationHold::class => ['held' => false],
             \DracoInsomnis\Gate\Mailer::class => ['sending' => false],
+            \DracoInsomnis\Shield\Store::class => ['values' => []],
             \DracoInsomnis\Mail\Transport::class => ['forced' => false, 'transport' => 'php', 'lastError' => '', 'originalFrom' => ''],
         ];
         foreach ($reset as $class => $props) {

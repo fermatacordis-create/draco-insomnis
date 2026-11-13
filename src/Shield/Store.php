@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Shield;
 
+use DracoInsomnis\Core\NetList;
+
 defined('ABSPATH') || exit;
 
 // phpcs:disable WordPress.DB.DirectDatabaseQuery -- the plugin's own tables have no WordPress API; every value goes through prepare().
@@ -15,8 +17,14 @@ defined('ABSPATH') || exit;
 final class Store
 {
     public const KEEP_DAYS = 90;
-    public const BLOCK_DAYS = [7, 15, 30, 90];
-    private const SCHEMA = '2';
+    public const BLOCK_DAYS = [7, 15, 30, 90, 0];
+    /** 0 days = forever: stored as the last moment MySQL can hold. */
+    public const FOREVER = '9999-12-31 23:59:59';
+    /** A range wider than this would shut out whole providers by mistake. */
+    private const MIN_PREFIX = ['4' => 16, '6' => 32];
+    /** @var array<string, list<string>> Ranges and allowed addresses in force, read once per request. */
+    private static array $values = [];
+    private const SCHEMA = '3';
     private const SCHEMA_OPTION = 'draco_schema';
     /** One flood must not fill the database: past this, attempts from that IP in the hour are only counted. */
     private const MAX_ROWS_PER_IP_HOUR = 30;
@@ -33,6 +41,25 @@ final class Store
         global $wpdb;
 
         return $wpdb->prefix . 'draco_blocks';
+    }
+
+    public static function reviews(): string
+    {
+        global $wpdb;
+
+        return $wpdb->prefix . 'draco_reviews';
+    }
+
+    /** "30 days" or "Forever", for the screens. */
+    public static function daysLabel(int $days): string
+    {
+        /* translators: %d: number of days */
+        return $days === 0 ? __('Forever', 'draco-insomnis') : sprintf(__('%d days', 'draco-insomnis'), $days);
+    }
+
+    public static function untilAt(int $days): string
+    {
+        return $days === 0 ? self::FOREVER : gmdate('Y-m-d H:i:s', time() + $days * 86400);
     }
 
     public static function counters(): string
@@ -117,6 +144,19 @@ final class Store
             PRIMARY KEY  (k),
             KEY expires_at (expires_at)
         ) $charset;");
+        dbDelta('CREATE TABLE ' . self::reviews() . " (
+            id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+            created_at datetime NOT NULL,
+            ip varchar(45) NOT NULL,
+            email varchar(190) NOT NULL,
+            message text NOT NULL,
+            rule varchar(40) NOT NULL DEFAULT '',
+            status varchar(12) NOT NULL DEFAULT 'pending',
+            decided_at datetime NULL,
+            PRIMARY KEY  (id),
+            KEY status_created (status, created_at),
+            KEY ip_created (ip, created_at)
+        ) $charset;");
         update_option(self::SCHEMA_OPTION, self::SCHEMA);
     }
 
@@ -199,7 +239,48 @@ final class Store
             strtolower($ip),
         ));
 
-        return $found !== null;
+        return $found !== null || ($ip !== '' && NetList::contains(self::activeValues('net'), $ip));
+    }
+
+    /**
+     * Values of one kind that are in force: 'net' (blocked ranges) or 'allow' (addresses a person
+     * let through after a review). Read once per request.
+     *
+     * @return list<string>
+     */
+    public static function activeValues(string $kind): array
+    {
+        if (!isset(self::$values[$kind])) {
+            global $wpdb;
+            self::$values[$kind] = array_map('strval', (array) $wpdb->get_col($wpdb->prepare(
+                'SELECT value FROM %i WHERE kind = %s AND until_at > %s LIMIT 500',
+                self::blocks(),
+                $kind,
+                current_time('mysql', true),
+            )));
+        }
+
+        return self::$values[$kind];
+    }
+
+    /** Lets an address through the firewall and the block list for a while, after a review. */
+    public static function allow(string $ip, int $days, string $reason): bool
+    {
+        $ip = strtolower(trim($ip));
+        if (filter_var($ip, FILTER_VALIDATE_IP) === false || !in_array($days, [1, 7, 30, 0], true)) {
+            return false;
+        }
+        global $wpdb;
+        self::$values = [];
+        $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE kind IN ('ip', 'allow') AND value = %s", self::blocks(), $ip));
+
+        return (bool) $wpdb->insert(self::blocks(), [
+            'kind' => 'allow',
+            'value' => $ip,
+            'reason' => substr($reason, 0, 190),
+            'created_at' => current_time('mysql', true),
+            'until_at' => self::untilAt($days),
+        ]);
     }
 
     /**
@@ -213,11 +294,19 @@ final class Store
         if (!in_array($days, self::BLOCK_DAYS, true)) {
             return false;
         }
+        if ($kind === 'ip' && str_contains($value, '/')) {
+            $kind = 'net';
+        }
+        $protected = \DracoInsomnis\WpHost::get()->adminIps();
+        if (!$automatic) {
+            $protected[] = strtolower(Guard::clientIp());
+        }
         if ($kind === 'ip') {
-            if (filter_var($value, FILTER_VALIDATE_IP) === false || in_array($value, (array) get_option('draco_admin_ips', []), true)) {
+            if (filter_var($value, FILTER_VALIDATE_IP) === false || in_array($value, $protected, true)) {
                 return false;
             }
-            if (!$automatic && $value === strtolower(Guard::clientIp())) {
+        } elseif ($kind === 'net') {
+            if (!self::validNet($value) || self::netHitsAny($value, $protected)) {
                 return false;
             }
         } elseif ($kind === 'email') {
@@ -229,19 +318,46 @@ final class Store
             return false;
         }
         global $wpdb;
+        self::$values = [];
 
         return (bool) $wpdb->insert(self::blocks(), [
             'kind' => $kind,
             'value' => $value,
             'reason' => substr($reason, 0, 190),
             'created_at' => current_time('mysql', true),
-            'until_at' => gmdate('Y-m-d H:i:s', time() + $days * 86400),
+            'until_at' => self::untilAt($days),
         ]);
+    }
+
+    /** A CIDR range no wider than /16 (IPv4) or /32 (IPv6). */
+    private static function validNet(string $cidr): bool
+    {
+        $parts = explode('/', $cidr, 2);
+        if (count($parts) !== 2 || !ctype_digit($parts[1]) || filter_var($parts[0], FILTER_VALIDATE_IP) === false) {
+            return false;
+        }
+        $family = str_contains($parts[0], ':') ? '6' : '4';
+        $bits = (int) $parts[1];
+
+        return $bits >= self::MIN_PREFIX[$family] && $bits <= ($family === '4' ? 32 : 128);
+    }
+
+    /** @param list<string> $ips */
+    private static function netHitsAny(string $cidr, array $ips): bool
+    {
+        foreach ($ips as $ip) {
+            if ($ip !== '' && NetList::inNet($cidr, $ip)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static function unblock(int $id): void
     {
         global $wpdb;
+        self::$values = [];
         $wpdb->delete(self::blocks(), ['id' => $id]);
     }
 
@@ -257,11 +373,47 @@ final class Store
         ), ARRAY_A);
     }
 
+    /**
+     * What the firewall stopped in the last days: totals, by rule and the busiest addresses.
+     *
+     * @return array{total: int, blocked: int, rules: array<string, int>, ips: array<string, int>}
+     */
+    public static function wafSummary(int $days = 7): array
+    {
+        global $wpdb;
+        $since = gmdate('Y-m-d H:i:s', time() - $days * 86400);
+        $rows = (array) $wpdb->get_results($wpdb->prepare(
+            'SELECT reasons, verdict, COUNT(*) n FROM %i WHERE endpoint LIKE %s AND created_at > %s GROUP BY reasons, verdict',
+            self::events(),
+            $wpdb->esc_like('waf:') . '%',
+            $since,
+        ), ARRAY_A);
+        $out = ['total' => 0, 'blocked' => 0, 'rules' => [], 'ips' => []];
+        foreach ($rows as $r) {
+            $n = (int) $r['n'];
+            $out['total'] += $n;
+            $out['blocked'] += $r['verdict'] === 'bot' ? $n : 0;
+            $out['rules'][(string) $r['reasons']] = ($out['rules'][(string) $r['reasons']] ?? 0) + $n;
+        }
+        arsort($out['rules']);
+        foreach ((array) $wpdb->get_results($wpdb->prepare(
+            'SELECT ip, COUNT(*) n FROM %i WHERE endpoint LIKE %s AND created_at > %s GROUP BY ip ORDER BY n DESC LIMIT 5',
+            self::events(),
+            $wpdb->esc_like('waf:') . '%',
+            $since,
+        ), ARRAY_A) as $r) {
+            $out['ips'][(string) $r['ip']] = (int) $r['n'];
+        }
+
+        return $out;
+    }
+
     public static function cleanup(): void
     {
         global $wpdb;
         $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE created_at < %s", self::events(), gmdate('Y-m-d H:i:s', time() - self::KEEP_DAYS * 86400)));
         $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE until_at < %s", self::blocks(), current_time('mysql', true)));
         $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE expires_at < %d", self::counters(), time()));
+        $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE created_at < %s", self::reviews(), gmdate('Y-m-d H:i:s', time() - self::KEEP_DAYS * 86400)));
     }
 }

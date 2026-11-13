@@ -37,6 +37,16 @@ final class Admin
             wp_die(esc_html__('You are not allowed to do this.', 'draco-insomnis'), 403);
         }
         check_admin_referer(self::ACTION);
+        $do = Input::post('do');
+        if ($do === 'test') {
+            wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&test=' . rawurlencode(self::runTest())));
+            exit;
+        }
+        if ($do === 'review') {
+            $ok = Review::decide(Input::postInt('id'), Input::post('decision'), Input::postInt('days'));
+            wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=' . ($ok ? 'ok' : 'refused') . '#draco-reviews'));
+            exit;
+        }
         update_option(Waf::OPTION_ENABLED, empty($_POST['enabled']) ? 'no' : 'yes');
         update_option(Waf::OPTION_MODE, Input::post('mode') === 'block' ? 'block' : 'log');
         foreach ([Waf::OPTION_HIDE_USERS => 'hide_users', Waf::OPTION_XMLRPC_OFF => 'xmlrpc_off', Waf::OPTION_LOGIN_LIMIT => 'login_limit'] as $option => $field) {
@@ -46,6 +56,49 @@ final class Admin
         exit;
     }
 
+    /** Sends the signed attack-shaped request to the site itself. Returns rule|mode, or an error code. */
+    private static function runTest(): string
+    {
+        if (!Waf::active()) {
+            return 'off';
+        }
+        $url = add_query_arg(['draco_test' => Waf::TEST_ATTACK, 'cb' => wp_generate_password(8, false)], home_url('/'));
+        $response = wp_remote_get($url, [
+            'timeout' => 15,
+            'redirection' => 0,
+            'sslverify' => apply_filters('https_local_ssl_verify', false), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- WordPress core filter
+            'headers' => ['X-Draco-Test' => Waf::testToken(time()), 'Cache-Control' => 'no-cache'],
+        ]);
+        if (is_wp_error($response)) {
+            return 'error';
+        }
+        $result = (string) wp_remote_retrieve_header($response, 'x-draco-test-result');
+        if ($result === '') {
+            // Something in front of WordPress (the hosting's firewall or CDN) answered first.
+            return (int) wp_remote_retrieve_response_code($response) === 403 ? 'upstream' : 'unseen';
+        }
+
+        return $result;
+    }
+
+    private static function testNotice(string $test): void
+    {
+        [$rule, $mode] = array_pad(explode('|', $test, 2), 2, '');
+        if ($rule === 'off') {
+            Brand::notice('warning', __('The firewall is off: switch it on and save, then test again.', 'draco-insomnis'));
+        } elseif ($rule === 'error' || $rule === 'unseen') {
+            Brand::notice('warning', __('The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at "Recent attacks".', 'draco-insomnis'));
+        } elseif ($rule === 'upstream') {
+            Brand::notice('success', __('The test was stopped before it reached WordPress, by the hosting\'s own firewall. Good: two layers.', 'draco-insomnis'));
+        } elseif ($rule === 'none') {
+            Brand::notice('error', __('The test attack was not recognised. Please report it to Draco Insomnis.', 'draco-insomnis'));
+        } elseif ($mode === 'block') {
+            Brand::notice('success', __('Works: a database injection was recognised and blocked (403).', 'draco-insomnis'));
+        } else {
+            Brand::notice('success', __('Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.', 'draco-insomnis'));
+        }
+    }
+
     public static function render(): void
     {
         $on = get_option(Waf::OPTION_ENABLED, 'no') === 'yes';
@@ -53,6 +106,10 @@ final class Admin
         Brand::open(__('Firewall', 'draco-insomnis'), __('Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and the scanners that look for weak spots. People who can edit the site are never inspected.', 'draco-insomnis'));
         if (Input::get('result') === 'ok') {
             Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
+        }
+        $test = Input::get('test');
+        if ($test !== '') {
+            self::testNotice($test);
         }
         if (defined('DRACO_WAF_OFF') && DRACO_WAF_OFF) {
             Brand::notice('warning', __('DRACO_WAF_OFF is set in wp-config.php: the firewall is off. Remove that line once the problem is fixed.', 'draco-insomnis'));
@@ -73,6 +130,11 @@ final class Admin
         echo '<p style="margin-top:12px">';
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
         echo '</p></form>';
+        echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '" style="margin-top:8px">';
+        wp_nonce_field(self::ACTION);
+        echo '<input type="hidden" name="action" value="' . esc_attr(self::ACTION) . '"><input type="hidden" name="do" value="test">';
+        submit_button(__('Test the firewall', 'draco-insomnis'), 'secondary', 'submit', false);
+        echo ' <span class="description">' . esc_html__('Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged.', 'draco-insomnis') . '</span></form>';
         Brand::cardEnd();
 
         $rules = [
@@ -81,6 +143,9 @@ final class Admin
             'waf_code' => __('running code', 'draco-insomnis'), 'waf_xss' => __('script in the link', 'draco-insomnis'),
             'waf_multicall' => __('many passwords in one XML-RPC call', 'draco-insomnis'),
         ];
+        self::summary($rules);
+        self::reviews();
+
         Brand::card('warning', __('Recent attacks', 'draco-insomnis'), __('Kept for 90 days. "Evidence" downloads everything from that address for an abuse report. In log-only mode they appear as "Would block".', 'draco-insomnis'), '', 'warn', 'draco-card--flush');
         echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('What', 'draco-insomnis') . '</th><th>' . esc_html__('Address requested', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
         $rows = Store::recentWhere('waf:');
@@ -98,5 +163,62 @@ final class Admin
         Brand::cardEnd();
         echo '<div class="draco-callout"><span class="dashicons dashicons-sos" aria-hidden="true"></span><span>' . esc_html__('If the firewall ever blocks you, add define(\'DRACO_WAF_OFF\', true); to wp-config.php, log in, look at this list and remove the line.', 'draco-insomnis') . '</span></div>';
         Brand::close();
+    }
+
+    /** @param array<string, string> $rules */
+    private static function summary(array $rules): void
+    {
+        $sum = Store::wafSummary(7);
+        /* translators: 1: attacks seen, 2: of them blocked */
+        $line = sprintf(__('%1$d attacks seen, %2$d blocked.', 'draco-insomnis'), $sum['total'], $sum['blocked']);
+        Brand::card('chart-bar', __('Last 7 days', 'draco-insomnis'), $line, '', 'info');
+        if ($sum['total'] > 0) {
+            echo '<div class="draco-inline" style="align-items:flex-start;gap:32px"><div><strong>' . esc_html__('What', 'draco-insomnis') . '</strong><ul>';
+            foreach ($sum['rules'] as $rule => $n) {
+                echo '<li>' . esc_html($rules[$rule] ?? $rule) . ': ' . (int) $n . '</li>';
+            }
+            echo '</ul></div><div><strong>' . esc_html__('Busiest addresses', 'draco-insomnis') . '</strong><ul>';
+            foreach ($sum['ips'] as $ip => $n) {
+                echo '<li><span class="draco-code">' . esc_html($ip) . '</span>: ' . (int) $n . '</li>';
+            }
+            echo '</ul></div></div>';
+        }
+        Brand::cardEnd();
+    }
+
+    private static function reviews(): void
+    {
+        $rows = Review::recent();
+        $pending = Review::pendingCount();
+        /* translators: %d: number of review requests waiting */
+        $pill = Brand::pill(sprintf(__('Waiting: %d', 'draco-insomnis'), $pending), $pending > 0 ? 'log' : 'off');
+        echo '<div id="draco-reviews"></div>';
+        Brand::card('format-chat', __('Review requests', 'draco-insomnis'), __('People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.', 'draco-insomnis'), $pill, '', 'draco-card--flush');
+        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('E-mail', 'draco-insomnis') . '</th><th>' . esc_html__('Message', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th></tr></thead><tbody>';
+        $states = ['approved' => [__('Let through', 'draco-insomnis'), 'on'], 'denied' => [__('Denied', 'draco-insomnis'), 'off'], 'attacker' => [__('Attacker: blocked', 'draco-insomnis'), 'bad']];
+        foreach ($rows as $r) {
+            echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td><span class="draco-code">' . esc_html((string) $r['ip']) . '</span></td><td>' . esc_html((string) $r['email']) . '</td><td>' . esc_html((string) $r['message']) . '</td><td>';
+            if ($r['status'] === 'pending') {
+                echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '" class="draco-inline">';
+                wp_nonce_field(self::ACTION);
+                echo '<input type="hidden" name="action" value="' . esc_attr(self::ACTION) . '"><input type="hidden" name="do" value="review"><input type="hidden" name="id" value="' . (int) $r['id'] . '">';
+                echo '<select name="days" aria-label="' . esc_attr__('For', 'draco-insomnis') . '"><option value="1">' . esc_html__('24 hours', 'draco-insomnis') . '</option>';
+                foreach ([7, 30, 0] as $days) {
+                    echo '<option value="' . (int) $days . '">' . esc_html(Store::daysLabel($days)) . '</option>';
+                }
+                echo '</select> <button class="button button-primary" name="decision" value="approve">' . esc_html__('Let through', 'draco-insomnis') . '</button> ';
+                echo '<button class="button" name="decision" value="deny">' . esc_html__('Deny', 'draco-insomnis') . '</button> ';
+                echo '<button class="button-link" name="decision" value="attacker">' . esc_html__('Attacker', 'draco-insomnis') . '</button></form>';
+            } else {
+                $st = $states[(string) $r['status']] ?? [(string) $r['status'], 'off'];
+                echo wp_kses_post(Brand::pill($st[0], $st[1]));
+            }
+            echo '</td></tr>';
+        }
+        if ($rows === []) {
+            Brand::emptyRow(5, __('No requests.', 'draco-insomnis'), 'yes-alt');
+        }
+        echo '</tbody></table></div>';
+        Brand::cardEnd();
     }
 }

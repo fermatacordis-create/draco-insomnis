@@ -108,8 +108,7 @@ final class Admin
             echo '<div class="draco-inline"><label class="draco-switch" style="padding:0"><input type="checkbox" name="ip" value="1"><span class="draco-switch__text"><strong>' . esc_html__('Also block the IP address', 'draco-insomnis') . '</strong></span></label>';
             echo '<select name="days" aria-label="' . esc_attr__('For', 'draco-insomnis') . '">';
             foreach (Blocks::BLOCK_DAYS as $days) {
-                /* translators: %d: number of days */
-                echo '<option value="' . (int) $days . '"' . selected($days, 30, false) . '>' . esc_html(sprintf(__('%d days', 'draco-insomnis'), $days)) . '</option>';
+                echo '<option value="' . (int) $days . '"' . selected($days, 30, false) . '>' . esc_html(Blocks::daysLabel($days)) . '</option>';
             }
             echo '</select> ';
             submit_button(__('Block', 'draco-insomnis'), 'primary', 'submit', false);

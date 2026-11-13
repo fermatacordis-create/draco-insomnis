@@ -114,11 +114,10 @@ final class Admin
         Brand::card('dismiss', __('Block a sender', 'draco-insomnis'), __('Never an administrator, nor your own address.', 'draco-insomnis'), '', 'bad');
         echo self::open('block'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo '<div class="draco-field"><label for="draco-b-email">' . esc_html__('E-mail', 'draco-insomnis') . '</label><input id="draco-b-email" type="email" name="email" class="large-text"></div>';
-        echo '<div class="draco-inline"><div class="draco-field"><label for="draco-b-ip">IP</label><input id="draco-b-ip" type="text" name="ip"></div>';
+        echo '<div class="draco-inline"><div class="draco-field"><label for="draco-b-ip">' . esc_html__('IP or range (e.g. 203.0.113.0/24)', 'draco-insomnis') . '</label><input id="draco-b-ip" type="text" name="ip"></div>';
         echo '<div class="draco-field"><label for="draco-b-days">' . esc_html__('For', 'draco-insomnis') . '</label><select id="draco-b-days" name="days">';
         foreach (Store::BLOCK_DAYS as $days) {
-            /* translators: %d: number of days */
-            echo '<option value="' . (int) $days . '"' . selected($days, 30, false) . '>' . esc_html(sprintf(__('%d days', 'draco-insomnis'), $days)) . '</option>';
+            echo '<option value="' . (int) $days . '"' . selected($days, 30, false) . '>' . esc_html(Store::daysLabel($days)) . '</option>';
         }
         echo '</select></div></div>';
         echo '<div class="draco-field" style="margin-top:12px"><label for="draco-b-reason">' . esc_html__('Reason', 'draco-insomnis') . '</label><input id="draco-b-reason" type="text" name="reason" class="large-text"></div>';
@@ -132,8 +131,10 @@ final class Admin
         $count = sprintf(__('Active: %d', 'draco-insomnis'), count($blocks));
         Brand::card('lock', __('Active blocks', 'draco-insomnis'), '', Brand::pill($count, $blocks === [] ? 'off' : 'bad'), '', 'draco-card--flush');
         echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Type', 'draco-insomnis') . '</th><th>' . esc_html__('Value', 'draco-insomnis') . '</th><th>' . esc_html__('Until (UTC)', 'draco-insomnis') . '</th><th>' . esc_html__('Reason', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
+        $kinds = ['ip' => 'IP', 'net' => __('Range', 'draco-insomnis'), 'email' => __('E-mail', 'draco-insomnis'), 'allow' => __('Allowed', 'draco-insomnis')];
         foreach ($blocks as $b) {
-            echo '<tr><td>' . wp_kses_post(Brand::pill((string) $b['kind'], 'bad')) . '</td><td><span class="draco-code">' . esc_html((string) $b['value']) . '</span></td><td>' . esc_html((string) $b['until_at']) . '</td><td>' . esc_html((string) $b['reason']) . '</td><td>'
+            $until = (string) $b['until_at'] === Store::FOREVER ? __('Forever', 'draco-insomnis') : (string) $b['until_at'];
+            echo '<tr><td>' . wp_kses_post(Brand::pill($kinds[(string) $b['kind']] ?? (string) $b['kind'], (string) $b['kind'] === 'allow' ? 'on' : 'bad')) . '</td><td><span class="draco-code">' . esc_html((string) $b['value']) . '</span></td><td>' . esc_html($until) . '</td><td>' . esc_html((string) $b['reason']) . '</td><td>'
                 . self::open('unblock') . '<input type="hidden" name="id" value="' . (int) $b['id'] . '"><button class="button-link">' . esc_html__('Unblock', 'draco-insomnis') . '</button></form></td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
         if ($blocks === []) {

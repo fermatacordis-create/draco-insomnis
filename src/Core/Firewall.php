@@ -85,15 +85,17 @@ final class Firewall
     }
 
     /** The 403 page: no details for the attacker, only a reference. Texts already translated. */
-    public static function page(string $title, string $text, string $why): string
+    /** @param string $extraHtml Already escaped markup shown under the text (the review form). */
+    public static function page(string $title, string $text, string $why, string $extraHtml = ''): string
     {
         $h = static fn (string $s): string => htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
         $ref = substr(hash('sha256', $why . '|' . microtime(true)), 0, 10);
 
         return '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><title>403</title>'
-            . '<style>body{font:16px/1.5 system-ui,sans-serif;background:#f4f5f7;color:#1d2327;display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0;padding:20px;box-sizing:border-box}main{background:#fff;border-radius:12px;padding:32px;max-width:440px;box-shadow:0 2px 12px rgba(0,0,0,.08);text-align:center}</style></head><body><main>'
+            . '<style>body{font:16px/1.5 system-ui,sans-serif;background:#f4f5f7;color:#1d2327;display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0;padding:20px;box-sizing:border-box}main{background:#fff;border-radius:12px;padding:32px;max-width:440px;width:100%;box-shadow:0 2px 12px rgba(0,0,0,.08);text-align:center}form{text-align:left;margin-top:20px}label{display:block;font-size:14px;margin:10px 0 4px}input,textarea{width:100%;box-sizing:border-box;padding:8px;border:1px solid #c3c4c7;border-radius:6px;font:inherit}button{margin-top:12px;padding:9px 16px;border:0;border-radius:6px;background:#2271b1;color:#fff;font:inherit;cursor:pointer}.hp{position:absolute;left:-9999px}</style></head><body><main>'
             . '<h1 style="font-size:20px">' . $h($title) . '</h1>'
             . '<p>' . $h($text) . '</p>'
+            . $extraHtml
             . '<p style="color:#64748b;font-size:13px">Ref. ' . $h($ref) . '</p></main></body></html>';
     }
 }
