@@ -25,6 +25,7 @@ echo "== install"
 reset
 
 echo "== everything off"
+cset shield false; cset waf_mode off; cset pace_mode off
 c=$(code "$BASE/?$(cb)"); [ "$c" = 200 ] && ok "home 200" || ko "home $c"
 c=$(code "$(attack)"); [ "$c" = 200 ] && ok "attack passes while off" || ko "off attack $c"
 
@@ -88,11 +89,14 @@ echo "== anti-copy pace"
 cset pace_mode block
 cset anticopy_rate_ip 10
 codes=""
-for i in $(seq 1 12); do codes="$codes $(code "$BASE/?$(cb)")"; done
+# Counters are per calendar minute: a burst cut in two by the minute change needs a few more.
+for i in $(seq 1 25); do c=$(code "$BASE/?$(cb)"); codes="$codes $c"; [ "$c" = 429 ] && break; done
 echo "     codes:$codes"
 [[ "$codes" == *429* ]] && ok "past 10 pages a minute: 429" || ko "no 429"
 [ "$(sql "SELECT COUNT(*) FROM draco_insomnis_events WHERE endpoint='anticopy:rate_ip'")" = 1 ] && ok "one evidence line per minute" || ko "pace evidence"
-c=$(curl -s -o /dev/null -w '%{http_code}' -A 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' "$BASE/?$(cb)"); [ "$c" = 429 ] && ok "fake Googlebot is not trusted" || ko "fake googlebot $c"
+gcodes=""; for i in $(seq 1 25); do c=$(curl -s -o /dev/null -w '%{http_code}' -A 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' "$BASE/?$(cb)"); gcodes="$gcodes $c"; [ "$c" = 429 ] && break; done
+echo "     fake Googlebot codes:$gcodes"
+[[ "$gcodes" == *429* ]] && ok "fake Googlebot is not trusted" || ko "fake googlebot never limited"
 
 echo "== administrator (last: logging in remembers this address as an administrator's)"
 cset pace_mode off

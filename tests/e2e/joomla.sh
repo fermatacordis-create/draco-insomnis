@@ -39,6 +39,7 @@ reset() { sql "DELETE FROM #__dracoinsomnis_events"; sql "DELETE FROM #__dracoin
 reset
 
 echo "== everything off"
+param shield 0; param waf_mode off; param pace_mode off
 c=$(code "$BASE/index.php?$(cb)"); [ "$c" = 200 ] && ok "home 200" || ko "home $c"
 c=$(code "$(attack)"); [ "$c" = 200 ] && ok "attack passes while off" || ko "off attack $c"
 
@@ -100,12 +101,13 @@ echo "== anti-copy pace"
 param pace_mode block
 param anticopy_rate_ip 10
 codes=""
-for i in $(seq 1 12); do codes="$codes $(code "$BASE/index.php?$(cb)")"; done
+# Counters are per calendar minute: a burst cut in two by the minute change needs a few more.
+for i in $(seq 1 25); do c=$(code "$BASE/index.php?$(cb)"); codes="$codes $c"; [ "$c" = 429 ] && break; done
 echo "     codes:$codes"
 [[ "$codes" == *429* ]] && ok "past 10 pages a minute: 429" || ko "no 429"
 [ "$(sql "SELECT COUNT(*) FROM #__dracoinsomnis_events WHERE endpoint='anticopy:rate_ip'")" = 1 ] && ok "one evidence line per minute" || ko "pace evidence"
 sql "DELETE FROM #__dracoinsomnis_cache WHERE k LIKE 'draco_rl_%'"
-gcodes=""; for i in $(seq 1 12); do gcodes="$gcodes $(curl -s -o /dev/null -w '%{http_code}' -A 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' "$BASE/index.php?$(cb)")"; done
+gcodes=""; for i in $(seq 1 25); do c=$(curl -s -o /dev/null -w '%{http_code}' -A 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' "$BASE/index.php?$(cb)"); gcodes="$gcodes $c"; [ "$c" = 429 ] && break; done
 echo "     fake Googlebot codes:$gcodes"
 [[ "$gcodes" == *429* ]] && ok "fake Googlebot is not trusted" || ko "fake googlebot never limited"
 param pace_mode off

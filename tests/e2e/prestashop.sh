@@ -31,6 +31,7 @@ echo "== tables"
 reset
 
 echo "== everything off: the shop works as before"
+setcfg DRACO_SHIELD 0; setcfg DRACO_WAF_MODE off; setcfg DRACO_PACE_MODE off
 c=$(code "$BASE/"); [ "$c" = 200 ] && ok "home 200" || ko "home $c"
 c=$(code "$BASE/?q=1%27%20union%20select%20passwd%20from%20ps_employee--%20"); [ "$c" = 200 ] && ok "attack passes while off ($c)" || ko "off attack $c"
 
@@ -88,11 +89,14 @@ echo "== anti-copy pace"
 setcfg DRACO_PACE_MODE block
 setcfg DRACO_ANTICOPY_RATE_IP 10
 codes=""
-for i in $(seq 1 12); do codes="$codes $(code "$BASE/")"; done
+# Counters are per calendar minute: a burst cut in two by the minute change needs a few more.
+for i in $(seq 1 25); do c=$(code "$BASE/"); codes="$codes $c"; [ "$c" = 429 ] && break; done
 echo "     codes:$codes"
 [[ "$codes" == *429* ]] && ok "past 10 pages a minute: 429" || ko "no 429"
 [ "$(sql "SELECT COUNT(*) FROM ps_draco_events WHERE endpoint='anticopy:rate_ip'")" = 1 ] && ok "one evidence line per minute" || ko "pace evidence"
-c=$(curl -s -o /dev/null -w '%{http_code}' -A 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' "$BASE/"); [ "$c" = 429 ] && ok "fake Googlebot is not trusted ($c)" || ko "fake googlebot $c"
+gcodes=""; for i in $(seq 1 25); do c=$(curl -s -o /dev/null -w '%{http_code}' -A 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' "$BASE/"); gcodes="$gcodes $c"; [ "$c" = 429 ] && break; done
+echo "     fake Googlebot codes:$gcodes"
+[[ "$gcodes" == *429* ]] && ok "fake Googlebot is not trusted" || ko "fake googlebot never limited"
 setcfg DRACO_PACE_MODE off
 setcfg DRACO_ANTICOPY_RATE_IP 120
 reset
