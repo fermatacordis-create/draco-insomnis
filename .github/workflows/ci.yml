@@ -131,8 +131,9 @@ jobs:
           vendor/bin/drush en draco_insomnis -y
       - name: End-to-end tests
         run: |
+          (cd "$DR_DIR/web" && PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8080 .ht.router.php > /tmp/php-server.log 2>&1 &)
           cd "$DR_DIR"
-          PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8080 -t "$DR_DIR/web" "$DR_DIR/web/.ht.router.php" > /tmp/php-server.log 2>&1 &
+          vendor/bin/drush cr
           sleep 2
           DRUSH=vendor/bin/drush "$GITHUB_WORKSPACE/tests/e2e/drupal.sh"
       - name: PHP errors from the run
