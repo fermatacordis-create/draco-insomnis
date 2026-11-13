@@ -133,7 +133,7 @@ final class DrupalHost implements Host {
     if ($id === 'review_body') {
       return (string) t('A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:') . "\n\n"
         // Built from $base_url: this runs in the middleware, before the router knows the site's address.
-        . rtrim((string) ($GLOBALS['base_url'] ?? ''), '/') . '/' . \Drupal\Core\Url::fromRoute('draco_insomnis.settings')->getInternalPath();
+        . rtrim((string) ($GLOBALS['base_url'] ?? ''), '/') . '/admin/config/system/draco-insomnis';
     }
     if ($id === 'waf_block') {
       return (string) t('Firewall: @count attacks in 10 minutes', ['@count' => $number]);

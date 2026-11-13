@@ -89,7 +89,12 @@ final class Review
             'referer' => mb_substr($message, 0, 500),
         ]);
         if ($this->host->bump('draco_review_notice', 3600) === 1) {
-            $this->host->notifyOwner($this->host->text('review_subject', 0), $this->host->text('review_body', 0));
+            try {
+                $this->host->notifyOwner($this->host->text('review_subject', 0), $this->host->text('review_body', 0));
+            } catch (\Throwable $e) {
+                // The request is kept and shown in the queue: a notice that fails never breaks the answer.
+                unset($e);
+            }
         }
 
         return true;
