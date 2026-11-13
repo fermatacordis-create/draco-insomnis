@@ -249,6 +249,57 @@ jobs:
         if: always()
         run: docker logs ps 2>&1 | tail -40 || true
 
+  moodle:
+    name: Moodle ${{ matrix.branch }} — end to end
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: ['MOODLE_405_STABLE', 'MOODLE_503_STABLE']
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: moodle
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping -proot" --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      MD_DIR: /tmp/moodle
+      BASE: http://127.0.0.1:8080
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mysqli, intl, sodium, zip, gd, soap, exif, curl, xml, mbstring
+          ini-values: max_input_vars=5000
+          coverage: none
+      - name: Install Moodle (${{ matrix.branch }}) and the plugin ZIP
+        run: |
+          git clone -q --depth 1 -b ${{ matrix.branch }} https://github.com/moodle/moodle.git "$MD_DIR"
+          mkdir -p /tmp/moodledata && chmod 777 /tmp/moodledata
+          web="$MD_DIR"; [ -d "$MD_DIR/public" ] && web="$MD_DIR/public"
+          echo "MD_WEB=$web" >> "$GITHUB_ENV"
+          zip=$(bin/build-moodle.sh /tmp/dist)
+          unzip -q "$zip" -d "$web/local"
+          cd "$MD_DIR"
+          php admin/cli/install.php --wwwroot="$BASE" --dataroot=/tmp/moodledata --dbtype=mysqli --dbhost=127.0.0.1 \
+            --dbname=moodle --dbuser=root --dbpass=root --prefix=mdl_ --fullname=Draco --shortname=Draco \
+            --adminuser=admin --adminpass='Draco-CI-2026-admin' --adminemail=admin@example.org --agree-license --non-interactive
+          php admin/cli/cfg.php --name=auth --set=email
+          php admin/cli/cfg.php --name=noemailever --set=1
+          php -r 'define("CLI_SCRIPT", true); require "config.php"; echo "local_dracoinsomnis: ", get_config("local_dracoinsomnis", "version"), "\n";'
+      - name: End-to-end tests
+        run: |
+          (cd "$MD_WEB" && PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8080 > /tmp/php-server.log 2>&1 &)
+          sleep 2
+          cd "$MD_DIR"
+          "$GITHUB_WORKSPACE/tests/e2e/moodle.sh"
+      - name: PHP errors from the run
+        if: always()
+        run: grep -iE 'fatal|draco|exception' /tmp/php-server.log | head -20 || true
+
   laravel:
     name: Laravel ${{ matrix.laravel }} package (PHP ${{ matrix.php }})
     runs-on: ubuntu-latest
