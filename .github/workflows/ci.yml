@@ -204,7 +204,7 @@ jobs:
           # The 9 image's automatic install fails at its very end (it removes install/, which the 9 installer
           # already removed): run the same installer by hand instead.
           - ps: '9'
-            folders: -e PS_FOLDER_ADMIN=admin-dev
+            folders: -e PS_FOLDER_ADMIN=admin
             auto: '0'
     services:
       mysql:
