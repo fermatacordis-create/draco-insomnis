@@ -95,6 +95,52 @@ jobs:
             if grep -i 'draco' "$WP_DIR/wp-content/debug.log"; then echo "Draco caused PHP notices"; exit 1; fi
           fi
 
+  drupal:
+    name: Drupal ${{ matrix.drupal }} — end to end
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        drupal: ['^11', '~10.3.0']
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: drupal
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping -proot" --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      DR_DIR: /tmp/drupal
+      BASE: http://127.0.0.1:8080
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_mysql, gd, zip
+          coverage: none
+      - name: Install Drupal with the module ZIP
+        run: |
+          composer create-project "drupal/recommended-project:${{ matrix.drupal }}" "$DR_DIR" --no-interaction --no-progress
+          composer -d "$DR_DIR" require drush/drush --no-interaction --no-progress
+          zip=$(bin/build-drupal.sh /tmp/dist)
+          mkdir -p "$DR_DIR/web/modules/contrib" && unzip -q "$zip" -d "$DR_DIR/web/modules/contrib"
+          cd "$DR_DIR"
+          vendor/bin/drush site:install standard --db-url=mysql://root:root@127.0.0.1:3306/drupal --account-pass=admin-ci --site-name=Draco -y
+          vendor/bin/drush en draco_insomnis -y
+      - name: End-to-end tests
+        run: |
+          cd "$DR_DIR"
+          PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8080 -t web web/.ht.router.php > /tmp/php-server.log 2>&1 &
+          sleep 2
+          DRUSH=vendor/bin/drush "$GITHUB_WORKSPACE/tests/e2e/drupal.sh"
+      - name: PHP errors from the run
+        if: always()
+        run: |
+          cd "$DR_DIR" && vendor/bin/drush watchdog:show --severity=Error --count=20 2>/dev/null || true
+          grep -iE 'fatal|draco' /tmp/php-server.log | head -20 || true
+
   laravel:
     name: Laravel ${{ matrix.laravel }} package (PHP ${{ matrix.php }})
     runs-on: ubuntu-latest
