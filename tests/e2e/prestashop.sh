@@ -126,6 +126,36 @@ setcfg DRACO_GEO_MODE off; setcfg DRACO_GEO_COUNTRIES ''; setcfg DRACO_GEO_ACTIO
 del_file "$geo"
 reset
 
+echo "== review request from the block page"
+val() { echo "$1" | grep -o "name=\"$2\" value=\"[^\"]*\"" | head -1 | sed 's/.*value="\([^"]*\)"/\1/'; }
+ATTACK="$BASE/?q=1%27%20union%20select%20passwd%20from%20ps_employee--%20"
+setcfg DRACO_PACE_MODE off
+setcfg DRACO_WAF_MODE block
+page=$(curl -s -A "$UA" "$ATTACK&r=$RANDOM")
+echo "$page" | grep -q 'name="draco_review"' && ok "the block page has the review form" || ko "no review form"
+rts=$(val "$page" draco_ts); rsig=$(val "$page" draco_sig); rrule=$(val "$page" draco_rule)
+c=$(curl -s -o /dev/null -w '%{http_code}' -A "$UA" -d draco_review=1 -d "draco_rule=$rrule" -d "draco_ts=$rts" -d "draco_sig=$rsig" -d draco_email=ana@example.org -d 'draco_message=I was searching' "$BASE/")
+[ "$c" = 200 ] && ok "review request answered ($c)" || ko "review request $c"
+[ "$(sql "SELECT COUNT(*) FROM ps_draco_events WHERE endpoint='review' AND verdict='pending'")" = 1 ] && ok "kept as a pending review" || ko "review not kept"
+curl -s -o /dev/null -A "$UA" -d draco_review=1 -d "draco_rule=$rrule" -d "draco_ts=$rts" -d draco_sig=forged -d draco_email=bot@spam.example -d 'draco_message=spam' "$BASE/"
+[ "$(sql "SELECT COUNT(*) FROM ps_draco_events WHERE endpoint='review'")" = 1 ] && ok "a forged review is dropped" || ko "forged review kept"
+me=$(sql "SELECT ip FROM ps_draco_events WHERE endpoint='review' LIMIT 1")
+sql "INSERT INTO ps_draco_blocks (kind, value, reason, created_at, until_at) VALUES ('allow', '$me', 'e2e', UTC_TIMESTAMP(), UTC_TIMESTAMP() + INTERVAL 1 DAY)"
+c=$(code "$ATTACK&r=$RANDOM"); [ "$c" = 200 ] && ok "an address let through is not inspected" || ko "allowed address still blocked ($c)"
+sql "DELETE FROM ps_draco_blocks WHERE kind='allow'"
+
+echo "== firewall test button"
+secret=$(sql "SELECT value FROM ps_configuration WHERE name='DRACO_SECRET'")
+tok=$($PHP -r '$ts = time(); echo $ts, ".", hash_hmac("sha256", "waf-test|" . $ts, $argv[1]);' "$secret")
+before=$(sql "SELECT COUNT(*) FROM ps_draco_events")
+h=$(curl -s -D - -o /dev/null -A "$UA" -H "X-Draco-Test: $tok" "$BASE/" | tr -d '\r')
+echo "$h" | grep -qi '^x-draco-test-result: sqli|block' && ok "signed test answered: blocked" || ko "test answer: $(echo "$h" | grep -i 'draco-test' | head -1)"
+h=$(curl -s -D - -o /dev/null -A "$UA" -H "X-Draco-Test: 1.forged" "$BASE/" | tr -d '\r')
+echo "$h" | grep -qi '^x-draco-test-result:' && ko "a forged test header was answered" || ok "a forged test header is ignored"
+[ "$(sql "SELECT COUNT(*) FROM ps_draco_events")" = "$before" ] && ok "a test is never logged" || ko "test logged"
+setcfg DRACO_WAF_MODE off
+reset
+
 echo "== anti-copy pace"
 setcfg DRACO_PACE_MODE block
 setcfg DRACO_ANTICOPY_RATE_IP 10

@@ -146,19 +146,70 @@ final class Store implements EventStore
             return true;
         }
 
-        return $ip !== '' && \DracoInsomnis\Core\NetList::contains(self::activeNets(), $ip);
+        return $ip !== '' && \DracoInsomnis\Core\NetList::contains(self::activeValues('net'), $ip);
     }
 
-    /** @return list<string> Blocked ranges in force, read once per request. */
-    public static function activeNets(): array
+    /**
+     * Values of one kind in force: 'net' (blocked ranges) or 'allow' (addresses let through after a
+     * review). Read once per request.
+     *
+     * @return list<string>
+     */
+    public static function activeValues(string $kind): array
     {
-        static $nets = null;
-        if ($nets === null) {
-            $rows = (array) self::db()->executeS('SELECT value FROM ' . self::table('blocks') . " WHERE kind = 'net' AND until_at > '" . self::now() . "' LIMIT 500", true, false);
-            $nets = array_values(array_map(static fn (array $r): string => (string) $r['value'], $rows));
+        static $cache = [];
+        if (!isset($cache[$kind])) {
+            $rows = (array) self::db()->executeS('SELECT value FROM ' . self::table('blocks') . " WHERE kind = '" . pSQL($kind) . "' AND until_at > '" . self::now() . "' LIMIT 500", true, false);
+            $cache[$kind] = array_values(array_map(static fn (array $r): string => (string) $r['value'], $rows));
         }
 
-        return $nets;
+        return $cache[$kind];
+    }
+
+    /** Lets an address through the firewall and the block list for a while (1, 7, 30 days or 0 = forever). */
+    public static function allow(string $ip, int $days, string $reason): bool
+    {
+        $ip = strtolower(trim($ip));
+        if (filter_var($ip, FILTER_VALIDATE_IP) === false || !in_array($days, [1, 7, 30, 0], true)) {
+            return false;
+        }
+        self::db()->delete('draco_blocks', "kind IN ('ip', 'allow') AND value = '" . pSQL($ip) . "'");
+
+        return self::db()->insert('draco_blocks', [
+            'kind' => 'allow',
+            'value' => pSQL($ip),
+            'reason' => pSQL(substr($reason, 0, 190)),
+            'created_at' => self::now(),
+            'until_at' => \DracoInsomnis\Core\Blocklist::untilAt($days, time()),
+        ]);
+    }
+
+    /** Review requests, pending first. @return list<array<string, mixed>> */
+    public static function reviews(int $limit = 50): array
+    {
+        $rows = (array) self::db()->executeS('SELECT * FROM ' . self::table('events') . " WHERE endpoint = '" . pSQL(\DracoInsomnis\Core\Review::ENDPOINT) . "' ORDER BY id_event DESC LIMIT " . (int) $limit, true, false);
+        usort($rows, static fn (array $a, array $b): int => ($a['verdict'] === 'pending' ? 0 : 1) <=> ($b['verdict'] === 'pending' ? 0 : 1));
+
+        return $rows;
+    }
+
+    /** @return array<string, mixed>|null */
+    public static function review(int $id): ?array
+    {
+        $row = self::db()->getRow('SELECT * FROM ' . self::table('events') . ' WHERE id_event = ' . (int) $id . " AND endpoint = '" . pSQL(\DracoInsomnis\Core\Review::ENDPOINT) . "'", false);
+
+        return is_array($row) ? $row : null;
+    }
+
+    public static function setVerdict(int $id, string $verdict): void
+    {
+        self::db()->update('draco_events', ['verdict' => pSQL(substr($verdict, 0, 10))], 'id_event = ' . (int) $id);
+    }
+
+    /** Firewall events of the last $seconds, for the summary. @return list<array<string, mixed>> */
+    public static function wafRows(int $seconds): array
+    {
+        return (array) self::db()->executeS('SELECT ip, verdict, reasons FROM ' . self::table('events') . " WHERE endpoint LIKE 'waf:%' AND created_at > '" . gmdate('Y-m-d H:i:s', time() - $seconds) . "' LIMIT 5000", true, false);
     }
 
     /** Never blocks an employee's e-mail or an address an employee used recently. */

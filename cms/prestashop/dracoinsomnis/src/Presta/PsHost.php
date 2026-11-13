@@ -80,7 +80,8 @@ final class PsHost implements Host
 
     public function adminIps(): array
     {
-        return Settings::adminIps();
+        // Plus the addresses a person let through after a review.
+        return array_values(array_unique(array_merge(Settings::adminIps(), Store::activeValues('allow'))));
     }
 
     public function bump(string $key, int $ttl): int
