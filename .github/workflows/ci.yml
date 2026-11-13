@@ -95,6 +95,211 @@ jobs:
             if grep -i 'draco' "$WP_DIR/wp-content/debug.log"; then echo "Draco caused PHP notices"; exit 1; fi
           fi
 
+  drupal:
+    name: Drupal ${{ matrix.drupal }} — end to end
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        drupal: ['^11', '~10.3.0']
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: drupal
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping -proot" --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      DR_DIR: /tmp/drupal
+      BASE: http://127.0.0.1:8080
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_mysql, gd, zip
+          coverage: none
+      - name: Install Drupal with the module ZIP
+        run: |
+          composer create-project "drupal/recommended-project:${{ matrix.drupal }}" "$DR_DIR" --no-interaction --no-progress
+          composer -d "$DR_DIR" require drush/drush --no-interaction --no-progress
+          zip=$(bin/build-drupal.sh /tmp/dist)
+          mkdir -p "$DR_DIR/web/modules/contrib" && unzip -q "$zip" -d "$DR_DIR/web/modules/contrib"
+          cd "$DR_DIR"
+          vendor/bin/drush site:install standard --db-url=mysql://root:root@127.0.0.1:3306/drupal --account-pass=admin-ci --site-name=Draco -y
+          vendor/bin/drush en draco_insomnis -y
+      - name: End-to-end tests
+        run: |
+          (cd "$DR_DIR/web" && PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8080 .ht.router.php > /tmp/php-server.log 2>&1 &)
+          cd "$DR_DIR"
+          vendor/bin/drush cr
+          sleep 2
+          DRUSH=vendor/bin/drush "$GITHUB_WORKSPACE/tests/e2e/drupal.sh"
+      - name: PHP errors from the run
+        if: always()
+        run: |
+          cd "$DR_DIR" && vendor/bin/drush watchdog:show --severity=Error --count=2 --extended 2>/dev/null | head -80 || true
+          grep -iE 'fatal|draco' /tmp/php-server.log | head -20 || true
+
+  joomla:
+    name: Joomla ${{ matrix.joomla }} — end to end
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        joomla: ['5', '6']
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: joomla
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping -proot" --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      JL_DIR: /tmp/joomla
+      BASE: http://127.0.0.1:8080
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mysqli, gd, zip, intl
+          coverage: none
+      - name: Install the latest Joomla ${{ matrix.joomla }} and the plugin ZIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          url=$(gh api 'repos/joomla/joomla-cms/releases?per_page=30' -q '[.[] | select(.prerelease == false) | select(.tag_name | startswith("${{ matrix.joomla }}.")) | .assets[] | select(.name | test("Stable-Full_Package.zip$")) | .browser_download_url][0]')
+          echo "Joomla: $url"
+          mkdir -p "$JL_DIR" && curl -sSfL "$url" -o /tmp/joomla.zip && unzip -q /tmp/joomla.zip -d "$JL_DIR"
+          cd "$JL_DIR"
+          php installation/joomla.php install --site-name=Draco --admin-user="Draco Admin" --admin-username=admin --admin-password='Draco-CI-2026-admin' --admin-email=admin@example.org \
+            --db-type=mysqli --db-host=127.0.0.1 --db-user=root --db-pass=root --db-name=joomla --db-prefix=jl_ --db-encryption=0
+          rm -rf installation
+          zip=$("$GITHUB_WORKSPACE/bin/build-joomla.sh" /tmp/dist)
+          php cli/joomla.php extension:install --path="$zip"
+          mysql -h127.0.0.1 -uroot -proot joomla -e "UPDATE jl_extensions SET enabled=1 WHERE type='plugin' AND element='dracoinsomnis'"
+      - name: End-to-end tests
+        run: |
+          cd "$JL_DIR"
+          PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8080 -t . > /tmp/php-server.log 2>&1 &
+          sleep 2
+          "$GITHUB_WORKSPACE/tests/e2e/joomla.sh"
+      - name: PHP errors from the run
+        if: always()
+        run: grep -iE 'fatal|draco' /tmp/php-server.log | head -20 || true
+
+  prestashop:
+    name: PrestaShop ${{ matrix.ps }} — end to end
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ps: '8'
+            folders: -e PS_FOLDER_ADMIN=admin-ci -e PS_FOLDER_INSTALL=install-ci
+            auto: '1'
+          # The 9 image's automatic install fails at its very end (it removes install/, which the 9 installer
+          # already removed): run the same installer by hand instead.
+          - ps: '9'
+            folders: -e PS_FOLDER_ADMIN=admin
+            auto: '0'
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: prestashop
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping -proot" --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      BASE: http://127.0.0.1
+      MYSQL: mysql -h127.0.0.1 -uroot -proot prestashop
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PrestaShop ${{ matrix.ps }} (official image) and the module ZIP
+        run: |
+          docker run -d --name ps --network host \
+            -e DB_SERVER=127.0.0.1 -e DB_USER=root -e DB_PASSWD=root -e DB_NAME=prestashop -e DB_PREFIX=ps_ \
+            -e PS_INSTALL_AUTO=${{ matrix.auto }} -e PS_DOMAIN=127.0.0.1 -e PS_LANGUAGE=en -e PS_COUNTRY=ES \
+            ${{ matrix.folders }} -e ADMIN_MAIL=admin@example.org -e ADMIN_PASSWD=Draco-CI-2026-admin \
+            prestashop/prestashop:${{ matrix.ps }}
+          if [ "${{ matrix.auto }}" = 0 ]; then
+            for i in $(seq 1 60); do docker exec ps test -f /var/www/html/install/index_cli.php && break; sleep 3; done
+            docker exec -u www-data ps php -d memory_limit=-1 /var/www/html/install/index_cli.php --domain=127.0.0.1 \
+              --db_server=127.0.0.1:3306 --db_name=prestashop --db_user=root --db_password=root --prefix=ps_ \
+              --firstname=Draco --lastname=CI --password=Draco-CI-2026-admin --email=admin@example.org \
+              --language=en --country=es --all_languages=0 --newsletter=0 --send_email=0 --ssl=0
+            docker exec ps rm -rf /var/www/html/install
+          fi
+          for i in $(seq 1 90); do [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1/)" = 200 ] && break; sleep 5; done
+          echo "shop: $(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1/)"
+          zip=$(bin/build-prestashop.sh /tmp/dist)
+          mkdir -p /tmp/psmod && unzip -q "$zip" -d /tmp/psmod
+          docker cp /tmp/psmod/dracoinsomnis ps:/var/www/html/modules/
+          docker exec ps chown -R www-data:www-data /var/www/html/modules/dracoinsomnis
+          docker exec -u www-data ps php bin/console prestashop:module install dracoinsomnis
+          $MYSQL -e "UPDATE ps_configuration SET value='0' WHERE name IN ('PS_REWRITING_SETTINGS','PS_CANONICAL_REDIRECT','PS_SHOP_ENABLE_MAINTENANCE'); UPDATE ps_configuration SET value='1' WHERE name='PS_SHOP_ENABLE'"
+          docker exec ps rm -rf /var/www/html/var/cache/prod /var/www/html/var/cache/dev
+      - name: End-to-end tests
+        run: tests/e2e/prestashop.sh
+      - name: PHP errors from the run
+        if: always()
+        run: docker logs ps 2>&1 | tail -40 || true
+
+  moodle:
+    name: Moodle ${{ matrix.branch }} — end to end
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: ['MOODLE_405_STABLE', 'MOODLE_503_STABLE']
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: moodle
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping -proot" --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      MD_DIR: /tmp/moodle
+      BASE: http://127.0.0.1:8080
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mysqli, intl, sodium, zip, gd, soap, exif, curl, xml, mbstring
+          ini-values: max_input_vars=5000
+          coverage: none
+      - name: Install Moodle (${{ matrix.branch }}) and the plugin ZIP
+        run: |
+          git clone -q --depth 1 -b ${{ matrix.branch }} https://github.com/moodle/moodle.git "$MD_DIR"
+          mkdir -p /tmp/moodledata && chmod 777 /tmp/moodledata
+          web="$MD_DIR"; [ -d "$MD_DIR/public" ] && web="$MD_DIR/public"
+          echo "MD_WEB=$web" >> "$GITHUB_ENV"
+          zip=$(bin/build-moodle.sh /tmp/dist)
+          unzip -q "$zip" -d "$web/local"
+          cd "$MD_DIR"
+          php admin/cli/install.php --wwwroot="$BASE" --dataroot=/tmp/moodledata --dbtype=mysqli --dbhost=127.0.0.1 \
+            --dbname=moodle --dbuser=root --dbpass=root --prefix=mdl_ --fullname=Draco --shortname=Draco \
+            --adminuser=admin --adminpass='Draco-CI-2026-admin' --adminemail=admin@example.org --agree-license --non-interactive
+          php admin/cli/cfg.php --name=auth --set=email
+          php admin/cli/cfg.php --name=noemailever --set=1
+          php -r 'define("CLI_SCRIPT", true); require "config.php"; echo "local_dracoinsomnis: ", get_config("local_dracoinsomnis", "version"), "\n";'
+      - name: End-to-end tests
+        run: |
+          (cd "$MD_WEB" && PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8080 > /tmp/php-server.log 2>&1 &)
+          sleep 2
+          cd "$MD_DIR"
+          "$GITHUB_WORKSPACE/tests/e2e/moodle.sh"
+      - name: PHP errors from the run
+        if: always()
+        run: grep -iE 'fatal|draco|exception' /tmp/php-server.log | head -20 || true
+
   laravel:
     name: Laravel ${{ matrix.laravel }} package (PHP ${{ matrix.php }})
     runs-on: ubuntu-latest
