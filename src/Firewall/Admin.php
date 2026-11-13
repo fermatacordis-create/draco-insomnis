@@ -42,6 +42,23 @@ final class Admin
             wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&test=' . rawurlencode(self::runTest())));
             exit;
         }
+        if ($do === 'geo_update') {
+            wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&geo=' . (GeoFilter::update() === '' ? 'ok' : 'fail') . '#draco-geo'));
+            exit;
+        }
+        if ($do === 'geo') {
+            $mode = Input::post('geo_mode');
+            update_option(GeoFilter::OPTION_MODE, in_array($mode, ['block', 'allow'], true) ? $mode : 'off');
+            update_option(GeoFilter::OPTION_SCOPE, Input::post('geo_scope') === 'site' ? 'site' : 'sensitive');
+            update_option(GeoFilter::OPTION_ACTION, Input::post('geo_action') === 'block' ? 'block' : 'log');
+            update_option(GeoFilter::OPTION_COUNTRIES, implode(', ', \DracoInsomnis\Core\Geo::parseList(Input::post('geo_countries'))), false);
+            $fetched = '';
+            if (GeoFilter::mode() !== 'off' && \DracoInsomnis\Core\Geo::built(GeoFilter::file()) === '') {
+                $fetched = '&geo=' . (GeoFilter::update() === '' ? 'ok' : 'fail');
+            }
+            wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=ok' . $fetched . '#draco-geo'));
+            exit;
+        }
         if ($do === 'review') {
             $ok = Review::decide(Input::postInt('id'), Input::post('decision'), Input::postInt('days'));
             wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=' . ($ok ? 'ok' : 'refused') . '#draco-reviews'));
@@ -142,9 +159,11 @@ final class Admin
             'waf_sqli' => __('database injection', 'draco-insomnis'), 'waf_traversal' => __('reading server files', 'draco-insomnis'),
             'waf_code' => __('running code', 'draco-insomnis'), 'waf_xss' => __('script in the link', 'draco-insomnis'),
             'waf_multicall' => __('many passwords in one XML-RPC call', 'draco-insomnis'),
+            'waf_geo' => __('country not allowed', 'draco-insomnis'),
         ];
         self::summary($rules);
         self::reviews();
+        self::geo();
 
         Brand::card('warning', __('Recent attacks', 'draco-insomnis'), __('Kept for 90 days. "Evidence" downloads everything from that address for an abuse report. In log-only mode they appear as "Would block".', 'draco-insomnis'), '', 'warn', 'draco-card--flush');
         echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('What', 'draco-insomnis') . '</th><th>' . esc_html__('Address requested', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
@@ -183,6 +202,52 @@ final class Admin
             }
             echo '</ul></div></div>';
         }
+        Brand::cardEnd();
+    }
+
+    private static function geo(): void
+    {
+        $mode = GeoFilter::mode();
+        $built = \DracoInsomnis\Core\Geo::built(GeoFilter::file());
+        $fetch = Input::get('geo');
+        echo '<div id="draco-geo"></div>';
+        if ($fetch === 'fail') {
+            Brand::notice('error', __('The country list could not be downloaded. The filter does nothing until it is there; try "Update the country list" later.', 'draco-insomnis'));
+        } elseif ($fetch === 'ok') {
+            Brand::notice('success', __('Country list downloaded.', 'draco-insomnis'));
+        }
+        $state = $mode === 'off' ? 'off' : (get_option(GeoFilter::OPTION_ACTION, 'log') === 'block' ? 'on' : 'log');
+        Brand::card('admin-site-alt3', __('Countries', 'draco-insomnis'), __('Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Administrators, people you let through and search engines are never filtered.', 'draco-insomnis'), Brand::pill(Brand::stateLabel($state), $state));
+        echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
+        wp_nonce_field(self::ACTION);
+        echo '<input type="hidden" name="action" value="' . esc_attr(self::ACTION) . '"><input type="hidden" name="do" value="geo">';
+        $select = static function (string $name, string $label, string $value, array $options): void {
+            echo '<div class="draco-field"><label for="draco-' . esc_attr($name) . '">' . esc_html($label) . '</label><select id="draco-' . esc_attr($name) . '" name="' . esc_attr($name) . '">';
+            foreach ($options as $key => $text) {
+                echo '<option value="' . esc_attr((string) $key) . '"' . selected($value, (string) $key, false) . '>' . esc_html($text) . '</option>';
+            }
+            echo '</select></div>';
+        };
+        echo '<div class="draco-inline">';
+        $select('geo_mode', __('Filter', 'draco-insomnis'), $mode, ['off' => __('Off', 'draco-insomnis'), 'block' => __('Refuse the countries listed', 'draco-insomnis'), 'allow' => __('Only the countries listed', 'draco-insomnis')]);
+        $select('geo_scope', __('Where', 'draco-insomnis'), (string) get_option(GeoFilter::OPTION_SCOPE, 'sensitive'), ['sensitive' => __('Logging in, signing up and forms (recommended)', 'draco-insomnis'), 'site' => __('The whole site', 'draco-insomnis')]);
+        $select('geo_action', __('What to do', 'draco-insomnis'), (string) get_option(GeoFilter::OPTION_ACTION, 'log'), ['log' => __('Log only', 'draco-insomnis'), 'block' => __('Block', 'draco-insomnis')]);
+        echo '</div><div class="draco-field"><label for="draco-geo_countries">' . esc_html__('Countries (two-letter codes, e.g. ES, FR, DE)', 'draco-insomnis') . '</label>';
+        echo '<input id="draco-geo_countries" type="text" name="geo_countries" class="large-text code" value="' . esc_attr((string) get_option(GeoFilter::OPTION_COUNTRIES, '')) . '"></div>';
+        submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
+        echo '</form>';
+        /* translators: %s: date of the country list, e.g. 2026-11-13 */
+        $status = $built === '' ? __('Country list: not downloaded yet (it is downloaded when you switch the filter on).', 'draco-insomnis') : sprintf(__('Country list of %s.', 'draco-insomnis'), substr($built, 0, 4) . '-' . substr($built, 4, 2) . '-' . substr($built, 6, 2));
+        echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '" style="margin-top:8px">';
+        wp_nonce_field(self::ACTION);
+        echo '<input type="hidden" name="action" value="' . esc_attr(self::ACTION) . '"><input type="hidden" name="do" value="geo_update">';
+        echo '<span class="description">' . esc_html($status) . ' </span>';
+        submit_button(__('Update the country list', 'draco-insomnis'), 'secondary small', 'submit', false);
+        echo '</form><p class="description">' . wp_kses_post(sprintf(
+            /* translators: %s: link to DB-IP */
+            __('IP geolocation by %s (CC BY 4.0). Looked up on your own server: no address is sent anywhere.', 'draco-insomnis'),
+            '<a href="https://db-ip.com" target="_blank" rel="noopener">DB-IP</a>'
+        )) . '</p>';
         Brand::cardEnd();
     }
 

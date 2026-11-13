@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.9
+Stable tag: 0.1.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,7 +116,14 @@ Only bots wait, for at most three seconds, and at most ten slow answers per minu
 
 For suspicious attempts only: date, address, browser name, username, e-mail, requested role and referring page. Never passwords. Everything is deleted after 90 days, and all of it is removed when the plugin is deleted.
 
+== Third-party data ==
+
+The country filter uses IP geolocation by DB-IP (https://db-ip.com), "IP to Country Lite", licensed under Creative Commons Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/). It is downloaded from this plugin's GitHub releases only while the filter is on.
+
 == Changelog ==
+
+= 0.1.10 =
+* Firewall: country filter, off by default. Refuse the countries listed or allow only those, for logging in, signing up and forms (recommended) or for the whole site, and "Log only" first. Administrators, people let through after a review, search engines verified by DNS and addresses without a country are never filtered, and a country never puts an address on the block list. The country list is DB-IP Lite (CC BY 4.0), rebuilt monthly by Draco's own GitHub workflow; the site downloads it only while the filter is on, checks its SHA-256 and looks addresses up locally, without sending them anywhere.
 
 = 0.1.9 =
 * Firewall: people it stops can ask for a review from the block page (e-mail and what they were doing). The form is signed, has a trap field and a limit per address and per day; the owner gets one notice an hour at most, and lets them through for 24 hours, 7 days, 30 days or for good, denies, or marks the address as an attacker. Draco never writes to the person who asks.

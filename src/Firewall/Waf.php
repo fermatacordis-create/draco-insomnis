@@ -89,6 +89,14 @@ final class Waf
             $firewall->record($request, 'multicall');
             self::deny('multicall');
         }
+        $country = GeoFilter::refusedCountry($request);
+        if ($country !== '') {
+            $stop = get_option(GeoFilter::OPTION_ACTION, 'log') === 'block';
+            GeoFilter::log($request, $country, $stop);
+            if ($stop) {
+                self::deny('geo');
+            }
+        }
         $rule = $firewall->inspect($request);
         if ($rule !== null && $firewall->blocking()) {
             self::deny($rule);

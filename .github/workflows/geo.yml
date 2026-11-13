@@ -1,0 +1,42 @@
+name: Country list
+
+# Once a month: DB-IP "IP to Country Lite" (CC BY 4.0) → the compact file the country filter reads,
+# published at the fixed release "geo" (draco-geo.bin + .sha256). Sites with the filter on download it.
+
+on:
+  schedule:
+    - cron: '17 4 3 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - name: Download DB-IP Lite
+        run: |
+          for m in "$(date -u +%Y-%m)" "$(date -u -d '-1 month' +%Y-%m)"; do
+            curl -sSfL -o dbip.csv.gz "https://download.db-ip.com/free/dbip-country-lite-$m.csv.gz" && break
+          done
+          test -s dbip.csv.gz
+      - name: Build and check
+        run: |
+          php -d memory_limit=1G bin/build-geo.php dbip.csv.gz draco-geo.bin
+          php -r 'require "src/Core/Geo.php"; $g = fn ($ip) => DracoInsomnis\Core\Geo::country("draco-geo.bin", $ip); foreach (["8.8.8.8" => "US", "1.0.1.5" => "CN", "10.0.0.1" => null] as $ip => $want) { if ($g($ip) !== $want) { fwrite(STDERR, "$ip gave " . var_export($g($ip), true) . "\n"); exit(1); } } echo "lookups OK\n";'
+          sha256sum draco-geo.bin | cut -d' ' -f1 > draco-geo.bin.sha256
+          cat draco-geo.bin.sha256
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          notes="Country list for the Draco Insomnis country filter, built $(date -u +%F) from DB-IP IP to Country Lite (https://db-ip.com), licensed CC BY 4.0. Updated monthly."
+          gh release view geo >/dev/null 2>&1 || gh release create geo --title "Country list" --notes "$notes" --latest=false
+          gh release edit geo --notes "$notes"
+          gh release upload geo draco-geo.bin draco-geo.bin.sha256 --clobber
