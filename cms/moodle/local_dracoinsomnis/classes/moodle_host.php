@@ -121,6 +121,16 @@ final class moodle_host implements Host {
     }
 
     public function adminIps(): array {
+        // Plus the addresses a person let through after a review.
+        return array_values(array_unique(array_merge(self::stored_admin_ips(), store::active_values('allow'))));
+    }
+
+    /**
+     * The administrators' addresses kept by remember_admin_ip().
+     *
+     * @return string[]
+     */
+    private static function stored_admin_ips(): array {
         $list = json_decode((string) get_config('local_dracoinsomnis', 'adminips'), true);
         return is_array($list) ? array_values(array_filter($list, 'is_string')) : [];
     }
@@ -131,7 +141,7 @@ final class moodle_host implements Host {
      * @param string $ip
      */
     public function remember_admin_ip(string $ip): void {
-        $list = $this->adminIps();
+        $list = self::stored_admin_ips();
         if (($list[0] ?? null) === $ip) {
             return;
         }
