@@ -98,6 +98,7 @@ echo "     registration back to: $(sql "SELECT params FROM #__extensions WHERE e
 reset
 
 echo "== security headers"
+param pace_mode off
 param headers 1
 h=$(curl -s -D - -o /dev/null -A "$UA" "$BASE/index.php?$(cb)" | tr -d '\r')
 echo "$h" | grep -qi '^x-content-type-options: nosniff' && ok "security headers sent when on" || ko "no security headers"

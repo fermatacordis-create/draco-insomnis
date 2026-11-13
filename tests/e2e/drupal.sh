@@ -99,6 +99,9 @@ echo "     fake Googlebot codes:$gcodes"
 [[ "$gcodes" == *429* ]] && ok "fake Googlebot is not trusted" || ko "fake googlebot never limited"
 
 echo "== security headers"
+cset pace_mode off
+cset anticopy_rate_ip 120
+reset
 cset headers true
 h=$(curl -s -D - -o /dev/null -A "$UA" "$BASE/?$(cb)" | tr -d '\r')
 echo "$h" | grep -qi '^x-content-type-options: nosniff' && ok "security headers sent when on" || ko "no security headers"
