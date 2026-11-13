@@ -193,8 +193,9 @@ bin/ci-http-smoke.sh                     # 403 pages, confirmation link, sign-up
 `languages/` holds `draco-insomnis.pot` (the template) and ready-made translations in WordPress's
 `.l10n.php` format (WordPress 6.5+): Spanish (Spain and Latin America), Catalan, German, French,
 Italian, Portuguese (Portugal and Brazil), Dutch, Polish, Russian, Turkish, Japanese, Simplified
-Chinese, Korean, Arabic, Hindi and Indonesian. Native-speaker corrections are welcome, especially for
-the Asian and Middle Eastern languages.
+Chinese, Korean, Arabic, Hindi, Indonesian, Vietnamese, Bengali, Urdu, Persian, Filipino, Thai,
+Ukrainian, Swahili, Malay and Tamil (39 locales). Native-speaker corrections are welcome, especially for
+the Asian, African and Middle Eastern languages.
 
 ## Principles
 
