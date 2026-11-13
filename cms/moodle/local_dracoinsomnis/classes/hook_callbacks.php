@@ -8,7 +8,8 @@
 namespace local_dracoinsomnis;
 
 use DracoInsomnis\Core\Firewall;
-use DracoInsomnis\Core\Pace;
+use DracoInsomnis\Core\Gatekeeper;
+use DracoInsomnis\Core\SecurityHeaders;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -45,37 +46,31 @@ final class hook_callbacks {
             return;
         }
 
-        $waf = moodle_host::mode('waf_mode');
         $bypass = $loggedin && has_capability('local/dracoinsomnis:bypassfirewall', \context_system::instance());
-        if ($waf !== 'off' && !$bypass && !(defined('DRACO_WAF_OFF') && DRACO_WAF_OFF)) {
-            $firewall = new Firewall($host, $waf === 'block');
-            if (!$firewall->exempt($request)) {
-                // Addresses on the block list may read the site, but not post or log in.
-                if ($firewall->refusedAsBlocked($request, ['/login/index.php'])) {
-                    self::deny('blocked');
-                }
-                $rule = $firewall->inspect($request);
-                if ($rule !== null && $firewall->blocking()) {
-                    self::deny($rule);
-                }
-            }
+        $waf = ($bypass || (defined('DRACO_WAF_OFF') && DRACO_WAF_OFF)) ? 'off' : moodle_host::mode('waf_mode');
+        // Only page loads count for the pace limit: one Moodle page makes many AJAX, web service and file requests.
+        $answer = (new Gatekeeper($host))->decide($request, $waf, moodle_host::mode('pace_mode'),
+            ['/login/index.php', '/login/signup.php', '/login/forgot_password.php'], !$loggedin && !self::not_a_page($request->path));
+        if ($answer !== null) {
+            $answer['status'] === 429 ? self::too_many($answer['retry']) : self::deny($answer['why']);
         }
+    }
 
-        // Only page loads count: one Moodle page makes many AJAX, web service and file requests.
-        $pace = moodle_host::mode('pace_mode');
-        if ($pace !== 'off' && !$loggedin && !self::not_a_page($request->path)) {
-            $engine = new Pace($host);
-            $count = $engine->count($request, time());
-            if ($count['over'] !== '' && !$engine->exempt($request)) {
-                $block = $pace === 'block';
-                if ($count['first']) {
-                    $engine->record($request, 'rate_' . $count['over'], $block, $request->path);
-                }
-                if ($block) {
-                    self::too_many($count['retry']);
-                }
-            }
+    /**
+     * Security headers on pages, when switched on; never one Moodle or the server already set.
+     *
+     * @param \core\hook\output\before_http_headers $hook
+     */
+    public static function before_http_headers($hook): void {
+        global $CFG;
+        if (during_initial_install() || !get_config('local_dracoinsomnis', 'version')) {
+            return;
         }
+        $wanted = SecurityHeaders::wanted(moodle_host::get(), is_https());
+        if (empty($CFG->allowframembedding)) {
+            unset($wanted['X-Frame-Options']); // Moodle sends its own.
+        }
+        SecurityHeaders::send($wanted);
     }
 
     /**

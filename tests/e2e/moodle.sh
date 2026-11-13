@@ -106,6 +106,40 @@ $P admin/cli/cfg.php --name=registerauth --set="$orig" >/dev/null
 echo "     registerauth back to: [$($P admin/cli/cfg.php --name=registerauth)]"
 reset
 
+echo "== security headers"
+cfg headers 1
+h=$(curl -s -D - -o /dev/null -A "$UA" "$LOGIN?$(cb)" | tr -d '\r')
+echo "$h" | grep -qi '^x-content-type-options: nosniff' && ok "security headers sent when on" || ko "no security headers"
+echo "$h" | grep -ci '^x-frame-options:' | grep -qx 1 && ok "X-Frame-Options only once" || ko "X-Frame-Options $(echo "$h" | grep -ci '^x-frame-options:') times"
+cfg headers 0
+h=$(curl -s -D - -o /dev/null -A "$UA" "$LOGIN?$(cb)" | tr -d '\r')
+echo "$h" | grep -qi '^permissions-policy:' && ko "headers still sent when off" || ok "no headers when off"
+
+echo "== range blocked forever"
+cfg waf_mode log
+code "$(attack)" >/dev/null
+me=$(q "SELECT id, ip FROM {local_dracoinsomnis_events} ORDER BY id DESC LIMIT 1" | cut -d'|' -f2)
+net=$($P -r '$b = inet_pton($argv[1]); $v6 = strlen($b) === 16; $keep = $v6 ? 6 : 3; $b = substr($b, 0, $keep) . str_repeat("\0", strlen($b) - $keep); echo inet_ntop($b), $v6 ? "/48" : "/24";' "$me")
+$P -r 'define("CLI_SCRIPT", true); require getcwd() . "/config.php"; echo (new \local_dracoinsomnis\store())->block("ip", $argv[1], 0, "e2e range", true) ? "ok" : "refused";' "$net" | grep -q ok && ok "range $net stored" || ko "range refused ($net, me=$me)"
+[ "$(q "SELECT id, kind, timeuntil FROM {local_dracoinsomnis_blocks} WHERE value = '$net'" | cut -d'|' -f2,3)" = "net|253402300799" ] && ok "kept as a range, forever" || ko "range row"
+c=$(code "$BASE/?$(cb)"); [ "$c" = 200 ] || [ "$c" = 303 ] && ok "an address in the range can still read ($c)" || ko "range read $c"
+c=$(code -X POST -d 'x=1' "$LOGIN?$(cb)"); [ "$c" = 403 ] && ok "an address in the range cannot post" || ko "range post $c"
+reset
+
+echo "== country filter"
+geo=$($P -r 'define("CLI_SCRIPT", true); require getcwd() . "/config.php"; echo \local_dracoinsomnis\moodle_host::get()->setting("geo_file");')
+$P -r '$ip = inet_pton($argv[2]); $v6 = strlen($ip) === 16; $n = $v6 ? 16 : 4; $zero = str_repeat("\0", $n); $next = $ip; for ($i = $n - 1; $i >= 0; $i--) { $c = ord($next[$i]); if ($c < 255) { $next[$i] = chr($c + 1); break; } $next[$i] = "\0"; } $rows = [[$zero, "--"], [$ip, "CN"], [$next, "--"]]; $bin = "DRGEO1" . gmdate("Ymd") . pack("NN", $v6 ? 0 : 3, $v6 ? 3 : 0); foreach ($rows as [$a, $c]) { $bin .= $a . $c; } @mkdir(dirname($argv[1]), 0777, true); file_put_contents($argv[1], $bin);' "$geo" "$me"
+cfg waf_mode log; cfg geo_countries CN; cfg geo_action block; cfg geo_mode block
+c=$(code "$BASE/?$(cb)"); [ "$c" = 200 ] || [ "$c" = 303 ] && ok "country filter leaves reading alone ($c)" || ko "geo read $c"
+c=$(code "$LOGIN?$(cb)"); [ "$c" = 403 ] && ok "a listed country cannot open the login page" || ko "geo login $c"
+[ "$(cnt "SELECT COUNT(*) FROM {local_dracoinsomnis_events} WHERE endpoint = 'waf:geo'")" -ge 1 ] && ok "kept as evidence (waf:geo)" || ko "geo evidence"
+[ "$(cnt "SELECT COUNT(*) FROM {local_dracoinsomnis_blocks}")" = 0 ] && ok "a country never blocks the address" || ko "geo blocked the address"
+cfg geo_mode allow
+c=$(code "$LOGIN?$(cb)"); [ "$c" = 200 ] && ok "only-listed mode lets the listed country in" || ko "geo allow $c"
+cfg geo_mode off; cfg geo_countries ''; cfg geo_action log; cfg waf_mode off
+rm -f "$geo"
+reset
+
 echo "== anti-copy pace"
 cfg pace_mode block
 cfg anticopy_rate_ip 10

@@ -27,6 +27,15 @@ if ($action === 'unblock') {
     store::unblock(required_param('id', PARAM_INT));
     redirect($PAGE->url, get_string('unblocked', 'local_dracoinsomnis'));
 }
+if ($action === 'block') {
+    require_sesskey();
+    $value = required_param('blockvalue', PARAM_RAW_TRIMMED);
+    $days = required_param('blockdays', PARAM_INT);
+    $reason = optional_param('blockreason', '', PARAM_TEXT);
+    $done = (new store())->block('ip', $value, $days, $reason);
+    redirect($PAGE->url, $done ? get_string('blockdone', 'local_dracoinsomnis', s($value)) : get_string('blockrefused', 'local_dracoinsomnis'),
+        null, $done ? \core\output\notification::NOTIFY_SUCCESS : \core\output\notification::NOTIFY_ERROR);
+}
 if ($action === 'csv') {
     require_sesskey();
     $ip = required_param('ip', PARAM_RAW_TRIMMED);
@@ -68,11 +77,27 @@ if (!$blocks) {
         get_string('coluntil', 'local_dracoinsomnis'), ''];
     foreach ($blocks as $row) {
         $url = new moodle_url($PAGE->url, ['action' => 'unblock', 'id' => $row->id, 'sesskey' => sesskey()]);
-        $table->data[] = [html_writer::tag('code', s($row->value)), s($row->reason), gmdate('Y-m-d H:i', (int) $row->timeuntil),
+        $until = \DracoInsomnis\Core\Blocklist::isForever((int) $row->timeuntil) ? get_string('forever', 'local_dracoinsomnis') : gmdate('Y-m-d H:i', (int) $row->timeuntil);
+        $table->data[] = [html_writer::tag('code', s($row->value)), s($row->reason), $until,
             html_writer::link($url, get_string('unblock', 'local_dracoinsomnis'), ['class' => 'btn btn-sm btn-secondary'])];
     }
     echo html_writer::table($table);
 }
+
+echo $OUTPUT->heading(get_string('blockadd', 'local_dracoinsomnis'), 4);
+echo html_writer::tag('p', get_string('blockadd_desc', 'local_dracoinsomnis'), ['class' => 'text-muted']);
+$days = [7 => get_string('days7', 'local_dracoinsomnis'), 15 => get_string('days15', 'local_dracoinsomnis'),
+    30 => get_string('days30', 'local_dracoinsomnis'), 90 => get_string('days90', 'local_dracoinsomnis'), 0 => get_string('forever', 'local_dracoinsomnis')];
+echo html_writer::start_tag('form', ['method' => 'post', 'action' => $PAGE->url->out(false), 'class' => 'form-inline mb-4']);
+echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
+echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'action', 'value' => 'block']);
+echo html_writer::empty_tag('input', ['type' => 'text', 'name' => 'blockvalue', 'required' => 'required', 'class' => 'form-control mr-2',
+    'placeholder' => get_string('blockvalue', 'local_dracoinsomnis'), 'aria-label' => get_string('blockvalue', 'local_dracoinsomnis')]);
+echo html_writer::select($days, 'blockdays', 30, false, ['class' => 'custom-select mr-2', 'aria-label' => get_string('blockdays', 'local_dracoinsomnis')]);
+echo html_writer::empty_tag('input', ['type' => 'text', 'name' => 'blockreason', 'class' => 'form-control mr-2',
+    'placeholder' => get_string('colreason', 'local_dracoinsomnis'), 'aria-label' => get_string('colreason', 'local_dracoinsomnis')]);
+echo html_writer::empty_tag('input', ['type' => 'submit', 'value' => get_string('block', 'local_dracoinsomnis'), 'class' => 'btn btn-secondary']);
+echo html_writer::end_tag('form');
 
 echo $OUTPUT->heading(get_string('events', 'local_dracoinsomnis'), 3);
 echo html_writer::tag('p', get_string('events_help', 'local_dracoinsomnis'), ['class' => 'text-muted']);

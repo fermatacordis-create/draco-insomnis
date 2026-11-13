@@ -111,7 +111,12 @@ final class moodle_host implements Host {
     }
 
     public function setting(string $name): string {
+        global $CFG;
         $value = get_config('local_dracoinsomnis', $name);
+        if ($name === 'geo_file' && (!is_string($value) || $value === '')) {
+            // Public data, refreshed monthly; in moodledata so plugin updates keep it.
+            return $CFG->dataroot . '/local_dracoinsomnis/draco-geo.bin';
+        }
         return is_scalar($value) ? (string) $value : '';
     }
 

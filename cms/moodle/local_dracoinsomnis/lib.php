@@ -53,3 +53,13 @@ function local_dracoinsomnis_validate_extend_signup_form($data) {
     $shield->slowDown();
     return ['email' => get_string('rejected', 'local_dracoinsomnis')];
 }
+
+/**
+ * The country filter was switched on: download the country list if it is not there yet.
+ */
+function local_dracoinsomnis_geo_updated(): void {
+    $host = \local_dracoinsomnis\moodle_host::get();
+    if (in_array($host->setting('geo_mode'), ['block', 'allow'], true) && \DracoInsomnis\Core\Geo::built($host->setting('geo_file')) === '') {
+        \DracoInsomnis\Core\GeoUpdate::update($host->setting('geo_file'));
+    }
+}
