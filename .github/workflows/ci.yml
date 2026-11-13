@@ -141,6 +141,55 @@ jobs:
           cd "$DR_DIR" && vendor/bin/drush watchdog:show --severity=Error --count=20 2>/dev/null || true
           grep -iE 'fatal|draco' /tmp/php-server.log | head -20 || true
 
+  joomla:
+    name: Joomla ${{ matrix.joomla }} — end to end
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        joomla: ['5', '6']
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: joomla
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping -proot" --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      JL_DIR: /tmp/joomla
+      BASE: http://127.0.0.1:8080
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mysqli, gd, zip, intl
+          coverage: none
+      - name: Install the latest Joomla ${{ matrix.joomla }} and the plugin ZIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          url=$(gh api 'repos/joomla/joomla-cms/releases?per_page=30' -q '[.[] | select(.prerelease == false) | select(.tag_name | startswith("${{ matrix.joomla }}.")) | .assets[] | select(.name | test("Stable-Full_Package.zip$")) | .browser_download_url][0]')
+          echo "Joomla: $url"
+          mkdir -p "$JL_DIR" && curl -sSfL "$url" -o /tmp/joomla.zip && unzip -q /tmp/joomla.zip -d "$JL_DIR"
+          cd "$JL_DIR"
+          php installation/joomla.php install --site-name=Draco --admin-user="Draco Admin" --admin-username=admin --admin-password='Draco-CI-2026-admin' --admin-email=admin@example.org \
+            --db-type=mysqli --db-host=127.0.0.1 --db-user=root --db-pass=root --db-name=joomla --db-prefix=jl_ --db-encryption=0
+          rm -rf installation
+          zip=$("$GITHUB_WORKSPACE/bin/build-joomla.sh" /tmp/dist)
+          php cli/joomla.php extension:install --path="$zip"
+          mysql -h127.0.0.1 -uroot -proot joomla -e "UPDATE jl_extensions SET enabled=1 WHERE type='plugin' AND element='dracoinsomnis'"
+      - name: End-to-end tests
+        run: |
+          cd "$JL_DIR"
+          PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8080 -t . > /tmp/php-server.log 2>&1 &
+          sleep 2
+          "$GITHUB_WORKSPACE/tests/e2e/joomla.sh"
+      - name: PHP errors from the run
+        if: always()
+        run: grep -iE 'fatal|draco' /tmp/php-server.log | head -20 || true
+
   laravel:
     name: Laravel ${{ matrix.laravel }} package (PHP ${{ matrix.php }})
     runs-on: ubuntu-latest
