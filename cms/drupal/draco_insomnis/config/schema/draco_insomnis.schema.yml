@@ -26,3 +26,24 @@ draco_insomnis.settings:
     hosting_nets:
       type: string
       label: 'Rented-server networks, one CIDR per line'
+    geo_mode:
+      type: string
+      label: 'Country filter: off, block or allow'
+    geo_countries:
+      type: string
+      label: 'Countries (two-letter codes)'
+    geo_scope:
+      type: string
+      label: 'Where: sensitive or site'
+    geo_action:
+      type: string
+      label: 'What to do: log or block'
+    geo_file:
+      type: string
+      label: 'Country list file (empty = public files folder)'
+    headers:
+      type: boolean
+      label: 'Security headers on public pages'
+    hsts:
+      type: boolean
+      label: 'HSTS over HTTPS'

@@ -61,4 +61,8 @@ function draco_insomnis_register_validate(array &$form, FormStateInterface $form
  */
 function draco_insomnis_cron(): void {
   Store::cleanup();
+  $host = \Drupal\draco_insomnis\DrupalHost::get();
+  if ($host->setting('geo_mode') !== '' && $host->setting('geo_mode') !== 'off' && \DracoInsomnis\Core\GeoUpdate::stale($host->setting('geo_file'), time())) {
+    \DracoInsomnis\Core\GeoUpdate::update($host->setting('geo_file'));
+  }
 }

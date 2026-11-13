@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Drupal\draco_insomnis;
 
 use DracoInsomnis\Core\Firewall;
-use DracoInsomnis\Core\Pace;
+use DracoInsomnis\Core\Gatekeeper;
 use Drupal\Core\Site\Settings;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,50 +19,22 @@ final class Guard {
 
   public static function check(HttpRequest $http, bool $pace): ?Response {
     $host = DrupalHost::get();
-    $request = DrupalHost::request($http);
-
-    $waf = DrupalHost::mode('waf_mode');
-    if ($waf !== 'off' && !Settings::get('draco_waf_off', FALSE)) {
-      $firewall = new Firewall($host, $waf === 'block');
-      if (!$firewall->exempt($request)) {
-        // Addresses on the block list may read the site, but not post or log in.
-        if ($firewall->refusedAsBlocked($request, ['/user/login'])) {
-          return self::deny('blocked');
-        }
-        $rule = $firewall->inspect($request);
-        if ($rule !== NULL && $firewall->blocking()) {
-          return self::deny($rule);
-        }
-      }
+    $waf = Settings::get('draco_waf_off', FALSE) ? 'off' : DrupalHost::mode('waf_mode');
+    $answer = (new Gatekeeper($host))->decide(DrupalHost::request($http), $waf, DrupalHost::mode('pace_mode'), ['/user/login', '/user/register', '/user/password'], $pace);
+    if ($answer === NULL) {
+      return NULL;
     }
-
-    $mode = DrupalHost::mode('pace_mode');
-    if ($pace && $mode !== 'off') {
-      $engine = new Pace($host);
-      $count = $engine->count($request, time());
-      if ($count['over'] !== '' && !$engine->exempt($request)) {
-        $block = $mode === 'block';
-        // One line per address and minute is enough evidence; the rest only counts.
-        if ($count['first']) {
-          $engine->record($request, 'rate_' . $count['over'], $block, $request->path);
-        }
-        if ($block) {
-          return new Response('Too many requests. Please wait a minute.', 429, [
-            'Retry-After' => (string) max(1, $count['retry']),
-            'Content-Type' => 'text/plain; charset=UTF-8',
-            'Cache-Control' => 'no-store',
-            'X-Robots-Tag' => 'noindex',
-          ]);
-        }
-      }
+    if ($answer['status'] === 429) {
+      return new Response('Too many requests. Please wait a minute.', 429, [
+        'Retry-After' => (string) $answer['retry'],
+        'Content-Type' => 'text/plain; charset=UTF-8',
+        'Cache-Control' => 'no-store',
+        'X-Robots-Tag' => 'noindex',
+      ]);
     }
-
-    return NULL;
+    return self::deny($answer['why']);
   }
 
-  /**
-   * No details for the attacker: what matched stays in the log.
-   */
   private static function deny(string $why): Response {
     $page = Firewall::page(
       (string) t('Request blocked'),

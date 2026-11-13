@@ -76,7 +76,16 @@ final class DrupalHost implements Host {
 
   public function setting(string $name): string {
     $value = \Drupal::config(self::CONFIG)->get($name);
+    if ($name === 'geo_file' && (!is_string($value) || $value === '')) {
+      return self::geoFile();
+    }
     return is_scalar($value) ? (string) $value : '';
+  }
+
+  /** The country list lives in the public files folder: it is public data, refreshed monthly. */
+  public static function geoFile(): string {
+    $dir = (string) \Drupal::service('file_system')->realpath('public://');
+    return ($dir !== '' ? $dir : sys_get_temp_dir()) . '/draco_insomnis/draco-geo.bin';
   }
 
   public function adminIps(): array {

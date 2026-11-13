@@ -6,3 +6,10 @@ anticopy_rate_net: 600
 proxy_header: ''
 trusted_proxies: ''
 hosting_nets: ''
+geo_mode: 'off'
+geo_countries: ''
+geo_scope: sensitive
+geo_action: log
+geo_file: ''
+headers: false
+hsts: false

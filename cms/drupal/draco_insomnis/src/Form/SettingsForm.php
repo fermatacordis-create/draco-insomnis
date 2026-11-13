@@ -99,6 +99,56 @@ final class SettingsForm extends ConfigFormBase {
       '#default_value' => (string) $config->get('trusted_proxies'),
       '#description' => $this->t("Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."),
     ];
+    $built = \DracoInsomnis\Core\Geo::built(DrupalHost::get()->setting('geo_file'));
+    $form['geo'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Countries'),
+      '#open' => (string) $config->get('geo_mode') !== '' && (string) $config->get('geo_mode') !== 'off',
+      'help' => ['#markup' => '<p>' . $this->t('Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Administrators, people you let through and search engines are never filtered.') . '</p>'],
+      'geo_mode' => [
+        '#type' => 'select',
+        '#title' => $this->t('Filter'),
+        '#options' => ['off' => $this->t('Off'), 'block' => $this->t('Refuse the countries listed'), 'allow' => $this->t('Only the countries listed')],
+        '#default_value' => (string) ($config->get('geo_mode') ?: 'off'),
+      ],
+      'geo_scope' => [
+        '#type' => 'select',
+        '#title' => $this->t('Where'),
+        '#options' => ['sensitive' => $this->t('Logging in, signing up and forms (recommended)'), 'site' => $this->t('The whole site')],
+        '#default_value' => (string) ($config->get('geo_scope') ?: 'sensitive'),
+      ],
+      'geo_action' => [
+        '#type' => 'select',
+        '#title' => $this->t('What to do'),
+        '#options' => ['log' => $this->t('Log only'), 'block' => $this->t('Block')],
+        '#default_value' => (string) ($config->get('geo_action') ?: 'log'),
+      ],
+      'geo_countries' => [
+        '#type' => 'textfield',
+        '#title' => $this->t('Countries (two-letter codes, e.g. ES, FR, DE)'),
+        '#default_value' => (string) $config->get('geo_countries'),
+      ],
+      'status' => ['#markup' => '<p>' . ($built === '' ? $this->t('Country list: not downloaded yet (it is downloaded when you switch the filter on).') : $this->t('Country list of @date.', ['@date' => substr($built, 0, 4) . '-' . substr($built, 4, 2) . '-' . substr($built, 6, 2)])) . ' ' . $this->t('IP geolocation by <a href="https://db-ip.com" target="_blank" rel="noopener">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere.') . '</p>'],
+    ];
+    $form['headers'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Send security headers on public pages'),
+      '#description' => $this->t('No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends.'),
+      '#default_value' => (bool) $config->get('headers'),
+    ];
+    $form['hsts'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Force HTTPS in browsers for 6 months (HSTS)'),
+      '#description' => $this->t('Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.'),
+      '#default_value' => (bool) $config->get('hsts'),
+    ];
+    $form['block_add'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Block an address or range'),
+      'block_value' => ['#type' => 'textfield', '#title' => $this->t('IP or range (e.g. 203.0.113.0/24)'), '#description' => $this->t('Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).')],
+      'block_days' => ['#type' => 'select', '#title' => $this->t('For'), '#options' => [7 => $this->t('7 days'), 15 => $this->t('15 days'), 30 => $this->t('30 days'), 90 => $this->t('90 days'), 0 => $this->t('Forever')], '#default_value' => 30],
+      'block_reason' => ['#type' => 'textfield', '#title' => $this->t('Reason'), '#maxlength' => 190],
+    ];
     $form['hosting_nets'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Rented-server networks'),
@@ -125,9 +175,25 @@ final class SettingsForm extends ConfigFormBase {
       ->set('anticopy_rate_net', $rate($form_state->getValue('anticopy_rate_net'), 600))
       ->set('proxy_header', in_array($proxy, ['', 'cf', 'xff'], TRUE) ? $proxy : '')
       ->set('trusted_proxies', implode("\n", NetList::parse((string) $form_state->getValue('trusted_proxies'))))
+      ->set('geo_mode', in_array($form_state->getValue('geo_mode'), ['block', 'allow'], TRUE) ? (string) $form_state->getValue('geo_mode') : 'off')
+      ->set('geo_scope', $form_state->getValue('geo_scope') === 'site' ? 'site' : 'sensitive')
+      ->set('geo_action', $form_state->getValue('geo_action') === 'block' ? 'block' : 'log')
+      ->set('geo_countries', implode(', ', \DracoInsomnis\Core\Geo::parseList((string) $form_state->getValue('geo_countries'))))
+      ->set('headers', (bool) $form_state->getValue('headers'))
+      ->set('hsts', (bool) $form_state->getValue('hsts'))
       ->set('hosting_nets', implode("\n", NetList::parse((string) $form_state->getValue('hosting_nets'))))
       ->save();
     parent::submitForm($form, $form_state);
+    $host = DrupalHost::get();
+    if ($host->setting('geo_mode') !== 'off' && \DracoInsomnis\Core\Geo::built($host->setting('geo_file')) === '') {
+      $error = \DracoInsomnis\Core\GeoUpdate::update($host->setting('geo_file'));
+      $this->messenger()->{$error === '' ? 'addStatus' : 'addError'}($error === '' ? $this->t('Country list downloaded.') : $this->t('The country list could not be downloaded. The filter does nothing until it is there; try again later.'));
+    }
+    $value = trim((string) $form_state->getValue('block_value'));
+    if ($value !== '') {
+      $done = (new Store())->block('ip', $value, (int) $form_state->getValue('block_days'), (string) $form_state->getValue('block_reason'));
+      $done ? $this->messenger()->addStatus($this->t('Blocked: @value', ['@value' => $value])) : $this->messenger()->addError($this->t('Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address.'));
+    }
   }
 
   private function blocksTable(): array {
@@ -136,7 +202,7 @@ final class SettingsForm extends ConfigFormBase {
       $rows[] = [
         $block['value'],
         $block['reason'],
-        $block['until_at'],
+        \DracoInsomnis\Core\Blocklist::isForever((string) $block['until_at']) ? $this->t('Forever') : $block['until_at'],
         ['data' => ['#type' => 'link', '#title' => $this->t('Unblock'), '#url' => Url::fromRoute('draco_insomnis.unblock', ['id' => $block['id']])]],
       ];
     }

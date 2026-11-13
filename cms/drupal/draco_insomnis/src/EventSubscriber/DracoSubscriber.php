@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 final class DracoSubscriber implements EventSubscriberInterface {
 
   public static function getSubscribedEvents(): array {
-    return [KernelEvents::REQUEST => ['onRequest', 290]];
+    return [KernelEvents::REQUEST => ['onRequest', 290], KernelEvents::RESPONSE => ['onResponse', -10]];
   }
 
   public function onRequest(RequestEvent $event): void {
@@ -42,6 +42,24 @@ final class DracoSubscriber implements EventSubscriberInterface {
     $answer = Guard::check($request, $account->isAnonymous());
     if ($answer !== NULL) {
       $event->setResponse($answer);
+    }
+  }
+
+
+  /** Security headers on public pages, when switched on; never one the server or another module set. */
+  public function onResponse(\Symfony\Component\HttpKernel\Event\ResponseEvent $event): void {
+    if (!$event->isMainRequest()) {
+      return;
+    }
+    $request = $event->getRequest();
+    if (str_starts_with($request->getPathInfo(), '/admin')) {
+      return;
+    }
+    $headers = $event->getResponse()->headers;
+    foreach (\DracoInsomnis\Core\SecurityHeaders::wanted(\Drupal\draco_insomnis\DrupalHost::get(), $request->isSecure()) as $name => $value) {
+      if (!$headers->has($name)) {
+        $headers->set($name, $value);
+      }
     }
   }
 
