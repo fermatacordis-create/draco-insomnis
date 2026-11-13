@@ -200,9 +200,9 @@ jobs:
         include:
           - ps: '8'
             folders: -e PS_FOLDER_ADMIN=admin-ci -e PS_FOLDER_INSTALL=install-ci
-          # The 9 image cannot rename the admin folder during the automatic install (assets:install admin-dev).
+          # The 9 image cannot rename its admin folder (admin-dev) during the automatic install: keep its name.
           - ps: '9'
-            folders: ''
+            folders: -e PS_FOLDER_ADMIN=admin-dev
     services:
       mysql:
         image: mysql:8.0
