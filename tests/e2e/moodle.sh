@@ -111,13 +111,14 @@ cfg pace_mode block
 cfg anticopy_rate_ip 10
 while [ $(date +%S | sed "s/^0//") -gt 35 ]; do sleep 1; done
 codes=""
-for i in $(seq 1 12); do codes="$codes $(code "$LOGIN?$(cb)")"; done
+# Counters are per calendar minute: a burst cut in two by the minute change needs a few more.
+for i in $(seq 1 25); do c=$(code "$LOGIN?$(cb)"); codes="$codes $c"; [ "$c" = 429 ] && break; done
 echo "     codes:$codes"
 [[ "$codes" == *429* ]] && ok "past 10 pages a minute: 429" || ko "no 429"
 pe=$(cnt "SELECT COUNT(*) FROM {local_dracoinsomnis_events} WHERE endpoint LIKE 'anticopy_rate_ip'"); [ "$pe" = 1 ] && ok "one evidence line per minute" || ko "pace evidence: $pe lines"
 $P -r 'define("CLI_SCRIPT", true); require getcwd()."/config.php"; $DB->delete_records_select("local_dracoinsomnis_cache", "k LIKE ?", ["draco_rl_%"]);'
 while [ $(date +%S | sed "s/^0//") -gt 35 ]; do sleep 1; done
-gcodes=""; for i in $(seq 1 12); do gcodes="$gcodes $(curl -s -o /dev/null -w '%{http_code}' -A 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' "$LOGIN?$(cb)")"; done
+gcodes=""; for i in $(seq 1 25); do c=$(curl -s -o /dev/null -w '%{http_code}' -A 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' "$LOGIN?$(cb)"); gcodes="$gcodes $c"; [ "$c" = 429 ] && break; done
 echo "     fake Googlebot codes:$gcodes"
 [[ "$gcodes" == *429* ]] && ok "fake Googlebot is not trusted" || ko "fake googlebot never limited"
 cfg pace_mode off
