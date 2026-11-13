@@ -9,7 +9,10 @@
 namespace Notorius\Plugin\System\DracoInsomnis\Extension;
 
 use DracoInsomnis\Core\Firewall;
-use DracoInsomnis\Core\Pace;
+use DracoInsomnis\Core\Gatekeeper;
+use DracoInsomnis\Core\Geo;
+use DracoInsomnis\Core\GeoUpdate;
+use DracoInsomnis\Core\SecurityHeaders;
 use DracoInsomnis\Core\Shield;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -44,6 +47,7 @@ final class DracoInsomnis extends CMSPlugin implements SubscriberInterface
             'onAfterRoute' => 'onAfterRoute',
             'onAfterRender' => 'onAfterRender',
             'onAjaxDracoinsomnis' => 'onAjax',
+            'onExtensionAfterSave' => 'onExtensionAfterSave',
         ];
     }
 
@@ -68,36 +72,11 @@ final class DracoInsomnis extends CMSPlugin implements SubscriberInterface
         }
         $request = JoomlaHost::request();
         $staff = $user && !$user->guest && $user->authorise('core.login.admin');
-
-        $waf = $host->mode('waf_mode');
-        if ($waf !== 'off' && !$staff && !(\defined('DRACO_WAF_OFF') && DRACO_WAF_OFF)) {
-            $firewall = new Firewall($host, $waf === 'block');
-            if (!$firewall->exempt($request)) {
-                // Addresses on the block list may read the site, but not post anything.
-                if ($firewall->refusedAsBlocked($request, [])) {
-                    $this->deny('blocked');
-                }
-                $rule = $firewall->inspect($request);
-                if ($rule !== null && $firewall->blocking()) {
-                    $this->deny($rule);
-                }
-            }
-        }
-
-        $pace = $host->mode('pace_mode');
-        if ($pace !== 'off' && (!$user || $user->guest)) {
-            $engine = new Pace($host);
-            $count = $engine->count($request, time());
-            if ($count['over'] !== '' && !$engine->exempt($request)) {
-                $block = $pace === 'block';
-                // One line per address and minute is enough evidence; the rest only counts.
-                if ($count['first']) {
-                    $engine->record($request, 'rate_' . $count['over'], $block, $request->path);
-                }
-                if ($block) {
-                    $this->tooMany($count['retry']);
-                }
-            }
+        $guest = !$user || $user->guest;
+        $waf = ($staff || (\defined('DRACO_WAF_OFF') && DRACO_WAF_OFF)) ? 'off' : $host->mode('waf_mode');
+        $answer = (new Gatekeeper($host))->decide($request, $waf, $host->mode('pace_mode'), ['com_users', '/login', '/registration', '/component/users'], $guest);
+        if ($answer !== null) {
+            $answer['status'] === 429 ? $this->tooMany($answer['retry']) : $this->deny($answer['why']);
         }
 
         Store::maybeCleanup();
@@ -138,6 +117,9 @@ final class DracoInsomnis extends CMSPlugin implements SubscriberInterface
     public function onAfterRender(Event $event): void
     {
         $app = $this->getApplication();
+        if ($app->isClient('site')) {
+            $this->securityHeaders();
+        }
         if (!$app->isClient('site') || !$this->host()->shieldOn()) {
             return;
         }
@@ -192,6 +174,49 @@ final class DracoInsomnis extends CMSPlugin implements SubscriberInterface
             fclose($out);
             $app->close();
         }
+    }
+
+    /** Security headers on public pages, when switched on; never one already set. */
+    private function securityHeaders(): void
+    {
+        $app = $this->getApplication();
+        $set = array_map(static fn (array $h): string => strtolower((string) $h['name']), $app->getHeaders());
+        foreach (SecurityHeaders::wanted($this->host(), $app->isHttpsForced() || \Joomla\CMS\Uri\Uri::getInstance()->isSsl()) as $name => $value) {
+            if (!\in_array(strtolower($name), $set, true)) {
+                $app->setHeader($name, $value);
+            }
+        }
+    }
+
+    /**
+     * Saving the plugin: download the country list when the filter is switched on, and add the block
+     * typed in "Block an address or range" (those fields are emptied again).
+     */
+    public function onExtensionAfterSave(Event $event): void
+    {
+        [$context, $table] = array_values($event->getArguments()) + [null, null];
+        if ($context !== 'com_plugins.plugin' || !\is_object($table) || ($table->element ?? '') !== 'dracoinsomnis') {
+            return;
+        }
+        $params = new \Joomla\Registry\Registry((string) $table->params);
+        $host = new JoomlaHost($params);
+        $app = $this->getApplication();
+        if ($host->setting('geo_mode') !== '' && $host->setting('geo_mode') !== 'off' && Geo::built($host->setting('geo_file')) === '') {
+            $error = GeoUpdate::update($host->setting('geo_file'));
+            $app->enqueueMessage(Text::_($error === '' ? 'PLG_SYSTEM_DRACOINSOMNIS_GEO_DOWNLOADED' : 'PLG_SYSTEM_DRACOINSOMNIS_GEO_FAILED'), $error === '' ? 'message' : 'warning');
+        }
+        $value = trim((string) $params->get('block_value', ''));
+        if ($value === '') {
+            return;
+        }
+        $done = (new Store())->block('ip', $value, (int) $params->get('block_days', 30), (string) $params->get('block_reason', ''));
+        $app->enqueueMessage($done ? Text::sprintf('PLG_SYSTEM_DRACOINSOMNIS_BLOCK_DONE', $value) : Text::_('PLG_SYSTEM_DRACOINSOMNIS_BLOCK_REFUSED'), $done ? 'message' : 'warning');
+        $params->set('block_value', '');
+        $params->set('block_reason', '');
+        $db = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+        $json = $params->toString();
+        $id = (int) $table->extension_id;
+        $db->setQuery($db->getQuery(true)->update($db->quoteName('#__extensions'))->set($db->quoteName('params') . ' = :p')->where($db->quoteName('extension_id') . ' = :id')->bind(':p', $json)->bind(':id', $id, \Joomla\Database\ParameterType::INTEGER))->execute();
     }
 
     /** No details for the attacker: what matched stays in the log. */

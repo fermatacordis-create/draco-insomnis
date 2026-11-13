@@ -97,6 +97,38 @@ $PHP "$JLH" users allowUserRegistration 0
 echo "     registration back to: $(sql "SELECT params FROM #__extensions WHERE element='com_users' AND type='component'" | grep -o '"allowUserRegistration":"[0-9]"')"
 reset
 
+echo "== security headers"
+param headers 1
+h=$(curl -s -D - -o /dev/null -A "$UA" "$BASE/index.php?$(cb)" | tr -d '\r')
+echo "$h" | grep -qi '^x-content-type-options: nosniff' && ok "security headers sent when on" || ko "no security headers"
+param headers 0
+h=$(curl -s -D - -o /dev/null -A "$UA" "$BASE/index.php?$(cb)" | tr -d '\r')
+echo "$h" | grep -qi '^permissions-policy:' && ko "headers still sent when off" || ok "no headers when off"
+
+echo "== range blocked forever"
+param waf_mode log
+code "$(attack)" >/dev/null
+me=$(sql "SELECT ip FROM #__dracoinsomnis_events ORDER BY id DESC LIMIT 1")
+net=$($PHP -r '$b = inet_pton($argv[1]); $v6 = strlen($b) === 16; $keep = $v6 ? 6 : 3; $b = substr($b, 0, $keep) . str_repeat("\0", strlen($b) - $keep); echo inet_ntop($b), $v6 ? "/48" : "/24";' "$me")
+sql "INSERT INTO #__dracoinsomnis_blocks (kind, value, reason, created_at, until_at) VALUES ('net', '$net', 'e2e range', UTC_TIMESTAMP(), '9999-12-31 23:59:59')"
+c=$(code "$BASE/index.php?$(cb)"); [ "$c" = 200 ] && ok "an address in the range $net can still read" || ko "range read $c"
+c=$(code -X POST -d 'x=1' "$BASE/index.php?$(cb)"); [ "$c" = 403 ] && ok "an address in the range cannot post" || ko "range post $c"
+reset
+
+echo "== country filter"
+geo="media/plg_system_dracoinsomnis/draco-geo.bin"
+$PHP -r '$ip = inet_pton($argv[2]); $v6 = strlen($ip) === 16; $n = $v6 ? 16 : 4; $zero = str_repeat("\0", $n); $next = $ip; for ($i = $n - 1; $i >= 0; $i--) { $c = ord($next[$i]); if ($c < 255) { $next[$i] = chr($c + 1); break; } $next[$i] = "\0"; } $rows = [[$zero, "--"], [$ip, "CN"], [$next, "--"]]; $bin = "DRGEO1" . gmdate("Ymd") . pack("NN", $v6 ? 0 : 3, $v6 ? 3 : 0); foreach ($rows as [$a, $c]) { $bin .= $a . $c; } @mkdir(dirname($argv[1]), 0777, true); file_put_contents($argv[1], $bin);' "$geo" "$me"
+param waf_mode log; param geo_countries CN; param geo_action block; param geo_mode block
+c=$(code "$BASE/index.php?$(cb)"); [ "$c" = 200 ] && ok "country filter leaves reading alone" || ko "geo read $c"
+c=$(code "$BASE/index.php?option=com_users&view=login&$(cb)"); [ "$c" = 403 ] && ok "a listed country cannot open the login page" || ko "geo login $c"
+[ "$(sql "SELECT COUNT(*) FROM #__dracoinsomnis_events WHERE endpoint='waf:geo'")" -ge 1 ] && ok "kept as evidence (waf:geo)" || ko "geo evidence"
+[ "$(sql "SELECT COUNT(*) FROM #__dracoinsomnis_blocks")" = 0 ] && ok "a country never blocks the address" || ko "geo blocked the address"
+param geo_mode allow
+c=$(code "$BASE/index.php?option=com_users&view=login&$(cb)"); [ "$c" = 200 ] && ok "only-listed mode lets the listed country in" || ko "geo allow $c"
+param geo_mode off; param geo_countries ''; param geo_action log; param waf_mode off
+rm -f "$geo"
+reset
+
 echo "== anti-copy pace"
 param pace_mode block
 param anticopy_rate_ip 10

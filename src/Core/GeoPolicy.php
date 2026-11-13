@@ -32,7 +32,7 @@ final class GeoPolicy
     /**
      * The country this request is refused for, or '' when it passes.
      *
-     * @param list<string> $sensitive Path endings of the login and sign-up pages.
+     * @param list<string> $sensitive Parts of the address (path or query) of the login and sign-up pages.
      */
     public function refusedCountry(Request $r, array $sensitive): string
     {
@@ -77,8 +77,9 @@ final class GeoPolicy
         if ($r->method === 'POST') {
             return true;
         }
+        $where = $r->path . '?' . $r->query;
         foreach ($sensitive as $ending) {
-            if ($ending !== '' && str_contains($r->path, $ending)) {
+            if ($ending !== '' && str_contains($where, $ending)) {
                 return true;
             }
         }
