@@ -141,6 +141,35 @@ cset waf_mode off
 rm -f "$geo"
 reset
 
+echo "== review request from the block page"
+cset pace_mode off
+cset waf_mode block
+page=$(curl -s -A "$UA" "$(attack)")
+echo "$page" | grep -q 'name="draco_review"' && ok "the block page has the review form" || ko "no review form"
+rts=$(val "$page" draco_ts); rsig=$(val "$page" draco_sig); rrule=$(val "$page" draco_rule)
+c=$(curl -s -o /dev/null -w '%{http_code}' -A "$UA" -d draco_review=1 -d "draco_rule=$rrule" -d "draco_ts=$rts" -d "draco_sig=$rsig" -d draco_email=ana@example.org -d 'draco_message=I was searching' "$BASE/?$(cb)")
+[ "$c" = 200 ] && ok "review request answered ($c)" || ko "review request $c"
+[ "$(sql "SELECT COUNT(*) FROM draco_insomnis_events WHERE endpoint='review' AND verdict='pending'")" = 1 ] && ok "kept as a pending review" || ko "review not kept"
+curl -s -o /dev/null -A "$UA" -d draco_review=1 -d "draco_rule=$rrule" -d "draco_ts=$rts" -d draco_sig=forged -d draco_email=bot@spam.example -d 'draco_message=spam' "$BASE/?$(cb)"
+[ "$(sql "SELECT COUNT(*) FROM draco_insomnis_events WHERE endpoint='review'")" = 1 ] && ok "a forged review is dropped" || ko "forged review kept"
+me=$(sql "SELECT ip FROM draco_insomnis_events WHERE endpoint='review' LIMIT 1")
+$D php:eval "echo \\Drupal\\draco_insomnis\\Store::allow('$me', 1, 'e2e') ? 'ok' : 'no';" 2>/dev/null | grep -q ok && ok "let through for 24 hours" || ko "allow failed"
+c=$(code "$(attack)"); [ "$c" = 200 ] && ok "an address let through is not inspected" || ko "allowed address still blocked ($c)"
+sql "DELETE FROM draco_insomnis_blocks WHERE kind='allow'"
+
+echo "== firewall test button"
+tok=$($D php:eval 'echo \DracoInsomnis\Core\TestProbe::token(\Drupal\draco_insomnis\DrupalHost::get(), time());' 2>/dev/null)
+before=$(sql "SELECT COUNT(*) FROM draco_insomnis_events")
+h=$(curl -s -D - -o /dev/null -A "$UA" -H "X-Draco-Test: $tok" "$BASE/?$(cb)" | tr -d '\r')
+echo "$h" | grep -qi '^x-draco-test-result: sqli|block' && ok "signed test answered: blocked" || ko "test answer: $(echo "$h" | grep -i 'draco-test' | head -1)"
+h=$(curl -s -D - -o /dev/null -A "$UA" -H "X-Draco-Test: 1.forged" "$BASE/?$(cb)" | tr -d '\r')
+echo "$h" | grep -qi '^x-draco-test-result:' && ko "a forged test header was answered" || ok "a forged test header is ignored"
+[ "$(sql "SELECT COUNT(*) FROM draco_insomnis_events")" = "$before" ] && ok "a test is never logged" || ko "test logged"
+n=$($D php:eval 'echo \DracoInsomnis\Core\Summary::waf(\Drupal\draco_insomnis\Store::wafRows(86400))["total"];' 2>/dev/null)
+[ "${n:-0}" -ge 1 ] && ok "summary counts the attacks ($n)" || ko "summary empty"
+cset waf_mode off
+reset
+
 echo "== administrator (last: logging in remembers this address as an administrator's)"
 cset pace_mode off
 uli=$($D uli --uri="$BASE" --no-browser 2>/dev/null | tail -1)

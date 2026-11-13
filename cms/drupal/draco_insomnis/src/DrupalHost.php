@@ -90,7 +90,9 @@ final class DrupalHost implements Host {
 
   public function adminIps(): array {
     $list = \Drupal::state()->get('draco_insomnis.admin_ips', []);
-    return is_array($list) ? array_values(array_filter($list, 'is_string')) : [];
+    $list = is_array($list) ? array_values(array_filter($list, 'is_string')) : [];
+    // Plus the addresses a person let through after a review.
+    return array_values(array_unique(array_merge($list, Store::activeValues('allow'))));
   }
 
   /**
@@ -125,6 +127,13 @@ final class DrupalHost implements Host {
   }
 
   public function text(string $id, int $number): string {
+    if ($id === 'review_subject') {
+      return (string) t('[@site] Someone asks you to review a firewall block', ['@site' => (string) \Drupal::config('system.site')->get('name')]);
+    }
+    if ($id === 'review_body') {
+      return (string) t('A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:') . "\n\n"
+        . \Drupal\Core\Url::fromRoute('draco_insomnis.settings', [], ['absolute' => TRUE])->toString();
+    }
     if ($id === 'waf_block') {
       return (string) t('Firewall: @count attacks in 10 minutes', ['@count' => $number]);
     }
@@ -133,6 +142,13 @@ final class DrupalHost implements Host {
 
   public function events(): EventStore {
     return new Store();
+  }
+
+  public function notifyOwner(string $subject, string $body): void {
+    $to = (string) \Drupal::config('system.site')->get('mail');
+    if ($to !== '') {
+      \Drupal::service('plugin.manager.mail')->mail('draco_insomnis', 'notice', $to, \Drupal::languageManager()->getDefaultLanguage()->getId(), ['subject' => $subject, 'body' => $body]);
+    }
   }
 
 }
