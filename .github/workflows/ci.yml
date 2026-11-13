@@ -215,7 +215,7 @@ jobs:
         run: |
           docker run -d --name ps --network host \
             -e DB_SERVER=127.0.0.1 -e DB_USER=root -e DB_PASSWD=root -e DB_NAME=prestashop -e DB_PREFIX=ps_ \
-            -e PS_INSTALL_AUTO=1 -e PS_ERASE_DB=1 -e PS_DOMAIN=127.0.0.1 -e PS_LANGUAGE=en -e PS_COUNTRY=ES \
+            -e PS_INSTALL_AUTO=1 -e PS_DOMAIN=127.0.0.1 -e PS_LANGUAGE=en -e PS_COUNTRY=ES \
             -e PS_FOLDER_ADMIN=admin-ci -e PS_FOLDER_INSTALL=install-ci -e ADMIN_MAIL=admin@example.org -e ADMIN_PASSWD=Draco-CI-2026-admin \
             prestashop/prestashop:${{ matrix.ps }}
           for i in $(seq 1 90); do [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1/)" = 200 ] && break; sleep 5; done
