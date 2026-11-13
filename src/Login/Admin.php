@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DracoInsomnis\Login;
 
 use DracoInsomnis\Admin\Brand;
+use DracoInsomnis\Input;
 
 defined('ABSPATH') || exit;
 
@@ -35,6 +36,13 @@ final class Admin
             wp_die(esc_html__('You are not allowed to do this.', 'draco-insomnis'), 403);
         }
         check_admin_referer(self::ACTION);
+        if (Input::post('do') === 'passwords') {
+            $min = Input::postInt('pwd_min');
+            update_option(Passwords::OPTION_MIN, $min >= 8 && $min <= 64 ? $min : 0);
+            update_option(Passwords::OPTION_BREACHED, empty($_POST['pwd_breached']) ? 'no' : 'yes');
+            wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=ok#draco-passwords'));
+            exit;
+        }
         $result = 'ok';
         $wanted = !empty($_POST['enabled']);
         if ($wanted && get_option(Mfa::OPTION_ENABLED, 'no') !== 'yes' && Mfa::blocker() !== '') {
@@ -80,6 +88,25 @@ final class Admin
         ]);
         /* translators: %d: days */
         Brand::toggle('trust', get_option(Mfa::OPTION_TRUST, 'yes') === 'yes', sprintf(__('Offer "Trust this device for %d days"', 'draco-insomnis'), TrustedDevice::DAYS));
+        echo '<p style="margin-top:12px">';
+        submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
+        echo '</p></form>';
+        Brand::cardEnd();
+
+        echo '<div id="draco-passwords"></div>';
+        $pwdOn = Passwords::minLength() > 0 || Passwords::checksBreaches();
+        Brand::card('admin-network', __('Passwords', 'draco-insomnis'), __('Applied when someone chooses a password: profile, reset and WooCommerce sign-up. Existing passwords keep working.', 'draco-insomnis'), Brand::pill(Brand::stateLabel($pwdOn ? 'on' : 'off'), $pwdOn ? 'on' : 'off'));
+        echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
+        wp_nonce_field(self::ACTION);
+        echo '<input type="hidden" name="action" value="' . esc_attr(self::ACTION) . '"><input type="hidden" name="do" value="passwords">';
+        echo '<div class="draco-field"><label for="draco-pwd-min">' . esc_html__('Minimum length', 'draco-insomnis') . '</label><select id="draco-pwd-min" name="pwd_min">';
+        foreach ([0, 8, 10, 12, 14, 16] as $n) {
+            /* translators: %d: number of characters */
+            $label = $n === 0 ? __('No minimum (WordPress default)', 'draco-insomnis') : sprintf(__('%d characters', 'draco-insomnis'), $n) . ($n === 12 ? ' · ' . __('recommended', 'draco-insomnis') : '');
+            echo '<option value="' . (int) $n . '"' . selected(Passwords::minLength(), $n, false) . '>' . esc_html($label) . '</option>';
+        }
+        echo '</select></div>';
+        Brand::toggle('pwd_breached', Passwords::checksBreaches(), __('Refuse passwords that appear in known data breaches, and warn people who log in with one', 'draco-insomnis'), __('Asks Have I Been Pwned with only the first 5 characters of the password\'s SHA-1: the password never leaves your site. If the service does not answer in 3 seconds, the password is accepted.', 'draco-insomnis'));
         echo '<p style="margin-top:12px">';
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
         echo '</p></form>';

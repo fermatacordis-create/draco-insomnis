@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.10
+Stable tag: 0.1.11
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,7 +120,15 @@ For suspicious attempts only: date, address, browser name, username, e-mail, req
 
 The country filter uses IP geolocation by DB-IP (https://db-ip.com), "IP to Country Lite", licensed under Creative Commons Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/). It is downloaded from this plugin's GitHub releases only while the filter is on.
 
+== Third-party service ==
+
+Only if "Refuse passwords that appear in known data breaches" is switched on, Draco asks Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com) with the first 5 characters of the SHA-1 of a password being chosen or used to log in. The password itself and its full hash are never sent. Terms: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy: https://haveibeenpwned.com/Privacy
+
 == Changelog ==
+
+= 0.1.11 =
+* Passwords (off by default): a minimum length, and refusing passwords that appear in known data breaches. The check asks Have I Been Pwned with only the first 5 characters of the password's SHA-1 (k-anonymity, padded answer): the password never leaves the site, and if the service does not answer in 3 seconds the password is accepted. At login a breached password is not refused; the person is told on the dashboard to change it. Applied in the profile, the password reset and the WooCommerce sign-up.
+* Security headers for public pages (off by default): X-Content-Type-Options, X-Frame-Options, Referrer-Policy and Permissions-Policy, never twice if the server or another plugin already sends one. HSTS separately, only over HTTPS, 6 months.
 
 = 0.1.10 =
 * Firewall: country filter, off by default. Refuse the countries listed or allow only those, for logging in, signing up and forms (recommended) or for the whole site, and "Log only" first. Administrators, people let through after a review, search engines verified by DNS and addresses without a country are never filtered, and a country never puts an address on the block list. The country list is DB-IP Lite (CC BY 4.0), rebuilt monthly by Draco's own GitHub workflow; the site downloads it only while the filter is on, checks its SHA-256 and looks addresses up locally, without sending them anywhere.
