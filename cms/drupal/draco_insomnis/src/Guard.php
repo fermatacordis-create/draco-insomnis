@@ -43,11 +43,12 @@ final class Guard {
         'X-Robots-Tag' => 'noindex',
       ]);
     }
-    return self::deny($answer['why']);
+    return self::deny($answer['why'], $request);
   }
 
-  private static function deny(string $why): Response {
-    $form = (new Review(DrupalHost::get()))->form(DrupalHost::request(\Drupal::request()), $why, time(), [
+  private static function deny(string $why, \DracoInsomnis\Core\Request $request): Response {
+    // The request stack is still empty in the middleware: use the request already read.
+    $form = (new Review(DrupalHost::get()))->form($request, $why, time(), [
       'email' => (string) t('Your e-mail'),
       'message' => (string) t('What were you doing?'),
       'button' => (string) t('Ask for a review'),

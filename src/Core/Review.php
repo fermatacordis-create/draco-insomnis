@@ -68,7 +68,9 @@ final class Review
         $ts = (string) ($post['draco_ts'] ?? '');
         $sig = (string) ($post['draco_sig'] ?? '');
         $email = strtolower(trim((string) ($post['draco_email'] ?? '')));
-        $message = trim(preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', strip_tags((string) ($post['draco_message'] ?? ''))) ?? '');
+        // Tags out (the text is always escaped when shown; this only keeps the queue readable).
+        $message = (string) preg_replace('@<(script|style)[^>]*?>.*?</\\1>|<[^>]*>@si', '', (string) ($post['draco_message'] ?? ''));
+        $message = trim(preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $message) ?? '');
         $message = mb_substr($message, 0, 500);
         $trap = (string) ($post['draco_website'] ?? '');
 

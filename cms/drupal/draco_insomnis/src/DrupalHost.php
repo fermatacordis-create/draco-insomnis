@@ -132,7 +132,8 @@ final class DrupalHost implements Host {
     }
     if ($id === 'review_body') {
       return (string) t('A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:') . "\n\n"
-        . \Drupal\Core\Url::fromRoute('draco_insomnis.settings', [], ['absolute' => TRUE])->toString();
+        // Built from $base_url: this runs in the middleware, before the router knows the site's address.
+        . rtrim((string) ($GLOBALS['base_url'] ?? ''), '/') . '/' . \Drupal\Core\Url::fromRoute('draco_insomnis.settings')->getInternalPath();
     }
     if ($id === 'waf_block') {
       return (string) t('Firewall: @count attacks in 10 minutes', ['@count' => $number]);
@@ -146,8 +147,14 @@ final class DrupalHost implements Host {
 
   public function notifyOwner(string $subject, string $body): void {
     $to = (string) \Drupal::config('system.site')->get('mail');
-    if ($to !== '') {
+    if ($to === '') {
+      return;
+    }
+    try {
       \Drupal::service('plugin.manager.mail')->mail('draco_insomnis', 'notice', $to, \Drupal::languageManager()->getDefaultLanguage()->getId(), ['subject' => $subject, 'body' => $body]);
+    }
+    catch (\Throwable $e) {
+      // A notice that cannot be sent never breaks the visitor's request.
     }
   }
 
