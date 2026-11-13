@@ -132,7 +132,7 @@ $P -r '$ip = inet_pton($argv[2]); $v6 = strlen($ip) === 16; $n = $v6 ? 16 : 4; $
 cfg waf_mode log; cfg geo_countries CN; cfg geo_action block; cfg geo_mode block
 c=$(code "$BASE/?$(cb)"); [ "$c" = 200 ] || [ "$c" = 303 ] && ok "country filter leaves reading alone ($c)" || ko "geo read $c"
 c=$(code "$LOGIN?$(cb)"); [ "$c" = 403 ] && ok "a listed country cannot open the login page" || ko "geo login $c"
-[ "$(cnt "SELECT COUNT(*) FROM {local_dracoinsomnis_events} WHERE endpoint = 'waf:geo'")" -ge 1 ] && ok "kept as evidence (waf:geo)" || ko "geo evidence"
+[ "$(cnt "SELECT COUNT(*) FROM {local_dracoinsomnis_events} WHERE reasons = 'waf_geo'")" -ge 1 ] && ok "kept as evidence (waf:geo)" || ko "geo evidence"
 [ "$(cnt "SELECT COUNT(*) FROM {local_dracoinsomnis_blocks}")" = 0 ] && ok "a country never blocks the address" || ko "geo blocked the address"
 cfg geo_mode allow
 c=$(code "$LOGIN?$(cb)"); [ "$c" = 200 ] && ok "only-listed mode lets the listed country in" || ko "geo allow $c"
