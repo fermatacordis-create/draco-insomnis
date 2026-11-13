@@ -191,6 +191,48 @@ jobs:
         if: always()
         run: grep -iE 'fatal|draco' /tmp/php-server.log | head -20 || true
 
+  prestashop:
+    name: PrestaShop ${{ matrix.ps }} — end to end
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ps: ['8', '9']
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: prestashop
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping -proot" --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      BASE: http://127.0.0.1
+      MYSQL: mysql -h127.0.0.1 -uroot -proot prestashop
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PrestaShop ${{ matrix.ps }} (official image) and the module ZIP
+        run: |
+          docker run -d --name ps --network host \
+            -e DB_SERVER=127.0.0.1 -e DB_USER=root -e DB_PASSWD=root -e DB_NAME=prestashop -e DB_PREFIX=ps_ \
+            -e PS_INSTALL_AUTO=1 -e PS_ERASE_DB=1 -e PS_DOMAIN=127.0.0.1 -e PS_LANGUAGE=en -e PS_COUNTRY=ES \
+            -e PS_FOLDER_ADMIN=admin-ci -e PS_FOLDER_INSTALL=install-ci -e ADMIN_MAIL=admin@example.org -e ADMIN_PASSWD=Draco-CI-2026-admin \
+            prestashop/prestashop:${{ matrix.ps }}
+          for i in $(seq 1 90); do [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1/)" = 200 ] && break; sleep 5; done
+          echo "shop: $(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1/)"
+          zip=$(bin/build-prestashop.sh /tmp/dist)
+          mkdir -p /tmp/psmod && unzip -q "$zip" -d /tmp/psmod
+          docker cp /tmp/psmod/dracoinsomnis ps:/var/www/html/modules/
+          docker exec ps chown -R www-data:www-data /var/www/html/modules/dracoinsomnis
+          docker exec -u www-data ps php bin/console prestashop:module install dracoinsomnis
+          $MYSQL -e "UPDATE ps_configuration SET value='0' WHERE name IN ('PS_REWRITING_SETTINGS','PS_CANONICAL_REDIRECT','PS_SHOP_ENABLE_MAINTENANCE'); UPDATE ps_configuration SET value='1' WHERE name='PS_SHOP_ENABLE'"
+          docker exec ps rm -rf /var/www/html/var/cache/prod /var/www/html/var/cache/dev
+      - name: End-to-end tests
+        run: tests/e2e/prestashop.sh
+      - name: PHP errors from the run
+        if: always()
+        run: docker logs ps 2>&1 | grep -iE 'fatal|draco|exception' | tail -20 || true
+
   laravel:
     name: Laravel ${{ matrix.laravel }} package (PHP ${{ matrix.php }})
     runs-on: ubuntu-latest
