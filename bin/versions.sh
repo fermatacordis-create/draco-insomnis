@@ -10,11 +10,13 @@ presta=$(sed -n "s/.*\$this->version = '\([^']*\)'.*/\1/p" cms/prestashop/dracoi
 drupal=$(sed -n "s/^version: *'\([^']*\)'.*/\1/p" cms/drupal/draco_insomnis/draco_insomnis.info.yml)
 joomla=$(sed -n 's/.*<version>\([^<]*\)<\/version>.*/\1/p' cms/joomla/plg_system_dracoinsomnis/dracoinsomnis.xml)
 moodle=$(sed -n "s/^\$plugin->release = '\([^']*\)';.*/\1/p" cms/moodle/local_dracoinsomnis/version.php)
+server=$(sed -n "s/^define('DRACO_SERVER_VERSION', '\([^']*\)');/\1/p" server/bin/draco)
+guard=$(sed -n "s/^define('DRACO_SERVER_GUARD', '\([^']*\)');/\1/p" server/guard.php)
 printf '%s %s\n' wordpress "$wp" wordpress-constant "$wp_const" wordpress-stable-tag "$wp_stable" \
-  prestashop "$presta" drupal "$drupal" joomla "$joomla" moodle "$moodle"
+  prestashop "$presta" drupal "$drupal" joomla "$joomla" moodle "$moodle" server "$server" server-guard "$guard"
 if [ "${1:-}" = "--check" ]; then
   want="${2:-$wp}"
-  for v in "$wp" "$wp_const" "$wp_stable" "$presta" "$drupal" "$joomla" "$moodle"; do
+  for v in "$wp" "$wp_const" "$wp_stable" "$presta" "$drupal" "$joomla" "$moodle" "$server" "$guard"; do
     if [ "$v" != "$want" ]; then
       echo "Versions differ: every package must be $want (run bin/set-version.sh $want)" >&2
       exit 1

@@ -344,6 +344,57 @@ jobs:
           composer show laravel/framework | grep -E '^versions'
       - run: vendor/bin/phpunit
 
+  server:
+    name: Server edition — ${{ matrix.os }} with ${{ matrix.web }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            web: nginx and PHP-FPM
+          - os: ubuntu-22.04
+            web: Apache and mod_php
+    steps:
+      - uses: actions/checkout@v4
+      - name: Web server and PHP from the distribution
+        run: |
+          sudo apt-get update -qq
+          if [[ "${{ matrix.web }}" == nginx* ]]; then
+            sudo apt-get install -y -qq nginx php-fpm php-cli php-sqlite3 >/dev/null
+            sock=$(ls /run/php/php*-fpm.sock | head -1)
+            printf 'server {\n listen 80 default_server;\n root /var/www/html;\n index index.php;\n location ~ \\.php$ {\n  include snippets/fastcgi-php.conf;\n  fastcgi_pass unix:%s;\n }\n}\n' "$sock" | sudo tee /etc/nginx/sites-available/default >/dev/null
+            sudo systemctl restart nginx
+          else
+            sudo apt-get install -y -qq apache2 libapache2-mod-php php-cli php-sqlite3 >/dev/null
+            sudo systemctl restart apache2
+          fi
+          echo '<?php echo "app ok";' | sudo tee /var/www/html/index.php >/dev/null
+          echo '<?php echo $_SERVER["REMOTE_ADDR"];' | sudo tee /var/www/html/ip.php >/dev/null
+          echo '<?php header("X-Frame-Options: DENY"); echo "own";' | sudo tee /var/www/html/own-header.php >/dev/null
+          sudo rm -f /var/www/html/index.html
+          php -v | head -1
+      - name: Build and install the .deb
+        run: |
+          deb=$(bin/build-server.sh dist | grep '\.deb$')
+          dpkg-deb --info "$deb" | sed -n '/Package/,/Depends/p'
+          dpkg-deb --contents "$deb" | grep -E 'tests/|vendor/|\.github' && { echo "Development files in the package"; exit 1; } || true
+          sudo apt-get install -y "./$deb"
+          sudo draco enable
+          sleep 2
+      - name: End-to-end tests
+        run: BASE=http://127.0.0.1 DRACO="sudo draco" bash tests/e2e/server.sh
+      - name: Remove and purge
+        run: |
+          sudo apt-get remove -y draco-insomnis-server >/dev/null
+          ls /etc/php/*/*/conf.d/99-draco-insomnis.ini 2>/dev/null && { echo "Still loaded after removal"; exit 1; } || echo "not loaded after removal"
+          [ "$(curl -s http://127.0.0.1/index.php)" = "app ok" ] && echo "site still answers"
+          sudo apt-get purge -y draco-insomnis-server >/dev/null
+          [ ! -d /var/lib/draco-insomnis ] && echo "evidence removed on purge"
+      - name: PHP errors from the run
+        if: always()
+        run: sudo grep -rh "Draco Insomnis Server" /var/log/nginx /var/log/apache2 /var/log/php* 2>/dev/null | tail -20 || true
+
   package:
     name: ZIP
     runs-on: ubuntu-latest

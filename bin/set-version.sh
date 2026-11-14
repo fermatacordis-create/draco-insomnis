@@ -14,6 +14,9 @@ sed -i "s/\(\$this->version = '\)[^']*'/\1$v'/" cms/prestashop/dracoinsomnis/dra
 sed -i "s/^version: '[^']*'/version: '$v'/" cms/drupal/draco_insomnis/draco_insomnis.info.yml
 sed -i "s/<version>[^<]*<\/version>/<version>$v<\/version>/" cms/joomla/plg_system_dracoinsomnis/dracoinsomnis.xml
 
+sed -i "s/^define('DRACO_SERVER_VERSION', '[^']*');/define('DRACO_SERVER_VERSION', '$v');/" server/bin/draco
+sed -i "s/^define('DRACO_SERVER_GUARD', '[^']*');/define('DRACO_SERVER_GUARD', '$v');/" server/guard.php
+
 moodle=cms/moodle/local_dracoinsomnis/version.php
 sed -i "s/^\(\$plugin->release = '\)[^']*'/\1$v'/" "$moodle"
 current=$(sed -n 's/^\$plugin->version = \([0-9]*\);.*/\1/p' "$moodle")

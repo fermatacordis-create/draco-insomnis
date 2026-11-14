@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+if [ "$1" = remove ] || [ "$1" = deconfigure ]; then
+  # PHP must stop loading the guard before its files go away.
+  /usr/bin/draco disable >/dev/null 2>&1 || true
+  if [ -d /run/systemd/system ]; then
+    systemctl disable --now draco-insomnis-cleanup.timer >/dev/null 2>&1 || true
+  fi
+fi
+exit 0
