@@ -71,7 +71,7 @@ final class Review
         // Tags out (the text is always escaped when shown; this only keeps the queue readable).
         $message = (string) preg_replace('@<(script|style)[^>]*?>.*?</\\1>|<[^>]*>@si', '', (string) ($post['draco_message'] ?? ''));
         $message = trim(preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $message) ?? '');
-        $message = mb_substr($message, 0, 500);
+        $message = self::cut($message, 500);
         $trap = (string) ($post['draco_website'] ?? '');
 
         $fresh = ctype_digit($ts) && (int) $ts <= $now && $now - (int) $ts < self::VALID_FOR;
@@ -86,7 +86,7 @@ final class Review
             'username' => '',
             'email' => $email,
             'role' => '',
-            'referer' => mb_substr($message, 0, 500),
+            'referer' => self::cut($message, 500),
         ]);
         if ($this->host->bump('draco_review_notice', 3600) === 1) {
             try {
@@ -132,5 +132,11 @@ final class Review
     public function signedFields(string $ip, string $rule, int $ts): array
     {
         return ['draco_rule' => self::seal($this->host->secret(), $ip, (string) $ts, $rule), 'draco_ts' => (string) $ts, 'draco_sig' => $this->sign($ip, $rule, (string) $ts)];
+    }
+
+    /** The first $n characters of UTF-8 text, without mbstring (not every PHP has it). */
+    public static function cut(string $text, int $n): string
+    {
+        return preg_match('/^.{0,' . $n . '}/su', $text, $m) === 1 ? $m[0] : substr($text, 0, $n);
     }
 }

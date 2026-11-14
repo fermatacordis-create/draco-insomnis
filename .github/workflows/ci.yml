@@ -395,6 +395,48 @@ jobs:
         if: always()
         run: sudo grep -rh "Draco Insomnis Server" /var/log/nginx /var/log/apache2 /var/log/php* 2>/dev/null | tail -20 || true
 
+  server-rpm:
+    name: Server edition — AlmaLinux 9 (.rpm, PHP-FPM ${{ matrix.php }} and httpd)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.0', '8.3']
+    container: almalinux:9
+    steps:
+      - uses: actions/checkout@v4
+      - name: httpd and PHP ${{ matrix.php }} from AppStream
+        run: |
+          dnf -y -q module reset php
+          dnf -y -q module enable php:${{ matrix.php }} || [ "${{ matrix.php }}" = "8.0" ]
+          dnf -y -q install httpd php-fpm php-cli php-pdo rpm-build procps-ng >/dev/null
+          php -v | head -1
+          mkdir -p /run/php-fpm && php-fpm -D
+          httpd -k start
+          echo '<?php echo "app ok";' > /var/www/html/index.php
+          echo '<?php echo $_SERVER["REMOTE_ADDR"];' > /var/www/html/ip.php
+          echo '<?php header("X-Frame-Options: DENY"); echo "own";' > /var/www/html/own-header.php
+          sleep 1; curl -s http://127.0.0.1/index.php
+      - name: Build and install the .rpm
+        run: |
+          rpm=$(bin/build-server.sh dist | grep '\.rpm$')
+          rpm -qip "$rpm" | sed -n '1,4p'
+          rpm -qlp "$rpm" | grep -E 'tests/|vendor/|\.github' && { echo "Development files in the package"; exit 1; } || true
+          dnf -y -q install "./$rpm"
+          draco enable
+          pkill -USR2 php-fpm; sleep 1
+      - name: End-to-end tests
+        run: BASE=http://127.0.0.1 DRACO=draco SUDO= RELOAD='pkill -USR2 php-fpm' bash tests/e2e/server.sh
+      - name: Remove
+        run: |
+          dnf -y -q remove draco-insomnis-server
+          ls /etc/php.d/99-draco-insomnis.ini 2>/dev/null && { echo "Still loaded after removal"; exit 1; } || echo "not loaded after removal"
+          pkill -USR2 php-fpm; sleep 1
+          [ "$(curl -s http://127.0.0.1/index.php)" = "app ok" ] && echo "site still answers"
+      - name: PHP errors from the run
+        if: always()
+        run: grep -h "Draco Insomnis Server" /var/log/php-fpm/*.log /var/log/httpd/*log 2>/dev/null | tail -20 || true
+
   package:
     name: ZIP
     runs-on: ubuntu-latest

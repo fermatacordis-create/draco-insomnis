@@ -6,7 +6,7 @@ Architecture: all
 Depends: php-cli (>= 2:8.0) | php8.4-cli | php8.3-cli | php8.2-cli | php8.1-cli | php8.0-cli, php-sqlite3 | php8.4-sqlite3 | php8.3-sqlite3 | php8.2-sqlite3 | php8.1-sqlite3 | php8.0-sqlite3
 Recommends: php-apcu
 Installed-Size: @SIZE@
-Maintainer: Notorius Vision · OPNV Systems <https://github.com/fermatacordis-create/draco-insomnis/issues>
+Maintainer: Draco Insomnis <draco@opnv.systems>
 Homepage: https://github.com/fermatacordis-create/draco-insomnis
 Description: firewall in front of every PHP site on the server
  Draco Insomnis Server loads before every PHP script (auto_prepend_file) and

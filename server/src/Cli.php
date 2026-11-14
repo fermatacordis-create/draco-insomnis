@@ -353,7 +353,7 @@ final class Cli
             foreach ($rows as $r) {
                 $f = json_decode((string) $r['fields'], true);
                 $f = is_array($f) ? $f : [];
-                printf("%d\t%s\t%s\t%s\t%s\t%s\n", $r['id'], gmdate('Y-m-d H:i', (int) $r['created_at']), $r['ip'], $f['email'] ?? '', mb_strimwidth((string) ($f['referer'] ?? ''), 0, 60, '…'), $r['verdict']);
+                printf("%d\t%s\t%s\t%s\t%s\t%s\n", $r['id'], gmdate('Y-m-d H:i', (int) $r['created_at']), $r['ip'], $f['email'] ?? '', \DracoInsomnis\Core\Review::cut((string) ($f['referer'] ?? ''), 60), $r['verdict']);
             }
 
             return $this->out('Decide: draco reviews <id> --approve=1|7|30|0, --deny or --attacker (Draco never writes to them)');
