@@ -36,6 +36,9 @@ final class Admin
             wp_die(esc_html__('You are not allowed to do this.', 'draco-insomnis'), 403);
         }
         check_admin_referer(self::ACTION);
+        if (Input::post('do') === 'lock') {
+            self::saveLock();
+        }
         if (Input::post('do') === 'passwords') {
             $min = Input::postInt('pwd_min');
             update_option(Passwords::OPTION_MIN, $min >= 8 && $min <= 64 ? $min : 0);
@@ -60,13 +63,89 @@ final class Admin
         exit;
     }
 
+    /** Switch the privileged accounts lock on or off, approve or withdraw an account. */
+    private static function saveLock(): void
+    {
+        $result = 'ok';
+        $me = wp_get_current_user();
+        $user = Input::postInt('user');
+        if (Input::post('approve') !== '' && $user > 0 && AccountLock::active()) {
+            $target = get_userdata($user);
+            if ($target instanceof \WP_User) {
+                AccountLock::approve($target);
+            }
+        } elseif (Input::post('revoke') !== '' && $user > 0 && $user !== (int) $me->ID) {
+            AccountLock::revoke($user);
+        } elseif (Input::post('switch') !== '') {
+            if (Input::post('lock_enabled') === '') {
+                AccountLock::disable();
+            } elseif (AccountLock::blocker() !== '') {
+                $result = 'lock_blocked';
+            } elseif (!AccountLock::active()) {
+                AccountLock::enable($me);
+            }
+        }
+        wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=' . $result . '#draco-lock'));
+        exit;
+    }
+
+    private static function formOpen(): void
+    {
+        echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
+        wp_nonce_field(self::ACTION);
+        echo '<input type="hidden" name="action" value="' . esc_attr(self::ACTION) . '"><input type="hidden" name="do" value="lock">';
+    }
+
+    private static function renderLock(): void
+    {
+        echo '<div id="draco-lock"></div>';
+        $on = AccountLock::active();
+        Brand::card('shield', __('Accounts that can change the site', 'draco-insomnis'), __('Administrators, editors and shop managers only work once you approved them, so an account created by an attack cannot log in. If the site e-mail, its address, the default role or open registration change without you, they are all paused until you confirm from your e-mail.', 'draco-insomnis'), Brand::pill(Brand::stateLabel($on ? 'on' : 'off'), $on ? 'on' : 'off'));
+        self::formOpen();
+        Brand::toggle('lock_enabled', $on, __('Only approved accounts can change the site', 'draco-insomnis'), __('Switching it on approves you and keeps your e-mail for confirmations. Other privileged accounts wait until you approve them below.', 'draco-insomnis'));
+        echo '<input type="hidden" name="switch" value="1"><p style="margin-top:12px">';
+        submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
+        echo '</p></form>';
+        if ($on) {
+            if (AccountLock::frozen() !== '') {
+                Brand::notice('warning', __('Paused: a sensitive setting changed. The confirmation link was sent to the e-mail kept when the lock was switched on.', 'draco-insomnis'));
+            }
+            $owner = AccountLock::ownerEmail();
+            /* translators: %s: e-mail address */
+            echo '<p>' . esc_html(sprintf(__('Confirmations go to %s.', 'draco-insomnis'), $owner !== '' ? $owner : '—')) . '</p>';
+            echo '<table class="widefat striped"><thead><tr><th>' . esc_html__('Account', 'draco-insomnis') . '</th><th>' . esc_html__('Role', 'draco-insomnis') . '</th><th>' . esc_html__('State', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
+            foreach (get_users(['number' => 200, 'orderby' => 'ID']) as $user) {
+                if (!$user instanceof \WP_User || !AccountLock::privileged($user)) {
+                    continue;
+                }
+                $ok = AccountLock::approved($user);
+                echo '<tr><td>' . esc_html($user->user_login . ' · ' . $user->user_email) . '</td><td>' . esc_html(implode(', ', $user->roles)) . '</td><td>'
+                    . esc_html($ok ? __('Approved', 'draco-insomnis') : __('Waiting for approval', 'draco-insomnis')) . '</td><td>';
+                if (!($ok && $user->ID === get_current_user_id())) {
+                    self::formOpen();
+                    echo '<input type="hidden" name="user" value="' . (int) $user->ID . '"><button class="button" name="' . ($ok ? 'revoke' : 'approve') . '" value="1">'
+                        . esc_html($ok ? __('Withdraw approval', 'draco-insomnis') : __('Approve', 'draco-insomnis')) . '</button></form>';
+                }
+                echo '</td></tr>';
+            }
+            echo '</tbody></table>';
+        }
+        echo '<p class="description">' . esc_html__('Accounts created from the command line (WP-CLI) also wait for approval. Locked out? Add define(\'DRACO_LOCK_OFF\', true); to wp-config.php, log in, fix it and remove the line.', 'draco-insomnis') . '</p>';
+        Brand::cardEnd();
+    }
+
     public static function render(): void
     {
         $on = get_option(Mfa::OPTION_ENABLED, 'no') === 'yes';
         $who = (string) get_option(Mfa::OPTION_WHO, 'admins');
         $result = sanitize_key((string) ($_GET['result'] ?? '')); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only
         Brand::open(__('Two-step login', 'draco-insomnis'), __('After the right password, WordPress asks for a 6-digit code sent by e-mail. A stolen password alone is no longer enough to get in.', 'draco-insomnis'));
-        if ($result === 'blocked') {
+        if (defined('DRACO_LOCK_OFF') && DRACO_LOCK_OFF) {
+            Brand::notice('warning', __('DRACO_LOCK_OFF is set in wp-config.php: accounts that can change the site are not checked. Remove that line once you are back in.', 'draco-insomnis'));
+        }
+        if ($result === 'lock_blocked') {
+            Brand::notice('error', AccountLock::blocker());
+        } elseif ($result === 'blocked') {
             Brand::notice('error', Mfa::blocker());
         } elseif ($result === 'ok') {
             Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
@@ -111,6 +190,8 @@ final class Admin
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
         echo '</p></form>';
         Brand::cardEnd();
+
+        self::renderLock();
 
         Brand::card('lightbulb', __('Good to know', 'draco-insomnis'), '', '', 'info');
         echo '<ul class="draco-list">';

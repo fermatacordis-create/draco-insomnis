@@ -122,6 +122,40 @@ curl -s -A "$UA" -c "$tmp/jar" -b "$tmp/jar" -o "$tmp/body" -D "$tmp/head" \
 if grep -qi '^set-cookie: wordpress_logged_in' "$tmp/head"; then pass "the right code logs in"; else fail "the right code logs in"; fi
 reset
 
+echo "# privileged accounts lock: every way in, not only wp-login.php"
+wp config set WP_ENVIRONMENT_TYPE local >/dev/null # application passwords without HTTPS
+wp eval 'DracoInsomnis\Login\AccountLock::enable(get_user_by("login", "admin"));' >/dev/null
+wp user create intruder intruder@example.net --role=administrator --user_pass=Intruder-Pass-1 >/dev/null
+admin_app=$(wp user application-password create admin ci --porcelain)
+intruder_app=$(wp user application-password create intruder ci --porcelain)
+expect "REST: the approved owner gets in" 200 "$(code -u "admin:$admin_app" "$BASE/?rest_route=/wp/v2/users/me")"
+expect "REST: an administrator nobody approved does not" 401 "$(code -u "intruder:$intruder_app" "$BASE/?rest_route=/wp/v2/users/me")"
+rpc() { curl -s -A "$UA" -H 'Content-Type: text/xml' --data "<?xml version=\"1.0\"?><methodCall><methodName>wp.getUsersBlogs</methodName><params><param><value>$1</value></param><param><value>$2</value></param></params></methodCall>" "$BASE/xmlrpc.php"; }
+rpc intruder Intruder-Pass-1 > "$tmp/body"; contains "XML-RPC: the unapproved administrator is refused" "faultCode" "$tmp/body"
+rpc admin Admin-Pass-CI-1 > "$tmp/body"; contains "XML-RPC: the owner works" "blogName" "$tmp/body"
+code --data "log=intruder&pwd=Intruder-Pass-1&wp-submit=Log+In&testcookie=1" -b 'wordpress_test_cookie=WP+Cookie+check' "$BASE/wp-login.php" >/dev/null
+contains "login form: told to wait for the owner" "approved by the site owner" "$tmp/body"
+wp option update admin_email attacker@example.net >/dev/null # not the owner at the panel
+expect "a changed site e-mail pauses even the owner" 401 "$(code -u "admin:$admin_app" "$BASE/?rest_route=/wp/v2/users/me")"
+link=$(php -r 'foreach (file($argv[1]) as $l) { $m = json_decode($l, true); $to = is_array($m["to"]) ? implode(",", $m["to"]) : $m["to"]; if (str_contains($to, "admin@example.org") && preg_match("#https?://\S+action=draco_lock\S+#", $m["message"], $x)) { $u = $x[0]; } } echo $u ?? "";' "$WP_DIR/wp-content/ci-mail.jsonl")
+[ -n "$link" ] && pass "the owner (old address) gets the confirmation link" || fail "the owner (old address) gets the confirmation link"
+to_new=$(php -r '$n = 0; foreach (file($argv[1]) as $l) { $m = json_decode($l, true); $to = is_array($m["to"]) ? implode(",", $m["to"]) : $m["to"]; $n += str_contains($to, "attacker@example.net") && str_contains($m["message"], "draco_lock") ? 1 : 0; } echo $n;' "$WP_DIR/wp-content/ci-mail.jsonl")
+expect "no confirmation link goes to the new address" 0 "$to_new"
+link=${link//&amp;/&}
+code "$link" >/dev/null
+nonce=$(grep -o 'name="_wpnonce" value="[^"]*"' "$tmp/body" | head -1 | sed 's/.*value="\([^"]*\)"/\1/')
+expect "opening the link alone changes nothing" 401 "$(code -u "admin:$admin_app" "$BASE/?rest_route=/wp/v2/users/me")"
+code --data "_wpnonce=$nonce" "$link" >/dev/null
+contains "confirming unpauses" "Done" "$tmp/body"
+expect "the owner is back" 200 "$(code -u "admin:$admin_app" "$BASE/?rest_route=/wp/v2/users/me")"
+expect "the link works once" 410 "$(code "$link")"
+wp eval 'DracoInsomnis\Login\AccountLock::disable();' >/dev/null
+wp option update admin_email admin@example.org >/dev/null
+wp user delete intruder --yes >/dev/null
+wp user application-password delete admin --all >/dev/null 2>&1
+wp config delete WP_ENVIRONMENT_TYPE >/dev/null
+reset
+
 echo
 if [ "$fails" -gt 0 ]; then echo "$fails check(s) failed"; exit 1; fi
 echo "all HTTP checks passed"

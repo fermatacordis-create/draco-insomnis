@@ -126,6 +126,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $reset = [
             \DracoInsomnis\Gate\MailHold::class => ['submission' => 0, 'held' => false, 'dropped' => false, 'releasing' => false],
             \DracoInsomnis\Gate\RegistrationHold::class => ['held' => false],
+            \DracoInsomnis\Login\AccountLock::class => ['busy' => false, 'actor' => 0],
             \DracoInsomnis\Gate\Mailer::class => ['sending' => false],
             \DracoInsomnis\Shield\Store::class => ['values' => []],
             \DracoInsomnis\Mail\Transport::class => ['forced' => false, 'transport' => 'php', 'lastError' => '', 'originalFrom' => ''],
