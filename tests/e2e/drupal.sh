@@ -100,9 +100,9 @@ dreg() { # password -> the answer page
 }
 labs() { sql "SELECT COUNT(*) FROM users_field_data WHERE mail LIKE 'maria.lab%'"; }
 cset pwd_min 20; $D cr >/dev/null 2>&1
-out=$(dreg 'Draco-Lab-2026!x'); [ "$(labs)" = 0 ] && echo "$out" | grep -qE "at least 20 characters|al menos 20 caracteres" && ok "short password refused with the reason" || ko "min length (users $(labs))"
+out=$(dreg 'Draco-Lab-2026!x'); [ "$(labs)" = 0 ] && grep -qE "at least 20 characters|al menos 20 caracteres" <<< "$out" && ok "short password refused with the reason" || ko "min length (users $(labs))"
 cset pwd_min 0; cset pwd_breached true
-out=$(dreg 'passwordpassword'); [ "$(labs)" = 0 ] && echo "$out" | grep -qE "data breaches|filtraciones" && ok "breached password refused with the reason" || ko "breached (users $(labs))"
+out=$(dreg 'passwordpassword'); [ "$(labs)" = 0 ] && grep -qE "data breaches|filtraciones" <<< "$out" && ok "breached password refused with the reason" || ko "breached (users $(labs))"
 dreg 'Draco-Lab-2026!x' >/dev/null; [ "$(labs)" = 1 ] && ok "good password: account created" || ko "good password (users $(labs))"
 $D php:eval '$s = \Drupal::entityTypeManager()->getStorage("user"); $ids = $s->getQuery()->accessCheck(FALSE)->condition("mail", "maria.lab%", "LIKE")->execute(); $s->delete($s->loadMultiple($ids)); echo count($ids), " test users removed\n";' 2>/dev/null | sed 's/^/     /'
 cset pwd_breached false

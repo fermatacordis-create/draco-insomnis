@@ -170,9 +170,9 @@ reg() { # password -> the page after the redirect
 }
 labs() { sql "SELECT COUNT(*) FROM #__users WHERE email LIKE 'maria.lab%'"; }
 param pwd_min 20
-out=$(reg 'Draco-Lab-2026!x'); [ "$(labs)" = 0 ] && echo "$out" | grep -qE "at least 20 characters|al menos 20 caracteres" && ok "short password refused with the reason" || ko "min length (users $(labs))"
+out=$(reg 'Draco-Lab-2026!x'); [ "$(labs)" = 0 ] && grep -qE "at least 20 characters|al menos 20 caracteres" <<< "$out" && ok "short password refused with the reason" || ko "min length (users $(labs))"
 param pwd_min 0; param pwd_breached 1
-out=$(reg 'passwordpassword'); [ "$(labs)" = 0 ] && echo "$out" | grep -qE "data breaches|filtraciones" && ok "breached password refused with the reason" || ko "breached (users $(labs))"
+out=$(reg 'passwordpassword'); [ "$(labs)" = 0 ] && grep -qE "data breaches|filtraciones" <<< "$out" && ok "breached password refused with the reason" || ko "breached (users $(labs))"
 reg 'Draco-Lab-2026!x' >/dev/null; [ "$(labs)" = 1 ] && ok "good password: account created" || ko "good password (users $(labs))"
 for id in $(sql "SELECT id FROM #__users WHERE email LIKE 'maria.lab%'"); do sql "DELETE FROM #__user_usergroup_map WHERE user_id=$id"; sql "DELETE FROM #__users WHERE id=$id"; done
 param pwd_breached 0
