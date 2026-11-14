@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Sets the same version on every package: the WordPress plugin (header, constant, Stable tag) and the
-# PrestaShop, Drupal, Joomla and Moodle packages. Moodle's own build number (YYYYMMDDXX) goes up too.
+# PrestaShop, Drupal, Joomla and Moodle packages, the server edition and the JavaScript package.
+# Moodle's own build number (YYYYMMDDXX) goes up too.
 # Usage: bin/set-version.sh X.Y.Z     (then add a changelog entry in readme.txt)
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -16,6 +17,10 @@ sed -i "s/<version>[^<]*<\/version>/<version>$v<\/version>/" cms/joomla/plg_syst
 
 sed -i "s/^define('DRACO_SERVER_VERSION', '[^']*');/define('DRACO_SERVER_VERSION', '$v');/" server/bin/draco
 sed -i "s/^define('DRACO_SERVER_GUARD', '[^']*');/define('DRACO_SERVER_GUARD', '$v');/" server/guard.php
+
+sed -i "0,/\"version\": \"[^\"]*\"/s//\"version\": \"$v\"/" js/package.json
+sed -i "0,/^  \"version\": /s/^  \"version\": \"[^\"]*\"/  \"version\": \"$v\"/; 0,/^      \"version\": /s/^      \"version\": \"[^\"]*\"/      \"version\": \"$v\"/" js/package-lock.json
+sed -i "s/^export const VERSION = '[^']*';/export const VERSION = '$v';/" js/src/index.ts
 
 moodle=cms/moodle/local_dracoinsomnis/version.php
 sed -i "s/^\(\$plugin->release = '\)[^']*'/\1$v'/" "$moodle"

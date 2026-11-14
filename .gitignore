@@ -6,3 +6,6 @@
 /.phpunit.result.cache
 
 server/docker/build/
+/js/node_modules/
+/js/dist/
+/js/LICENSE

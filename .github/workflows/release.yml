@@ -24,6 +24,9 @@ jobs:
         with:
           php-version: '8.3'
           coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
       - name: Tag and versions agree
         run: bin/versions.sh --check "${GITHUB_REF_NAME#v}"
       - name: Unit tests of the shared engines
@@ -35,7 +38,7 @@ jobs:
           rm -rf release && mkdir release
           sudo apt-get install -y -qq rpm >/dev/null
           bin/build-all.sh release | tee release/files.txt
-          (cd release && sha256sum *.zip *.deb *.rpm *.tar.gz > SHA256SUMS.txt && cat SHA256SUMS.txt)
+          (cd release && sha256sum *.zip *.deb *.rpm *.tar.gz *.tgz > SHA256SUMS.txt && cat SHA256SUMS.txt)
       - name: SBOM (CycloneDX) of every package
         uses: anchore/sbom-action@v0
         with:
@@ -52,6 +55,7 @@ jobs:
             release/*.deb
             release/*.rpm
             release/*.tar.gz
+            release/*.tgz
       - name: SBOM attestation
         uses: actions/attest-sbom@v2
         with:
@@ -98,9 +102,10 @@ jobs:
             echo "| Any PHP site on RHEL, AlmaLinux, Rocky or Fedora | \`draco-insomnis-server-$version-1.noarch.rpm\` |"
             echo "| Any PHP container (Docker add-on) | \`ghcr.io/fermatacordis-create/draco-insomnis:$version\` |"
             echo "| Any PHP site on another Linux (install.sh) | \`draco-insomnis-server-$version.tar.gz\` |"
+            echo "| Node.js: Express, Koa, Strapi, Directus; Cloudflare Workers | \`draco-insomnis-js-$version.tgz\` (\`npm install ./draco-insomnis-js-$version.tgz\`) |"
             echo
             echo "Checksums in \`SHA256SUMS.txt\`, signed with Sigstore (\`SHA256SUMS.txt.sigstore.json\`). Every file has a GitHub build provenance attestation and the release has a CycloneDX SBOM. How to verify: SECURITY.md."
             if [ -n "$notes" ]; then echo; echo "## Changes"; echo; echo "$notes"; fi
           } > release/notes.md
-          gh release create "$GITHUB_REF_NAME" release/*.zip release/*.deb release/*.rpm release/*.tar.gz release/SHA256SUMS.txt release/SHA256SUMS.txt.sigstore.json release/*.cdx.json \
+          gh release create "$GITHUB_REF_NAME" release/*.zip release/*.deb release/*.rpm release/*.tar.gz release/*.tgz release/SHA256SUMS.txt release/SHA256SUMS.txt.sigstore.json release/*.cdx.json \
             --title "Draco Insomnis $version" --notes-file release/notes.md
