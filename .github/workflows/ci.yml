@@ -344,6 +344,70 @@ jobs:
           composer show laravel/framework | grep -E '^versions'
       - run: vendor/bin/phpunit
 
+  magento:
+    name: Mage-OS (Magento 2.4) — end to end
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: magento
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping -proot" --health-interval=5s --health-timeout=5s --health-retries=20
+      opensearch:
+        image: opensearchproject/opensearch:2.19.1
+        env:
+          discovery.type: single-node
+          DISABLE_SECURITY_PLUGIN: 'true'
+          DISABLE_INSTALL_DEMO_CONFIG: 'true'
+          OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
+        ports: ['9200:9200']
+        options: --health-cmd="curl -fs http://localhost:9200/_cluster/health" --health-interval=10s --health-timeout=5s --health-retries=30
+    env:
+      MAGENTO_DIR: /tmp/shop
+      MAGE_URL: http://127.0.0.1:18080
+      MYSQL: mysql -h127.0.0.1 -uroot -proot magento
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: bcmath, intl, gd, soap, xsl, zip, sockets, pdo_mysql, ftp
+          ini-values: memory_limit=4G
+          coverage: none
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: mageos-composer-${{ hashFiles('.github/workflows/ci.yml') }}
+      # Mage-OS is the open distribution of Magento Open Source: same code, no repo.magento.com keys.
+      - name: Install Mage-OS and the module ZIP
+        run: |
+          composer create-project --no-interaction --no-progress --repository-url=https://repo.mage-os.org/ mage-os/project-community-edition "$MAGENTO_DIR"
+          cd "$MAGENTO_DIR"
+          php bin/magento setup:install --base-url="$MAGE_URL/" --db-host=127.0.0.1 --db-name=magento --db-user=root --db-password=root \
+            --admin-firstname=Draco --admin-lastname=CI --admin-email=admin@example.org --admin-user=admin --admin-password=Draco-CI-2026-admin \
+            --language=en_US --currency=EUR --timezone=Europe/Madrid --use-rewrites=1 --backend-frontname=admin \
+            --search-engine=opensearch --opensearch-host=127.0.0.1 --opensearch-port=9200
+          php bin/magento --version
+          zip=$("$GITHUB_WORKSPACE/bin/build-magento.sh" /tmp/dist)
+          mkdir -p /tmp/mod app/code/DracoInsomnis && unzip -q "$zip" -d /tmp/mod
+          mv /tmp/mod/draco-insomnis-magento app/code/DracoInsomnis/Magento
+          php bin/magento module:enable DracoInsomnis_Magento
+          php bin/magento setup:upgrade
+          php bin/magento setup:di:compile
+          php bin/magento deploy:mode:set developer --skip-compilation
+          # display_errors off: PHP's development server prints router notices before the answer.
+          nohup php -d display_errors=0 -S 127.0.0.1:18080 -t pub/ phpserver/router.php > /tmp/web.log 2>&1 &
+          for i in $(seq 1 30); do [ "$(curl -s -o /dev/null -w '%{http_code}' "$MAGE_URL/")" = 200 ] && break; sleep 2; done
+      - name: End-to-end tests
+        run: bin/ci-magento-smoke.sh
+      - name: Errors from the run
+        if: always()
+        run: |
+          tail -40 "$MAGENTO_DIR"/var/log/exception.log 2>/dev/null || true
+          grep -i 'draco' "$MAGENTO_DIR"/var/log/system.log 2>/dev/null | tail -20 || true
+
   server:
     name: Server edition — ${{ matrix.os }} with ${{ matrix.web }}
     runs-on: ${{ matrix.os }}

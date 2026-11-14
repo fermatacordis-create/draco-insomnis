@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+    Suspicious attempts (the evidence for an abuse report, kept 90 days), the block list and
+    short-lived counters. Never passwords, nor anything beyond the fields the engines pass.
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="draco_events" resource="default" engine="innodb" comment="Draco Insomnis: suspicious attempts">
+        <column xsi:type="bigint" name="id" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="datetime" name="created_at" nullable="false"/>
+        <column xsi:type="varchar" name="ip" length="45" nullable="false"/>
+        <column xsi:type="varchar" name="remote_addr" length="45" nullable="false"/>
+        <column xsi:type="varchar" name="endpoint" length="40" nullable="false"/>
+        <column xsi:type="smallint" name="score" unsigned="true" nullable="false" default="0"/>
+        <column xsi:type="varchar" name="verdict" length="10" nullable="false"/>
+        <column xsi:type="varchar" name="reasons" length="190" nullable="false" default=""/>
+        <column xsi:type="varchar" name="user_agent" length="255" nullable="false" default=""/>
+        <column xsi:type="text" name="fields" nullable="true"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <index referenceId="DRACO_EVENTS_IP_CREATED_AT" indexType="btree">
+            <column name="ip"/>
+            <column name="created_at"/>
+        </index>
+        <index referenceId="DRACO_EVENTS_VERDICT_CREATED_AT" indexType="btree">
+            <column name="verdict"/>
+            <column name="created_at"/>
+        </index>
+    </table>
+    <table name="draco_blocks" resource="default" engine="innodb" comment="Draco Insomnis: block list and addresses let through">
+        <column xsi:type="bigint" name="id" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="varchar" name="kind" length="8" nullable="false"/>
+        <column xsi:type="varchar" name="value" length="190" nullable="false"/>
+        <column xsi:type="varchar" name="reason" length="190" nullable="false" default=""/>
+        <column xsi:type="datetime" name="created_at" nullable="false"/>
+        <column xsi:type="datetime" name="until_at" nullable="false"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <index referenceId="DRACO_BLOCKS_KIND_VALUE_UNTIL_AT" indexType="btree">
+            <column name="kind"/>
+            <column name="value"/>
+            <column name="until_at"/>
+        </index>
+    </table>
+    <table name="draco_cache" resource="default" engine="innodb" comment="Draco Insomnis: counters">
+        <column xsi:type="varchar" name="k" length="190" nullable="false"/>
+        <column xsi:type="varchar" name="v" length="255" nullable="false" default=""/>
+        <column xsi:type="int" name="expires" unsigned="true" nullable="false"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="k"/>
+        </constraint>
+        <index referenceId="DRACO_CACHE_EXPIRES" indexType="btree">
+            <column name="expires"/>
+        </index>
+    </table>
+</schema>

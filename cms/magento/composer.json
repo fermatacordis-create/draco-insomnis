@@ -1,0 +1,25 @@
+{
+    "name": "notoriusvision/draco-insomnis-magento",
+    "description": "Draco Insomnis for Magento 2 and Mage-OS. Ab insomni custodita dracone. Application firewall, anti-copy pace limit, country filter and a sign-up shield without captchas.",
+    "type": "magento2-module",
+    "license": "GPL-2.0-or-later",
+    "keywords": ["magento", "magento2", "mage-os", "security", "firewall", "rate-limit", "bots", "honeypot"],
+    "homepage": "https://github.com/fermatacordis-create/draco-insomnis",
+    "authors": [
+        {"name": "Notorius Vision", "homepage": "https://notoriusvision.com"}
+    ],
+    "require": {
+        "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+        "magento/framework": "^103.0",
+        "magento/module-backend": "^102.0",
+        "magento/module-customer": "^103.0",
+        "magento/module-store": "^101.1"
+    },
+    "autoload": {
+        "files": ["registration.php"],
+        "psr-4": {
+            "DracoInsomnis\\Magento\\": "",
+            "DracoInsomnis\\Core\\": "core/"
+        }
+    }
+}

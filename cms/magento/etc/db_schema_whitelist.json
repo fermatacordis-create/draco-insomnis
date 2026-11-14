@@ -1,0 +1,52 @@
+{
+    "draco_events": {
+        "column": {
+            "id": true,
+            "created_at": true,
+            "ip": true,
+            "remote_addr": true,
+            "endpoint": true,
+            "score": true,
+            "verdict": true,
+            "reasons": true,
+            "user_agent": true,
+            "fields": true
+        },
+        "index": {
+            "DRACO_EVENTS_IP_CREATED_AT": true,
+            "DRACO_EVENTS_VERDICT_CREATED_AT": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "draco_blocks": {
+        "column": {
+            "id": true,
+            "kind": true,
+            "value": true,
+            "reason": true,
+            "created_at": true,
+            "until_at": true
+        },
+        "index": {
+            "DRACO_BLOCKS_KIND_VALUE_UNTIL_AT": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "draco_cache": {
+        "column": {
+            "k": true,
+            "v": true,
+            "expires": true
+        },
+        "index": {
+            "DRACO_CACHE_EXPIRES": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

@@ -26,7 +26,8 @@ Also for **PrestaShop** 8 and 9 (module `dracoinsomnis`), **Drupal** 10.3 and 11
 `draco_insomnis`), **Joomla** 5 and 6 (plugin `plg_system_dracoinsomnis`) and **Moodle** 4.5 to 5.x
 (plugin `local_dracoinsomnis`): the anti-bot shield on sign-ups, the firewall and the anti-copy pace
 limit. These CMSs have their own SMTP and two-step login, so those stay WordPress-only. And for
-**Laravel** 11 to 13 apps, as a Composer package (`notoriusvision/draco-insomnis-laravel`). Every
+**Laravel** 11 to 13 apps, as a Composer package (`notoriusvision/draco-insomnis-laravel`), and for
+**Magento** 2.4 and **Mage-OS** shops (module `DracoInsomnis_Magento`). Every
 package is built from the same `src/Core`, so an improvement there reaches all of them with the next
 build.
 
@@ -106,6 +107,37 @@ and run the upgrade); every part starts off. Settings: **Site administration →
 plugins → Draco Insomnis**. Moodle plugins ship English only; other languages come through Moodle's
 language packs (AMOS) once the plugin is in the Moodle plugins directory. Emergency exit:
 `define('DRACO_WAF_OFF', true);` in `config.php`.
+
+## Magento and Mage-OS
+
+`cms/magento` is the module `DracoInsomnis_Magento` for Magento Open Source and Adobe Commerce 2.4
+and Mage-OS (`core/` is a link to `src/Core`, copied into the ZIP by `bin/build-magento.sh`). Install
+it by hand (the contents of the ZIP's folder go to `app/code/DracoInsomnis/Magento`) or with Composer
+from the release ZIP:
+
+```
+composer config repositories.draco '{"type": "artifact", "url": "path/to/folder-with-the-zip"}'
+composer require notoriusvision/draco-insomnis-magento
+bin/magento module:enable DracoInsomnis_Magento && bin/magento setup:upgrade
+```
+
+- Settings: **Stores → Configuration → Advanced → Draco Insomnis**. Every part starts off.
+- **Firewall, country filter and pace limit**: the outermost plugin on the front controller, so they
+  run before the built-in full page cache answers, for the storefront, the REST API and GraphQL
+  (JSON bodies are inspected too). The admin panel is never inspected, and the addresses
+  administrators log in from are never blocked or limited. Only HTML page loads by visitors who are
+  not logged in count towards the pace limit. A cache in front (Varnish, a CDN) answers cached pages
+  before Magento, so those never reach Draco. Emergency exit: `'draco_waf_off' => true` in
+  `app/etc/env.php`.
+- **Sign-up shield** on **Create an Account**: the trap and the page stamp go into the form (that
+  page is no longer kept in the full page cache); a bot gets "The registration could not be
+  completed." and no account.
+- **Password rules** on every customer password: sign-up, account page, reset link, REST and GraphQL.
+- **Security headers**, never replacing one the shop already sends.
+- **bin/magento**: `draco:status`, `draco:evidence <ip>` (CSV for an abuse report), `draco:block`
+  (`--unblock=<id>`), `draco:reviews` (requests from the block page), `draco:test` and
+  `draco:cleanup` (cron runs it daily and refreshes the country list monthly).
+- Shop code can change the engines' values through the `draco_insomnis_filter` event.
 
 ## Laravel
 
