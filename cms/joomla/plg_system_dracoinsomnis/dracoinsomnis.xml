@@ -6,7 +6,7 @@
 	<copyright>(C) 2026 Notorius Vision</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorUrl>https://notoriusvision.com</authorUrl>
-	<version>0.1.22</version>
+	<version>0.1.23</version>
 	<description>PLG_SYSTEM_DRACOINSOMNIS_XML_DESCRIPTION</description>
 	<namespace path="src">Notorius\Plugin\System\DracoInsomnis</namespace>
 	<files>
@@ -21,12 +21,16 @@
 		<language tag="en-GB">language/en-GB/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="ar-AA">language/ar-AA/plg_system_dracoinsomnis.ini</language>
 		<language tag="ar-AA">language/ar-AA/plg_system_dracoinsomnis.sys.ini</language>
+		<language tag="bn-BD">language/bn-BD/plg_system_dracoinsomnis.ini</language>
+		<language tag="bn-BD">language/bn-BD/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="ca-ES">language/ca-ES/plg_system_dracoinsomnis.ini</language>
 		<language tag="ca-ES">language/ca-ES/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="de-DE">language/de-DE/plg_system_dracoinsomnis.ini</language>
 		<language tag="de-DE">language/de-DE/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="es-ES">language/es-ES/plg_system_dracoinsomnis.ini</language>
 		<language tag="es-ES">language/es-ES/plg_system_dracoinsomnis.sys.ini</language>
+		<language tag="fa-IR">language/fa-IR/plg_system_dracoinsomnis.ini</language>
+		<language tag="fa-IR">language/fa-IR/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="fr-FR">language/fr-FR/plg_system_dracoinsomnis.ini</language>
 		<language tag="fr-FR">language/fr-FR/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="hi-IN">language/hi-IN/plg_system_dracoinsomnis.ini</language>
@@ -39,6 +43,8 @@
 		<language tag="ja-JP">language/ja-JP/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="ko-KR">language/ko-KR/plg_system_dracoinsomnis.ini</language>
 		<language tag="ko-KR">language/ko-KR/plg_system_dracoinsomnis.sys.ini</language>
+		<language tag="ms-MY">language/ms-MY/plg_system_dracoinsomnis.ini</language>
+		<language tag="ms-MY">language/ms-MY/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="nl-NL">language/nl-NL/plg_system_dracoinsomnis.ini</language>
 		<language tag="nl-NL">language/nl-NL/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="pl-PL">language/pl-PL/plg_system_dracoinsomnis.ini</language>
@@ -49,10 +55,20 @@
 		<language tag="pt-PT">language/pt-PT/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="ru-RU">language/ru-RU/plg_system_dracoinsomnis.ini</language>
 		<language tag="ru-RU">language/ru-RU/plg_system_dracoinsomnis.sys.ini</language>
+		<language tag="sw-KE">language/sw-KE/plg_system_dracoinsomnis.ini</language>
+		<language tag="sw-KE">language/sw-KE/plg_system_dracoinsomnis.sys.ini</language>
+		<language tag="ta-IN">language/ta-IN/plg_system_dracoinsomnis.ini</language>
+		<language tag="ta-IN">language/ta-IN/plg_system_dracoinsomnis.sys.ini</language>
+		<language tag="th-TH">language/th-TH/plg_system_dracoinsomnis.ini</language>
+		<language tag="th-TH">language/th-TH/plg_system_dracoinsomnis.sys.ini</language>
+		<language tag="tl-PH">language/tl-PH/plg_system_dracoinsomnis.ini</language>
+		<language tag="tl-PH">language/tl-PH/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="tr-TR">language/tr-TR/plg_system_dracoinsomnis.ini</language>
 		<language tag="tr-TR">language/tr-TR/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="uk-UA">language/uk-UA/plg_system_dracoinsomnis.ini</language>
 		<language tag="uk-UA">language/uk-UA/plg_system_dracoinsomnis.sys.ini</language>
+		<language tag="ur-PK">language/ur-PK/plg_system_dracoinsomnis.ini</language>
+		<language tag="ur-PK">language/ur-PK/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="vi-VN">language/vi-VN/plg_system_dracoinsomnis.ini</language>
 		<language tag="vi-VN">language/vi-VN/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="zh-CN">language/zh-CN/plg_system_dracoinsomnis.ini</language>

@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="modules/dracoinsomnis" source-language="en-US" target-language="ta-IN" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Firewall</source>
+        <target>ஃபயர்வால்</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Anti-copy pace limit</source>
+        <target>நகலெடுப்பைத் தடுக்கும் வேக வரம்பு</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Off</source>
+        <target>அணை</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Log only: record what it would stop</source>
+        <target>பதிவு மட்டும்: தடுக்கப்பட்டிருக்கும் என்பதைக் குறித்து வைக்கவும்</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Block</source>
+        <target>தடு</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Pages per minute, per address</source>
+        <target>ஒவ்வொரு முகவரிக்கும் நிமிடத்துக்குப் பக்கங்கள்</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Pages per minute, per network</source>
+        <target>ஒவ்வொரு வலையமைப்புக்கும் நிமிடத்துக்குப் பக்கங்கள்</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other.</source>
+        <target>IPv4-க்கு /24 அல்லது IPv6-க்கு /64 வலையமைப்பு: அடுத்தடுத்த முகவரிகளை மாற்றிக்கொண்டே இருக்கும் சுரண்டி பெறுவது இதுதான்.</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Visitor address</source>
+        <target>பார்வையாளர் முகவரி</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Connection address (recommended)</source>
+        <target>இணைப்பு முகவரி (பரிந்துரைக்கப்பட்டது)</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cloudflare (CF-Connecting-IP)</source>
+        <target>Cloudflare (CF-Connecting-IP)</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Other proxy (X-Forwarded-For)</source>
+        <target>வேறு பதிலாள் (X-Forwarded-For)</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Rented-server networks</source>
+        <target>வாடகைச் சேவையக வலையமைப்புகள்</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Automatic: %d bot attempts in 24 h</source>
+        <target>தானியங்கி: 24 மணி நேரத்தில் %d பாட் முயற்சிகள்</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Firewall: %d attacks in 10 minutes</source>
+        <target>ஃபயர்வால்: 10 நிமிடங்களில் %d தாக்குதல்கள்</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>[%s] Someone asks you to review a firewall block</source>
+        <target>[%s] ஃபயர்வால் தடையை மறுபரிசீலிக்க ஒருவர் கேட்கிறார்</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>The registration could not be completed.</source>
+        <target>பதிவை முடிக்க முடியவில்லை.</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Request blocked</source>
+        <target>கோரிக்கை தடுக்கப்பட்டது</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Address unblocked.</source>
+        <target>முகவரியின் தடை நீக்கப்பட்டது.</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Unblock</source>
+        <target>தடையை நீக்கு</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Blocked addresses</source>
+        <target>தடுக்கப்பட்ட முகவரிகள்</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Nothing blocked right now.</source>
+        <target>இப்போது எதுவும் தடுக்கப்படவில்லை.</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Last suspicious attempts</source>
+        <target>சமீபத்திய சந்தேகமான முயற்சிகள்</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider.</source>
+        <target>90 நாள் வைக்கப்படும். கடவுச்சொற்கள் ஒருபோதும் இல்லை. ஒரு முகவரியின் CSV அது செய்த அனைத்தையும் கொண்டுள்ளது, அதன் வலையமைப்பு வழங்குநருக்கு அனுப்பும் துஷ்பிரயோகப் புகாரில் இணைக்கத் தயாராக.</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Nothing yet.</source>
+        <target>இன்னும் எதுவும் இல்லை.</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Address or e-mail</source>
+        <target>முகவரி அல்லது மின்னஞ்சல்</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Reason</source>
+        <target>காரணம்</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Until (UTC)</source>
+        <target>வரை (UTC)</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Date (UTC)</source>
+        <target>தேதி (UTC)</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Address</source>
+        <target>முகவரி</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Where</source>
+        <target>எங்கே</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Verdict</source>
+        <target>தீர்ப்பு</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Signs</source>
+        <target>அறிகுறிகள்</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Data</source>
+        <target>தரவு</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Trusted proxies</source>
+        <target>நம்பகமான பதிலாள்கள்</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known.</source>
+        <target>இந்த முகவரிகளிலிருந்து வரும் இணைப்புகள் மட்டுமே தலைப்பு மூலம் பார்வையாளர் முகவரியை அமைக்கலாம். ஒரு வரிக்கு ஒரு முகவரி அல்லது வரம்பு. காலியாக: இந்தச் சேவையகமும் தனிப்பட்ட வலையமைப்புகளும். Cloudflare-இன் சொந்த வரம்புகள் ஏற்கெனவே தெரியும்.</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Countries</source>
+        <target>நாடுகள்</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Refuse the countries listed</source>
+        <target>பட்டியலில் உள்ள நாடுகளை மறு</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Only the countries listed</source>
+        <target>பட்டியலில் உள்ள நாடுகள் மட்டும்</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Logging in, signing up and forms (recommended)</source>
+        <target>உள்நுழைவு, பதிவு மற்றும் படிவங்கள் (பரிந்துரைக்கப்படுகிறது)</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>What to do</source>
+        <target>என்ன செய்ய வேண்டும்</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Countries (two-letter codes, e.g. ES, FR, DE)</source>
+        <target>நாடுகள் (இரண்டு எழுத்துக் குறியீடுகள், உ.தா. ES, FR, DE)</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.</source>
+        <target>DB-IP (db-ip.com, CC BY 4.0) வழங்கும் IP புவியிருப்பிடம், வடிகட்டியை இயக்கும்போது பதிவிறக்கப்பட்டு உங்கள் சொந்தச் சேவையகத்தில் தேடப்படுகிறது: எந்த முகவரியும் எங்கும் அனுப்பப்படுவதில்லை.</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Country list downloaded.</source>
+        <target>நாடுகள் பட்டியல் பதிவிறக்கப்பட்டது.</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>The country list could not be downloaded. The filter does nothing until it is there; save again later.</source>
+        <target>நாடுகளின் பட்டியலைப் பதிவிறக்க முடியவில்லை. பட்டியல் கிடைக்கும் வரை வடிகட்டி எதுவும் செய்யாது; பிறகு மீண்டும் சேமிக்கவும்.</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Security headers</source>
+        <target>பாதுகாப்புத் தலைப்புகள்</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Force HTTPS for 6 months (HSTS)</source>
+        <target>6 மாதங்களுக்கு HTTPS-ஐக் கட்டாயமாக்கு (HSTS)</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Minimum password length</source>
+        <target>கடவுச்சொல்லின் குறைந்தபட்ச நீளம்</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Refuse passwords found in data breaches</source>
+        <target>தரவுக் கசிவுகளில் கண்டறியப்பட்ட கடவுச்சொற்களை நிராகரி</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>The password must have at least %d characters.</source>
+        <target>கடவுச்சொல்லில் குறைந்தது %d எழுத்துகள் இருக்க வேண்டும்.</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>This password appears in known data breaches, so attackers try it first. Please choose another one.</source>
+        <target>இந்தக் கடவுச்சொல் தெரிந்த தரவுக் கசிவுகளில் உள்ளது, எனவே தாக்குபவர்கள் இதை முதலில் முயல்வார்கள். தயவுசெய்து வேறொன்றைத் தேர்ந்தெடுக்கவும்.</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>IP or range (e.g. 203.0.113.0/24)</source>
+        <target>IP அல்லது வரம்பு (உ.தா. 203.0.113.0/24)</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>For</source>
+        <target>காலம்</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>7 days</source>
+        <target>7 நாட்கள்</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>15 days</source>
+        <target>15 நாட்கள்</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>30 days</source>
+        <target>30 நாட்கள்</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>90 days</source>
+        <target>90 நாட்கள்</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Forever</source>
+        <target>என்றென்றும்</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Blocked: %s</source>
+        <target>தடுக்கப்பட்டது: %s</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>E-mail</source>
+        <target>மின்னஞ்சல்</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Message</source>
+        <target>செய்தி</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Done.</source>
+        <target>முடிந்தது.</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>It could not be done for that address.</source>
+        <target>அந்த முகவரிக்கு இதைச் செய்ய முடியவில்லை.</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>No requests.</source>
+        <target>கோரிக்கைகள் இல்லை.</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Review requests</source>
+        <target>மறுபரிசீலனைக் கோரிக்கைகள்</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.</source>
+        <target>ஃபயர்வால் நிறுத்தியவர்கள் தடைப் பக்கத்திலிருந்து கேட்கலாம். தவறாக இருந்தால் சிறிது காலம் அனுமதிக்கவும். Draco அவர்களுக்கு ஒருபோதும் எழுதாது: விரும்பினால் உங்கள் சொந்த மின்னஞ்சலிலிருந்து பதிலளிக்கவும்.</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Let through 24 hours</source>
+        <target>24 மணிநேரம் அனுமதி</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Let through</source>
+        <target>அனுமதி</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Attacker: blocked</source>
+        <target>தாக்குபவர்: தடுக்கப்பட்டார்</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Attacker</source>
+        <target>தாக்குபவர்</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Ask for a review</source>
+        <target>மறுபரிசீலனை கேள்</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Denied</source>
+        <target>மறுக்கப்பட்டது</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Deny</source>
+        <target>மறு</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Your e-mail</source>
+        <target>உங்கள் மின்னஞ்சல்</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>What were you doing?</source>
+        <target>நீங்கள் என்ன செய்துகொண்டிருந்தீர்கள்?</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Review: %s</source>
+        <target>மறுபரிசீலனை: %s</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Request sent</source>
+        <target>கோரிக்கை அனுப்பப்பட்டது</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Firewall: last 7 days</source>
+        <target>ஃபயர்வால்: கடந்த 7 நாட்கள்</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Busiest addresses:</source>
+        <target>அதிகச் செயலில் உள்ள முகவரிகள்:</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>What:</source>
+        <target>என்ன:</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Test the firewall</source>
+        <target>ஃபயர்வாலைச் சோதி</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Works: a database injection was recognised and blocked (403).</source>
+        <target>வேலை செய்கிறது: ஒரு தரவுத்தள ஊடுருவல் அடையாளம் காணப்பட்டுத் தடுக்கப்பட்டது (403).</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>The test attack was not recognised. Please report it to Draco Insomnis.</source>
+        <target>சோதனைத் தாக்குதல் அடையாளம் காணப்படவில்லை. தயவுசெய்து Draco Insomnis-க்குத் தெரிவிக்கவும்.</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>The firewall is off: switch it on and save, then test again.</source>
+        <target>ஃபயர்வால் அணைக்கப்பட்டுள்ளது: இயக்கி, சேமித்து, மீண்டும் சோதிக்கவும்.</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Draco Insomnis</source>
+        <target>Draco Insomnis</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.</source>
+        <target>வேலை செய்கிறது: ஒரு தரவுத்தள ஊடுருவல் அடையாளம் காணப்பட்டது. "பதிவு மட்டும்"-இல் அது எழுதிவைக்கப்படும், நிறுத்தப்படாது; தயாரானதும் "தடு"-க்கு மாறவும்.</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Settings</source>
+        <target>அமைப்புகள்</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Save</source>
+        <target>சேமி</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Stops fake customer sign-ups without captchas, firewall and anti-copy limits. Open source.</source>
+        <target>கேப்ட்சா இல்லாமல் போலி வாடிக்கையாளர் பதிவுகளைத் தடுக்கிறது, ஃபயர்வால் மற்றும் நகலெடுப்பைத் தடுக்கும் வரம்புகளுடன். திறந்த மூலம்.</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Settings saved.</source>
+        <target>அமைப்புகள் சேமிக்கப்பட்டன.</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.</source>
+        <target>கேப்ட்சா இல்லாமல் போலி வாடிக்கையாளர் பதிவுகளைத் தடுக்கிறது: பாட்களுக்குக் கணக்கு கிடைக்காது, சந்தேகமான ஒவ்வொரு முயற்சியும் துஷ்பிரயோகப் புகாருக்கான சான்றாக 90 நாள் வைக்கப்படும். தாக்குபவருக்கு எதுவும் திருப்பி அனுப்பப்படுவதில்லை.</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Your address as the module sees it:</source>
+        <target>தொகுதி காணும் உங்கள் முகவரி:</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>(connection address:</source>
+        <target>(இணைப்பு முகவரி:</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".</source>
+        <target>கடை Cloudflare அல்லது வேறு பதிலாளுக்குப் பின்னால் இருந்து, இவை உங்கள் உண்மையான முகவரியிலிருந்து வேறுபட்டால், «பார்வையாளர் முகவரி»-யில் பொருந்தும் தேர்வைத் தேர்ந்தெடுக்கவும்.</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Protect customer sign-ups</source>
+        <target>வாடிக்கையாளர் பதிவுகளைப் பாதுகாக்கவும்</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Adds an invisible trap and a signed page stamp to the sign-up form (account page and checkout). Bots get no account; three bot attempts in a day block the address for a week.</source>
+        <target>பதிவுப் படிவத்தில் (கணக்குப் பக்கம் மற்றும் செலுத்துதல்) கண்ணுக்குத் தெரியாத பொறியையும் கையொப்பமிட்ட பக்க முத்திரையையும் சேர்க்கிறது. பாட்களுக்குக் கணக்கு கிடைக்காது; ஒரே நாளில் மூன்று பாட் முயற்சிகள் அந்த முகவரியை ஒரு வாரம் தடுக்கும்.</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Yes</source>
+        <target>ஆம்</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>No</source>
+        <target>இல்லை</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with "Log only" and move to "Block" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still browse, but not post. Emergency exit: define('DRACO_WAF_OFF', true); in config/defines_custom.inc.php.</source>
+        <target>தாக்குதல் வடிவிலான கோரிக்கைகளையும் (தரவுத்தள உட்செலுத்தல், சேவையகக் கோப்புகளைப் படித்தல், குறியீட்டை இயக்குதல், இணைப்புகளில் ஸ்கிரிப்ட்) sqlmap அல்லது Nikto போன்ற வருடிகளையும் தடுக்கிறது. «பதிவு மட்டும்» உடன் தொடங்கி சில நாட்களுக்குப் பிறகு «தடு»-க்கு மாறவும். 10 நிமிடங்களில் ஐந்து தாக்குதல்கள் முகவரியை ஒரு வாரம் தடுக்கும்; தடுக்கப்பட்ட முகவரிகள் உலாவலாம், ஆனால் எதையும் அனுப்ப முடியாது. அவசர வழி: config/defines_custom.inc.php-இல் define('DRACO_WAF_OFF', true); எழுதவும்.</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>More pages per minute than a person reads get "429 Too many requests" until the minute ends. Logged-in customers, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited.</source>
+        <target>ஒரு மனிதர் படிப்பதைவிட நிமிடத்துக்கு அதிகப் பக்கங்களைக் கேட்பவருக்கு, அந்த நிமிடம் முடியும் வரை «429 Too many requests» கிடைக்கும். உள்நுழைந்த வாடிக்கையாளர்கள், உங்கள் சொந்த முகவரிகள், DNS மூலம் சரிபார்க்கப்பட்ட தேடுபொறிகள் (Google, Bing, Apple, Yandex) ஒருபோதும் வரம்பிடப்படுவதில்லை.</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Leave "Connection address" unless the shop is behind a proxy: a header can be forged by anyone.</source>
+        <target>கடை ஒரு பதிலாளுக்குப் பின்னால் இல்லையென்றால் «இணைப்பு முகவரி»-யை அப்படியே விடவும்: தலைப்பை யார் வேண்டுமானாலும் போலியாக்கலாம்.</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot.</source>
+        <target>ஒரு வரிக்கு ஒரு வரம்பு (CIDR), தொகுதிக்கு ஏற்கெனவே தெரிந்தவற்றுடன் சேர்க்கப்படும். இந்தப் பட்டியலில் இருப்பது புள்ளிகளை மட்டுமே கூட்டும்: அது தனியாக யாரையும் பாட் ஆக்காது.</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
+        <target>இந்தக் கோரிக்கை பாதுகாப்புக் காரணங்களுக்காக நிறுத்தப்பட்டது. இது தவறு என்று நினைத்தால், கடையின் உரிமையாளரைத் தொடர்புகொள்ளவும்.</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
+        <target>தலைப்பு புறக்கணிக்கப்படுகிறது: இந்த இணைப்பு (%s) Cloudflare-இலிருந்தோ நம்பகமான பதிலாளிடமிருந்தோ வரவில்லை. உங்கள் பதிலாள் இணையத்தில் இருந்தால், அதன் முகவரிகளை «நம்பகமான பதிலாள்கள்»-இல் சேர்க்கவும்.</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.</source>
+        <target>எதுவும் தடுக்கப்படவில்லை: மதிப்பு செல்லாதது, ஒரு ஊழியருடையது, அல்லது உங்கள் சொந்த முகவரி.</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).</source>
+        <target>உங்கள் வாடிக்கையாளர்கள் பல நாடுகளிலிருந்து வரலாம், தாக்குபவர் VPN மூலம் நாட்டை மாற்றுவார். உள்நுழைவு, பதிவு, படிவங்களை மட்டும் வடிகட்டி, «பதிவு மட்டும்» உடன் தொடங்கவும். ஊழியர்கள், நீங்கள் அனுமதிப்பவர்கள், தேடுபொறிகள் ஒருபோதும் வடிகட்டப்படுவதில்லை. ஃபயர்வால் இயக்கத்தில் இருக்க வேண்டும் (பதிவு அல்லது தடு).</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>The whole shop</source>
+        <target>முழுக் கடை</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.</source>
+        <target>கடைப் பக்கங்களில்: கோப்பு வகையை ஊகித்தல் இல்லை, பிற தளங்களில் உட்பொதித்தல் இல்லை, குறைந்த பரிந்துரைத் தரவு, உட்பொதித்த உள்ளடக்கத்துக்குக் கேமரா, ஒலிவாங்கி அல்லது இருப்பிடம் இல்லை. ஏற்கெனவே அனுப்பிய தலைப்பு ஒருபோதும் மீண்டும் இல்லை.</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</source>
+        <target>முழுக் கடையும் HTTPS-இல் இயங்கி தொடர்ந்து அப்படியே இருக்கும்போது மட்டும்: உலாவிகள் இதை நினைவில் வைத்து, காலாவதியாகும் வரை சாதாரண HTTP-ஐ மறுக்கும்.</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
+        <target>ஒருபோதும் ஊழியர் இல்லை, உங்கள் சொந்த முகவரியும் இல்லை. வரம்புகள் /16 (IPv4) அல்லது /32 (IPv6)-ஐ விட அகலமாக இருக்கக் கூடாது.</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.</source>
+        <target>ஃபயர்வாலால் நிறுத்தப்பட்ட ஒரு பார்வையாளர் மறுபரிசீலனை கேட்கிறார். அவரை அனுமதிக்கலாமா வேண்டாமா என்று முடிவெடுக்க Draco Insomnis தொகுதியைத் திறக்கவும்.</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.</source>
+        <target>நன்றி. கடையின் உரிமையாளர் இதைப் பார்த்து, தவறாக இருந்தால் உங்களை அனுமதிப்பார்.</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:</source>
+        <target>இந்தக் கோரிக்கை பாதுகாப்புக் காரணங்களுக்காக நிறுத்தப்பட்டது. இது தவறு என்று நினைத்தால், நீங்கள் என்ன செய்துகொண்டிருந்தீர்கள் என்று கடையின் உரிமையாளரிடம் சொல்லுங்கள்:</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.</source>
+        <target>சோதனை சேவையகத்திலிருந்தே கடையை அடைய முடியவில்லை (சில ஹோஸ்டிங்குகள் இதை அனுமதிப்பதில்லை). ஃபயர்வால் இன்னும் வேலை செய்யக்கூடும்: சமீபத்திய முயற்சிகளைப் பாருங்கள்.</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers.</source>
+        <target>சோதனை PrestaShop-ஐ அடையும் முன்பே ஹோஸ்டிங்கின் சொந்த ஃபயர்வாலால் நிறுத்தப்பட்டது. நல்லது: இரண்டு அடுக்குகள்.</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>%1$d attacks seen, %2$d blocked.</source>
+        <target>%1$d தாக்குதல்கள் காணப்பட்டன, %2$d தடுக்கப்பட்டன.</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.</source>
+        <target>கடைக்குத் தாக்குதல் வடிவிலான தீங்கற்ற கோரிக்கையை அனுப்பி, என்ன நடந்தது என்று சொல்கிறது. அது பதிவு செய்யப்படாது.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>From 8 to 64 characters; 0 leaves only the shop's own rules. Applied when a customer creates an account or changes the password.</source>
+        <target>8 முதல் 64 எழுத்துகள்; 0 என்றால் கடையின் சொந்த விதிகள் மட்டுமே இருக்கும். வாடிக்கையாளர் கணக்கு உருவாக்கும்போதோ கடவுச்சொல் மாற்றும்போதோ பொருந்தும்.</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Asks Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.</source>
+        <target>k-அநாமதேயத்துடன் Have I Been Pwned-இடம் கேட்கிறது: கடவுச்சொல்லின் SHA-1-இன் 5 எழுத்துகள் மட்டுமே கடையை விட்டு வெளியேறும், கடவுச்சொல் ஒருபோதும் இல்லை. சேவை 3 வினாடிகளில் பதிலளிக்காவிட்டால், கடவுச்சொல் ஏற்கப்படும்.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

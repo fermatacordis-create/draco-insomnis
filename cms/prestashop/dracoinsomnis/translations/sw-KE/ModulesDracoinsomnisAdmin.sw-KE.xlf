@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="modules/dracoinsomnis" source-language="en-US" target-language="sw-KE" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Firewall</source>
+        <target>Ngome ya mtandao</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Anti-copy pace limit</source>
+        <target>Kikomo cha kasi dhidi ya kunakili</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Off</source>
+        <target>Imezimwa</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Log only: record what it would stop</source>
+        <target>Rekodi tu: andika kile ambacho kingezuiwa</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Block</source>
+        <target>Zuia</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Pages per minute, per address</source>
+        <target>Kurasa kwa dakika, kwa kila anwani</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Pages per minute, per network</source>
+        <target>Kurasa kwa dakika, kwa kila mtandao</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other.</source>
+        <target>Mtandao wa /24 kwa IPv4 au /64 kwa IPv6: kile anachopata mvunaji anapozungusha anwani zilizo jirani.</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Visitor address</source>
+        <target>Anwani ya mgeni</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Connection address (recommended)</source>
+        <target>Anwani ya muunganisho (inapendekezwa)</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cloudflare (CF-Connecting-IP)</source>
+        <target>Cloudflare (CF-Connecting-IP)</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Other proxy (X-Forwarded-For)</source>
+        <target>Proksi nyingine (X-Forwarded-For)</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Rented-server networks</source>
+        <target>Mitandao ya seva za kukodisha</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Automatic: %d bot attempts in 24 h</source>
+        <target>Kiotomatiki: majaribio %d ya roboti ndani ya saa 24</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Firewall: %d attacks in 10 minutes</source>
+        <target>Ngome: mashambulizi %d ndani ya dakika 10</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>[%s] Someone asks you to review a firewall block</source>
+        <target>[%s] Mtu anakuomba ukague kizuizi cha ngome</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>The registration could not be completed.</source>
+        <target>Usajili haukuweza kukamilika.</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Request blocked</source>
+        <target>Ombi limezuiwa</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Address unblocked.</source>
+        <target>Anwani imeondolewa kizuizi.</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Unblock</source>
+        <target>Ondoa kizuizi</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Blocked addresses</source>
+        <target>Anwani zilizozuiwa</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Nothing blocked right now.</source>
+        <target>Hakuna kilichozuiwa sasa hivi.</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Last suspicious attempts</source>
+        <target>Majaribio ya hivi karibuni ya kutiliwa shaka</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider.</source>
+        <target>Huhifadhiwa siku 90. Kamwe si nywila. CSV ya anwani ina kila kitu ilichofanya, tayari kuambatishwa kwenye ripoti ya matumizi mabaya kwa mtoa huduma wake wa mtandao.</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Nothing yet.</source>
+        <target>Bado hakuna kitu.</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Address or e-mail</source>
+        <target>Anwani au barua pepe</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Reason</source>
+        <target>Sababu</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Until (UTC)</source>
+        <target>Hadi (UTC)</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Date (UTC)</source>
+        <target>Tarehe (UTC)</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Address</source>
+        <target>Anwani</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Where</source>
+        <target>Wapi</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Verdict</source>
+        <target>Uamuzi</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Signs</source>
+        <target>Ishara</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Data</source>
+        <target>Data</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Trusted proxies</source>
+        <target>Proksi zinazoaminika</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known.</source>
+        <target>Ni miunganisho kutoka anwani hizi tu inayoweza kuweka anwani ya mgeni kupitia kichwa. Anwani au safu moja kwa kila mstari. Tupu: seva hii na mitandao binafsi. Safu za Cloudflare zenyewe tayari zinajulikana.</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Countries</source>
+        <target>Nchi</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Refuse the countries listed</source>
+        <target>Kataa nchi zilizoorodheshwa</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Only the countries listed</source>
+        <target>Nchi zilizoorodheshwa pekee</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Logging in, signing up and forms (recommended)</source>
+        <target>Kuingia, usajili na fomu (inapendekezwa)</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>What to do</source>
+        <target>Nini cha kufanya</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Countries (two-letter codes, e.g. ES, FR, DE)</source>
+        <target>Nchi (misimbo ya herufi mbili, mf. ES, FR, DE)</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.</source>
+        <target>Mahali pa IP kutoka DB-IP (db-ip.com, CC BY 4.0), hupakuliwa unapowasha kichujio na kuangaliwa kwenye seva yako mwenyewe: hakuna anwani inayotumwa popote.</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Country list downloaded.</source>
+        <target>Orodha ya nchi imepakuliwa.</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>The country list could not be downloaded. The filter does nothing until it is there; save again later.</source>
+        <target>Orodha ya nchi haikuweza kupakuliwa. Kichujio hakifanyi chochote hadi orodha iwepo; hifadhi tena baadaye.</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Security headers</source>
+        <target>Vichwa vya usalama</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Force HTTPS for 6 months (HSTS)</source>
+        <target>Lazimisha HTTPS kwa miezi 6 (HSTS)</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Minimum password length</source>
+        <target>Urefu wa chini wa nywila</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Refuse passwords found in data breaches</source>
+        <target>Kataa nywila zilizopatikana katika uvujaji wa data</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>The password must have at least %d characters.</source>
+        <target>Nenosiri lazima liwe na angalau herufi %d.</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>This password appears in known data breaches, so attackers try it first. Please choose another one.</source>
+        <target>Nenosiri hili linaonekana katika uvujaji wa data unaojulikana, kwa hivyo washambulizi hulijaribu kwanza. Tafadhali chagua jingine.</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>IP or range (e.g. 203.0.113.0/24)</source>
+        <target>IP au safu (mf. 203.0.113.0/24)</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>For</source>
+        <target>Kwa muda wa</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>7 days</source>
+        <target>Siku 7</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>15 days</source>
+        <target>Siku 15</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>30 days</source>
+        <target>Siku 30</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>90 days</source>
+        <target>Siku 90</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Forever</source>
+        <target>Milele</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Blocked: %s</source>
+        <target>Imezuiwa: %s</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>E-mail</source>
+        <target>Barua pepe</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Message</source>
+        <target>Ujumbe</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Done.</source>
+        <target>Imekamilika.</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>It could not be done for that address.</source>
+        <target>Haikuwezekana kwa anwani hiyo.</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>No requests.</source>
+        <target>Hakuna maombi.</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Review requests</source>
+        <target>Maombi ya ukaguzi</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.</source>
+        <target>Watu waliozuiwa na ngome wanaweza kuomba kutoka kwenye ukurasa wa kizuizi. Waruhusu kupita kwa muda ikiwa lilikuwa kosa. Draco haiwaandikii kamwe: jibu kutoka kwa barua pepe yako mwenyewe ukipenda.</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Let through 24 hours</source>
+        <target>Ruhusu kupita saa 24</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Let through</source>
+        <target>Ruhusu kupita</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Attacker: blocked</source>
+        <target>Mshambulizi: amezuiwa</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Attacker</source>
+        <target>Mshambulizi</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Ask for a review</source>
+        <target>Omba ukaguzi</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Denied</source>
+        <target>Limekataliwa</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Deny</source>
+        <target>Kataa</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Your e-mail</source>
+        <target>Barua pepe yako</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>What were you doing?</source>
+        <target>Ulikuwa unafanya nini?</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Review: %s</source>
+        <target>Ukaguzi: %s</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Request sent</source>
+        <target>Ombi limetumwa</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Firewall: last 7 days</source>
+        <target>Ngome ya mtandao: siku 7 zilizopita</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Busiest addresses:</source>
+        <target>Anwani zenye shughuli nyingi:</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>What:</source>
+        <target>Nini:</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Test the firewall</source>
+        <target>Jaribu ngome</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Works: a database injection was recognised and blocked (403).</source>
+        <target>Inafanya kazi: uingizaji kwenye hifadhidata umetambuliwa na kuzuiwa (403).</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>The test attack was not recognised. Please report it to Draco Insomnis.</source>
+        <target>Shambulio la jaribio halikutambuliwa. Tafadhali iarifu Draco Insomnis.</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>The firewall is off: switch it on and save, then test again.</source>
+        <target>Ngome imezimwa: iwashe, hifadhi, kisha jaribu tena.</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Draco Insomnis</source>
+        <target>Draco Insomnis</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.</source>
+        <target>Inafanya kazi: uingizaji kwenye hifadhidata umetambuliwa. Katika "Rekodi tu" unaandikwa lakini hauzuiwi; hamia "Zuia" ukiwa tayari.</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Settings</source>
+        <target>Mipangilio</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Save</source>
+        <target>Hifadhi</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Stops fake customer sign-ups without captchas, firewall and anti-copy limits. Open source.</source>
+        <target>Huzuia usajili bandia wa wateja bila captcha, ngome ya mtandao na vikomo dhidi ya kunakili. Chanzo huria.</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Settings saved.</source>
+        <target>Mipangilio imehifadhiwa.</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.</source>
+        <target>Huzuia usajili bandia wa wateja bila captcha: roboti hazipati akaunti, na kila jaribio la kutiliwa shaka huhifadhiwa siku 90 kama ushahidi wa ripoti ya matumizi mabaya. Hakuna kinachorudishwa kwa mshambuliaji.</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Your address as the module sees it:</source>
+        <target>Anwani yako kama moduli inavyoiona:</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>(connection address:</source>
+        <target>(anwani ya muunganisho:</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".</source>
+        <target>Ikiwa duka liko nyuma ya Cloudflare au proksi nyingine na hizi zinatofautiana na anwani yako halisi, chagua chaguo linalofaa katika “Anwani ya mgeni”.</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Protect customer sign-ups</source>
+        <target>Linda usajili wa wateja</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Adds an invisible trap and a signed page stamp to the sign-up form (account page and checkout). Bots get no account; three bot attempts in a day block the address for a week.</source>
+        <target>Huongeza mtego usioonekana na muhuri wa ukurasa uliotiwa saini kwenye fomu ya usajili (ukurasa wa akaunti na malipo). Roboti hazipati akaunti; majaribio matatu ya roboti kwa siku moja huzuia anwani kwa wiki moja.</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Yes</source>
+        <target>Ndiyo</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>No</source>
+        <target>Hapana</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with "Log only" and move to "Block" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still browse, but not post. Emergency exit: define('DRACO_WAF_OFF', true); in config/defines_custom.inc.php.</source>
+        <target>Huzuia maombi yenye umbo la shambulio (kudunga hifadhidata, kusoma faili za seva, kuendesha msimbo, hati katika viungo) na vichanganuzi kama sqlmap au Nikto. Anza na “Rekodi tu” kisha badilisha kuwa “Zuia” baada ya siku chache. Mashambulio matano ndani ya dakika 10 huzuia anwani kwa wiki moja; anwani zilizozuiwa bado zinaweza kuvinjari, lakini haziwezi kutuma. Njia ya dharura: define('DRACO_WAF_OFF', true); katika config/defines_custom.inc.php.</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>More pages per minute than a person reads get "429 Too many requests" until the minute ends. Logged-in customers, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited.</source>
+        <target>Anayeomba kurasa nyingi kwa dakika kuliko anavyosoma mtu hupata “429 Too many requests” hadi dakika iishe. Wateja walioingia, anwani zako mwenyewe na injini za utafutaji zilizothibitishwa kwa DNS (Google, Bing, Apple, Yandex) hawawekewi kikomo kamwe.</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Leave "Connection address" unless the shop is behind a proxy: a header can be forged by anyone.</source>
+        <target>Acha “Anwani ya muunganisho” isipokuwa duka liko nyuma ya proksi: kichwa kinaweza kughushiwa na yeyote.</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot.</source>
+        <target>Safu moja kwa kila mstari (CIDR), inayoongezwa kwa zile moduli inazozijua tayari. Kuwa kwenye orodha hii huongeza alama tu: peke yake haimfanyi mtu yeyote kuwa roboti.</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
+        <target>Ombi hili limezuiwa kwa sababu za usalama. Ikiwa unadhani ni kosa, wasiliana na mmiliki wa duka.</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
+        <target>Kichwa kinapuuzwa: muunganisho huu (%s) haukutoka Cloudflare wala kwa proksi inayoaminika. Ikiwa proksi yako iko kwenye intaneti, ongeza anwani zake katika “Proksi zinazoaminika”.</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.</source>
+        <target>Hakuna kilichozuiwa: thamani si sahihi, ni ya mfanyakazi, au ni anwani yako mwenyewe.</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).</source>
+        <target>Wateja wako wanaweza kutoka nchi nyingi, na mshambuliaji hubadilisha nchi kwa VPN. Chuja kuingia, usajili na fomu tu, na uanze na “Rekodi tu”. Wafanyakazi, watu unaowaruhusu kupita na injini za utafutaji hawachujwi kamwe. Inahitaji ngome ya mtandao iwashwe (rekodi au zuia).</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>The whole shop</source>
+        <target>Duka zima</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.</source>
+        <target>Kwenye kurasa za duka: hakuna kukisia aina za faili, hakuna kupachikwa ndani ya tovuti nyingine, data ndogo ya kirejeleo, hakuna kamera, maikrofoni wala mahali kwa maudhui yaliyopachikwa. Kamwe kichwa ambacho tayari kimetumwa.</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</source>
+        <target>Tu ikiwa duka zima linafanya kazi kwa HTTPS na litaendelea hivyo: vivinjari hukumbuka hilo na hukataa HTTP ya kawaida hadi muda uishe.</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
+        <target>Kamwe si mfanyakazi, wala anwani yako mwenyewe. Safu zisizo pana kuliko /16 (IPv4) au /32 (IPv6).</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.</source>
+        <target>Mgeni aliyezuiwa na ngome ya mtandao anaomba ukaguzi. Fungua moduli ya Draco Insomnis ili umruhusu kupita au la.</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.</source>
+        <target>Asante. Mmiliki wa duka ataliangalia na, ikiwa lilikuwa kosa, atakuruhusu kupita.</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:</source>
+        <target>Ombi hili limezuiwa kwa sababu za usalama. Ikiwa unadhani ni kosa, mweleze mmiliki wa duka ulichokuwa ukifanya:</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.</source>
+        <target>Jaribio halikuweza kufikia duka kutoka kwenye seva yenyewe (baadhi ya wahudumu wa tovuti hawaruhusu hilo). Ngome ya mtandao bado inaweza kuwa inafanya kazi: angalia majaribio ya hivi karibuni.</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers.</source>
+        <target>Jaribio lilizuiwa kabla ya kufika PrestaShop, na ngome ya mtandao ya mhudumu wa tovuti mwenyewe. Vizuri: tabaka mbili.</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>%1$d attacks seen, %2$d blocked.</source>
+        <target>Mashambulizi %1$d yameonekana, %2$d yamezuiwa.</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.</source>
+        <target>Hutuma kwa duka ombi lisilo na madhara lenye umbo la shambulio na kukueleza kilichotokea. Halirekodiwi.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>From 8 to 64 characters; 0 leaves only the shop's own rules. Applied when a customer creates an account or changes the password.</source>
+        <target>Herufi 8 hadi 64; 0 huacha sheria za duka lenyewe pekee. Hutumika mteja anapounda akaunti au kubadilisha nywila.</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Asks Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.</source>
+        <target>Huuliza Have I Been Pwned kwa k-utambulisho fiche: ni herufi 5 tu za SHA-1 ya nywila zinazotoka kwenye duka, kamwe si nywila yenyewe. Huduma isipojibu ndani ya sekunde 3, nywila hukubaliwa.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

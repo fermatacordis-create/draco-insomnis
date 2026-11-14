@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — tl (generated from i18n/tl.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tl\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. Pinipigilan ang mga pekeng pagpaparehistro nang walang captcha, may firewall ng application at limitasyon sa bilis laban sa pangongopya. Open source."
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "Pinipigilan ang mga pekeng pagpaparehistro nang walang captcha: hindi nakakakuha ng account ang mga bot, at bawat kahina-hinalang pagtatangka ay iniimbak nang 90 araw bilang ebidensya para sa ulat ng pang-aabuso. Walang anumang ibinabalik sa umaatake."
+
+msgid "Protect user sign-ups"
+msgstr "Protektahan ang pagpaparehistro ng user"
+
+msgid "Firewall"
+msgstr "Firewall"
+
+msgid "Anti-copy pace limit"
+msgstr "Limitasyon sa bilis laban sa pangongopya"
+
+msgid "Off"
+msgstr "Patay"
+
+msgid "Log only: record what it would stop"
+msgstr "Itala lang: itala ang mapipigilan sana"
+
+msgid "Block"
+msgstr "Harangan"
+
+msgid "Pages per minute, per address"
+msgstr "Mga pahina bawat minuto, bawat address"
+
+msgid "Pages per minute, per network"
+msgstr "Mga pahina bawat minuto, bawat network"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "Isang /24 na network sa IPv4 o /64 sa IPv6: ang nakukuha ng scraper kapag nagpapalit-palit ng magkakatabing address."
+
+msgid "Visitor address"
+msgstr "Address ng bisita"
+
+msgid "Connection address (recommended)"
+msgstr "Address ng koneksyon (inirerekomenda)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "Ibang proxy (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "Mga network ng inuupahang server"
+
+msgid "The registration could not be completed."
+msgstr "Hindi makumpleto ang pagpaparehistro."
+
+msgid "Request blocked"
+msgstr "Hinarang ang kahilingan"
+
+msgid "Address unblocked."
+msgstr "Inalis ang harang sa address."
+
+msgid "Unblock"
+msgstr "Alisin ang harang"
+
+msgid "Nothing blocked right now."
+msgstr "Walang naka-harang sa ngayon."
+
+msgid "Last suspicious attempts"
+msgstr "Mga huling kahina-hinalang pagtatangka"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "Iniimbak nang 90 araw. Hindi kailanman password. Ang CSV ng isang address ay may lahat ng ginawa nito, handang ilakip sa ulat ng pang-aabuso sa provider ng network nito."
+
+msgid "Nothing yet."
+msgstr "Wala pa."
+
+msgid "Address or e-mail"
+msgstr "Address o email"
+
+msgid "Reason"
+msgstr "Dahilan"
+
+msgid "Until (UTC)"
+msgstr "Hanggang (UTC)"
+
+msgid "Date (UTC)"
+msgstr "Petsa (UTC)"
+
+msgid "Address"
+msgstr "Address"
+
+msgid "Where"
+msgstr "Saan"
+
+msgid "Verdict"
+msgstr "Hatol"
+
+msgid "Signs"
+msgstr "Mga palatandaan"
+
+msgid "Data"
+msgstr "Datos"
+
+msgid "Trusted proxies"
+msgstr "Mga pinagkakatiwalaang proxy"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "Ang mga koneksyon lang mula sa mga address na ito ang puwedeng magtakda ng address ng bisita sa pamamagitan ng header. Isang address o saklaw bawat linya. Walang laman: ang server na ito at mga pribadong network. Alam na ang sariling mga saklaw ng Cloudflare."
+
+msgid "Countries"
+msgstr "Mga bansa"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Refuse the countries listed"
+msgstr "Tanggihan ang mga nakalistang bansa"
+
+msgid "Only the countries listed"
+msgstr "Ang mga nakalistang bansa lang"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "Pag-login, pagpaparehistro at mga form (inirerekomenda)"
+
+msgid "The whole site"
+msgstr "Ang buong site"
+
+msgid "What to do"
+msgstr "Ano ang gagawin"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "Mga bansa (dalawang-titik na code, hal. ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "Na-download ang listahan ng mga bansa."
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "Kapag gumagana lang ang buong site sa HTTPS at patuloy na gagana: tinatandaan ito ng mga browser at tinatanggihan ang HTTP hanggang mag-expire."
+
+msgid "Minimum password length"
+msgstr "Pinakamaikling haba ng password"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "Tanggihan ang mga password na nakita sa mga data breach"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "Nagtatanong sa Have I Been Pwned gamit ang k-anonymity: 5 karakter lang ng SHA-1 ng password ang lumalabas sa site, hindi kailanman ang password. Kung hindi sumagot ang serbisyo sa loob ng 3 segundo, tinatanggap ang password."
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "Lumalabas ang password na ito sa mga kilalang data breach, kaya ito ang unang sinusubukan ng mga umaatake. Pumili ng iba, pakiusap."
+
+msgid "Block an address or range"
+msgstr "Harangan ang isang address o saklaw"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP o saklaw (hal. 203.0.113.0/24)"
+
+msgid "For"
+msgstr "Tagal"
+
+msgid "7 days"
+msgstr "7 araw"
+
+msgid "15 days"
+msgstr "15 araw"
+
+msgid "30 days"
+msgstr "30 araw"
+
+msgid "90 days"
+msgstr "90 araw"
+
+msgid "Forever"
+msgstr "Magpakailanman"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "Walang hinarang: hindi wasto ang halaga, pag-aari ng isang administrator, o ang sarili mong address."
+
+msgid "E-mail"
+msgstr "Email"
+
+msgid "Message"
+msgstr "Mensahe"
+
+msgid "Done."
+msgstr "Tapos na."
+
+msgid "It could not be done for that address."
+msgstr "Hindi ito magawa para sa address na iyon."
+
+msgid "No requests."
+msgstr "Walang kahilingan."
+
+msgid "Review requests"
+msgstr "Mga kahilingan sa pagsusuri"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "Maaaring humiling mula sa pahina ng harang ang mga pinigilan ng firewall. Padaanin sila nang ilang panahon kung pagkakamali ito. Hindi kailanman sumusulat sa kanila ang Draco: sagutin mula sa sarili mong mail kung gusto mo."
+
+msgid "Let through 24 hours"
+msgstr "Padaanin nang 24 na oras"
+
+msgid "Let through"
+msgstr "Padaanin"
+
+msgid "Attacker: blocked"
+msgstr "Umaatake: hinarang"
+
+msgid "Attacker"
+msgstr "Umaatake"
+
+msgid "Ask for a review"
+msgstr "Humiling ng pagsusuri"
+
+msgid "Denied"
+msgstr "Tinanggihan"
+
+msgid "Deny"
+msgstr "Tanggihan"
+
+msgid "Your e-mail"
+msgstr "Ang email mo"
+
+msgid "What were you doing?"
+msgstr "Ano ang ginagawa mo?"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "Salamat. Titingnan ito ng may-ari ng site at, kung pagkakamali ito, padaraanin ka."
+
+msgid "Request sent"
+msgstr "Naipadala ang kahilingan"
+
+msgid "Firewall: last 7 days"
+msgstr "Firewall: huling 7 araw"
+
+msgid "Test the firewall"
+msgstr "Subukan ang firewall"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "Gumagana: may nakilalang injection sa database at hinarang ito (403)."
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "Nagpapadala sa site ng di-mapanganib na kahilingang mukhang pag-atake at sinasabi sa iyo ang nangyari. Hindi ito itinatala."
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "Hindi nakilala ang pagsubok na pag-atake. Pakiulat ito sa Draco Insomnis."
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "Patay ang firewall: buksan ito, i-save, at subukang muli."
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "Hindi maabot ng pagsubok ang site mula sa mismong server (may mga hosting na hindi ito pinapayagan). Maaaring gumagana pa rin ang firewall: tingnan ang mga huling pagtatangka."
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "Hindi kailanman ang administrator, at hindi rin ang sarili mong address. Mga saklaw na hindi lalawak sa /16 (IPv4) o /32 (IPv6)."
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "Lampasan ang firewall ng Draco Insomnis"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "Iwanan ang “Address ng koneksyon” maliban kung nasa likod ng proxy ang site: kayang pekein ninuman ang isang header."
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "Gumagana: may nakilalang injection sa database. Sa \"Itala lang\" ay isinusulat ito pero hindi pinipigilan; lumipat sa \"Harangan\" kapag handa ka na."
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "Pinigilan ang kahilingang ito dahil sa seguridad. Kung sa tingin mo ay pagkakamali ito, sabihin sa may-ari ng site kung ano ang ginagawa mo:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "Isang saklaw bawat linya (CIDR), idinadagdag sa mga alam na ng module. Ang pagiging nasa listahang ito ay nagdadagdag lang ng puntos: mag-isa, hindi nito ginagawang bot ang sinuman."
+
+msgid "The password must have at least @count characters."
+msgstr "Dapat may hindi bababa sa @count karakter ang password."
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] May humihiling na suriin mo ang isang harang ng firewall"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "Humihingi ng pagsusuri ang isang bisitang pinigilan ng firewall. Buksan ang Draco Insomnis para padaanin siya o hindi:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "Firewall: @count atake sa loob ng 10 minuto"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "Awtomatiko: @count pagtatangka ng bot sa loob ng 24 oras"
+
+msgid "Review: @email"
+msgstr "Pagsusuri: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "Napigilan ang pagsubok bago umabot sa Drupal, ng sariling firewall ng hosting. Mabuti: dalawang patong."
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "Ang address mo ayon sa nakikita ng module: %ip (address ng koneksyon: %remote). Kung ang site ay nasa likod ng Cloudflare o ibang proxy at iba ang mga ito sa totoong address mo, piliin ang katugmang opsyon sa “Address ng bisita”."
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "Hindi pinapansin ang header: ang koneksyong ito (%remote) ay hindi galing sa Cloudflare o sa pinagkakatiwalaang proxy. Kung nasa internet ang proxy mo, idagdag ang mga address nito sa “Mga pinagkakatiwalaang proxy”."
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "Nagdadagdag ng di-nakikitang bitag at pinirmahang tatak ng pahina sa pampublikong form ng pagpaparehistro. Walang account ang mga bot; tatlong pagtatangka ng bot sa isang araw ay haharang sa address nang isang linggo."
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "Pinipigilan ang mga request na hugis-atake (injection sa database, pagbasa ng mga file ng server, pagpapatakbo ng code, script sa mga link) at mga scanner tulad ng sqlmap o Nikto. Magsimula sa “Itala lang” at lumipat sa “Harangan” makalipas ang ilang araw. Limang atake sa loob ng 10 minuto ay haharang sa address nang isang linggo; makakabasa pa rin ng site ang mga hinarangang address, pero hindi makakapagpadala o makakapag-log in. Hindi kailanman sinusuri ang mga user na may pahintulot na “Lampasan ang firewall ng Draco Insomnis”. Emergency na labasan: $settings['draco_waf_off'] = TRUE; sa settings.php."
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "Ang humihingi ng mas maraming pahina bawat minuto kaysa sa nababasa ng tao ay makakatanggap ng “429 Too many requests” hanggang matapos ang minuto. Hindi kailanman nililimitahan ang mga naka-log in na user, ang sarili mong mga address at ang mga search engine na beripikado sa DNS (Google, Bing, Apple, Yandex)."
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "Maaaring galing sa maraming bansa ang mga bisita mo, at nagpapalit ng bansa ang umaatake gamit ang VPN. I-filter lang ang pag-login, pagpaparehistro at mga form, at magsimula sa \"Itala lang\". Hindi kailanman fini-filter ang mga administrator, ang mga pinadaan mo at ang mga search engine."
+
+msgid "Log only"
+msgstr "Itala lang"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "Listahan ng mga bansa: hindi pa na-download (dina-download ito kapag binuksan mo ang filter)."
+
+msgid "Country list of @date."
+msgstr "Listahan ng mga bansa noong @date."
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "IP geolocation mula sa <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Hinahanap sa sarili mong server: walang address na ipinapadala kahit saan."
+
+msgid "Send security headers on public pages"
+msgstr "Magpadala ng mga header ng seguridad sa mga pampublikong pahina"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "Walang panghuhula ng uri ng file, walang pag-embed sa ibang site, mas kaunting datos ng pinanggalingan, walang camera, mikropono o lokasyon para sa naka-embed na nilalaman. Hindi kailanman ang header na ipinapadala na ng server."
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "Pilitin ang HTTPS sa mga browser nang 6 na buwan (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "Mula 8 hanggang 64 na karakter; 0 = walang minimum. Ipinapatupad kapag gumagawa ng account o nagpapalit ng password."
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "Hindi ma-download ang listahan ng mga bansa. Walang ginagawa ang filter hangga’t wala ito; subukan muli mamaya."
+
+msgid "Blocked: @value"
+msgstr "Hinarangan: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "@total atake ang nakita, @blocked ang hinarangan."
+
+msgid "What"
+msgstr "Ano"
+
+msgid "Busiest addresses"
+msgstr "Pinakaabalang mga address"
+
+msgid "Blocked addresses (@count)"
+msgstr "Mga hinarangang address (@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "Panangga laban sa bot para sa pagpaparehistro, firewall at mga limitasyon laban sa pangongopya."
+
+msgid "Administer Draco Insomnis"
+msgstr "Pamahalaan ang Draco Insomnis"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "Baguhin ang mga setting, tingnan ang ebidensya at alisin ang harang sa mga address."
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "Hindi kailanman sinusuri ang mga request ng mga user na ito. Ibigay ito sa mga editor na sumusulat ng code o SQL sa kanilang nilalaman."
+
