@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.24
+Stable tag: 0.1.25
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -124,7 +124,12 @@ The country filter uses IP geolocation by DB-IP (https://db-ip.com), "IP to Coun
 
 Only if "Refuse passwords that appear in known data breaches" is switched on, Draco asks Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com) with the first 5 characters of the SHA-1 of a password being chosen or used to log in. The password itself and its full hash are never sent. Terms: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy: https://haveibeenpwned.com/Privacy
 
+Only when an administrator opens an abuse report, Draco asks the public internet registry (RDAP, at https://rdap.org, which forwards to the regional registry: ARIN, RIPE NCC, APNIC, LACNIC or AFRINIC) who looks after the reported address, to find its abuse contact. Only that address is sent. Nothing is e-mailed until the administrator reads the draft and presses Send.
+
 == Changelog ==
+
+= 0.1.25 =
+* Abuse reports, always reviewed by a person. From "Evidence" there is now "Report": Draco finds the abuse contact of the network that owns the address in the public registry (RDAP, through rdap.org, for ARIN, RIPE NCC, APNIC, LACNIC and AFRINIC) and writes a factual draft in English with the evidence (UTC times, what was attempted, the program's name). The administrator reads it, edits it and sends it; replies go to the administrator e-mail. At most 5 a day and one per address every 30 days, and every report sent is listed. The draft reminds the network that the machine is probably compromised: nothing is ever sent to the attacker. Server edition: draco report <ip> prints the draft and sends it only with --send.
 
 = 0.1.24 =
 * Supply chain: every release is now signed with Sigstore by GitHub Actions (keyless, nothing stored), each package has a GitHub build provenance attestation, the release carries a CycloneDX SBOM, and the Docker add-on image is signed too. SECURITY.md explains how to verify a download.

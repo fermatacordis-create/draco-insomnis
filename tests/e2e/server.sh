@@ -81,6 +81,16 @@ c=$(code -X POST -d x=1 "$BASE/index.php?$(cb)"); [ "$c" = 403 ] && ok "range ca
 d block 10.0.0.0/8 30 wide >/dev/null 2>&1 && ko "a /8 was accepted" || ok "a range wider than /16 is refused"
 reset
 
+echo "== abuse report: a draft, never sent without --send"
+dset waf_mode block
+for i in 1 2; do code "$(attack)" >/dev/null; done
+out=$(d report "$me" 2>&1)
+grep -q 'Subject: Abuse report: ' <<< "$out" && grep -q 'SQL injection attempts' <<< "$out" && ok "draco report writes the draft" || ko "report: $(head -c 300 <<< "$out")"
+grep -q 'Draft only' <<< "$out" && [ "$(q "SELECT COUNT(*) FROM events WHERE endpoint='abuse_report'")" = 0 ] && ok "and sends nothing without --send" || ko "report sent or no draft notice"
+out=$(d report "$me" --send 2>&1); grep -q 'Not sent' <<< "$out" && ok "--send without a contact or notify address is refused" || ko "send: $out"
+dset waf_mode log
+reset
+
 echo "== security headers"
 dset headers 1
 h=$(curl -sI -A "$UA" "$BASE/index.php?$(cb)")
