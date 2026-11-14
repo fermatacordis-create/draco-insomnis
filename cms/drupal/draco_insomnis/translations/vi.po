@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — vi (generated from i18n/vi.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. Chặn đăng ký giả mà không cần captcha, tường lửa ứng dụng và giới hạn tốc độ chống sao chép. Mã nguồn mở."
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "Chặn đăng ký giả mà không cần captcha: bot không có được tài khoản, và mọi lần thử đáng ngờ được lưu 90 ngày làm bằng chứng cho báo cáo lạm dụng. Không bao giờ gửi lại gì cho kẻ tấn công."
+
+msgid "Protect user sign-ups"
+msgstr "Bảo vệ đăng ký người dùng"
+
+msgid "Firewall"
+msgstr "Tường lửa"
+
+msgid "Anti-copy pace limit"
+msgstr "Giới hạn tốc độ chống sao chép"
+
+msgid "Off"
+msgstr "Tắt"
+
+msgid "Log only: record what it would stop"
+msgstr "Chỉ ghi lại: ghi lại những gì sẽ bị chặn"
+
+msgid "Block"
+msgstr "Chặn"
+
+msgid "Pages per minute, per address"
+msgstr "Số trang mỗi phút, theo địa chỉ"
+
+msgid "Pages per minute, per network"
+msgstr "Số trang mỗi phút, theo mạng"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "Một mạng /24 với IPv4 hoặc /64 với IPv6: phạm vi một công cụ cào dữ liệu có được khi xoay vòng các địa chỉ liền kề."
+
+msgid "Visitor address"
+msgstr "Địa chỉ khách truy cập"
+
+msgid "Connection address (recommended)"
+msgstr "Địa chỉ kết nối (khuyên dùng)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "Proxy khác (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "Mạng máy chủ thuê"
+
+msgid "The registration could not be completed."
+msgstr "Không thể hoàn tất đăng ký."
+
+msgid "Request blocked"
+msgstr "Yêu cầu bị chặn"
+
+msgid "Address unblocked."
+msgstr "Đã bỏ chặn địa chỉ."
+
+msgid "Unblock"
+msgstr "Bỏ chặn"
+
+msgid "Nothing blocked right now."
+msgstr "Hiện không có gì bị chặn."
+
+msgid "Last suspicious attempts"
+msgstr "Các lần thử đáng ngờ gần đây"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "Lưu 90 ngày. Không bao giờ lưu mật khẩu. CSV của một địa chỉ chứa mọi thứ nó đã làm, sẵn sàng đính kèm vào báo cáo lạm dụng gửi nhà cung cấp mạng của nó."
+
+msgid "Nothing yet."
+msgstr "Chưa có gì."
+
+msgid "Address or e-mail"
+msgstr "Địa chỉ hoặc email"
+
+msgid "Reason"
+msgstr "Lý do"
+
+msgid "Until (UTC)"
+msgstr "Đến (UTC)"
+
+msgid "Date (UTC)"
+msgstr "Ngày (UTC)"
+
+msgid "Address"
+msgstr "Địa chỉ"
+
+msgid "Where"
+msgstr "Ở đâu"
+
+msgid "Verdict"
+msgstr "Kết luận"
+
+msgid "Signs"
+msgstr "Dấu hiệu"
+
+msgid "Data"
+msgstr "Dữ liệu"
+
+msgid "Trusted proxies"
+msgstr "Proxy tin cậy"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "Chỉ các kết nối từ những địa chỉ này mới được đặt địa chỉ khách truy cập qua header. Mỗi dòng một địa chỉ hoặc dải. Để trống: máy chủ này và các mạng riêng. Các dải của Cloudflare đã được biết sẵn."
+
+msgid "Countries"
+msgstr "Quốc gia"
+
+msgid "Filter"
+msgstr "Bộ lọc"
+
+msgid "Refuse the countries listed"
+msgstr "Từ chối các quốc gia trong danh sách"
+
+msgid "Only the countries listed"
+msgstr "Chỉ các quốc gia trong danh sách"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "Đăng nhập, đăng ký và biểu mẫu (khuyên dùng)"
+
+msgid "The whole site"
+msgstr "Toàn bộ trang"
+
+msgid "What to do"
+msgstr "Làm gì"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "Quốc gia (mã hai chữ cái, ví dụ ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "Đã tải danh sách quốc gia."
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "Chỉ khi toàn bộ trang chạy trên HTTPS và sẽ tiếp tục như vậy: trình duyệt ghi nhớ và từ chối HTTP cho đến khi hết hạn."
+
+msgid "Minimum password length"
+msgstr "Độ dài tối thiểu của mật khẩu"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "Từ chối mật khẩu đã xuất hiện trong các vụ rò rỉ dữ liệu"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "Hỏi Have I Been Pwned theo k-ẩn danh: chỉ 5 ký tự của SHA-1 mật khẩu rời khỏi trang, không bao giờ là mật khẩu. Nếu dịch vụ không trả lời trong 3 giây, mật khẩu được chấp nhận."
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "Mật khẩu này có trong các vụ rò rỉ dữ liệu đã biết, nên kẻ tấn công thử nó trước tiên. Vui lòng chọn mật khẩu khác."
+
+msgid "Block an address or range"
+msgstr "Chặn một địa chỉ hoặc dải"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP hoặc dải (ví dụ 203.0.113.0/24)"
+
+msgid "For"
+msgstr "Trong"
+
+msgid "7 days"
+msgstr "7 ngày"
+
+msgid "15 days"
+msgstr "15 ngày"
+
+msgid "30 days"
+msgstr "30 ngày"
+
+msgid "90 days"
+msgstr "90 ngày"
+
+msgid "Forever"
+msgstr "Vĩnh viễn"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "Không chặn gì: giá trị không hợp lệ, thuộc về quản trị viên, hoặc là địa chỉ của chính bạn."
+
+msgid "E-mail"
+msgstr "Email"
+
+msgid "Message"
+msgstr "Tin nhắn"
+
+msgid "Done."
+msgstr "Xong."
+
+msgid "It could not be done for that address."
+msgstr "Không thể thực hiện cho địa chỉ đó."
+
+msgid "No requests."
+msgstr "Không có yêu cầu."
+
+msgid "Review requests"
+msgstr "Yêu cầu xem xét"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "Người bị tường lửa chặn có thể yêu cầu từ trang chặn. Hãy cho họ qua một thời gian nếu là nhầm lẫn. Draco không bao giờ viết thư cho họ: hãy trả lời từ email của bạn nếu muốn."
+
+msgid "Let through 24 hours"
+msgstr "Cho qua 24 giờ"
+
+msgid "Let through"
+msgstr "Cho qua"
+
+msgid "Attacker: blocked"
+msgstr "Kẻ tấn công: đã chặn"
+
+msgid "Attacker"
+msgstr "Kẻ tấn công"
+
+msgid "Ask for a review"
+msgstr "Yêu cầu xem xét lại"
+
+msgid "Denied"
+msgstr "Đã từ chối"
+
+msgid "Deny"
+msgstr "Từ chối"
+
+msgid "Your e-mail"
+msgstr "Email của bạn"
+
+msgid "What were you doing?"
+msgstr "Bạn đang làm gì?"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "Cảm ơn bạn. Chủ trang sẽ xem xét và, nếu là nhầm lẫn, sẽ cho bạn qua."
+
+msgid "Request sent"
+msgstr "Đã gửi yêu cầu"
+
+msgid "Firewall: last 7 days"
+msgstr "Tường lửa: 7 ngày qua"
+
+msgid "Test the firewall"
+msgstr "Thử tường lửa"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "Hoạt động: đã nhận ra một lần chèn vào cơ sở dữ liệu và chặn nó (403)."
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "Gửi tới trang một yêu cầu vô hại có hình dạng tấn công và cho bạn biết điều gì đã xảy ra. Không được ghi lại."
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "Không nhận ra cuộc tấn công thử. Vui lòng báo cho Draco Insomnis."
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "Tường lửa đang tắt: hãy bật, lưu rồi thử lại."
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "Bài thử không thể kết nối tới trang từ chính máy chủ (một số dịch vụ lưu trữ không cho phép). Tường lửa vẫn có thể đang hoạt động: hãy xem các lần thử gần đây."
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "Không bao giờ là quản trị viên hay địa chỉ của chính bạn. Dải không rộng hơn /16 (IPv4) hoặc /32 (IPv6)."
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "Bỏ qua tường lửa Draco Insomnis"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "Giữ “Địa chỉ kết nối” trừ khi trang nằm sau một proxy: ai cũng có thể giả mạo một header."
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "Hoạt động: đã nhận ra một lần chèn vào cơ sở dữ liệu. Ở \"Chỉ ghi lại\" nó được ghi nhưng không bị chặn; hãy chuyển sang \"Chặn\" khi bạn sẵn sàng."
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "Yêu cầu này đã bị dừng vì lý do bảo mật. Nếu bạn nghĩ đây là nhầm lẫn, hãy cho chủ trang biết bạn đang làm gì:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "Mỗi dòng một dải (CIDR), được thêm vào các dải mô-đun đã biết. Có tên trong danh sách này chỉ cộng thêm điểm: tự nó không bao giờ biến ai thành bot."
+
+msgid "The password must have at least @count characters."
+msgstr "Mật khẩu phải có ít nhất @count ký tự."
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] Có người nhờ bạn xem xét một lần chặn của tường lửa"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "Một khách truy cập bị tường lửa chặn đang yêu cầu xem xét. Mở Draco Insomnis để cho qua hoặc không:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "Tường lửa: @count cuộc tấn công trong 10 phút"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "Tự động: @count lần thử của bot trong 24 giờ"
+
+msgid "Review: @email"
+msgstr "Xem xét: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "Bài thử đã bị tường lửa của chính dịch vụ lưu trữ chặn trước khi tới Drupal. Tốt: hai lớp."
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "Địa chỉ của bạn theo mô-đun thấy: %ip (địa chỉ kết nối: %remote). Nếu trang web nằm sau Cloudflare hoặc proxy khác và hai địa chỉ này khác địa chỉ thật của bạn, hãy chọn tùy chọn phù hợp trong “Địa chỉ khách truy cập”."
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "Header bị bỏ qua: kết nối này (%remote) không đến từ Cloudflare hay một proxy tin cậy. Nếu proxy của bạn nằm trên internet, hãy thêm địa chỉ của nó vào “Proxy tin cậy”."
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "Thêm một cái bẫy vô hình và một con dấu trang có chữ ký vào biểu mẫu đăng ký công khai. Bot không có được tài khoản; ba lần thử của bot trong một ngày sẽ chặn địa chỉ trong một tuần."
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "Chặn các yêu cầu có dạng tấn công (chèn vào cơ sở dữ liệu, đọc tệp máy chủ, chạy mã, script trong liên kết) và các công cụ quét như sqlmap hay Nikto. Hãy bắt đầu với “Chỉ ghi lại” và chuyển sang “Chặn” sau vài ngày. Năm cuộc tấn công trong 10 phút sẽ chặn địa chỉ một tuần; địa chỉ bị chặn vẫn đọc được trang nhưng không gửi được và không đăng nhập được. Người dùng có quyền “Bỏ qua tường lửa Draco Insomnis” không bao giờ bị kiểm tra. Lối thoát khẩn cấp: $settings['draco_waf_off'] = TRUE; trong settings.php."
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "Ai yêu cầu nhiều trang mỗi phút hơn lượng một người đọc sẽ nhận “429 Too many requests” cho đến hết phút đó. Người dùng đã đăng nhập, địa chỉ của chính bạn và công cụ tìm kiếm được xác minh qua DNS (Google, Bing, Apple, Yandex) không bao giờ bị giới hạn."
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "Khách của bạn có thể đến từ nhiều quốc gia, và kẻ tấn công đổi quốc gia bằng VPN. Chỉ lọc đăng nhập, đăng ký và biểu mẫu, và bắt đầu với \"Chỉ ghi lại\". Quản trị viên, người bạn cho qua và công cụ tìm kiếm không bao giờ bị lọc."
+
+msgid "Log only"
+msgstr "Chỉ ghi lại"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "Danh sách quốc gia: chưa tải (sẽ tải khi bạn bật bộ lọc)."
+
+msgid "Country list of @date."
+msgstr "Danh sách quốc gia ngày @date."
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "Định vị IP do <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> cung cấp (CC BY 4.0). Tra cứu ngay trên máy chủ của bạn: không có địa chỉ nào được gửi đi đâu cả."
+
+msgid "Send security headers on public pages"
+msgstr "Gửi header bảo mật trên các trang công khai"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "Không đoán loại tệp, không cho trang khác nhúng, ít dữ liệu nguồn giới thiệu hơn, không có camera, micrô hay vị trí cho nội dung nhúng. Không bao giờ gửi lại header máy chủ đã gửi."
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "Buộc dùng HTTPS trên trình duyệt trong 6 tháng (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "Từ 8 đến 64 ký tự; 0 = không có mức tối thiểu. Áp dụng khi tạo tài khoản hoặc đổi mật khẩu."
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "Không tải được danh sách quốc gia. Bộ lọc không làm gì cho đến khi có danh sách; hãy thử lại sau."
+
+msgid "Blocked: @value"
+msgstr "Đã chặn: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "Thấy @total cuộc tấn công, đã chặn @blocked."
+
+msgid "What"
+msgstr "Cái gì"
+
+msgid "Busiest addresses"
+msgstr "Địa chỉ hoạt động nhiều nhất"
+
+msgid "Blocked addresses (@count)"
+msgstr "Địa chỉ bị chặn (@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "Lá chắn chống bot cho đăng ký, tường lửa và giới hạn chống sao chép."
+
+msgid "Administer Draco Insomnis"
+msgstr "Quản trị Draco Insomnis"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "Thay đổi cài đặt, xem bằng chứng và bỏ chặn địa chỉ."
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "Yêu cầu của những người dùng này không bao giờ bị kiểm tra. Hãy cấp cho biên tập viên viết mã hoặc SQL trong nội dung."
+

@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="modules/dracoinsomnis" source-language="en-US" target-language="vi-VN" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Firewall</source>
+        <target>Tường lửa</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Anti-copy pace limit</source>
+        <target>Giới hạn tốc độ chống sao chép</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Off</source>
+        <target>Tắt</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Log only: record what it would stop</source>
+        <target>Chỉ ghi lại: ghi lại những gì sẽ bị chặn</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Block</source>
+        <target>Chặn</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Pages per minute, per address</source>
+        <target>Số trang mỗi phút, theo địa chỉ</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Pages per minute, per network</source>
+        <target>Số trang mỗi phút, theo mạng</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other.</source>
+        <target>Một mạng /24 với IPv4 hoặc /64 với IPv6: phạm vi một công cụ cào dữ liệu có được khi xoay vòng các địa chỉ liền kề.</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Visitor address</source>
+        <target>Địa chỉ khách truy cập</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Connection address (recommended)</source>
+        <target>Địa chỉ kết nối (khuyên dùng)</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cloudflare (CF-Connecting-IP)</source>
+        <target>Cloudflare (CF-Connecting-IP)</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Other proxy (X-Forwarded-For)</source>
+        <target>Proxy khác (X-Forwarded-For)</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Rented-server networks</source>
+        <target>Mạng máy chủ thuê</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Automatic: %d bot attempts in 24 h</source>
+        <target>Tự động: %d lần thử của bot trong 24 giờ</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Firewall: %d attacks in 10 minutes</source>
+        <target>Tường lửa: %d cuộc tấn công trong 10 phút</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>[%s] Someone asks you to review a firewall block</source>
+        <target>[%s] Có người yêu cầu bạn xem xét một lần chặn của tường lửa</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>The registration could not be completed.</source>
+        <target>Không thể hoàn tất đăng ký.</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Request blocked</source>
+        <target>Yêu cầu bị chặn</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Address unblocked.</source>
+        <target>Đã bỏ chặn địa chỉ.</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Unblock</source>
+        <target>Bỏ chặn</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Blocked addresses</source>
+        <target>Địa chỉ bị chặn</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Nothing blocked right now.</source>
+        <target>Hiện không có gì bị chặn.</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Last suspicious attempts</source>
+        <target>Các lần thử đáng ngờ gần đây</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider.</source>
+        <target>Lưu 90 ngày. Không bao giờ lưu mật khẩu. CSV của một địa chỉ chứa mọi thứ nó đã làm, sẵn sàng đính kèm vào báo cáo lạm dụng gửi nhà cung cấp mạng của nó.</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Nothing yet.</source>
+        <target>Chưa có gì.</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Address or e-mail</source>
+        <target>Địa chỉ hoặc email</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Reason</source>
+        <target>Lý do</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Until (UTC)</source>
+        <target>Đến (UTC)</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Date (UTC)</source>
+        <target>Ngày (UTC)</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Address</source>
+        <target>Địa chỉ</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Where</source>
+        <target>Ở đâu</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Verdict</source>
+        <target>Kết luận</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Signs</source>
+        <target>Dấu hiệu</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Data</source>
+        <target>Dữ liệu</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Trusted proxies</source>
+        <target>Proxy tin cậy</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known.</source>
+        <target>Chỉ các kết nối từ những địa chỉ này mới được đặt địa chỉ khách truy cập qua header. Mỗi dòng một địa chỉ hoặc dải. Để trống: máy chủ này và các mạng riêng. Các dải của Cloudflare đã được biết sẵn.</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Countries</source>
+        <target>Quốc gia</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Refuse the countries listed</source>
+        <target>Từ chối các quốc gia trong danh sách</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Only the countries listed</source>
+        <target>Chỉ các quốc gia trong danh sách</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Logging in, signing up and forms (recommended)</source>
+        <target>Đăng nhập, đăng ký và biểu mẫu (khuyên dùng)</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>What to do</source>
+        <target>Làm gì</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Countries (two-letter codes, e.g. ES, FR, DE)</source>
+        <target>Quốc gia (mã hai chữ cái, ví dụ ES, FR, DE)</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.</source>
+        <target>Định vị IP do DB-IP cung cấp (db-ip.com, CC BY 4.0), được tải về khi bạn bật bộ lọc và tra cứu ngay trên máy chủ của bạn: không có địa chỉ nào được gửi đi đâu cả.</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Country list downloaded.</source>
+        <target>Đã tải danh sách quốc gia.</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>The country list could not be downloaded. The filter does nothing until it is there; save again later.</source>
+        <target>Không tải được danh sách quốc gia. Bộ lọc không làm gì cho đến khi có danh sách; hãy lưu lại sau.</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Security headers</source>
+        <target>Header bảo mật</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Force HTTPS for 6 months (HSTS)</source>
+        <target>Buộc dùng HTTPS trong 6 tháng (HSTS)</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Minimum password length</source>
+        <target>Độ dài tối thiểu của mật khẩu</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Refuse passwords found in data breaches</source>
+        <target>Từ chối mật khẩu đã xuất hiện trong các vụ rò rỉ dữ liệu</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>The password must have at least %d characters.</source>
+        <target>Mật khẩu phải có ít nhất %d ký tự.</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>This password appears in known data breaches, so attackers try it first. Please choose another one.</source>
+        <target>Mật khẩu này có trong các vụ rò rỉ dữ liệu đã biết, nên kẻ tấn công thử nó trước tiên. Vui lòng chọn mật khẩu khác.</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>IP or range (e.g. 203.0.113.0/24)</source>
+        <target>IP hoặc dải (ví dụ 203.0.113.0/24)</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>For</source>
+        <target>Trong</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>7 days</source>
+        <target>7 ngày</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>15 days</source>
+        <target>15 ngày</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>30 days</source>
+        <target>30 ngày</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>90 days</source>
+        <target>90 ngày</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Forever</source>
+        <target>Vĩnh viễn</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Blocked: %s</source>
+        <target>Đã chặn: %s</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>E-mail</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Message</source>
+        <target>Tin nhắn</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Done.</source>
+        <target>Xong.</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>It could not be done for that address.</source>
+        <target>Không thể thực hiện cho địa chỉ đó.</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>No requests.</source>
+        <target>Không có yêu cầu.</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Review requests</source>
+        <target>Yêu cầu xem xét</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.</source>
+        <target>Người bị tường lửa chặn có thể yêu cầu từ trang chặn. Hãy cho họ qua một thời gian nếu là nhầm lẫn. Draco không bao giờ viết thư cho họ: hãy trả lời từ email của bạn nếu muốn.</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Let through 24 hours</source>
+        <target>Cho qua 24 giờ</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Let through</source>
+        <target>Cho qua</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Attacker: blocked</source>
+        <target>Kẻ tấn công: đã chặn</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Attacker</source>
+        <target>Kẻ tấn công</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Ask for a review</source>
+        <target>Yêu cầu xem xét lại</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Denied</source>
+        <target>Đã từ chối</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Deny</source>
+        <target>Từ chối</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Your e-mail</source>
+        <target>Email của bạn</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>What were you doing?</source>
+        <target>Bạn đang làm gì?</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Review: %s</source>
+        <target>Xem xét: %s</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Request sent</source>
+        <target>Đã gửi yêu cầu</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Firewall: last 7 days</source>
+        <target>Tường lửa: 7 ngày qua</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Busiest addresses:</source>
+        <target>Địa chỉ hoạt động nhiều nhất:</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>What:</source>
+        <target>Gì:</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Test the firewall</source>
+        <target>Thử tường lửa</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Works: a database injection was recognised and blocked (403).</source>
+        <target>Hoạt động: đã nhận ra một lần chèn vào cơ sở dữ liệu và chặn nó (403).</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>The test attack was not recognised. Please report it to Draco Insomnis.</source>
+        <target>Không nhận ra cuộc tấn công thử. Vui lòng báo cho Draco Insomnis.</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>The firewall is off: switch it on and save, then test again.</source>
+        <target>Tường lửa đang tắt: hãy bật, lưu rồi thử lại.</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Draco Insomnis</source>
+        <target>Draco Insomnis</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.</source>
+        <target>Hoạt động: đã nhận ra một lần chèn vào cơ sở dữ liệu. Ở "Chỉ ghi lại" nó được ghi nhưng không bị chặn; hãy chuyển sang "Chặn" khi bạn sẵn sàng.</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Settings</source>
+        <target>Cài đặt</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Save</source>
+        <target>Lưu</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Stops fake customer sign-ups without captchas, firewall and anti-copy limits. Open source.</source>
+        <target>Chặn đăng ký khách hàng giả mà không cần captcha, tường lửa và giới hạn chống sao chép. Mã nguồn mở.</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Settings saved.</source>
+        <target>Đã lưu cài đặt.</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.</source>
+        <target>Chặn đăng ký khách hàng giả mà không cần captcha: bot không có được tài khoản, và mọi lần thử đáng ngờ được lưu 90 ngày làm bằng chứng cho báo cáo lạm dụng. Không bao giờ gửi lại gì cho kẻ tấn công.</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Your address as the module sees it:</source>
+        <target>Địa chỉ của bạn theo mô-đun thấy:</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>(connection address:</source>
+        <target>(địa chỉ kết nối:</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".</source>
+        <target>Nếu cửa hàng nằm sau Cloudflare hoặc proxy khác và hai địa chỉ này khác địa chỉ thật của bạn, hãy chọn tùy chọn phù hợp trong “Địa chỉ khách truy cập”.</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Protect customer sign-ups</source>
+        <target>Bảo vệ đăng ký khách hàng</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Adds an invisible trap and a signed page stamp to the sign-up form (account page and checkout). Bots get no account; three bot attempts in a day block the address for a week.</source>
+        <target>Thêm một cái bẫy vô hình và một con dấu trang có chữ ký vào biểu mẫu đăng ký (trang tài khoản và thanh toán). Bot không có được tài khoản; ba lần thử của bot trong một ngày sẽ chặn địa chỉ trong một tuần.</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Yes</source>
+        <target>Có</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>No</source>
+        <target>Không</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with "Log only" and move to "Block" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still browse, but not post. Emergency exit: define('DRACO_WAF_OFF', true); in config/defines_custom.inc.php.</source>
+        <target>Chặn các yêu cầu có dạng tấn công (chèn vào cơ sở dữ liệu, đọc tệp máy chủ, chạy mã, script trong liên kết) và các công cụ quét như sqlmap hay Nikto. Hãy bắt đầu với “Chỉ ghi lại” và chuyển sang “Chặn” sau vài ngày. Năm cuộc tấn công trong 10 phút sẽ chặn địa chỉ một tuần; địa chỉ bị chặn vẫn duyệt được nhưng không gửi được. Lối thoát khẩn cấp: define('DRACO_WAF_OFF', true); trong config/defines_custom.inc.php.</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>More pages per minute than a person reads get "429 Too many requests" until the minute ends. Logged-in customers, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited.</source>
+        <target>Ai yêu cầu nhiều trang mỗi phút hơn lượng một người đọc sẽ nhận “429 Too many requests” cho đến hết phút đó. Khách hàng đã đăng nhập, địa chỉ của chính bạn và công cụ tìm kiếm được xác minh qua DNS (Google, Bing, Apple, Yandex) không bao giờ bị giới hạn.</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Leave "Connection address" unless the shop is behind a proxy: a header can be forged by anyone.</source>
+        <target>Giữ “Địa chỉ kết nối” trừ khi cửa hàng nằm sau một proxy: ai cũng có thể giả mạo một header.</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot.</source>
+        <target>Mỗi dòng một dải (CIDR), được thêm vào các dải mô-đun đã biết. Có tên trong danh sách này chỉ cộng thêm điểm: tự nó không bao giờ biến ai thành bot.</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
+        <target>Yêu cầu này đã bị chặn vì lý do bảo mật. Nếu bạn nghĩ đây là nhầm lẫn, hãy liên hệ chủ cửa hàng.</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
+        <target>Header bị bỏ qua: kết nối này (%s) không đến từ Cloudflare hay một proxy tin cậy. Nếu proxy của bạn nằm trên internet, hãy thêm địa chỉ của nó vào “Proxy tin cậy”.</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.</source>
+        <target>Không có gì bị chặn: giá trị không hợp lệ, thuộc về một nhân viên hoặc là địa chỉ của chính bạn.</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).</source>
+        <target>Khách hàng của bạn có thể đến từ nhiều quốc gia, và kẻ tấn công đổi quốc gia bằng VPN. Chỉ lọc đăng nhập, đăng ký và biểu mẫu, và bắt đầu với “Chỉ ghi lại”. Nhân viên, người bạn cho qua và công cụ tìm kiếm không bao giờ bị lọc. Cần bật tường lửa (ghi lại hoặc chặn).</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>The whole shop</source>
+        <target>Toàn bộ cửa hàng</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.</source>
+        <target>Trên các trang cửa hàng: không đoán loại tệp, không cho trang khác nhúng, ít dữ liệu nguồn giới thiệu hơn, không có camera, micrô hay vị trí cho nội dung nhúng. Không bao giờ gửi lại header đã có.</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</source>
+        <target>Chỉ khi toàn bộ cửa hàng chạy trên HTTPS và sẽ tiếp tục như vậy: trình duyệt ghi nhớ điều này và từ chối HTTP thường cho đến khi hết hạn.</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
+        <target>Không bao giờ là nhân viên hay địa chỉ của chính bạn. Dải không rộng hơn /16 (IPv4) hoặc /32 (IPv6).</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.</source>
+        <target>Một khách truy cập bị tường lửa chặn đang yêu cầu xem xét. Mở mô-đun Draco Insomnis để cho qua hoặc không.</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.</source>
+        <target>Cảm ơn bạn. Chủ cửa hàng sẽ xem xét và, nếu là nhầm lẫn, sẽ cho bạn qua.</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:</source>
+        <target>Yêu cầu này đã bị chặn vì lý do bảo mật. Nếu bạn nghĩ đây là nhầm lẫn, hãy cho chủ cửa hàng biết bạn đang làm gì:</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.</source>
+        <target>Bài thử không thể kết nối tới cửa hàng từ chính máy chủ (một số dịch vụ lưu trữ không cho phép). Tường lửa vẫn có thể đang hoạt động: hãy xem các lần thử gần đây.</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers.</source>
+        <target>Bài thử đã bị tường lửa của chính dịch vụ lưu trữ chặn trước khi tới PrestaShop. Tốt: hai lớp.</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>%1$d attacks seen, %2$d blocked.</source>
+        <target>Phát hiện %1$d cuộc tấn công, chặn %2$d.</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.</source>
+        <target>Gửi tới cửa hàng một yêu cầu vô hại có dạng tấn công và cho bạn biết chuyện gì đã xảy ra. Nó không được ghi lại.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>From 8 to 64 characters; 0 leaves only the shop's own rules. Applied when a customer creates an account or changes the password.</source>
+        <target>Từ 8 đến 64 ký tự; 0 chỉ giữ các quy tắc riêng của cửa hàng. Áp dụng khi khách hàng tạo tài khoản hoặc đổi mật khẩu.</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Asks Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.</source>
+        <target>Hỏi Have I Been Pwned theo k-ẩn danh: chỉ 5 ký tự của SHA-1 mật khẩu rời khỏi cửa hàng, không bao giờ là mật khẩu. Nếu dịch vụ không trả lời trong 3 giây, mật khẩu được chấp nhận.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

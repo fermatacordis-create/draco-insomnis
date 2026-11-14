@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="modules/dracoinsomnis" source-language="en-US" target-language="uk-UA" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Firewall</source>
+        <target>Брандмауер</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Anti-copy pace limit</source>
+        <target>Обмеження темпу проти копіювання</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Off</source>
+        <target>Вимкнено</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Log only: record what it would stop</source>
+        <target>Лише журнал: записувати те, що було б зупинено</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Block</source>
+        <target>Блокувати</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Pages per minute, per address</source>
+        <target>Сторінок за хвилину на адресу</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Pages per minute, per network</source>
+        <target>Сторінок за хвилину на мережу</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other.</source>
+        <target>Мережа /24 для IPv4 або /64 для IPv6: те, що отримує парсер, перебираючи сусідні адреси.</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Visitor address</source>
+        <target>Адреса відвідувача</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Connection address (recommended)</source>
+        <target>Адреса з'єднання (рекомендовано)</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cloudflare (CF-Connecting-IP)</source>
+        <target>Cloudflare (CF-Connecting-IP)</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Other proxy (X-Forwarded-For)</source>
+        <target>Інший проксі (X-Forwarded-For)</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Rented-server networks</source>
+        <target>Мережі орендованих серверів</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Automatic: %d bot attempts in 24 h</source>
+        <target>Автоматично: %d спроб бота за 24 год</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Firewall: %d attacks in 10 minutes</source>
+        <target>Брандмауер: %d атак за 10 хвилин</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>[%s] Someone asks you to review a firewall block</source>
+        <target>[%s] Вас просять переглянути блокування брандмауера</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>The registration could not be completed.</source>
+        <target>Не вдалося завершити реєстрацію.</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Request blocked</source>
+        <target>Запит заблоковано</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Address unblocked.</source>
+        <target>Адресу розблоковано.</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Unblock</source>
+        <target>Розблокувати</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Blocked addresses</source>
+        <target>Заблоковані адреси</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Nothing blocked right now.</source>
+        <target>Зараз нічого не заблоковано.</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Last suspicious attempts</source>
+        <target>Останні підозрілі спроби</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider.</source>
+        <target>Зберігаються 90 днів. Ніколи не паролі. CSV адреси містить усе, що вона робила, — готово до додавання до скарги про зловживання її мережевому провайдерові.</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Nothing yet.</source>
+        <target>Поки нічого.</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Address or e-mail</source>
+        <target>Адреса або e-mail</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Reason</source>
+        <target>Причина</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Until (UTC)</source>
+        <target>До (UTC)</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Date (UTC)</source>
+        <target>Дата (UTC)</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Address</source>
+        <target>Адреса</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Where</source>
+        <target>Де</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Verdict</source>
+        <target>Вердикт</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Signs</source>
+        <target>Ознаки</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Data</source>
+        <target>Дані</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Trusted proxies</source>
+        <target>Довірені проксі</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known.</source>
+        <target>Лише з'єднання з цих адрес можуть задавати адресу відвідувача через заголовок. Одна адреса або діапазон у рядку. Порожньо: цей сервер і приватні мережі. Діапазони самого Cloudflare вже відомі.</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Countries</source>
+        <target>Країни</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Refuse the countries listed</source>
+        <target>Відхиляти країни зі списку</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Only the countries listed</source>
+        <target>Лише країни зі списку</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Logging in, signing up and forms (recommended)</source>
+        <target>Вхід, реєстрації й форми (рекомендовано)</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>What to do</source>
+        <target>Що робити</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Countries (two-letter codes, e.g. ES, FR, DE)</source>
+        <target>Країни (дволітерні коди, напр. ES, FR, DE)</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.</source>
+        <target>Геолокація IP від DB-IP (db-ip.com, CC BY 4.0), завантажується, коли ви вмикаєте фільтр, і перевіряється на вашому власному сервері: жодна адреса нікуди не надсилається.</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Country list downloaded.</source>
+        <target>Список країн завантажено.</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>The country list could not be downloaded. The filter does nothing until it is there; save again later.</source>
+        <target>Не вдалося завантажити список країн. Фільтр нічого не робить, доки його немає; збережіть ще раз пізніше.</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Security headers</source>
+        <target>Заголовки безпеки</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Force HTTPS for 6 months (HSTS)</source>
+        <target>Вимагати HTTPS 6 місяців (HSTS)</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Minimum password length</source>
+        <target>Мінімальна довжина пароля</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Refuse passwords found in data breaches</source>
+        <target>Відхиляти паролі з витоків даних</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>The password must have at least %d characters.</source>
+        <target>Пароль має містити щонайменше %d символів.</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>This password appears in known data breaches, so attackers try it first. Please choose another one.</source>
+        <target>Цей пароль є у відомих витоках даних, тож нападники пробують його першим. Будь ласка, оберіть інший.</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>IP or range (e.g. 203.0.113.0/24)</source>
+        <target>IP або діапазон (напр. 203.0.113.0/24)</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>For</source>
+        <target>На</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>7 days</source>
+        <target>7 днів</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>15 days</source>
+        <target>15 днів</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>30 days</source>
+        <target>30 днів</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>90 days</source>
+        <target>90 днів</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Forever</source>
+        <target>Назавжди</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Blocked: %s</source>
+        <target>Заблоковано: %s</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>E-mail</source>
+        <target>Ел. пошта</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Message</source>
+        <target>Повідомлення</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Done.</source>
+        <target>Готово.</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>It could not be done for that address.</source>
+        <target>Для цієї адреси це неможливо.</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>No requests.</source>
+        <target>Запитів немає.</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Review requests</source>
+        <target>Запити на перегляд</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.</source>
+        <target>Ті, кого зупинив брандмауер, можуть попросити зі сторінки блокування. Пропустіть їх на певний час, якщо це помилка. Draco ніколи їм не пише: відповідайте зі своєї пошти, якщо хочете.</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Let through 24 hours</source>
+        <target>Пропустити на 24 години</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Let through</source>
+        <target>Пропустити</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Attacker: blocked</source>
+        <target>Нападник: заблоковано</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Attacker</source>
+        <target>Нападник</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Ask for a review</source>
+        <target>Попросити перегляд</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Denied</source>
+        <target>Відхилено</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Deny</source>
+        <target>Відхилити</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Your e-mail</source>
+        <target>Ваша пошта</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>What were you doing?</source>
+        <target>Що ви робили?</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Review: %s</source>
+        <target>Перегляд: %s</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Request sent</source>
+        <target>Запит надіслано</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Firewall: last 7 days</source>
+        <target>Брандмауер: останні 7 днів</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Busiest addresses:</source>
+        <target>Найактивніші адреси:</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>What:</source>
+        <target>Що:</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Test the firewall</source>
+        <target>Перевірити брандмауер</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Works: a database injection was recognised and blocked (403).</source>
+        <target>Працює: ін'єкцію в базу даних розпізнано й заблоковано (403).</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>The test attack was not recognised. Please report it to Draco Insomnis.</source>
+        <target>Тестову атаку не розпізнано. Будь ласка, повідомте Draco Insomnis.</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>The firewall is off: switch it on and save, then test again.</source>
+        <target>Брандмауер вимкнено: увімкніть його, збережіть і перевірте знову.</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Draco Insomnis</source>
+        <target>Draco Insomnis</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.</source>
+        <target>Працює: ін'єкцію в базу даних розпізнано. У «Лише журнал» вона записується, але не зупиняється; перейдіть на «Блокувати», коли будете готові.</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Settings</source>
+        <target>Налаштування</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Save</source>
+        <target>Зберегти</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Stops fake customer sign-ups without captchas, firewall and anti-copy limits. Open source.</source>
+        <target>Зупиняє фальшиві реєстрації покупців без капчі, брандмауер і обмеження проти копіювання. Відкритий код.</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Settings saved.</source>
+        <target>Налаштування збережено.</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.</source>
+        <target>Зупиняє фальшиві реєстрації покупців без капчі: боти не отримують облікового запису, а кожна підозріла спроба зберігається 90 днів як доказ для скарги про зловживання. Нападникові ніколи нічого не надсилається у відповідь.</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Your address as the module sees it:</source>
+        <target>Ваша адреса, як її бачить модуль:</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>(connection address:</source>
+        <target>(адреса з'єднання:</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".</source>
+        <target>Якщо магазин працює за Cloudflare чи іншим проксі і ці адреси відрізняються від вашої справжньої, виберіть відповідний варіант у «Адреса відвідувача».</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Protect customer sign-ups</source>
+        <target>Захищати реєстрацію покупців</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Adds an invisible trap and a signed page stamp to the sign-up form (account page and checkout). Bots get no account; three bot attempts in a day block the address for a week.</source>
+        <target>Додає до форми реєстрації невидиму пастку й підписану мітку сторінки (сторінка облікового запису й оформлення замовлення). Боти не отримують облікового запису; три спроби бота за день блокують адресу на тиждень.</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Yes</source>
+        <target>Так</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>No</source>
+        <target>Ні</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with "Log only" and move to "Block" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still browse, but not post. Emergency exit: define('DRACO_WAF_OFF', true); in config/defines_custom.inc.php.</source>
+        <target>Зупиняє запити, схожі на атаку (впровадження в базу даних, читання файлів сервера, виконання коду, скрипти в посиланнях), і сканери на кшталт sqlmap чи Nikto. Почніть із «Лише журнал» і через кілька днів перейдіть на «Блокувати». П'ять атак за 10 хвилин блокують адресу на тиждень; заблоковані адреси можуть і далі переглядати магазин, але не надсилати дані. Аварійний вихід: define('DRACO_WAF_OFF', true); у config/defines_custom.inc.php.</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>More pages per minute than a person reads get "429 Too many requests" until the minute ends. Logged-in customers, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited.</source>
+        <target>Хто запитує більше сторінок за хвилину, ніж читає людина, отримує «429 Too many requests» до кінця хвилини. Покупці, що увійшли, ваші власні адреси й пошукові системи, перевірені через DNS (Google, Bing, Apple, Yandex), ніколи не обмежуються.</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Leave "Connection address" unless the shop is behind a proxy: a header can be forged by anyone.</source>
+        <target>Залиште «Адреса з'єднання», якщо магазин не працює за проксі: заголовок може підробити будь-хто.</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot.</source>
+        <target>Один діапазон у рядку (CIDR), на додачу до тих, які модуль уже знає. Перебування в цьому списку лише додає бали: саме по собі воно нікого не робить ботом.</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
+        <target>Цей запит зупинено з міркувань безпеки. Якщо ви вважаєте, що це помилка, зверніться до власника магазину.</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
+        <target>Заголовок ігнорується: це з'єднання (%s) надходить не від Cloudflare і не від довіреного проксі. Якщо ваш проксі в інтернеті, додайте його адреси в «Довірені проксі».</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.</source>
+        <target>Нічого не заблоковано: значення неправильне, належить працівникові або це ваша власна адреса.</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).</source>
+        <target>Ваші покупці можуть приходити з багатьох країн, а нападник змінює країну через VPN. Фільтруйте лише вхід, реєстрацію й форми і почніть із «Лише журнал». Працівники, люди, яких ви пропустили, і пошукові системи ніколи не фільтруються. Потрібен увімкнений брандмауер (журнал або блокування).</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>The whole shop</source>
+        <target>Увесь магазин</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.</source>
+        <target>На сторінках магазину: без вгадування типів файлів, без вбудовування в чужі сайти, менше даних про джерело, без камери, мікрофона й геолокації для вбудованого вмісту. Ніколи заголовок, який уже надіслано.</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</source>
+        <target>Лише якщо весь магазин працює через HTTPS і так буде й надалі: браузери це запам'ятовують і відмовляються від звичайного HTTP до завершення строку.</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
+        <target>Ніколи працівника і ніколи вашу власну адресу. Діапазони не ширші за /16 (IPv4) або /32 (IPv6).</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.</source>
+        <target>Відвідувач, якого зупинив брандмауер, просить перевірки. Відкрийте модуль Draco Insomnis, щоб пропустити його чи ні.</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.</source>
+        <target>Дякуємо. Власник магазину подивиться і, якщо це була помилка, пропустить вас.</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:</source>
+        <target>Цей запит зупинено з міркувань безпеки. Якщо ви вважаєте, що це помилка, розкажіть власникові магазину, що ви робили:</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.</source>
+        <target>Тест не зміг дістатися магазину з самого сервера (деякі хостинги цього не дозволяють). Брандмауер усе одно може працювати: перегляньте останні спроби.</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers.</source>
+        <target>Тест зупинив брандмауер самого хостингу ще до PrestaShop. Добре: два рівні захисту.</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>%1$d attacks seen, %2$d blocked.</source>
+        <target>Помічено атак: %1$d, заблоковано: %2$d.</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.</source>
+        <target>Надсилає магазину нешкідливий запит у формі атаки й повідомляє, що сталося. Він не записується.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>From 8 to 64 characters; 0 leaves only the shop's own rules. Applied when a customer creates an account or changes the password.</source>
+        <target>Від 8 до 64 символів; 0 залишає лише власні правила магазину. Застосовується, коли покупець створює обліковий запис або змінює пароль.</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Asks Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.</source>
+        <target>Питає Have I Been Pwned із k-анонімністю: магазин залишають лише 5 символів SHA-1 пароля, ніколи сам пароль. Якщо сервіс не відповість за 3 секунди, пароль приймається.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

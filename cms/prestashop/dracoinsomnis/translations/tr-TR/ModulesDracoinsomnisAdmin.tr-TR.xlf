@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="modules/dracoinsomnis" source-language="en-US" target-language="tr-TR" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Firewall</source>
+        <target>Güvenlik duvarı</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Anti-copy pace limit</source>
+        <target>Kopyalamaya karşı hız sınırı</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Off</source>
+        <target>Kapalı</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Log only: record what it would stop</source>
+        <target>Yalnızca kaydet: durduracağı şeyi not al</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Block</source>
+        <target>Engelle</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Pages per minute, per address</source>
+        <target>Adres başına dakikada sayfa</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Pages per minute, per network</source>
+        <target>Ağ başına dakikada sayfa</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other.</source>
+        <target>IPv4 için /24, IPv6 için /64 ağ: komşu adresler arasında dolaşan bir kazıyıcının elde ettiği alan.</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Visitor address</source>
+        <target>Ziyaretçi adresi</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Connection address (recommended)</source>
+        <target>Bağlantı adresi (önerilir)</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cloudflare (CF-Connecting-IP)</source>
+        <target>Cloudflare (CF-Connecting-IP)</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Other proxy (X-Forwarded-For)</source>
+        <target>Diğer proxy (X-Forwarded-For)</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Rented-server networks</source>
+        <target>Kiralık sunucu ağları</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Automatic: %d bot attempts in 24 h</source>
+        <target>Otomatik: 24 saatte %d bot denemesi</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Firewall: %d attacks in 10 minutes</source>
+        <target>Güvenlik duvarı: 10 dakikada %d saldırı</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>[%s] Someone asks you to review a firewall block</source>
+        <target>[%s] Biri bir güvenlik duvarı engelini incelemenizi istiyor</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>The registration could not be completed.</source>
+        <target>Kayıt tamamlanamadı.</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Request blocked</source>
+        <target>İstek engellendi</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Address unblocked.</source>
+        <target>Adresin engeli kaldırıldı.</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Unblock</source>
+        <target>Engeli kaldır</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Blocked addresses</source>
+        <target>Engellenen adresler</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Nothing blocked right now.</source>
+        <target>Şu anda engellenen bir şey yok.</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Last suspicious attempts</source>
+        <target>Son şüpheli denemeler</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider.</source>
+        <target>90 gün saklanır. Asla parola tutulmaz. Bir adresin CSV dosyası yaptığı her şeyi içerir; ağ sağlayıcısına yapılacak kötüye kullanım bildirimine eklemeye hazırdır.</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Nothing yet.</source>
+        <target>Henüz bir şey yok.</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Address or e-mail</source>
+        <target>Adres veya e-posta</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Reason</source>
+        <target>Neden</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Until (UTC)</source>
+        <target>Bitiş (UTC)</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Date (UTC)</source>
+        <target>Tarih (UTC)</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Address</source>
+        <target>Adres</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Where</source>
+        <target>Nerede</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Verdict</source>
+        <target>Karar</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Signs</source>
+        <target>İşaretler</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Data</source>
+        <target>Veriler</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Trusted proxies</source>
+        <target>Güvenilen proxy’ler</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known.</source>
+        <target>Ziyaretçi adresini bir başlıkla yalnızca bu adreslerden gelen bağlantılar belirleyebilir. Her satıra bir adres veya aralık. Boş: bu sunucu ve özel ağlar. Cloudflare’in kendi aralıkları zaten biliniyor.</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Countries</source>
+        <target>Ülkeler</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Refuse the countries listed</source>
+        <target>Listedeki ülkeleri reddet</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Only the countries listed</source>
+        <target>Yalnızca listedeki ülkeler</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Logging in, signing up and forms (recommended)</source>
+        <target>Giriş, kayıt ve formlar (önerilen)</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>What to do</source>
+        <target>Ne yapılsın</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Countries (two-letter codes, e.g. ES, FR, DE)</source>
+        <target>Ülkeler (iki harfli kodlar, ör. ES, FR, DE)</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.</source>
+        <target>IP konum bilgisi DB-IP’den (db-ip.com, CC BY 4.0); filtreyi açtığınızda indirilir ve kendi sunucunuzda sorgulanır: hiçbir adres hiçbir yere gönderilmez.</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Country list downloaded.</source>
+        <target>Ülke listesi indirildi.</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>The country list could not be downloaded. The filter does nothing until it is there; save again later.</source>
+        <target>Ülke listesi indirilemedi. Liste gelene kadar filtre hiçbir şey yapmaz; daha sonra yeniden kaydedin.</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Security headers</source>
+        <target>Güvenlik başlıkları</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Force HTTPS for 6 months (HSTS)</source>
+        <target>HTTPS’i 6 ay zorunlu kıl (HSTS)</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Minimum password length</source>
+        <target>En kısa parola uzunluğu</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Refuse passwords found in data breaches</source>
+        <target>Veri sızıntılarında bulunan parolaları reddet</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>The password must have at least %d characters.</source>
+        <target>Parola en az %d karakter olmalıdır.</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>This password appears in known data breaches, so attackers try it first. Please choose another one.</source>
+        <target>Bu parola bilinen veri sızıntılarında geçiyor, bu yüzden saldırganlar önce onu dener. Lütfen başka bir parola seçin.</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>IP or range (e.g. 203.0.113.0/24)</source>
+        <target>IP veya aralık (ör. 203.0.113.0/24)</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>For</source>
+        <target>Süre</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>7 days</source>
+        <target>7 gün</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>15 days</source>
+        <target>15 gün</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>30 days</source>
+        <target>30 gün</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>90 days</source>
+        <target>90 gün</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Forever</source>
+        <target>Süresiz</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Blocked: %s</source>
+        <target>Engellendi: %s</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>E-mail</source>
+        <target>E-posta</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Message</source>
+        <target>Mesaj</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Done.</source>
+        <target>Tamam.</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>It could not be done for that address.</source>
+        <target>Bu adres için yapılamadı.</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>No requests.</source>
+        <target>İstek yok.</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Review requests</source>
+        <target>İnceleme istekleri</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.</source>
+        <target>Güvenlik duvarının durdurduğu kişiler engel sayfasından isteyebilir. Bir hataysa bir süre geçmelerine izin verin. Draco onlara asla yazmaz: isterseniz kendi e-postanızdan yanıtlayın.</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Let through 24 hours</source>
+        <target>24 saat geçir</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Let through</source>
+        <target>Geçir</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Attacker: blocked</source>
+        <target>Saldırgan: engellendi</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Attacker</source>
+        <target>Saldırgan</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Ask for a review</source>
+        <target>İnceleme iste</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Denied</source>
+        <target>Reddedildi</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Deny</source>
+        <target>Reddet</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Your e-mail</source>
+        <target>E-postanız</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>What were you doing?</source>
+        <target>Ne yapıyordunuz?</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Review: %s</source>
+        <target>İnceleme: %s</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Request sent</source>
+        <target>İstek gönderildi</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Firewall: last 7 days</source>
+        <target>Güvenlik duvarı: son 7 gün</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Busiest addresses:</source>
+        <target>En hareketli adresler:</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>What:</source>
+        <target>Ne:</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Test the firewall</source>
+        <target>Güvenlik duvarını test et</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Works: a database injection was recognised and blocked (403).</source>
+        <target>Çalışıyor: bir veritabanı enjeksiyonu tanındı ve engellendi (403).</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>The test attack was not recognised. Please report it to Draco Insomnis.</source>
+        <target>Test saldırısı tanınmadı. Lütfen Draco Insomnis'e bildirin.</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>The firewall is off: switch it on and save, then test again.</source>
+        <target>Güvenlik duvarı kapalı: açın, kaydedin ve yeniden deneyin.</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Draco Insomnis</source>
+        <target>Draco Insomnis</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.</source>
+        <target>Çalışıyor: bir veritabanı enjeksiyonu tanındı. «Yalnızca kaydet» modunda not edilir ama durdurulmaz; hazır olduğunuzda «Engelle»ye geçin.</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Settings</source>
+        <target>Ayarlar</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Save</source>
+        <target>Kaydet</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Stops fake customer sign-ups without captchas, firewall and anti-copy limits. Open source.</source>
+        <target>Captcha olmadan sahte müşteri kayıtlarını durdurur; güvenlik duvarı ve kopyalamaya karşı sınırlar. Açık kaynak.</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Settings saved.</source>
+        <target>Ayarlar kaydedildi.</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.</source>
+        <target>Captcha olmadan sahte müşteri kayıtlarını durdurur: botlar hesap alamaz ve her şüpheli deneme kötüye kullanım bildirimi için kanıt olarak 90 gün saklanır. Saldırgana asla bir şey geri gönderilmez.</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Your address as the module sees it:</source>
+        <target>Modülün gördüğü adresiniz:</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>(connection address:</source>
+        <target>(bağlantı adresi:</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".</source>
+        <target>Mağaza Cloudflare veya başka bir proxy arkasındaysa ve bunlar gerçek adresinizden farklıysa, “Ziyaretçi adresi” bölümünde uygun seçeneği seçin.</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Protect customer sign-ups</source>
+        <target>Müşteri kayıtlarını koru</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Adds an invisible trap and a signed page stamp to the sign-up form (account page and checkout). Bots get no account; three bot attempts in a day block the address for a week.</source>
+        <target>Kayıt formuna (hesap sayfası ve ödeme) görünmez bir tuzak ve imzalı bir sayfa damgası ekler. Botlar hesap alamaz; bir günde üç bot denemesi adresi bir hafta engeller.</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Yes</source>
+        <target>Evet</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>No</source>
+        <target>Hayır</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with "Log only" and move to "Block" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still browse, but not post. Emergency exit: define('DRACO_WAF_OFF', true); in config/defines_custom.inc.php.</source>
+        <target>Saldırı biçimindeki istekleri (veritabanı enjeksiyonu, sunucu dosyalarını okuma, kod çalıştırma, bağlantılarda betik) ve sqlmap ya da Nikto gibi tarayıcıları durdurur. “Yalnızca kaydet” ile başlayın ve birkaç gün sonra “Engelle”ye geçin. 10 dakikada beş saldırı adresi bir hafta engeller; engellenen adresler gezinmeye devam edebilir ama bir şey gönderemez. Acil çıkış: config/defines_custom.inc.php dosyasına define('DRACO_WAF_OFF', true); ekleyin.</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>More pages per minute than a person reads get "429 Too many requests" until the minute ends. Logged-in customers, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited.</source>
+        <target>Bir insanın okuyabileceğinden fazla sayfayı dakikada isteyen, dakika bitene kadar “429 Too many requests” alır. Oturum açmış müşteriler, kendi adresleriniz ve DNS ile doğrulanmış arama motorları (Google, Bing, Apple, Yandex) asla sınırlanmaz.</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Leave "Connection address" unless the shop is behind a proxy: a header can be forged by anyone.</source>
+        <target>Mağaza bir proxy arkasında değilse “Bağlantı adresi”ni bırakın: bir başlığı herkes taklit edebilir.</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot.</source>
+        <target>Her satıra bir aralık (CIDR); modülün zaten bildiklerine eklenir. Bu listede olmak yalnızca puan ekler: tek başına kimseyi bot yapmaz.</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
+        <target>Bu istek güvenlik nedeniyle durduruldu. Bunun bir hata olduğunu düşünüyorsanız mağaza sahibiyle iletişime geçin.</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
+        <target>Başlık yok sayılıyor: bu bağlantı (%s) Cloudflare’den ya da güvenilen bir proxy’den gelmiyor. Proxy’niz internetteyse adreslerini “Güvenilen proxy’ler” bölümüne ekleyin.</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.</source>
+        <target>Hiçbir şey engellenmedi: değer geçersiz, bir çalışana ait ya da sizin kendi adresiniz.</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).</source>
+        <target>Müşterileriniz birçok ülkeden gelebilir ve bir saldırgan VPN ile ülke değiştirir. Yalnızca giriş, kayıt ve formları filtreleyin ve “Yalnızca kaydet” ile başlayın. Çalışanlar, geçirdiğiniz kişiler ve arama motorları asla filtrelenmez. Güvenlik duvarının açık olması gerekir (kaydet veya engelle).</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>The whole shop</source>
+        <target>Tüm mağaza</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.</source>
+        <target>Mağaza sayfalarında: dosya türü tahmini yok, başka sitelere gömülme yok, daha az kaynak verisi, gömülü içerik için kamera, mikrofon veya konum yok. Zaten gönderilen bir başlık asla tekrar gönderilmez.</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</source>
+        <target>Yalnızca tüm mağaza HTTPS ile çalışıyorsa ve öyle kalacaksa: tarayıcılar bunu hatırlar ve süre dolana kadar düz HTTP’yi reddeder.</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
+        <target>Asla bir çalışan ya da kendi adresiniz değil. Aralıklar /16 (IPv4) veya /32 (IPv6) değerinden geniş olamaz.</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.</source>
+        <target>Güvenlik duvarının durdurduğu bir ziyaretçi inceleme istiyor. Geçirip geçirmemeye karar vermek için Draco Insomnis modülünü açın.</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.</source>
+        <target>Teşekkürler. Mağaza sahibi inceleyecek ve bir hataysa sizi geçirecek.</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:</source>
+        <target>Bu istek güvenlik nedeniyle durduruldu. Bunun bir hata olduğunu düşünüyorsanız mağaza sahibine ne yaptığınızı anlatın:</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.</source>
+        <target>Test, sunucunun kendisinden mağazaya ulaşamadı (bazı barındırma hizmetleri buna izin vermez). Güvenlik duvarı yine de çalışıyor olabilir: son denemelere bakın.</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers.</source>
+        <target>Test, PrestaShop’a ulaşmadan barındırma hizmetinin kendi güvenlik duvarında durduruldu. İyi: iki katman.</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>%1$d attacks seen, %2$d blocked.</source>
+        <target>%1$d saldırı görüldü, %2$d engellendi.</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.</source>
+        <target>Mağazaya zararsız, saldırı biçiminde bir istek gönderir ve ne olduğunu size söyler. Kaydedilmez.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>From 8 to 64 characters; 0 leaves only the shop's own rules. Applied when a customer creates an account or changes the password.</source>
+        <target>8 ile 64 karakter arası; 0 yalnızca mağazanın kendi kurallarını bırakır. Bir müşteri hesap oluşturduğunda veya parolasını değiştirdiğinde uygulanır.</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Asks Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.</source>
+        <target>Have I Been Pwned’e k-anonimlikle sorar: mağazadan parolanın SHA-1 değerinin yalnızca 5 karakteri çıkar, parolanın kendisi asla. Hizmet 3 saniye içinde yanıt vermezse parola kabul edilir.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — ko (generated from i18n/ko.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. 캡차 없이 가짜 가입을 막고, 애플리케이션 방화벽과 복제 방지 속도 제한을 제공합니다. 오픈 소스."
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "캡차 없이 가짜 가입을 막습니다. 봇은 계정을 얻지 못하고, 의심스러운 시도는 모두 악용 신고를 위한 증거로 90일간 보관됩니다. 공격자에게는 아무것도 돌려보내지 않습니다."
+
+msgid "Protect user sign-ups"
+msgstr "회원 가입 보호"
+
+msgid "Firewall"
+msgstr "방화벽"
+
+msgid "Anti-copy pace limit"
+msgstr "복제 방지 속도 제한"
+
+msgid "Off"
+msgstr "끔"
+
+msgid "Log only: record what it would stop"
+msgstr "기록만: 막았을 것을 기록"
+
+msgid "Block"
+msgstr "차단"
+
+msgid "Pages per minute, per address"
+msgstr "주소당 분당 페이지 수"
+
+msgid "Pages per minute, per network"
+msgstr "네트워크당 분당 페이지 수"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "IPv4는 /24, IPv6는 /64 네트워크: 이웃한 주소를 돌려 쓰는 스크래퍼가 얻는 범위입니다."
+
+msgid "Visitor address"
+msgstr "방문자 주소"
+
+msgid "Connection address (recommended)"
+msgstr "연결 주소(권장)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "기타 프록시 (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "임대 서버 네트워크"
+
+msgid "The registration could not be completed."
+msgstr "가입을 완료할 수 없습니다."
+
+msgid "Request blocked"
+msgstr "요청이 차단되었습니다"
+
+msgid "Address unblocked."
+msgstr "주소 차단을 해제했습니다."
+
+msgid "Unblock"
+msgstr "차단 해제"
+
+msgid "Nothing blocked right now."
+msgstr "현재 차단된 것이 없습니다."
+
+msgid "Last suspicious attempts"
+msgstr "최근의 의심스러운 시도"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "90일간 보관됩니다. 비밀번호는 절대 저장하지 않습니다. 주소별 CSV에는 그 주소가 한 모든 일이 담겨 있어, 네트워크 제공자에게 보내는 악용 신고에 바로 첨부할 수 있습니다."
+
+msgid "Nothing yet."
+msgstr "아직 없습니다."
+
+msgid "Address or e-mail"
+msgstr "주소 또는 이메일"
+
+msgid "Reason"
+msgstr "사유"
+
+msgid "Until (UTC)"
+msgstr "만료 (UTC)"
+
+msgid "Date (UTC)"
+msgstr "날짜 (UTC)"
+
+msgid "Address"
+msgstr "주소"
+
+msgid "Where"
+msgstr "적용 범위"
+
+msgid "Verdict"
+msgstr "판정"
+
+msgid "Signs"
+msgstr "징후"
+
+msgid "Data"
+msgstr "데이터"
+
+msgid "Trusted proxies"
+msgstr "신뢰하는 프록시"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "이 주소에서 오는 연결만 헤더로 방문자 주소를 지정할 수 있습니다. 한 줄에 주소나 범위 하나. 비워 두면: 이 서버와 사설 네트워크. Cloudflare 자체 범위는 이미 알고 있습니다."
+
+msgid "Countries"
+msgstr "국가"
+
+msgid "Filter"
+msgstr "필터"
+
+msgid "Refuse the countries listed"
+msgstr "목록의 국가 거부"
+
+msgid "Only the countries listed"
+msgstr "목록의 국가만"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "로그인, 가입, 양식 (권장)"
+
+msgid "The whole site"
+msgstr "사이트 전체"
+
+msgid "What to do"
+msgstr "동작"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "국가 (두 글자 코드, 예: ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "국가 목록을 다운로드했습니다."
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "사이트 전체가 HTTPS로 작동하고 앞으로도 그럴 때만. 브라우저가 이를 기억하고 만료될 때까지 HTTP를 거부합니다."
+
+msgid "Minimum password length"
+msgstr "비밀번호 최소 길이"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "데이터 유출에서 발견된 비밀번호 거부"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "k-익명성으로 Have I Been Pwned에 묻습니다. 사이트 밖으로 나가는 것은 비밀번호 SHA-1의 5자뿐이며 비밀번호 자체는 절대 나가지 않습니다. 서비스가 3초 안에 답하지 않으면 비밀번호를 받아들입니다."
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "이 비밀번호는 알려진 데이터 유출에 있어 공격자가 가장 먼저 시도합니다. 다른 비밀번호를 선택하세요."
+
+msgid "Block an address or range"
+msgstr "주소 또는 범위 차단"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP 또는 범위 (예: 203.0.113.0/24)"
+
+msgid "For"
+msgstr "기간"
+
+msgid "7 days"
+msgstr "7일"
+
+msgid "15 days"
+msgstr "15일"
+
+msgid "30 days"
+msgstr "30일"
+
+msgid "90 days"
+msgstr "90일"
+
+msgid "Forever"
+msgstr "영구"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "차단하지 않았습니다. 값이 올바르지 않거나, 관리자 것이거나, 본인 주소입니다."
+
+msgid "E-mail"
+msgstr "이메일"
+
+msgid "Message"
+msgstr "메시지"
+
+msgid "Done."
+msgstr "완료."
+
+msgid "It could not be done for that address."
+msgstr "그 주소에는 할 수 없었습니다."
+
+msgid "No requests."
+msgstr "요청이 없습니다."
+
+msgid "Review requests"
+msgstr "검토 요청"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "방화벽에 막힌 사람은 차단 페이지에서 요청할 수 있습니다. 실수였다면 잠시 통과시켜 주세요. Draco는 그들에게 절대 메일을 보내지 않습니다. 원하면 직접 메일로 답하세요."
+
+msgid "Let through 24 hours"
+msgstr "24시간 통과"
+
+msgid "Let through"
+msgstr "통과"
+
+msgid "Attacker: blocked"
+msgstr "공격자: 차단됨"
+
+msgid "Attacker"
+msgstr "공격자"
+
+msgid "Ask for a review"
+msgstr "검토 요청"
+
+msgid "Denied"
+msgstr "거부됨"
+
+msgid "Deny"
+msgstr "거부"
+
+msgid "Your e-mail"
+msgstr "이메일"
+
+msgid "What were you doing?"
+msgstr "무엇을 하고 계셨나요?"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "감사합니다. 사이트 관리자가 확인하고, 실수였다면 통과시켜 드립니다."
+
+msgid "Request sent"
+msgstr "요청을 보냈습니다"
+
+msgid "Firewall: last 7 days"
+msgstr "방화벽: 최근 7일"
+
+msgid "Test the firewall"
+msgstr "방화벽 테스트"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "작동합니다: 데이터베이스 주입을 인식하고 차단했습니다(403)."
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "공격 형태의 무해한 요청을 사이트에 보내고 결과를 알려 줍니다. 기록되지 않습니다."
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "테스트 공격이 인식되지 않았습니다. Draco Insomnis에 알려 주세요."
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "방화벽이 꺼져 있습니다. 켜고 저장한 뒤 다시 테스트하세요."
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "서버 자신에서 사이트에 접속하지 못했습니다(일부 호스팅은 허용하지 않습니다). 그래도 방화벽은 작동할 수 있으니 최근 시도를 확인하세요."
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "관리자와 내 주소는 차단하지 않습니다. 범위는 /16(IPv4) 또는 /32(IPv6)보다 넓을 수 없습니다."
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "Draco Insomnis 방화벽 우회"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "사이트가 프록시 뒤에 있지 않다면 ‘연결 주소’를 그대로 두세요. 헤더는 누구나 위조할 수 있습니다."
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "작동합니다: 데이터베이스 주입을 인식했습니다. «기록만» 모드에서는 기록만 하고 막지 않습니다. 준비되면 «차단»으로 바꾸세요."
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "이 요청은 보안상의 이유로 중단되었습니다. 실수라고 생각되면 무엇을 하고 있었는지 사이트 관리자에게 알려 주세요:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "한 줄에 범위 하나(CIDR). 모듈이 이미 아는 범위에 더해집니다. 이 목록에 있으면 점수만 더해질 뿐, 그것만으로 누군가를 봇으로 판정하지는 않습니다."
+
+msgid "The password must have at least @count characters."
+msgstr "비밀번호는 @count자 이상이어야 합니다."
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] 방화벽 차단을 검토해 달라는 요청이 왔습니다"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "방화벽에 막힌 방문자가 검토를 요청했습니다. Draco Insomnis를 열어 통과시킬지 정하세요:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "방화벽: 10분에 공격 @count번"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "자동: 24시간에 봇 시도 @count번"
+
+msgid "Review: @email"
+msgstr "검토: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "테스트가 Drupal에 닿기 전에 호스팅 자체 방화벽에서 막혔습니다. 좋습니다: 이중 방어입니다."
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "모듈이 보는 내 주소: %ip (연결 주소: %remote). 사이트가 Cloudflare나 다른 프록시 뒤에 있고 이 주소가 실제 주소와 다르면 ‘방문자 주소’에서 알맞은 항목을 고르세요."
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "헤더를 무시합니다: 이 연결(%remote)은 Cloudflare나 신뢰하는 프록시에서 오지 않았습니다. 프록시가 인터넷에 있다면 그 주소를 ‘신뢰하는 프록시’에 추가하세요."
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "공개 가입 양식에 보이지 않는 함정과 서명된 페이지 스탬프를 추가합니다. 봇은 계정을 얻지 못하며, 하루에 봇 시도가 세 번이면 그 주소는 일주일 동안 차단됩니다."
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "공격 형태의 요청(데이터베이스 삽입, 서버 파일 읽기, 코드 실행, 링크 속 스크립트)과 sqlmap, Nikto 같은 스캐너를 막습니다. ‘기록만’으로 시작하고 며칠 뒤 ‘차단’으로 바꾸세요. 10분에 공격 5번이면 그 주소는 일주일 동안 차단되며, 차단된 주소도 사이트를 읽을 수는 있지만 전송이나 로그인은 할 수 없습니다. ‘Draco Insomnis 방화벽 우회’ 권한이 있는 사용자는 검사하지 않습니다. 비상구: settings.php에 $settings['draco_waf_off'] = TRUE; 를 넣으세요."
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "사람이 읽는 것보다 많은 페이지를 1분에 요청하면 그 1분이 끝날 때까지 ‘429 Too many requests’를 받습니다. 로그인한 사용자, 내 주소, DNS로 확인된 검색 엔진(Google, Bing, Apple, Yandex)은 제한하지 않습니다."
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "방문자는 여러 나라에서 올 수 있고, 공격자는 VPN으로 나라를 바꿉니다. 로그인, 가입, 양식만 필터링하고 «기록만»으로 시작하세요. 관리자, 통과시킨 사람, 검색 엔진은 절대 필터링되지 않습니다."
+
+msgid "Log only"
+msgstr "기록만"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "국가 목록: 아직 다운로드되지 않음 (필터를 켜면 다운로드됩니다)."
+
+msgid "Country list of @date."
+msgstr "@date 기준 국가 목록."
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "IP 위치 정보는 <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a>(CC BY 4.0)를 사용합니다. 내 서버에서 조회하며 어떤 주소도 외부로 보내지 않습니다."
+
+msgid "Send security headers on public pages"
+msgstr "공개 페이지에 보안 헤더 보내기"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "파일 형식 추측 금지, 다른 사이트에 삽입 금지, 출처 정보 축소, 삽입된 콘텐츠의 카메라·마이크·위치 사용 금지. 서버가 이미 보내는 헤더는 다시 보내지 않습니다."
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "브라우저에서 6개월간 HTTPS 강제 (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "8~64자. 0 = 최소 없음. 계정을 만들거나 비밀번호를 바꿀 때 적용됩니다."
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "국가 목록을 내려받지 못했습니다. 목록이 준비될 때까지 필터는 아무것도 하지 않습니다. 나중에 다시 시도하세요."
+
+msgid "Blocked: @value"
+msgstr "차단됨: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "공격 @total건 확인, @blocked건 차단."
+
+msgid "What"
+msgstr "내용"
+
+msgid "Busiest addresses"
+msgstr "가장 활발한 주소"
+
+msgid "Blocked addresses (@count)"
+msgstr "차단된 주소(@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "가입용 봇 방어막, 방화벽, 복제 방지 제한."
+
+msgid "Administer Draco Insomnis"
+msgstr "Draco Insomnis 관리"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "설정 변경, 증거 확인, 주소 차단 해제."
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "이 사용자들의 요청은 검사하지 않습니다. 콘텐츠에 코드나 SQL을 쓰는 편집자에게 부여하세요."
+
