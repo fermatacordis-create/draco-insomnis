@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+if [ "$1" = purge ]; then
+  # The evidence goes only on purge; a plain remove keeps it for abuse reports.
+  rm -rf /var/lib/draco-insomnis
+fi
+if [ -d /run/systemd/system ]; then
+  systemctl daemon-reload >/dev/null 2>&1 || true
+fi
+exit 0

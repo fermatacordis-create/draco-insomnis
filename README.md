@@ -133,6 +133,15 @@ php artisan vendor:publish --tag=draco-config   # optional: config/draco.php
 - Counters live in the app's cache store (`DRACO_CACHE_STORE`; Redis or database with several servers).
 - English and Spanish messages. Emergency exit: `DRACO_WAF_OFF=true`.
 
+## Server edition
+
+`server/` is **Draco Insomnis Server**: the same engines loaded before every PHP script on a
+Linux server (`auto_prepend_file`), so any PHP site gets the firewall, block list, country filter,
+pace limit, security headers and review requests without a plugin — MediaWiki, TYPO3, Magento,
+phpBB, Nextcloud or custom code. `bin/build-server.sh` makes the `.deb` (Debian, Ubuntu) and a
+`.tar.gz` with `install.sh` for other Linux; `tests/e2e/server.sh` runs against nginx + PHP-FPM and
+Apache + mod_php in CI. See [server/README.md](server/README.md).
+
 ## Releasing
 
 Every release carries one package per platform with the same version, built from the same commit

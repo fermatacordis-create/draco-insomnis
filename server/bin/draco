@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+// Draco Insomnis Server: the "draco" command (draco help).
+
+declare(strict_types=1);
+
+if (PHP_SAPI !== 'cli') {
+    exit(1);
+}
+define('DRACO_SERVER_VERSION', '0.1.16');
+// Installed as /usr/bin/draco → /usr/share/draco-insomnis/bin/draco; in the repository, server/bin/draco.
+require dirname(realpath(__FILE__) ?: __FILE__, 2) . '/autoload.php';
+
+exit(\DracoInsomnis\Server\Cli::main($argv));

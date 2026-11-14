@@ -1,0 +1,8 @@
+[Unit]
+Description=Draco Insomnis Server: old evidence out, country list refreshed
+Documentation=https://github.com/fermatacordis-create/draco-insomnis
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/draco cleanup
+Nice=10

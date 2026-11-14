@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+if [ "$1" = configure ]; then
+  mkdir -p /var/lib/draco-insomnis
+  chmod 1733 /var/lib/draco-insomnis
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || true
+    systemctl enable --now draco-insomnis-cleanup.timer >/dev/null 2>&1 || true
+  fi
+  # On upgrade, PHP must load the new files: reload only when Draco is already enabled.
+  if ls /etc/php/*/*/conf.d/99-draco-insomnis.ini >/dev/null 2>&1; then
+    for u in $(systemctl list-units --type=service --state=running --no-legend --plain 2>/dev/null | awk '{print $1}' | grep -E '^(php[0-9.]*-fpm|apache2)\.service$'); do
+      systemctl reload "$u" >/dev/null 2>&1 || true
+    done
+  else
+    echo "Draco Insomnis Server is installed but not loaded yet. Turn it on with:  sudo draco enable"
+  fi
+fi
+exit 0

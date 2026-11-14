@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.15
+Stable tag: 0.1.16
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,10 +126,14 @@ Only if "Refuse passwords that appear in known data breaches" is switched on, Dr
 
 == Changelog ==
 
+= 0.1.16 =
+* New: Draco Insomnis Server, the firewall in front of every PHP site on a server, whatever it runs (MediaWiki, TYPO3, Magento, phpBB, Nextcloud, your own code…), without a plugin per site. It loads before every PHP script (auto_prepend_file) with the same engines as the plugins: firewall rules, block list with ranges, country filter, anti-copy pace limit, security headers and the review request on the block page. A .deb for Debian and Ubuntu and a .tar.gz with install.sh for any Linux with PHP 8.0+; the "draco" command (enable, status, set, events, evidence, block, reviews, test, cleanup); settings in /etc/draco-insomnis/draco.ini with per-site sections; evidence in SQLite, one folder per PHP user; a daily systemd timer. Off until "draco enable", the firewall starts in "log", and any error of Draco itself lets the request through.
+* CI: the package is installed and tested end to end on Ubuntu 24.04 with nginx and PHP-FPM and on Ubuntu 22.04 with Apache and mod_php, then removed and purged.
+
 = 0.1.15 =
 * PrestaShop, Drupal, Joomla, Moodle and Laravel catch up with WordPress (parity 3): password rules, both off by default. A minimum length (8 to 64 characters) and refusing passwords found in known data breaches, asked to Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the site, never the password, and if the service does not answer in 3 seconds the password is accepted. Applied when an account is created or a password is changed: Drupal (sign-up and account forms), Joomla (every user save, next to the rules in Users: Options), Moodle (through its password policy, while "Password policy" is on), PrestaShop (sign-up, "Your personal information" and the reset link) and Laravel (the DracoPassword rule or 'draco_password' in validation, with DRACO_PWD_MIN and DRACO_PWD_BREACHED).
 * One shared engine for the rules (Core\Passwords).
-* Still WordPress only, for the next version: the 39 languages (0.1.16).
+* Still WordPress only, for a next version: the 39 languages.
 
 = 0.1.14 =
 * Security fix for every version since 0.1.9: the review form on the block page carried the name of the rule that matched (for example "sqli") in a hidden field, and the block page must never say what matched. The rule now travels sealed with the site's secret.
