@@ -454,6 +454,30 @@
         <source>Attacker</source>
         <target>Atacante</target>
       </trans-unit>
+      <trans-unit id="114">
+        <source>Minimum password length</source>
+        <target>Longitud mínima de la contraseña</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>From 8 to 64 characters; 0 leaves only the shop's own rules. Applied when a customer creates an account or changes the password.</source>
+        <target>De 8 a 64 caracteres; con 0 quedan solo las reglas de la tienda. Se aplica cuando un cliente crea su cuenta o cambia la contraseña.</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>Refuse passwords found in data breaches</source>
+        <target>Rechazar contraseñas filtradas</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Asks Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.</source>
+        <target>Pregunta a Have I Been Pwned con k-anonimato: de la tienda solo salen 5 caracteres del SHA-1 de la contraseña, nunca la contraseña. Si el servicio no responde en 3 segundos, la contraseña se acepta.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>The password must have at least %d characters.</source>
+        <target>La contraseña debe tener al menos %d caracteres.</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>This password appears in known data breaches, so attackers try it first. Please choose another one.</source>
+        <target>Esta contraseña aparece en filtraciones de datos conocidas, así que los atacantes la prueban primero. Elige otra, por favor.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

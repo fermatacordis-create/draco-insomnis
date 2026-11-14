@@ -10,6 +10,7 @@ namespace Notorius\Plugin\System\DracoInsomnis\Extension;
 
 use DracoInsomnis\Core\Firewall;
 use DracoInsomnis\Core\Gatekeeper;
+use DracoInsomnis\Core\Passwords;
 use DracoInsomnis\Core\Review;
 use DracoInsomnis\Core\TestProbe;
 use DracoInsomnis\Core\Geo;
@@ -50,6 +51,7 @@ final class DracoInsomnis extends CMSPlugin implements SubscriberInterface
             'onAfterRender' => 'onAfterRender',
             'onAjaxDracoinsomnis' => 'onAjax',
             'onExtensionAfterSave' => 'onExtensionAfterSave',
+            'onUserBeforeSave' => 'onUserBeforeSave',
         ];
     }
 
@@ -209,6 +211,23 @@ final class DracoInsomnis extends CMSPlugin implements SubscriberInterface
             if (!\in_array(strtolower($name), $set, true)) {
                 $app->setHeader($name, $value);
             }
+        }
+    }
+
+    /**
+     * A password is being chosen (sign-up, profile, reset, back end): Draco's rules, next to the ones
+     * in Users: Options. Joomla turns the exception into the form's error message.
+     */
+    public function onUserBeforeSave(Event $event): void
+    {
+        $data = method_exists($event, 'getData') ? $event->getData() : $event->getArgument('data');
+        $password = \is_array($data) && \is_string($data['password_clear'] ?? null) ? $data['password_clear'] : '';
+        if ($password === '') {
+            return;
+        }
+        $problem = Passwords::problem($this->host(), $password);
+        if ($problem !== '') {
+            throw new \RuntimeException($problem);
         }
     }
 

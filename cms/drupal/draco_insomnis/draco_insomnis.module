@@ -23,6 +23,7 @@ require_once __DIR__ . '/lib/autoload.php';
  * Adds the signed page stamp and the invisible trap to the public sign-up form.
  */
 function draco_insomnis_form_user_register_form_alter(array &$form, FormStateInterface $form_state): void {
+  draco_insomnis_add_password_rules($form);
   if (!DrupalHost::shieldOn() || \Drupal::currentUser()->hasPermission('administer users')) {
     return;
   }
@@ -35,6 +36,41 @@ function draco_insomnis_form_user_register_form_alter(array &$form, FormStateInt
   // stay in the list, or the account is never built and the sign-up fails for everybody.
   $form['#validate'] = $form['#validate'] ?? ['::validateForm'];
   array_unshift($form['#validate'], 'draco_insomnis_register_validate');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for user_form (profile, and the form a reset link opens).
+ */
+function draco_insomnis_form_user_form_alter(array &$form, FormStateInterface $form_state): void {
+  draco_insomnis_add_password_rules($form);
+}
+
+/**
+ * Draco's password rules on a form with Drupal's "pass" field, when either rule is on.
+ */
+function draco_insomnis_add_password_rules(array &$form): void {
+  if (!isset($form['account']['pass']) && !isset($form['pass'])) {
+    return;
+  }
+  if (!\DracoInsomnis\Core\Passwords::enabled(DrupalHost::get())) {
+    return;
+  }
+  $form['#validate'] = $form['#validate'] ?? ['::validateForm'];
+  $form['#validate'][] = 'draco_insomnis_password_validate';
+}
+
+/**
+ * Refuses a new password that is too short or found in data breaches. Empty = not changed.
+ */
+function draco_insomnis_password_validate(array &$form, FormStateInterface $form_state): void {
+  $password = $form_state->getValue('pass');
+  if (!is_string($password) || $password === '') {
+    return;
+  }
+  $problem = \DracoInsomnis\Core\Passwords::problem(DrupalHost::get(), $password);
+  if ($problem !== '') {
+    $form_state->setErrorByName('pass', $problem);
+  }
 }
 
 /**

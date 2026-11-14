@@ -85,6 +85,32 @@ $D cset -y user.settings register "$orig_register" >/dev/null 2>&1
 echo "     registration back to: $($D cget user.settings register --format=string 2>/dev/null)"
 reset
 
+echo "== password rules"
+orig_register=$($D cget user.settings register --format=string 2>/dev/null)
+orig_verify=$($D cget user.settings verify_mail --format=string 2>/dev/null)
+$D cset -y user.settings register visitors >/dev/null 2>&1
+$D cset -y --input-format=yaml user.settings verify_mail false >/dev/null 2>&1
+cset shield false
+dreg() { # password -> the answer page
+  local jar p u; jar=$(mktemp); u="maria.lab$RANDOM"
+  p=$(curl -s -c "$jar" -b "$jar" -A "$UA" "$BASE/user/register?$(cb)")
+  curl -s -c "$jar" -b "$jar" -A "$UA" -d "$(echo "$p" | "$PHPBIN" "$HERE/formfields.php" user-register-form)" -d "name=$u" -d "mail=$u@example.org" \
+    --data-urlencode "pass[pass1]=$1" --data-urlencode "pass[pass2]=$1" -d "op=Create new account" "$BASE/user/register?$(cb)"
+  rm -f "$jar"
+}
+labs() { sql "SELECT COUNT(*) FROM users_field_data WHERE mail LIKE 'maria.lab%'"; }
+cset pwd_min 20; $D cr >/dev/null 2>&1
+out=$(dreg 'Draco-Lab-2026!x'); [ "$(labs)" = 0 ] && echo "$out" | grep -qE "at least 20 characters|al menos 20 caracteres" && ok "short password refused with the reason" || ko "min length (users $(labs))"
+cset pwd_min 0; cset pwd_breached true
+out=$(dreg 'passwordpassword'); [ "$(labs)" = 0 ] && echo "$out" | grep -qE "data breaches|filtraciones" && ok "breached password refused with the reason" || ko "breached (users $(labs))"
+dreg 'Draco-Lab-2026!x' >/dev/null; [ "$(labs)" = 1 ] && ok "good password: account created" || ko "good password (users $(labs))"
+$D php:eval '$s = \Drupal::entityTypeManager()->getStorage("user"); $ids = $s->getQuery()->accessCheck(FALSE)->condition("mail", "maria.lab%", "LIKE")->execute(); $s->delete($s->loadMultiple($ids)); echo count($ids), " test users removed\n";' 2>/dev/null | sed 's/^/     /'
+cset pwd_breached false
+$D cset -y user.settings register "$orig_register" >/dev/null 2>&1
+$D cset -y --input-format=yaml user.settings verify_mail "$orig_verify" >/dev/null 2>&1
+echo "     registration back to: $($D cget user.settings register --format=string 2>/dev/null), verify_mail $($D cget user.settings verify_mail --format=string 2>/dev/null)"
+reset
+
 echo "== anti-copy pace"
 cset pace_mode block
 cset anticopy_rate_ip 10

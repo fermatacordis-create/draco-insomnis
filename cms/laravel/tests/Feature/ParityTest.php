@@ -9,6 +9,28 @@ use DracoInsomnis\Laravel\Tests\TestCase;
 
 final class ParityTest extends TestCase
 {
+    public function test_password_rules_validate_only_when_switched_on(): void
+    {
+        $rule = ['p' => ['required', new \DracoInsomnis\Laravel\Rules\DracoPassword()]];
+        $this->assertTrue(validator(['p' => 'abc'], $rule)->passes());
+        config(['draco.pwd_min' => 12]);
+        $v = validator(['p' => 'abc'], $rule);
+        $this->assertTrue($v->fails());
+        $this->assertStringContainsString('12', $v->errors()->first('p'));
+        $this->assertTrue(validator(['p' => 'a long enough one'], $rule)->passes());
+        $this->assertTrue(validator(['p' => 'abc'], ['p' => 'draco_password'])->fails());
+
+        config(['draco.pwd_min' => 0, 'draco.pwd_breached' => true]);
+        $hash = strtoupper(sha1('password'));
+        \Illuminate\Support\Facades\Event::listen(\DracoInsomnis\Laravel\DracoFilter::class, static function ($e) use ($hash): void {
+            if ($e->name === 'pwd_range') {
+                $e->value = substr($hash, 5) . ':9545824';
+            }
+        });
+        $this->assertTrue(validator(['p' => 'password'], $rule)->fails());
+        $this->assertTrue(validator(['p' => 'not in the fake list'], $rule)->passes());
+    }
+
     public function test_security_headers_only_when_switched_on(): void
     {
         $this->get('/')->assertOk()->assertHeaderMissing('X-Content-Type-Options');

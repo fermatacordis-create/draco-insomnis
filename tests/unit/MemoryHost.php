@@ -6,7 +6,7 @@ namespace Tests\Unit;
 use DracoInsomnis\Core\EventStore;
 use DracoInsomnis\Core\Host;
 
-foreach (['Host', 'EventStore', 'Request', 'BotScore', 'FormStamp', 'NetList', 'Crawler', 'WafRules', 'Shield', 'Firewall', 'Pace', 'Review', 'TestProbe', 'Summary'] as $class) {
+foreach (['Host', 'EventStore', 'Request', 'BotScore', 'FormStamp', 'NetList', 'Crawler', 'WafRules', 'Shield', 'Firewall', 'Pace', 'Review', 'TestProbe', 'Summary', 'Passwords'] as $class) {
     require_once dirname(__DIR__, 2) . '/src/Core/' . $class . '.php';
 }
 

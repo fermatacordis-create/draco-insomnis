@@ -47,3 +47,9 @@ draco_insomnis.settings:
     hsts:
       type: boolean
       label: 'HSTS over HTTPS'
+    pwd_min:
+      type: integer
+      label: 'Minimum password length (0 = none)'
+    pwd_breached:
+      type: boolean
+      label: 'Refuse passwords found in data breaches'

@@ -127,6 +127,9 @@ final class LaravelHost implements Host
 
     public function text(string $id, int $number): string
     {
+        if ($id === 'pwd_short' || $id === 'pwd_breached') {
+            return (string) __('draco::messages.' . $id, ['min' => $number]);
+        }
         if ($id === 'review_subject' || $id === 'review_body') {
             return (string) __('draco::messages.' . $id, ['site' => (string) config('app.name')])
                 . ($id === 'review_body' ? "\n\nphp artisan draco:reviews" : '');

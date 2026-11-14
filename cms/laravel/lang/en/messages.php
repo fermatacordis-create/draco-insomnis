@@ -13,4 +13,6 @@ return [
     'review_email' => 'Your e-mail',
     'review_message' => 'What were you doing?',
     'review_button' => 'Ask for a review',
+    'pwd_short' => 'The password must have at least :min characters.',
+    'pwd_breached' => 'This password appears in known data breaches, so attackers try it first. Please choose another one.',
 ];

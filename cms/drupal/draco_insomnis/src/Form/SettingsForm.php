@@ -142,6 +142,20 @@ final class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.'),
       '#default_value' => (bool) $config->get('hsts'),
     ];
+    $form['pwd_min'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Minimum password length'),
+      '#min' => 0,
+      '#max' => 64,
+      '#default_value' => (int) $config->get('pwd_min'),
+      '#description' => $this->t('From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed.'),
+    ];
+    $form['pwd_breached'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Refuse passwords found in data breaches'),
+      '#description' => $this->t('Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted.'),
+      '#default_value' => (bool) $config->get('pwd_breached'),
+    ];
     $form['block_add'] = [
       '#type' => 'details',
       '#title' => $this->t('Block an address or range'),
@@ -183,6 +197,8 @@ final class SettingsForm extends ConfigFormBase {
       ->set('geo_countries', implode(', ', \DracoInsomnis\Core\Geo::parseList((string) $form_state->getValue('geo_countries'))))
       ->set('headers', (bool) $form_state->getValue('headers'))
       ->set('hsts', (bool) $form_state->getValue('hsts'))
+      ->set('pwd_min', max(0, min(64, (int) $form_state->getValue('pwd_min'))))
+      ->set('pwd_breached', (bool) $form_state->getValue('pwd_breached'))
       ->set('hosting_nets', implode("\n", NetList::parse((string) $form_state->getValue('hosting_nets'))))
       ->save();
     parent::submitForm($form, $form_state);

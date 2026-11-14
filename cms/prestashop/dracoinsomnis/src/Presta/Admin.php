@@ -99,6 +99,8 @@ final class Admin
         Settings::set(Settings::GEO_COUNTRIES, implode(', ', \DracoInsomnis\Core\Geo::parseList((string) \Tools::getValue(Settings::GEO_COUNTRIES))));
         Settings::set(Settings::HEADERS, \Tools::getValue(Settings::HEADERS) ? '1' : '0');
         Settings::set(Settings::HSTS, \Tools::getValue(Settings::HSTS) ? '1' : '0');
+        Settings::set(Settings::PWD_MIN, (string) max(0, min(64, (int) \Tools::getValue(Settings::PWD_MIN))));
+        Settings::set(Settings::PWD_BREACHED, \Tools::getValue(Settings::PWD_BREACHED) ? '1' : '0');
     }
 
     private function intro(): string
@@ -214,6 +216,21 @@ final class Admin
                         'values' => [['id' => 's_on', 'value' => 1, 'label' => $this->t('Yes')], ['id' => 's_off', 'value' => 0, 'label' => $this->t('No')]],
                     ],
                     [
+                        'type' => 'text',
+                        'label' => $this->t('Minimum password length'),
+                        'name' => Settings::PWD_MIN,
+                        'class' => 'fixed-width-sm',
+                        'desc' => $this->t('From 8 to 64 characters; 0 leaves only the shop\'s own rules. Applied when a customer creates an account or changes the password.'),
+                    ],
+                    [
+                        'type' => 'switch',
+                        'label' => $this->t('Refuse passwords found in data breaches'),
+                        'name' => Settings::PWD_BREACHED,
+                        'is_bool' => true,
+                        'desc' => $this->t('Asks Have I Been Pwned with k-anonymity: only 5 characters of the password\'s SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.'),
+                        'values' => [['id' => 'p_on', 'value' => 1, 'label' => $this->t('Yes')], ['id' => 'p_off', 'value' => 0, 'label' => $this->t('No')]],
+                    ],
+                    [
                         'type' => 'textarea',
                         'label' => $this->t('Trusted proxies'),
                         'name' => Settings::TRUSTED,
@@ -254,6 +271,8 @@ final class Admin
             Settings::GEO_COUNTRIES => Settings::get(Settings::GEO_COUNTRIES),
             Settings::HEADERS => Settings::get(Settings::HEADERS) === '1',
             Settings::HSTS => Settings::get(Settings::HSTS) === '1',
+            Settings::PWD_MIN => Settings::get(Settings::PWD_MIN) ?: '0',
+            Settings::PWD_BREACHED => Settings::get(Settings::PWD_BREACHED) === '1',
             Settings::NETS => Settings::get(Settings::NETS),
         ];
 

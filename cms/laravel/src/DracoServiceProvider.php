@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Laravel;
 
+use DracoInsomnis\Core\Passwords;
 use DracoInsomnis\Laravel\Console\BlockCommand;
 use DracoInsomnis\Laravel\Console\CleanupCommand;
 use DracoInsomnis\Laravel\Console\EvidenceCommand;
@@ -24,6 +25,7 @@ use Illuminate\Support\ServiceProvider;
  *   middleware at the end of the configured groups for requests with one.
  * - Sign-up shield: the 'draco.signup' middleware on the registration route and @dracoFields in
  *   its form.
+ * - Password rules: new Rules\DracoPassword() or 'draco_password' in validation.
  * - Artisan: draco:status, draco:evidence, draco:block, draco:reviews, draco:test, draco:cleanup (scheduled daily).
  */
 final class DracoServiceProvider extends ServiceProvider
@@ -49,6 +51,17 @@ final class DracoServiceProvider extends ServiceProvider
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('draco', Firewall::class);
         $router->aliasMiddleware('draco.signup', SignupShield::class);
+
+        $this->callAfterResolving('validator', static function ($validator): void {
+            $validator->extend('draco_password', static function ($attribute, $value, $parameters, $v): bool {
+                $problem = is_string($value) ? Passwords::problem(new LaravelHost(), $value) : '';
+                if ($problem !== '') {
+                    $v->setCustomMessages([$attribute . '.draco_password' => $problem]);
+                }
+
+                return $problem === '';
+            });
+        });
 
         $this->callAfterResolving('blade.compiler', static function ($blade): void {
             $blade->directive('dracoFields', static fn (): string => '<?php echo \\DracoInsomnis\\Laravel\\Guard::fields(); ?>');

@@ -117,6 +117,12 @@ final class PsHost implements Host
             return sprintf($translator->trans('Firewall: %d attacks in 10 minutes', [], 'Modules.Dracoinsomnis.Admin'), $number);
         }
 
+        if ($id === 'pwd_short') {
+            return sprintf($translator->trans('The password must have at least %d characters.', [], 'Modules.Dracoinsomnis.Admin'), $number);
+        }
+        if ($id === 'pwd_breached') {
+            return $translator->trans('This password appears in known data breaches, so attackers try it first. Please choose another one.', [], 'Modules.Dracoinsomnis.Admin');
+        }
         if ($id === 'review_subject') {
             return sprintf($translator->trans('[%s] Someone asks you to review a firewall block', [], 'Modules.Dracoinsomnis.Admin'), (string) \Configuration::get('PS_SHOP_NAME'));
         }

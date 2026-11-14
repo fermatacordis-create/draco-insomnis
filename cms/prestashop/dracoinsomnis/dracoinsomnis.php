@@ -29,7 +29,7 @@ class DracoInsomnis extends Module
     {
         $this->name = 'dracoinsomnis';
         $this->tab = 'administration';
-        $this->version = '0.1.14';
+        $this->version = '0.1.15';
         $this->author = 'Notorius Vision';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => _PS_VERSION_];
@@ -56,6 +56,7 @@ class DracoInsomnis extends Module
                 'displayCustomerAccountForm',
                 'actionSubmitAccountBefore',
                 'displayBackOfficeHeader',
+                'actionFrontControllerSetMedia',
             ]);
     }
 
@@ -86,7 +87,13 @@ class DracoInsomnis extends Module
     /** Before the account exists. False stops the sign-up. */
     public function hookActionSubmitAccountBefore(array $params): bool
     {
-        return Front::judgeSignUp($this);
+        return Front::judgeSignUp($this) && Front::signUpPassword();
+    }
+
+    /** Runs before the page handles its form: the password rules on "Your personal information" and the reset link. */
+    public function hookActionFrontControllerSetMedia(array $params): void
+    {
+        Front::passwordChange($this->context);
     }
 
     /** Remembers the addresses employees work from: never blocked, never limited. */

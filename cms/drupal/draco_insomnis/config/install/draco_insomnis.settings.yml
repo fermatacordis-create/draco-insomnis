@@ -13,3 +13,5 @@ geo_action: log
 geo_file: ''
 headers: false
 hsts: false
+pwd_min: 0
+pwd_breached: false

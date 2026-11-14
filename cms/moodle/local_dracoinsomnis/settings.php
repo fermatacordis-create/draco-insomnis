@@ -67,6 +67,10 @@ if ($hassiteconfig) {
         get_string('headers_desc', 'local_dracoinsomnis'), 0));
     $settings->add(new admin_setting_configcheckbox('local_dracoinsomnis/hsts', get_string('hsts', 'local_dracoinsomnis'),
         get_string('hsts_desc', 'local_dracoinsomnis'), 0));
+    $settings->add(new admin_setting_configtext('local_dracoinsomnis/pwd_min', get_string('pwdmin', 'local_dracoinsomnis'),
+        get_string('pwdmin_desc', 'local_dracoinsomnis'), 0, PARAM_INT));
+    $settings->add(new admin_setting_configcheckbox('local_dracoinsomnis/pwd_breached', get_string('pwdbreached', 'local_dracoinsomnis'),
+        get_string('pwdbreached_desc', 'local_dracoinsomnis'), 0));
     $ADMIN->add('localplugins', $settings);
 
     $ADMIN->add('localplugins', new admin_externalpage('local_dracoinsomnis_evidence',
