@@ -10,6 +10,9 @@ on:
 permissions:
   contents: write
   packages: write
+  # Keyless signing (Sigstore) and GitHub's build provenance: no key is stored anywhere.
+  id-token: write
+  attestations: write
 
 jobs:
   release:
@@ -33,6 +36,34 @@ jobs:
           sudo apt-get install -y -qq rpm >/dev/null
           bin/build-all.sh release | tee release/files.txt
           (cd release && sha256sum *.zip *.deb *.rpm *.tar.gz > SHA256SUMS.txt && cat SHA256SUMS.txt)
+      - name: SBOM (CycloneDX) of every package
+        uses: anchore/sbom-action@v0
+        with:
+          path: release
+          format: cyclonedx-json
+          output-file: release/draco-insomnis-${{ github.ref_name }}.cdx.json
+          upload-artifact: false
+          upload-release-assets: false
+      - name: Build provenance (gh attestation verify <file> -R fermatacordis-create/draco-insomnis)
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: |
+            release/*.zip
+            release/*.deb
+            release/*.rpm
+            release/*.tar.gz
+      - name: SBOM attestation
+        uses: actions/attest-sbom@v2
+        with:
+          subject-path: release/SHA256SUMS.txt
+          sbom-path: release/draco-insomnis-${{ github.ref_name }}.cdx.json
+      - uses: sigstore/cosign-installer@v3
+      - name: Sign the checksums (cosign verify-blob, see SECURITY.md)
+        run: |
+          cosign sign-blob --yes --bundle release/SHA256SUMS.txt.sigstore.json release/SHA256SUMS.txt
+          cosign verify-blob --bundle release/SHA256SUMS.txt.sigstore.json \
+            --certificate-identity "https://github.com/${{ github.repository }}/.github/workflows/release.yml@${{ github.ref }}" \
+            --certificate-oidc-issuer https://token.actions.githubusercontent.com release/SHA256SUMS.txt
       - name: Docker image (ghcr.io/fermatacordis-create/draco-insomnis)
         env:
           GH_TOKEN: ${{ github.token }}
@@ -44,6 +75,8 @@ jobs:
           docker push "$image:$version"
           docker push "$image:latest"
           docker inspect --format '{{index .RepoDigests 0}}' "$image:$version" | tee release/docker-digest.txt
+          # The image is signed by digest, keyless, like the files.
+          cosign sign --yes "$(cat release/docker-digest.txt)"
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
@@ -66,8 +99,8 @@ jobs:
             echo "| Any PHP container (Docker add-on) | \`ghcr.io/fermatacordis-create/draco-insomnis:$version\` |"
             echo "| Any PHP site on another Linux (install.sh) | \`draco-insomnis-server-$version.tar.gz\` |"
             echo
-            echo "Checksums in \`SHA256SUMS.txt\`."
+            echo "Checksums in \`SHA256SUMS.txt\`, signed with Sigstore (\`SHA256SUMS.txt.sigstore.json\`). Every file has a GitHub build provenance attestation and the release has a CycloneDX SBOM. How to verify: SECURITY.md."
             if [ -n "$notes" ]; then echo; echo "## Changes"; echo; echo "$notes"; fi
           } > release/notes.md
-          gh release create "$GITHUB_REF_NAME" release/*.zip release/*.deb release/*.rpm release/*.tar.gz release/SHA256SUMS.txt \
+          gh release create "$GITHUB_REF_NAME" release/*.zip release/*.deb release/*.rpm release/*.tar.gz release/SHA256SUMS.txt release/SHA256SUMS.txt.sigstore.json release/*.cdx.json \
             --title "Draco Insomnis $version" --notes-file release/notes.md
