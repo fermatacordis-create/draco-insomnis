@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Server;
 
+use DracoInsomnis\Core\Abuse;
 use DracoInsomnis\Core\Geo;
 use DracoInsomnis\Core\GeoUpdate;
 use DracoInsomnis\Core\Summary;
@@ -51,6 +52,7 @@ final class Cli
                 'cleanup' => $cli->cleanup(),
                 'geo-update' => $cli->geoUpdate(),
                 'crowdsec' => $cli->crowdsec(),
+                'report' => $cli->report(),
                 'version' => $cli->out(DRACO_SERVER_VERSION),
                 default => $cli->help(),
             };
@@ -92,6 +94,7 @@ final class Cli
               draco cleanup                     Old evidence out; country list refreshed (daily timer)
               draco geo-update                  Downloads the country list (DB-IP Lite, CC BY 4.0)
               draco crowdsec [sync]             CrowdSec bans copied in, Draco's attacks shared (see draco.ini)
+              draco report <ip> [--to=addr] [--send]   Abuse report to the network: draft first, sent only with --send
 
             Options: --user=<php user> picks whose evidence (default: the only one there is).
             TXT);
@@ -437,6 +440,58 @@ final class Cli
         }
 
         return 0;
+    }
+
+    /**
+     * Abuse report for one address: the network's abuse contact (RDAP) and a draft with the evidence.
+     * Printed for review; sent (PHP mail) only with --send, within the limits of Core\Abuse.
+     */
+    private function report(): int
+    {
+        $ip = $this->args[0] ?? '';
+        if (filter_var($ip, FILTER_VALIDATE_IP) === false) {
+            return $this->fail('draco report <ip> [--to=abuse@example.net] [--send]');
+        }
+        $store = $this->host()->store();
+        $rows = array_values(array_filter($store->byIp($ip), static fn ($r) => !in_array((string) $r['endpoint'], [Abuse::ENDPOINT, \DracoInsomnis\Core\Review::ENDPOINT], true)));
+        if ($rows === []) {
+            return $this->fail("No evidence from $ip.");
+        }
+        foreach ($rows as &$r) {
+            $r['created_at'] = gmdate('Y-m-d H:i:s', (int) $r['created_at']);
+        }
+        unset($r);
+        $fetch = static function (string $url): ?string {
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 5, CURLOPT_TIMEOUT => 15, CURLOPT_USERAGENT => 'Draco-Insomnis', CURLOPT_HTTPHEADER => ['Accept: application/rdap+json']]);
+            $b = curl_exec($ch);
+
+            return is_string($b) && (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200 ? $b : null;
+        };
+        $contact = Abuse::contact($ip, $fetch);
+        $site = (string) ($rows[0]['host'] ?? '') !== '' ? 'https://' . $rows[0]['host'] . '/' : gethostname();
+        $draft = Abuse::draft($ip, $rows, (string) $site, $contact);
+        $to = (string) ($this->opt['to'] ?? $contact['email']);
+        $sent = array_map(static fn ($r) => ['created_at' => gmdate('Y-m-d H:i:s', (int) $r['created_at']), 'ip' => (string) $r['ip']], $store->rows('SELECT created_at, ip FROM events WHERE endpoint = ? ORDER BY id DESC LIMIT 200', [Abuse::ENDPOINT]));
+        $refusal = Abuse::refusal($ip, $sent, time());
+        echo 'Network: ', $contact['network'] ?: '?', $contact['range'] !== '' ? ' · ' . $contact['range'] : '', $contact['registry'] !== '' ? ' · ' . $contact['registry'] : '', "\n";
+        echo 'To: ', $to !== '' ? $to : '(none: ' . $contact['error'] . '; pass --to=)', "\n", 'Subject: ', $draft['subject'], "\n\n", $draft['body'], "\n\n";
+        if (!isset($this->opt['send'])) {
+            return $this->out('Draft only. Read it, then send it with: draco report ' . $ip . ($to !== '' ? '' : ' --to=abuse@…') . ' --send');
+        }
+        if ($refusal !== '') {
+            return $this->fail("Not sent: $refusal.");
+        }
+        $reply = (string) Config::forHost('')['notify'];
+        if (filter_var($to, FILTER_VALIDATE_EMAIL) === false || filter_var($reply, FILTER_VALIDATE_EMAIL) === false) {
+            return $this->fail('Not sent: a valid --to and a "notify" address in draco.ini (replies go there) are needed.');
+        }
+        if (!@mail($to, $draft['subject'], $draft['body'], ['From' => $reply, 'Reply-To' => $reply, 'Content-Type' => 'text/plain; charset=UTF-8'])) {
+            return $this->fail('Not sent: PHP could not hand the e-mail to the mail system.');
+        }
+        $store->log($ip, $ip, Abuse::ENDPOINT, ['score' => 0, 'verdict' => 'sent', 'reasons' => []], '', ['email' => $to, 'username' => substr($draft['subject'], 0, 150)]);
+
+        return $this->out("Sent to $to.");
     }
 
     private function crowdsec(): int

@@ -23,6 +23,7 @@ final class Admin
         add_action('admin_menu', [self::class, 'menu']);
         add_action('admin_post_' . self::ACTION, [self::class, 'save']);
         add_action('admin_post_draco_export', [self::class, 'export']);
+        AbuseReport::register();
     }
 
     public static function menu(): void
@@ -77,6 +78,11 @@ final class Admin
 
     public static function render(): void
     {
+        if (AbuseReport::wanted()) {
+            AbuseReport::render();
+
+            return;
+        }
         $on = get_option(Plugin::OPTION_SHIELD, 'no') === 'yes';
         $proxy = (string) get_option(Guard::OPTION_PROXY, '');
         $result = sanitize_key((string) ($_GET['result'] ?? '')); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only
@@ -86,6 +92,12 @@ final class Admin
             Brand::notice('error', __('Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address.', 'draco-insomnis'));
         } elseif ($result === 'ok') {
             Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
+        } elseif ($result === 'report_sent') {
+            Brand::notice('success', __('Abuse report sent. Replies will arrive at the administrator e-mail.', 'draco-insomnis'));
+        } elseif ($result === 'report_failed') {
+            Brand::notice('error', __('The abuse report could not be sent: WordPress could not deliver the e-mail. Check the site mail settings.', 'draco-insomnis'));
+        } elseif ($result === 'report_refused') {
+            Brand::notice('error', __('The abuse report was not sent: an address, subject and message are needed, and the limits (one per address every 30 days, 5 a day) must allow it.', 'draco-insomnis'));
         }
 
         echo '<div class="draco-grid">';
@@ -154,7 +166,7 @@ final class Admin
         Brand::card('list-view', __('Recent suspicious attempts', 'draco-insomnis'), __('Kept for 90 days. Three bot attempts in a day block the address for a week. "Evidence" downloads everything from that address as a CSV file to attach to an abuse report to the network provider.', 'draco-insomnis'), '', 'info', 'draco-card--flush');
         echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('Where', 'draco-insomnis') . '</th><th>' . esc_html__('Points', 'draco-insomnis') . '</th><th>' . esc_html__('Verdict', 'draco-insomnis') . '</th><th>' . esc_html__('Why', 'draco-insomnis') . '</th><th>' . esc_html__('User / e-mail', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
         // The firewall and anti-copy have their own lists.
-        $rows = array_values(array_filter(Store::recent(100), static fn (array $r): bool => !str_starts_with((string) $r['endpoint'], 'waf:') && !str_starts_with((string) $r['endpoint'], 'anticopy:')));
+        $rows = array_values(array_filter(Store::recent(100), static fn (array $r): bool => !str_starts_with((string) $r['endpoint'], 'waf:') && !str_starts_with((string) $r['endpoint'], 'anticopy:') && (string) $r['endpoint'] !== \DracoInsomnis\Core\Abuse::ENDPOINT));
         foreach (array_slice($rows, 0, 50) as $r) {
             $fields = json_decode((string) $r['fields'], true);
             $fields = is_array($fields) ? $fields : [];
@@ -163,13 +175,14 @@ final class Admin
             $verdict = $r['verdict'] === 'bot' ? Brand::pill(__('Bot', 'draco-insomnis'), 'bad') : Brand::pill(__('Doubtful', 'draco-insomnis'), 'warn');
             echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td><span class="draco-code">' . esc_html((string) $r['ip']) . '</span></td><td>' . esc_html((string) $r['endpoint']) . '</td><td>' . (int) $r['score'] . '</td><td>'
                 . wp_kses_post($verdict) . '</td><td>' . esc_html(implode(', ', $why)) . '</td><td>'
-                . esc_html(trim((string) ($fields['username'] ?? '') . ' ' . (string) ($fields['email'] ?? ''))) . '</td><td><a href="' . esc_url($export) . '">' . esc_html__('Evidence', 'draco-insomnis') . '</a></td></tr>';
+                . esc_html(trim((string) ($fields['username'] ?? '') . ' ' . (string) ($fields['email'] ?? ''))) . '</td><td><a href="' . esc_url($export) . '">' . esc_html__('Evidence', 'draco-insomnis') . '</a> · <a href="' . esc_url(AbuseReport::url((string) $r['ip'])) . '">' . esc_html__('Report', 'draco-insomnis') . '</a></td></tr>';
         }
         if ($rows === []) {
             Brand::emptyRow(8, $on ? __('No suspicious attempts yet.', 'draco-insomnis') : __('The shield is off.', 'draco-insomnis'), $on ? 'yes-alt' : 'marker');
         }
         echo '</tbody></table></div>';
         Brand::cardEnd();
+        AbuseReport::listCard();
         Brand::close();
     }
 
