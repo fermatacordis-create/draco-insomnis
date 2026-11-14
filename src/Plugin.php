@@ -45,6 +45,7 @@ final class Plugin
         \DracoInsomnis\Login\Passwords::register();
         AntiCopyAdmin::register();
         Mfa::boot();
+        \DracoInsomnis\Login\AccountLock::boot();
         add_action(self::HOOK_CLEANUP, [Store::class, 'cleanup']);
         add_action('admin_init', [self::class, 'rememberAdminIp']);
         // When another plugin bundles Draco, the activation hook never runs: schedule here too.
