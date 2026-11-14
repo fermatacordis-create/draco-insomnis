@@ -77,7 +77,7 @@ final class Admin
         } elseif (Input::post('revoke') !== '' && $user > 0 && $user !== (int) $me->ID) {
             AccountLock::revoke($user);
         } elseif (Input::post('switch') !== '') {
-            if (empty($_POST['lock_enabled'])) {
+            if (Input::post('lock_enabled') === '') {
                 AccountLock::disable();
             } elseif (AccountLock::blocker() !== '') {
                 $result = 'lock_blocked';
