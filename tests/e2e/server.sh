@@ -5,6 +5,9 @@
 set -uo pipefail
 : "${BASE:?BASE is required}"
 DRACO="${DRACO:-sudo draco}"
+SUDO="${SUDO-sudo}"
+# Without systemd (containers), draco enable/disable cannot reload PHP: RELOAD does it.
+reload() { if [ -n "${RELOAD:-}" ]; then eval "$RELOAD"; sleep 1; fi; }
 UA='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36'
 n=0; cb() { n=$((n+1)); echo "cb=$$-$n-$RANDOM"; }
 attack() { echo "$BASE/index.php?$(cb)&q=1%27%20union%20select%20password%20from%20users--%20"; }
@@ -17,7 +20,7 @@ U=(); [ -n "${PHPUSER:-}" ] && U=(--user="$PHPUSER")
 d() { $DRACO "$@" "${U[@]}"; }
 dset() { $DRACO set "$@" >/dev/null; }
 q() { # one SQL query on the evidence of the site's PHP user
-  sudo php -r '$f = glob("/var/lib/draco-insomnis/u*/draco.sqlite"); $db = new PDO("sqlite:" . $f[0]); foreach ($db->query($argv[1])->fetchAll(PDO::FETCH_NUM) as $r) echo implode("|", $r), "\n";' "$1"
+  $SUDO php -r '$f = glob("/var/lib/draco-insomnis/u*/draco.sqlite"); $db = new PDO("sqlite:" . $f[0]); foreach ($db->query($argv[1])->fetchAll(PDO::FETCH_NUM) as $r) echo implode("|", $r), "\n";' "$1"
 }
 reset() { q "DELETE FROM events" >/dev/null; q "DELETE FROM blocks" >/dev/null; q "DELETE FROM cache" >/dev/null; }
 
@@ -87,7 +90,7 @@ echo "== per-site settings"
 dset waf_mode log
 $DRACO set waf_mode block --site=127.0.0.1 >/dev/null
 c=$(code "$(attack)"); [ "$c" = 403 ] && ok "[site:127.0.0.1] blocks while the default only logs" || ko "site section $c"
-sudo sed -i '/^\[site:127.0.0.1\]/,$d' /etc/draco-insomnis/draco.ini
+$SUDO sed -i '/^\[site:127.0.0.1\]/,$d' /etc/draco-insomnis/draco.ini
 reset
 
 echo "== anti-copy pace"
@@ -101,9 +104,9 @@ dset pace_mode off; dset anticopy_rate_ip 120; dset waf_mode log
 reset
 
 echo "== disable"
-$DRACO disable >/dev/null
+$DRACO disable >/dev/null; reload
 c=$(code "$(attack)"); [ "$c" = 200 ] && [ "$(q 'SELECT COUNT(*) FROM events')" = 0 ] && ok "after draco disable nothing is inspected" || ko "still active ($c)"
-$DRACO enable >/dev/null
+$DRACO enable >/dev/null; reload
 
 echo "== done: $pass ok, $fail failed"
 [ "$fail" = 0 ]

@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.16
+Stable tag: 0.1.17
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,11 @@ The country filter uses IP geolocation by DB-IP (https://db-ip.com), "IP to Coun
 Only if "Refuse passwords that appear in known data breaches" is switched on, Draco asks Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com) with the first 5 characters of the SHA-1 of a password being chosen or used to log in. The password itself and its full hash are never sent. Terms: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy: https://haveibeenpwned.com/Privacy
 
 == Changelog ==
+
+= 0.1.17 =
+* Draco Insomnis Server for RHEL, AlmaLinux, Rocky and Fedora: an .rpm next to the .deb, with the SELinux label that lets PHP-FPM and Apache write their evidence folder (httpd_sys_rw_content_t) and nothing else. Tested end to end on AlmaLinux 9 with PHP 8.0 and 8.3 behind httpd.
+* Fix: on a PHP without mbstring (the default on RHEL and AlmaLinux), a review request from the block page was lost. The shared engines no longer need mbstring.
+* The packages name a maintainer address: draco@opnv.systems.
 
 = 0.1.16 =
 * New: Draco Insomnis Server, the firewall in front of every PHP site on a server, whatever it runs (MediaWiki, TYPO3, Magento, phpBB, Nextcloud, your own code…), without a plugin per site. It loads before every PHP script (auto_prepend_file) with the same engines as the plugins: firewall rules, block list with ranges, country filter, anti-copy pace limit, security headers and the review request on the block page. A .deb for Debian and Ubuntu and a .tar.gz with install.sh for any Linux with PHP 8.0+; the "draco" command (enable, status, set, events, evidence, block, reviews, test, cleanup); settings in /etc/draco-insomnis/draco.ini with per-site sections; evidence in SQLite, one folder per PHP user; a daily systemd timer. Off until "draco enable", the firewall starts in "log", and any error of Draco itself lets the request through.

@@ -16,11 +16,13 @@ It does not judge sign-up forms: each application has its own. The CMS plugins d
 ## Install (Debian 11+, Ubuntu 22.04+)
 
 ```sh
-sudo apt install ./draco-insomnis-server_0.1.16_all.deb
+sudo apt install ./draco-insomnis-server_0.1.17_all.deb
 sudo draco enable          # loads it in every PHP-FPM / Apache PHP and reloads them
 sudo draco test https://example.com/
 sudo draco set waf_mode block
 ```
+
+RHEL, AlmaLinux, Rocky, Fedora: `sudo dnf install ./draco-insomnis-server-0.1.17-1.noarch.rpm`, then `sudo draco enable` (the package labels its folder for SELinux). To get the review e-mail from PHP under SELinux: `setsebool -P httpd_can_sendmail 1`.
 
 Other Linux (PHP 8.0+ with pdo_sqlite): unpack the `.tar.gz` and run `sudo sh install.sh`, then `sudo draco enable`. Where `draco enable` finds no PHP, add `auto_prepend_file = /usr/share/draco-insomnis/guard.php` to your php.ini.
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Builds Draco Insomnis Server: dist/draco-insomnis-server_<v>_all.deb (Debian, Ubuntu) and
-# dist/draco-insomnis-server-<v>.tar.gz (any Linux with PHP 8.0+, through install.sh).
+# dist/draco-insomnis-server-<v>.tar.gz (any Linux with PHP 8.0+, through install.sh) and, when
+# rpmbuild is there, dist/draco-insomnis-server-<v>-1.noarch.rpm (RHEL, Alma, Rocky, Fedora).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 v=$(sed -n "s/^define('DRACO_SERVER_VERSION', '\([^']*\)');/\1/p" server/bin/draco)
@@ -27,20 +28,31 @@ cp server/packaging/install.sh "$t/install.sh"; chmod 755 "$t/install.sh"
 cp server/packaging/systemd/* "$t/systemd/"
 cp server/README.md "$t/README.md"
 tar -C "$work" --owner=0 --group=0 -czf "$out/draco-insomnis-server-$v.tar.gz" "draco-insomnis-server-$v"
-
-# .deb
-d="$work/deb"
-mkdir -p "$d/DEBIAN" "$d/usr/share/draco-insomnis" "$d/usr/bin" "$d/etc/draco-insomnis" "$d/lib/systemd/system" "$d/usr/share/doc/draco-insomnis-server"
-cp -R "$share/." "$d/usr/share/draco-insomnis/"
-ln -s /usr/share/draco-insomnis/bin/draco "$d/usr/bin/draco"
-cp server/etc/draco.ini "$d/etc/draco-insomnis/draco.ini"
-cp server/packaging/systemd/* "$d/lib/systemd/system/"
-cp server/README.md "$d/usr/share/doc/draco-insomnis-server/README.md"
-cp server/packaging/debian/postinst server/packaging/debian/prerm server/packaging/debian/postrm "$d/DEBIAN/"
-chmod 755 "$d/DEBIAN/postinst" "$d/DEBIAN/prerm" "$d/DEBIAN/postrm"
-echo /etc/draco-insomnis/draco.ini > "$d/DEBIAN/conffiles"
-size=$(du -sk "$d" | cut -f1)
-sed -e "s/@VERSION@/$v/" -e "s/@SIZE@/$size/" server/packaging/debian/control > "$d/DEBIAN/control"
-dpkg-deb --root-owner-group --build "$d" "$out/draco-insomnis-server_${v}_all.deb" >/dev/null
-echo "$out/draco-insomnis-server_${v}_all.deb"
 echo "$out/draco-insomnis-server-$v.tar.gz"
+
+# .deb (where dpkg-deb is there: Debian, Ubuntu, CI)
+if command -v dpkg-deb >/dev/null 2>&1; then
+  d="$work/deb"
+  mkdir -p "$d/DEBIAN" "$d/usr/share/draco-insomnis" "$d/usr/bin" "$d/etc/draco-insomnis" "$d/lib/systemd/system" "$d/usr/share/doc/draco-insomnis-server"
+  cp -R "$share/." "$d/usr/share/draco-insomnis/"
+  ln -s /usr/share/draco-insomnis/bin/draco "$d/usr/bin/draco"
+  cp server/etc/draco.ini "$d/etc/draco-insomnis/draco.ini"
+  cp server/packaging/systemd/* "$d/lib/systemd/system/"
+  cp server/README.md "$d/usr/share/doc/draco-insomnis-server/README.md"
+  cp server/packaging/debian/postinst server/packaging/debian/prerm server/packaging/debian/postrm "$d/DEBIAN/"
+  chmod 755 "$d/DEBIAN/postinst" "$d/DEBIAN/prerm" "$d/DEBIAN/postrm"
+  echo /etc/draco-insomnis/draco.ini > "$d/DEBIAN/conffiles"
+  size=$(du -sk "$d" | cut -f1)
+  sed -e "s/@VERSION@/$v/" -e "s/@SIZE@/$size/" server/packaging/debian/control > "$d/DEBIAN/control"
+  dpkg-deb --root-owner-group --build "$d" "$out/draco-insomnis-server_${v}_all.deb" >/dev/null
+  echo "$out/draco-insomnis-server_${v}_all.deb"
+fi
+
+# .rpm, from the same .tar.gz
+if command -v rpmbuild >/dev/null 2>&1; then
+  r="$work/rpm"; mkdir -p "$r/SOURCES"
+  cp "$out/draco-insomnis-server-$v.tar.gz" "$r/SOURCES/"
+  rpmbuild -bb --quiet --define "_topdir $r" --define "draco_version $v" server/packaging/rpm/draco-insomnis-server.spec >/dev/null
+  cp "$r"/RPMS/noarch/draco-insomnis-server-"$v"-1.noarch.rpm "$out/"
+  echo "$out/draco-insomnis-server-$v-1.noarch.rpm"
+fi
