@@ -6,6 +6,12 @@ name: Release
 on:
   push:
     tags: ['v*.*.*']
+  # Stages the JavaScript package of a release that already exists (e.g. if npm was down).
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag, e.g. v0.1.27'
+        required: true
 
 permissions:
   contents: write
@@ -17,6 +23,7 @@ permissions:
 jobs:
   release:
     name: Build and publish one package per platform
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -109,10 +116,28 @@ jobs:
           } > release/notes.md
           gh release create "$GITHUB_REF_NAME" release/*.zip release/*.deb release/*.rpm release/*.tar.gz release/*.tgz release/SHA256SUMS.txt release/SHA256SUMS.txt.sigstore.json release/*.cdx.json \
             --title "Draco Insomnis $version" --notes-file release/notes.md
-      - name: Stage the JavaScript package on npm (a maintainer approves it there with 2FA)
-        # Trusted publishing (OIDC): no npm token is stored anywhere. The trust on npmjs.com allows
-        # only "npm stage publish", so nothing reaches npm until a maintainer presses Approve.
-        # It stages the very file listed in SHA256SUMS.txt, with npm provenance.
+
+  npm:
+    name: Stage the JavaScript package on npm (a maintainer approves it there with 2FA)
+    needs: release
+    if: ${{ !cancelled() && (needs.release.result == 'success' || github.event_name == 'workflow_dispatch') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      # Trusted publishing (OIDC): no npm token is stored anywhere. The trust on npmjs.com allows
+      # only "npm stage publish", so nothing reaches npm until a maintainer presses Approve.
+      # It stages the very file of the GitHub release, after checking it against SHA256SUMS.txt.
+      - name: Stage the file of the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag || github.ref_name }}
         run: |
-          version="${GITHUB_REF_NAME#v}"
-          npx -y npm@12.2.2 stage publish "release/draco-insomnis-js-$version.tgz" --provenance --access public
+          case "$TAG" in v[0-9]*.[0-9]*.[0-9]*) ;; *) echo "not a release tag: $TAG"; exit 1;; esac
+          version="${TAG#v}"
+          mkdir npm && cd npm
+          gh release download "$TAG" -R "$GITHUB_REPOSITORY" -p SHA256SUMS.txt -p "draco-insomnis-js-$version.tgz"
+          grep " draco-insomnis-js-$version.tgz\$" SHA256SUMS.txt | sha256sum -c -
+          # "./": without it npm 12 reads "dir/file.tgz" as a GitHub repository.
+          npx -y npm@12.2.2 stage publish "./draco-insomnis-js-$version.tgz" --provenance --access public
