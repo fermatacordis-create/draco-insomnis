@@ -9,6 +9,22 @@ use DracoInsomnis\Laravel\Tests\TestCase;
 
 final class ParityTest extends TestCase
 {
+    public function test_the_translations_load_and_translate(): void
+    {
+        $base = dirname(__DIR__, 2) . '/lang';
+        $english = require $base . '/en/messages.php';
+        $dirs = glob($base . '/*', GLOB_ONLYDIR) ?: [];
+        $this->assertGreaterThan(5, count($dirs));
+        foreach ($dirs as $dir) {
+            $messages = require $dir . '/messages.php';
+            $this->assertSame([], array_diff(array_keys($messages), array_keys($english)), basename($dir) . ' has unknown keys');
+        }
+        app()->setLocale('de');
+        $this->assertNotSame($english['blocked_title'], __('draco::messages.blocked_title'));
+        $this->assertStringContainsString('12', __('draco::messages.pwd_short', ['min' => 12]));
+        app()->setLocale('en');
+    }
+
     public function test_password_rules_validate_only_when_switched_on(): void
     {
         $rule = ['p' => ['required', new \DracoInsomnis\Laravel\Rules\DracoPassword()]];

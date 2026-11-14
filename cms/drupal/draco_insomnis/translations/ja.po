@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — ja (generated from i18n/ja.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. CAPTCHA なしで偽の登録を止め、アプリケーションファイアウォールとコピー対策の速度制限を備えます。オープンソース。"
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "CAPTCHA なしで偽の登録を止めます。ボットはアカウントを得られず、疑わしい試行はすべて不正利用の報告用の証拠として 90 日間保存されます。攻撃者に何かを送り返すことはありません。"
+
+msgid "Protect user sign-ups"
+msgstr "ユーザー登録を保護する"
+
+msgid "Firewall"
+msgstr "ファイアウォール"
+
+msgid "Anti-copy pace limit"
+msgstr "コピー対策の速度制限"
+
+msgid "Off"
+msgstr "オフ"
+
+msgid "Log only: record what it would stop"
+msgstr "記録のみ: 止めるはずだったものを記録"
+
+msgid "Block"
+msgstr "ブロック"
+
+msgid "Pages per minute, per address"
+msgstr "1 分あたりのページ数（アドレスごと）"
+
+msgid "Pages per minute, per network"
+msgstr "1 分あたりのページ数（ネットワークごと）"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "IPv4 なら /24、IPv6 なら /64 のネットワーク: 隣り合うアドレスを渡り歩くスクレイパーが使える範囲です。"
+
+msgid "Visitor address"
+msgstr "訪問者のアドレス"
+
+msgid "Connection address (recommended)"
+msgstr "接続元アドレス（推奨）"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare（CF-Connecting-IP）"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "その他のプロキシ（X-Forwarded-For）"
+
+msgid "Rented-server networks"
+msgstr "レンタルサーバーのネットワーク"
+
+msgid "The registration could not be completed."
+msgstr "登録を完了できませんでした。"
+
+msgid "Request blocked"
+msgstr "リクエストがブロックされました"
+
+msgid "Address unblocked."
+msgstr "アドレスのブロックを解除しました。"
+
+msgid "Unblock"
+msgstr "ブロック解除"
+
+msgid "Nothing blocked right now."
+msgstr "現在ブロックしているものはありません。"
+
+msgid "Last suspicious attempts"
+msgstr "最近の疑わしい試行"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "90 日間保存されます。パスワードは保存しません。アドレスごとの CSV にはそのアドレスの行動がすべて含まれ、そのままネットワーク事業者への不正利用の報告に添付できます。"
+
+msgid "Nothing yet."
+msgstr "まだありません。"
+
+msgid "Address or e-mail"
+msgstr "アドレスまたはメールアドレス"
+
+msgid "Reason"
+msgstr "理由"
+
+msgid "Until (UTC)"
+msgstr "期限 (UTC)"
+
+msgid "Date (UTC)"
+msgstr "日時 (UTC)"
+
+msgid "Address"
+msgstr "アドレス"
+
+msgid "Where"
+msgstr "対象"
+
+msgid "Verdict"
+msgstr "判定"
+
+msgid "Signs"
+msgstr "兆候"
+
+msgid "Data"
+msgstr "データ"
+
+msgid "Trusted proxies"
+msgstr "信頼するプロキシ"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "これらのアドレスからの接続だけが、ヘッダーで訪問者のアドレスを指定できます。1 行に 1 つのアドレスまたは範囲。空欄: このサーバーとプライベートネットワーク。Cloudflare 自身の範囲は既に登録済みです。"
+
+msgid "Countries"
+msgstr "国"
+
+msgid "Filter"
+msgstr "フィルター"
+
+msgid "Refuse the countries listed"
+msgstr "リストの国を拒否"
+
+msgid "Only the countries listed"
+msgstr "リストの国のみ"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "ログイン、登録、フォーム（推奨）"
+
+msgid "The whole site"
+msgstr "サイト全体"
+
+msgid "What to do"
+msgstr "動作"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "国（2 文字コード。例: ES, FR, DE）"
+
+msgid "Country list downloaded."
+msgstr "国リストをダウンロードしました。"
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "サイト全体が HTTPS で動作し、今後もそうである場合のみ。ブラウザはこれを記憶し、期限が切れるまで HTTP を拒否します。"
+
+msgid "Minimum password length"
+msgstr "パスワードの最小文字数"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "データ漏えいで見つかったパスワードを拒否する"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "k-匿名性で Have I Been Pwned に問い合わせます。サイトから出るのはパスワードの SHA-1 の 5 文字だけで、パスワードそのものは送りません。3 秒以内に応答がなければ、パスワードは受け入れられます。"
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "このパスワードは既知のデータ漏洩に含まれているため、攻撃者が最初に試します。別のパスワードを選んでください。"
+
+msgid "Block an address or range"
+msgstr "アドレスまたは範囲をブロックする"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP または範囲（例: 203.0.113.0/24）"
+
+msgid "For"
+msgstr "期間"
+
+msgid "7 days"
+msgstr "7 日"
+
+msgid "15 days"
+msgstr "15 日"
+
+msgid "30 days"
+msgstr "30 日"
+
+msgid "90 days"
+msgstr "90 日"
+
+msgid "Forever"
+msgstr "無期限"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "何もブロックされませんでした。値が無効か、管理者のものか、あなた自身のアドレスです。"
+
+msgid "E-mail"
+msgstr "メール"
+
+msgid "Message"
+msgstr "メッセージ"
+
+msgid "Done."
+msgstr "完了しました。"
+
+msgid "It could not be done for that address."
+msgstr "そのアドレスではできませんでした。"
+
+msgid "No requests."
+msgstr "依頼はありません。"
+
+msgid "Review requests"
+msgstr "確認依頼"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "ファイアウォールに止められた人はブロックページから依頼できます。誤りなら一定期間通してください。Draco から相手に連絡することはありません。必要ならご自身のメールで返信してください。"
+
+msgid "Let through 24 hours"
+msgstr "24 時間通す"
+
+msgid "Let through"
+msgstr "通す"
+
+msgid "Attacker: blocked"
+msgstr "攻撃者: ブロック済み"
+
+msgid "Attacker"
+msgstr "攻撃者"
+
+msgid "Ask for a review"
+msgstr "確認を依頼する"
+
+msgid "Denied"
+msgstr "拒否済み"
+
+msgid "Deny"
+msgstr "拒否"
+
+msgid "Your e-mail"
+msgstr "メールアドレス"
+
+msgid "What were you doing?"
+msgstr "何をしていましたか？"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "ありがとうございます。サイトの管理者が確認し、誤りであれば通れるようにします。"
+
+msgid "Request sent"
+msgstr "送信しました"
+
+msgid "Firewall: last 7 days"
+msgstr "ファイアウォール: 過去 7 日間"
+
+msgid "Test the firewall"
+msgstr "ファイアウォールをテスト"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "動作しています: データベースへのインジェクションを認識してブロックしました（403）。"
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "攻撃の形をした無害なリクエストをサイトに送り、結果を表示します。記録はされません。"
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "テスト攻撃が認識されませんでした。Draco Insomnis に報告してください。"
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "ファイアウォールはオフです。オンにして保存し、もう一度テストしてください。"
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "サーバー自身からサイトに到達できませんでした（一部のホスティングでは許可されていません）。それでもファイアウォールは動作している可能性があります。最近の試行を確認してください。"
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "管理者やあなた自身のアドレスは対象外です。範囲は /16（IPv4）または /32（IPv6）より広くできません。"
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "Draco Insomnis のファイアウォールを通過する"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "サイトがプロキシの背後にない限り「接続元アドレス」のままにしてください。ヘッダーは誰でも偽装できます。"
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "動作しています: データベースへのインジェクションを認識しました。「記録のみ」では記録されますが止めません。準備ができたら「ブロック」に切り替えてください。"
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "このリクエストはセキュリティ上の理由で停止されました。誤りだと思う場合は、何をしていたかをサイトの管理者に伝えてください:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "1 行に 1 つの範囲（CIDR）。モジュールが既に知っている範囲に追加されます。このリストに載っていても点数が加わるだけで、それだけでボットと判定されることはありません。"
+
+msgid "The password must have at least @count characters."
+msgstr "パスワードは @count 文字以上にしてください。"
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] ファイアウォールのブロックの確認を依頼されています"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "ファイアウォールに止められた訪問者が確認を依頼しています。Draco Insomnis を開いて、通すかどうか決めてください:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "ファイアウォール: 10 分間で攻撃 @count 回"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "自動: 24 時間でボットの試行 @count 回"
+
+msgid "Review: @email"
+msgstr "確認: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "テストは Drupal に届く前に、ホスティング側のファイアウォールで止められました。良好です: 二重の防御です。"
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "モジュールから見たあなたのアドレス: %ip（接続元アドレス: %remote）。サイトが Cloudflare などのプロキシの背後にあり、これらが実際のアドレスと異なる場合は、「訪問者のアドレス」で該当する項目を選んでください。"
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "ヘッダーは無視されます: この接続（%remote）は Cloudflare からも信頼するプロキシからも来ていません。プロキシがインターネット上にある場合は、「信頼するプロキシ」にそのアドレスを追加してください。"
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "公開の登録フォームに見えない罠と署名付きのページスタンプを加えます。ボットはアカウントを得られず、1 日に 3 回ボットと判定されたアドレスは 1 週間ブロックされます。"
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "攻撃の形をしたリクエスト（データベースへのインジェクション、サーバーファイルの読み取り、コードの実行、リンク内のスクリプト）と、sqlmap や Nikto などのスキャナーを止めます。まず「記録のみ」で始め、数日後に「ブロック」に切り替えてください。10 分間に 5 回の攻撃でそのアドレスは 1 週間ブロックされます。ブロックされたアドレスもサイトの閲覧はできますが、送信やログインはできません。「Draco Insomnis のファイアウォールを通過する」権限を持つユーザーは検査されません。非常口: settings.php に $settings['draco_waf_off'] = TRUE; と書きます。"
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "人が読める以上のページを 1 分間に要求すると、その 1 分が終わるまで「429 Too many requests」が返されます。ログイン中のユーザー、あなた自身のアドレス、DNS で確認された検索エンジン（Google、Bing、Apple、Yandex）は制限されません。"
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "訪問者は多くの国から来る可能性があり、攻撃者は VPN で国を変えます。ログイン、登録、フォームだけをフィルターし、まずは「記録のみ」で始めてください。管理者、通過を許可した人、検索エンジンは決してフィルターされません。"
+
+msgid "Log only"
+msgstr "記録のみ"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "国リスト: まだダウンロードされていません（フィルターをオンにするとダウンロードされます）。"
+
+msgid "Country list of @date."
+msgstr "@date 時点の国のリスト。"
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "IP の位置情報は <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a>（CC BY 4.0）によるものです。あなたのサーバー上で照合され、アドレスがどこかへ送られることはありません。"
+
+msgid "Send security headers on public pages"
+msgstr "公開ページでセキュリティヘッダーを送る"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "ファイル形式の推測をさせない、他サイトへの埋め込みを許さない、参照元の情報を減らす、埋め込みコンテンツにカメラ・マイク・位置情報を使わせない。サーバーが既に送っているものは重ねて送りません。"
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "ブラウザで 6 か月間 HTTPS を強制（HSTS）"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "8～64 文字。0 = 最小値なし。アカウント作成時とパスワード変更時に適用されます。"
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "国のリストをダウンロードできませんでした。リストが揃うまでフィルタは何もしません。後でもう一度試してください。"
+
+msgid "Blocked: @value"
+msgstr "ブロックしました: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "攻撃 @total 件を検出、@blocked 件をブロック。"
+
+msgid "What"
+msgstr "内容"
+
+msgid "Busiest addresses"
+msgstr "最も多いアドレス"
+
+msgid "Blocked addresses (@count)"
+msgstr "ブロック中のアドレス（@count）"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "登録向けのボット対策シールド、ファイアウォール、コピー対策の制限。"
+
+msgid "Administer Draco Insomnis"
+msgstr "Draco Insomnis を管理する"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "設定の変更、証拠の閲覧、アドレスのブロック解除。"
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "これらのユーザーのリクエストは検査されません。コンテンツにコードや SQL を書く編集者に付与してください。"
+

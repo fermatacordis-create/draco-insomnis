@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="modules/dracoinsomnis" source-language="en-US" target-language="fr-FR" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Firewall</source>
+        <target>Pare-feu</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Anti-copy pace limit</source>
+        <target>Limite de rythme anti-copie</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Off</source>
+        <target>Désactivé</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Log only: record what it would stop</source>
+        <target>Journal seulement : noter ce qui serait arrêté</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Block</source>
+        <target>Bloquer</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Pages per minute, per address</source>
+        <target>Pages par minute, par adresse</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Pages per minute, per network</source>
+        <target>Pages par minute, par réseau</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other.</source>
+        <target>Un réseau /24 en IPv4 ou /64 en IPv6 : ce qu’obtient un aspirateur de site qui change d’adresses voisines.</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Visitor address</source>
+        <target>Adresse du visiteur</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Connection address (recommended)</source>
+        <target>Adresse de connexion (recommandé)</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cloudflare (CF-Connecting-IP)</source>
+        <target>Cloudflare (CF-Connecting-IP)</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Other proxy (X-Forwarded-For)</source>
+        <target>Autre proxy (X-Forwarded-For)</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Rented-server networks</source>
+        <target>Réseaux de serveurs loués</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Automatic: %d bot attempts in 24 h</source>
+        <target>Automatique : %d tentatives de bot en 24 h</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Firewall: %d attacks in 10 minutes</source>
+        <target>Pare-feu : %d attaques en 10 minutes</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>[%s] Someone asks you to review a firewall block</source>
+        <target>[%s] Quelqu’un vous demande de vérifier un blocage du pare-feu</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>The registration could not be completed.</source>
+        <target>L’inscription n’a pas pu être finalisée.</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Request blocked</source>
+        <target>Requête bloquée</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Address unblocked.</source>
+        <target>Adresse débloquée.</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Unblock</source>
+        <target>Débloquer</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Blocked addresses</source>
+        <target>Adresses bloquées</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Nothing blocked right now.</source>
+        <target>Rien n’est bloqué pour le moment.</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Last suspicious attempts</source>
+        <target>Dernières tentatives suspectes</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider.</source>
+        <target>Gardées 90 jours. Jamais de mots de passe. Le CSV d’une adresse contient tout ce qu’elle a fait, prêt à joindre à un signalement d’abus auprès de son fournisseur réseau.</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Nothing yet.</source>
+        <target>Rien pour l’instant.</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Address or e-mail</source>
+        <target>Adresse ou e-mail</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Reason</source>
+        <target>Motif</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Until (UTC)</source>
+        <target>Jusqu’au (UTC)</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Date (UTC)</source>
+        <target>Date (UTC)</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Address</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Where</source>
+        <target>Où</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Verdict</source>
+        <target>Verdict</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Signs</source>
+        <target>Signes</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Data</source>
+        <target>Données</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Trusted proxies</source>
+        <target>Proxys de confiance</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known.</source>
+        <target>Seules les connexions venant de ces adresses peuvent fixer l’adresse du visiteur par un en-tête. Une adresse ou une plage par ligne. Vide : ce serveur et les réseaux privés. Les plages de Cloudflare sont déjà connues.</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Countries</source>
+        <target>Pays</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Refuse the countries listed</source>
+        <target>Refuser les pays listés</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Only the countries listed</source>
+        <target>Seulement les pays listés</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Logging in, signing up and forms (recommended)</source>
+        <target>Connexion, inscription et formulaires (recommandé)</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>What to do</source>
+        <target>Que faire</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Countries (two-letter codes, e.g. ES, FR, DE)</source>
+        <target>Pays (codes à deux lettres, p. ex. ES, FR, DE)</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.</source>
+        <target>Géolocalisation IP par DB-IP (db-ip.com, CC BY 4.0), téléchargée quand vous activez le filtre et consultée sur votre propre serveur : aucune adresse n’est envoyée nulle part.</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Country list downloaded.</source>
+        <target>Liste des pays téléchargée.</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>The country list could not be downloaded. The filter does nothing until it is there; save again later.</source>
+        <target>La liste des pays n’a pas pu être téléchargée. Le filtre ne fait rien tant qu’elle n’est pas là ; enregistrez de nouveau plus tard.</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Security headers</source>
+        <target>En-têtes de sécurité</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Force HTTPS for 6 months (HSTS)</source>
+        <target>Forcer HTTPS pendant 6 mois (HSTS)</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Minimum password length</source>
+        <target>Longueur minimale du mot de passe</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Refuse passwords found in data breaches</source>
+        <target>Refuser les mots de passe trouvés dans des fuites de données</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>The password must have at least %d characters.</source>
+        <target>Le mot de passe doit comporter au moins %d caractères.</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>This password appears in known data breaches, so attackers try it first. Please choose another one.</source>
+        <target>Ce mot de passe figure dans des fuites de données connues, les attaquants l’essaient donc en premier. Choisissez-en un autre, s’il vous plaît.</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>IP or range (e.g. 203.0.113.0/24)</source>
+        <target>IP ou plage (p. ex. 203.0.113.0/24)</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>For</source>
+        <target>Pendant</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>7 days</source>
+        <target>7 jours</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>15 days</source>
+        <target>15 jours</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>30 days</source>
+        <target>30 jours</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>90 days</source>
+        <target>90 jours</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Forever</source>
+        <target>Pour toujours</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Blocked: %s</source>
+        <target>Bloqué : %s</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>E-mail</source>
+        <target>E-mail</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Message</source>
+        <target>Message</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Done.</source>
+        <target>Fait.</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>It could not be done for that address.</source>
+        <target>Impossible pour cette adresse.</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>No requests.</source>
+        <target>Aucune demande.</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Review requests</source>
+        <target>Demandes de vérification</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.</source>
+        <target>Les personnes arrêtées par le pare-feu peuvent le demander depuis la page de blocage. Laissez-les passer un moment si c’était une erreur. Draco ne leur écrit jamais : répondez depuis votre propre messagerie si vous le souhaitez.</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Let through 24 hours</source>
+        <target>Laisser passer 24 heures</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Let through</source>
+        <target>Laisser passer</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Attacker: blocked</source>
+        <target>Attaquant : bloqué</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Attacker</source>
+        <target>Attaquant</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Ask for a review</source>
+        <target>Demander une vérification</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Denied</source>
+        <target>Refusée</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Deny</source>
+        <target>Refuser</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Your e-mail</source>
+        <target>Votre e-mail</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>What were you doing?</source>
+        <target>Que faisiez-vous ?</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Review: %s</source>
+        <target>Vérification : %s</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Request sent</source>
+        <target>Demande envoyée</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Firewall: last 7 days</source>
+        <target>Pare-feu : 7 derniers jours</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Busiest addresses:</source>
+        <target>Adresses les plus actives :</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>What:</source>
+        <target>Quoi :</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Test the firewall</source>
+        <target>Tester le pare-feu</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Works: a database injection was recognised and blocked (403).</source>
+        <target>Ça marche : une injection dans la base de données a été reconnue et bloquée (403).</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>The test attack was not recognised. Please report it to Draco Insomnis.</source>
+        <target>L’attaque de test n’a pas été reconnue. Merci de le signaler à Draco Insomnis.</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>The firewall is off: switch it on and save, then test again.</source>
+        <target>Le pare-feu est désactivé : activez-le, enregistrez, puis testez à nouveau.</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Draco Insomnis</source>
+        <target>Draco Insomnis</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.</source>
+        <target>Ça marche : une injection dans la base de données a été reconnue. En « Journaliser seulement », elle est notée mais pas arrêtée ; passez à « Bloquer » quand vous êtes prêt.</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Settings</source>
+        <target>Réglages</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Save</source>
+        <target>Enregistrer</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Stops fake customer sign-ups without captchas, firewall and anti-copy limits. Open source.</source>
+        <target>Arrête les fausses inscriptions de clients sans captcha, pare-feu et limites anti-copie. Libre.</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Settings saved.</source>
+        <target>Réglages enregistrés.</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.</source>
+        <target>Arrête les fausses inscriptions de clients sans captcha : les robots n’obtiennent pas de compte, et chaque tentative suspecte est gardée 90 jours comme preuve pour un signalement d’abus. Rien n’est jamais renvoyé à l’attaquant.</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Your address as the module sees it:</source>
+        <target>Votre adresse telle que le module la voit :</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>(connection address:</source>
+        <target>(adresse de connexion :</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".</source>
+        <target>Si la boutique est derrière Cloudflare ou un autre proxy et qu’elles diffèrent de votre adresse réelle, choisissez l’option correspondante dans « Adresse du visiteur ».</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Protect customer sign-ups</source>
+        <target>Protéger les inscriptions de clients</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Adds an invisible trap and a signed page stamp to the sign-up form (account page and checkout). Bots get no account; three bot attempts in a day block the address for a week.</source>
+        <target>Ajoute un piège invisible et un tampon de page signé au formulaire d’inscription (page compte et commande). Les robots n’obtiennent pas de compte ; trois tentatives de robot en un jour bloquent l’adresse pendant une semaine.</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Yes</source>
+        <target>Oui</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>No</source>
+        <target>Non</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with "Log only" and move to "Block" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still browse, but not post. Emergency exit: define('DRACO_WAF_OFF', true); in config/defines_custom.inc.php.</source>
+        <target>Arrête les requêtes qui ont la forme d’une attaque (injection dans la base de données, lecture de fichiers du serveur, exécution de code, scripts dans les liens) et les scanners comme sqlmap ou Nikto. Commencez par « Journal seulement » et passez à « Bloquer » après quelques jours. Cinq attaques en 10 minutes bloquent l’adresse pendant une semaine ; les adresses bloquées peuvent toujours naviguer, mais pas envoyer. Sortie de secours : define('DRACO_WAF_OFF', true); dans config/defines_custom.inc.php.</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>More pages per minute than a person reads get "429 Too many requests" until the minute ends. Logged-in customers, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited.</source>
+        <target>Plus de pages par minute qu’une personne n’en lit reçoivent « 429 Trop de requêtes » jusqu’à la fin de la minute. Les clients connectés, vos propres adresses et les moteurs de recherche vérifiés par DNS (Google, Bing, Apple, Yandex) ne sont jamais limités.</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Leave "Connection address" unless the shop is behind a proxy: a header can be forged by anyone.</source>
+        <target>Laissez « Adresse de connexion » sauf si la boutique est derrière un proxy : n’importe qui peut falsifier un en-tête.</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot.</source>
+        <target>Une plage par ligne (CIDR), ajoutée à celles que le module connaît déjà. Figurer sur cette liste ajoute seulement des points : à elle seule, elle ne fait jamais de quelqu’un un robot.</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
+        <target>Cette requête a été arrêtée pour des raisons de sécurité. Si vous pensez que c’est une erreur, contactez le responsable de la boutique.</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
+        <target>L’en-tête est ignoré : cette connexion (%s) ne vient ni de Cloudflare ni d’un proxy de confiance. Si votre proxy est sur Internet, ajoutez ses adresses dans « Proxys de confiance ».</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.</source>
+        <target>Rien n’a été bloqué : la valeur n’est pas valide, appartient à un employé ou est votre propre adresse.</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).</source>
+        <target>Vos clients peuvent venir de nombreux pays, et un attaquant change de pays avec un VPN. Filtrez seulement la connexion, l’inscription et les formulaires, et commencez par « Journal seulement ». Les employés, les personnes que vous laissez passer et les moteurs de recherche ne sont jamais filtrés. Le pare-feu doit être actif (journal ou blocage).</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>The whole shop</source>
+        <target>Toute la boutique</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.</source>
+        <target>Sur les pages de la boutique : pas de devinette du type de fichier, pas d’affichage dans d’autres sites, moins de données de provenance, ni caméra, ni micro, ni position pour le contenu intégré. Jamais un en-tête déjà envoyé.</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</source>
+        <target>Seulement si toute la boutique fonctionne en HTTPS et continuera ainsi : les navigateurs s’en souviennent et refusent HTTP jusqu’à l’expiration.</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
+        <target>Jamais un employé, ni votre propre adresse. Plages pas plus larges que /16 (IPv4) ou /32 (IPv6).</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.</source>
+        <target>Un visiteur arrêté par le pare-feu demande une vérification. Ouvrez le module Draco Insomnis pour le laisser passer ou non.</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.</source>
+        <target>Merci. Le responsable de la boutique va regarder et, si c’était une erreur, vous laissera passer.</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:</source>
+        <target>Cette requête a été arrêtée pour des raisons de sécurité. Si vous pensez que c’est une erreur, dites au responsable de la boutique ce que vous faisiez :</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.</source>
+        <target>Le test n’a pas pu atteindre la boutique depuis le serveur lui-même (certains hébergeurs ne le permettent pas). Le pare-feu peut quand même fonctionner : regardez les dernières tentatives.</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers.</source>
+        <target>Le test a été arrêté avant d’atteindre PrestaShop, par le pare-feu de l’hébergeur. Bien : deux couches.</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>%1$d attacks seen, %2$d blocked.</source>
+        <target>%1$d attaques vues, %2$d bloquées.</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.</source>
+        <target>Envoie à la boutique une requête inoffensive en forme d’attaque et vous dit ce qui s’est passé. Elle n’est pas enregistrée.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>From 8 to 64 characters; 0 leaves only the shop's own rules. Applied when a customer creates an account or changes the password.</source>
+        <target>De 8 à 64 caractères ; 0 laisse seulement les règles de la boutique. Appliqué quand un client crée un compte ou change son mot de passe.</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Asks Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.</source>
+        <target>Interroge Have I Been Pwned avec k-anonymat : seuls 5 caractères du SHA-1 du mot de passe quittent la boutique, jamais le mot de passe. Si le service ne répond pas en 3 secondes, le mot de passe est accepté.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

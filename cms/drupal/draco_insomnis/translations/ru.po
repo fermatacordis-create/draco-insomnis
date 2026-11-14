@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — ru (generated from i18n/ru.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. Останавливает фальшивые регистрации без капчи, брандмауэр приложений и ограничение темпа против копирования. Открытый код."
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "Останавливает фальшивые регистрации без капчи: боты не получают учётную запись, а каждая подозрительная попытка хранится 90 дней как доказательство для жалобы о злоупотреблении. Атакующему ничего не отправляется в ответ."
+
+msgid "Protect user sign-ups"
+msgstr "Защитить регистрацию пользователей"
+
+msgid "Firewall"
+msgstr "Брандмауэр"
+
+msgid "Anti-copy pace limit"
+msgstr "Ограничение темпа против копирования"
+
+msgid "Off"
+msgstr "Выключено"
+
+msgid "Log only: record what it would stop"
+msgstr "Только записывать: отмечать, что было бы остановлено"
+
+msgid "Block"
+msgstr "Заблокировать"
+
+msgid "Pages per minute, per address"
+msgstr "Страниц в минуту на адрес"
+
+msgid "Pages per minute, per network"
+msgstr "Страниц в минуту на сеть"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "Сеть /24 для IPv4 или /64 для IPv6: то, что получает парсер, перебирая соседние адреса."
+
+msgid "Visitor address"
+msgstr "Адрес посетителя"
+
+msgid "Connection address (recommended)"
+msgstr "Адрес соединения (рекомендуется)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "Другой прокси (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "Сети арендованных серверов"
+
+msgid "The registration could not be completed."
+msgstr "Не удалось завершить регистрацию."
+
+msgid "Request blocked"
+msgstr "Запрос заблокирован"
+
+msgid "Address unblocked."
+msgstr "Адрес разблокирован."
+
+msgid "Unblock"
+msgstr "Разблокировать"
+
+msgid "Nothing blocked right now."
+msgstr "Сейчас ничего не заблокировано."
+
+msgid "Last suspicious attempts"
+msgstr "Последние подозрительные попытки"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "Хранятся 90 дней. Никогда не пароли. CSV по адресу содержит всё, что он делал, — готово для приложения к жалобе о злоупотреблении его сетевому провайдеру."
+
+msgid "Nothing yet."
+msgstr "Пока ничего."
+
+msgid "Address or e-mail"
+msgstr "Адрес или e-mail"
+
+msgid "Reason"
+msgstr "Причина"
+
+msgid "Until (UTC)"
+msgstr "До (UTC)"
+
+msgid "Date (UTC)"
+msgstr "Дата (UTC)"
+
+msgid "Address"
+msgstr "Адрес"
+
+msgid "Where"
+msgstr "Где"
+
+msgid "Verdict"
+msgstr "Вердикт"
+
+msgid "Signs"
+msgstr "Признаки"
+
+msgid "Data"
+msgstr "Данные"
+
+msgid "Trusted proxies"
+msgstr "Доверенные прокси"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "Только соединения с этих адресов могут задавать адрес посетителя через заголовок. Один адрес или диапазон в строке. Пусто: этот сервер и частные сети. Диапазоны самого Cloudflare уже известны."
+
+msgid "Countries"
+msgstr "Страны"
+
+msgid "Filter"
+msgstr "Фильтр"
+
+msgid "Refuse the countries listed"
+msgstr "Отклонять страны из списка"
+
+msgid "Only the countries listed"
+msgstr "Только страны из списка"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "Вход, регистрация и формы (рекомендуется)"
+
+msgid "The whole site"
+msgstr "Весь сайт"
+
+msgid "What to do"
+msgstr "Что делать"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "Страны (двухбуквенные коды, напр. ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "Список стран скачан."
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "Только если весь сайт работает по HTTPS и так и останется: браузеры запоминают это и отказываются от HTTP до истечения срока."
+
+msgid "Minimum password length"
+msgstr "Минимальная длина пароля"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "Отклонять пароли из утечек данных"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "Спрашивает Have I Been Pwned с k-анонимностью: сайт покидают только 5 символов SHA-1 пароля, никогда сам пароль. Если сервис не ответит за 3 секунды, пароль принимается."
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "Этот пароль есть в известных утечках данных, поэтому атакующие пробуют его первым. Пожалуйста, выберите другой."
+
+msgid "Block an address or range"
+msgstr "Заблокировать адрес или диапазон"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP или диапазон (напр. 203.0.113.0/24)"
+
+msgid "For"
+msgstr "На срок"
+
+msgid "7 days"
+msgstr "7 дней"
+
+msgid "15 days"
+msgstr "15 дней"
+
+msgid "30 days"
+msgstr "30 дней"
+
+msgid "90 days"
+msgstr "90 дней"
+
+msgid "Forever"
+msgstr "Навсегда"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "Ничего не заблокировано: значение неверно, принадлежит администратору или это ваш собственный адрес."
+
+msgid "E-mail"
+msgstr "Эл. почта"
+
+msgid "Message"
+msgstr "Сообщение"
+
+msgid "Done."
+msgstr "Готово."
+
+msgid "It could not be done for that address."
+msgstr "Для этого адреса это сделать невозможно."
+
+msgid "No requests."
+msgstr "Запросов нет."
+
+msgid "Review requests"
+msgstr "Запросы на проверку"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "Остановленные файрволом могут попросить проверку со страницы блокировки. Пропустите их на время, если это была ошибка. Draco никогда им не пишет: ответьте со своей почты, если хотите."
+
+msgid "Let through 24 hours"
+msgstr "Пропустить на 24 часа"
+
+msgid "Let through"
+msgstr "Пропустить"
+
+msgid "Attacker: blocked"
+msgstr "Атакующий: заблокирован"
+
+msgid "Attacker"
+msgstr "Атакующий"
+
+msgid "Ask for a review"
+msgstr "Попросить проверку"
+
+msgid "Denied"
+msgstr "Отклонён"
+
+msgid "Deny"
+msgstr "Отклонить"
+
+msgid "Your e-mail"
+msgstr "Ваш e-mail"
+
+msgid "What were you doing?"
+msgstr "Что вы делали?"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "Спасибо. Владелец сайта посмотрит и, если это ошибка, пропустит вас."
+
+msgid "Request sent"
+msgstr "Запрос отправлен"
+
+msgid "Firewall: last 7 days"
+msgstr "Брандмауэр: последние 7 дней"
+
+msgid "Test the firewall"
+msgstr "Проверить файрвол"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "Работает: SQL-инъекция распознана и заблокирована (403)."
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "Отправляет на сайт безвредный запрос в виде атаки и сообщает, что произошло. Не записывается в журнал."
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "Тестовая атака не распознана. Пожалуйста, сообщите об этом Draco Insomnis."
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "Файрвол выключен: включите его, сохраните и проверьте снова."
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "Тест не смог достучаться до сайта с самого сервера (некоторые хостинги это запрещают). Брандмауэр при этом может работать: посмотрите последние попытки."
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "Никогда администратора и никогда ваш собственный адрес. Диапазоны не шире /16 (IPv4) или /32 (IPv6)."
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "Обходить брандмауэр Draco Insomnis"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "Оставьте «Адрес соединения», если сайт не находится за прокси: заголовок может подделать кто угодно."
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "Работает: SQL-инъекция распознана. В режиме «Только журнал» она записывается, но не останавливается; переключитесь на «Блокировать», когда будете готовы."
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "Этот запрос остановлен по соображениям безопасности. Если вы считаете это ошибкой, напишите владельцу сайта, что вы делали:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "Один диапазон в строке (CIDR), в дополнение к тем, что модуль уже знает. Попадание в этот список только добавляет баллы: само по себе оно никого не делает ботом."
+
+msgid "The password must have at least @count characters."
+msgstr "Пароль должен содержать не менее @count символов."
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] Вас просят проверить блокировку брандмауэра"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "Посетитель, остановленный брандмауэром, просит проверки. Откройте Draco Insomnis, чтобы пропустить его или нет:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "Брандмауэр: @count атак за 10 минут"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "Автоматически: @count попыток бота за 24 ч"
+
+msgid "Review: @email"
+msgstr "Проверка: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "Тест был остановлен до Drupal брандмауэром самого хостинга. Хорошо: два уровня защиты."
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "Ваш адрес, как его видит модуль: %ip (адрес соединения: %remote). Если сайт находится за Cloudflare или другим прокси и они отличаются от вашего настоящего адреса, выберите подходящий вариант в «Адрес посетителя»."
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "Заголовок игнорируется: это соединение (%remote) приходит не от Cloudflare и не от доверенного прокси. Если ваш прокси находится в интернете, добавьте его адреса в «Доверенные прокси»."
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "Добавляет в публичную форму регистрации невидимую ловушку и подписанную метку страницы. Боты не получают учётную запись; три попытки бота за день блокируют адрес на неделю."
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "Останавливает запросы, похожие на атаку (внедрение в базу данных, чтение файлов сервера, выполнение кода, скрипты в ссылках), и сканеры вроде sqlmap или Nikto. Начните с «Только записывать» и через несколько дней переключитесь на «Заблокировать». Пять атак за 10 минут блокируют адрес на неделю; заблокированные адреса по-прежнему могут читать сайт, но не отправлять данные и не входить. Пользователи с правом «Обходить брандмауэр Draco Insomnis» никогда не проверяются. Аварийный выход: $settings['draco_waf_off'] = TRUE; в settings.php."
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "Кто запрашивает больше страниц в минуту, чем читает человек, получает «429 Too many requests» до конца минуты. Вошедшие пользователи, ваши собственные адреса и поисковики, проверенные по DNS (Google, Bing, Apple, Yandex), никогда не ограничиваются."
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "Ваши посетители могут приходить из многих стран, а атакующий меняет страну через VPN. Фильтруйте только вход, регистрацию и формы и начните с «Только журнал». Администраторы, пропущенные вами люди и поисковики никогда не фильтруются."
+
+msgid "Log only"
+msgstr "Только записывать"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "Список стран: ещё не скачан (скачивается при включении фильтра)."
+
+msgid "Country list of @date."
+msgstr "Список стран от @date."
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "Геолокация IP от <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Проверяется на вашем собственном сервере: никакие адреса никуда не отправляются."
+
+msgid "Send security headers on public pages"
+msgstr "Отправлять заголовки безопасности на публичных страницах"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "Без угадывания типов файлов, без встраивания на чужие сайты, меньше данных об источнике, без камеры, микрофона и геолокации для встроенного содержимого. Никогда заголовок, который сервер уже отправляет."
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "Принудительный HTTPS в браузерах на 6 месяцев (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "От 8 до 64 символов; 0 = без минимума. Применяется при создании учётной записи или смене пароля."
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "Не удалось загрузить список стран. Фильтр ничего не делает, пока его нет; попробуйте позже."
+
+msgid "Blocked: @value"
+msgstr "Заблокировано: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "Атак замечено: @total, заблокировано: @blocked."
+
+msgid "What"
+msgstr "Что"
+
+msgid "Busiest addresses"
+msgstr "Самые активные адреса"
+
+msgid "Blocked addresses (@count)"
+msgstr "Заблокированные адреса (@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "Защита регистраций от ботов, брандмауэр и ограничения против копирования."
+
+msgid "Administer Draco Insomnis"
+msgstr "Управлять Draco Insomnis"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "Менять настройки, смотреть доказательства и разблокировать адреса."
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "Запросы этих пользователей никогда не проверяются. Выдавайте это право редакторам, которые пишут код или SQL в своих материалах."
+

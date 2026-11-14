@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="modules/dracoinsomnis" source-language="en-US" target-language="zh-CN" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Firewall</source>
+        <target>防火墙</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Anti-copy pace limit</source>
+        <target>防复制速率限制</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Off</source>
+        <target>关闭</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Log only: record what it would stop</source>
+        <target>仅记录：记下本会阻止的内容</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Block</source>
+        <target>封锁</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Pages per minute, per address</source>
+        <target>每个地址每分钟的页面数</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Pages per minute, per network</source>
+        <target>每个网段每分钟的页面数</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other.</source>
+        <target>IPv4 的 /24 网段或 IPv6 的 /64：抓取程序轮换相邻地址时能拿到的范围。</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Visitor address</source>
+        <target>访客地址</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Connection address (recommended)</source>
+        <target>连接地址（推荐）</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cloudflare (CF-Connecting-IP)</source>
+        <target>Cloudflare（CF-Connecting-IP）</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Other proxy (X-Forwarded-For)</source>
+        <target>其他代理（X-Forwarded-For）</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Rented-server networks</source>
+        <target>租用服务器网段</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Automatic: %d bot attempts in 24 h</source>
+        <target>自动：24 小时内 %d 次机器人尝试</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Firewall: %d attacks in 10 minutes</source>
+        <target>防火墙：10 分钟内 %d 次攻击</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>[%s] Someone asks you to review a firewall block</source>
+        <target>[%s] 有人请你复核一次防火墙拦截</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>The registration could not be completed.</source>
+        <target>无法完成注册。</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Request blocked</source>
+        <target>请求已被拦截</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Address unblocked.</source>
+        <target>地址已解除封锁。</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Unblock</source>
+        <target>解除封锁</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Blocked addresses</source>
+        <target>被封锁的地址</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Nothing blocked right now.</source>
+        <target>目前没有任何封锁。</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Last suspicious attempts</source>
+        <target>最近的可疑尝试</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider.</source>
+        <target>保存 90 天。绝不保存密码。某个地址的 CSV 包含它做过的一切，可以直接附在向其网络服务商提交的滥用举报中。</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Nothing yet.</source>
+        <target>暂无记录。</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Address or e-mail</source>
+        <target>地址或电子邮件</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Reason</source>
+        <target>原因</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Until (UTC)</source>
+        <target>截止 (UTC)</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Date (UTC)</source>
+        <target>日期 (UTC)</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Address</source>
+        <target>地址</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Where</source>
+        <target>范围</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Verdict</source>
+        <target>判定</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Signs</source>
+        <target>迹象</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Data</source>
+        <target>数据</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Trusted proxies</source>
+        <target>受信任的代理</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known.</source>
+        <target>只有来自这些地址的连接才能通过请求头设置访客地址。每行一个地址或范围。留空：本服务器和私有网络。Cloudflare 自己的范围已经内置。</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Countries</source>
+        <target>国家</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Refuse the countries listed</source>
+        <target>拒绝列表中的国家</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Only the countries listed</source>
+        <target>仅允许列表中的国家</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Logging in, signing up and forms (recommended)</source>
+        <target>登录、注册和表单（推荐）</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>What to do</source>
+        <target>处理方式</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Countries (two-letter codes, e.g. ES, FR, DE)</source>
+        <target>国家（两字母代码，例如 ES, FR, DE）</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.</source>
+        <target>IP 地理定位由 DB-IP 提供（db-ip.com，CC BY 4.0），在你开启过滤时下载，并在你自己的服务器上查询：不会把任何地址发往别处。</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Country list downloaded.</source>
+        <target>国家列表已下载。</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>The country list could not be downloaded. The filter does nothing until it is there; save again later.</source>
+        <target>无法下载国家列表。在列表到位之前过滤器不起作用；请稍后再次保存。</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Security headers</source>
+        <target>安全响应头</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Force HTTPS for 6 months (HSTS)</source>
+        <target>强制 HTTPS 6 个月（HSTS）</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Minimum password length</source>
+        <target>密码最小长度</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Refuse passwords found in data breaches</source>
+        <target>拒绝在数据泄露中出现过的密码</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>The password must have at least %d characters.</source>
+        <target>密码至少需要 %d 个字符。</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>This password appears in known data breaches, so attackers try it first. Please choose another one.</source>
+        <target>此密码出现在已知的数据泄露中，攻击者会最先尝试。请换一个。</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>IP or range (e.g. 203.0.113.0/24)</source>
+        <target>IP 或网段（例如 203.0.113.0/24）</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>For</source>
+        <target>时长</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>7 days</source>
+        <target>7 天</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>15 days</source>
+        <target>15 天</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>30 days</source>
+        <target>30 天</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>90 days</source>
+        <target>90 天</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Forever</source>
+        <target>永久</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Blocked: %s</source>
+        <target>已封锁：%s</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>E-mail</source>
+        <target>邮箱</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Message</source>
+        <target>留言</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Done.</source>
+        <target>完成。</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>It could not be done for that address.</source>
+        <target>无法对该地址执行此操作。</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>No requests.</source>
+        <target>暂无申请。</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Review requests</source>
+        <target>复核申请</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.</source>
+        <target>被防火墙拦下的人可以在拦截页面申请。如果是误拦，可暂时放行。Draco 从不给他们写信：如有需要，请用你自己的邮箱回复。</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Let through 24 hours</source>
+        <target>放行 24 小时</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Let through</source>
+        <target>放行</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Attacker: blocked</source>
+        <target>攻击者：已拦截</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Attacker</source>
+        <target>攻击者</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Ask for a review</source>
+        <target>申请复核</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Denied</source>
+        <target>已拒绝</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Deny</source>
+        <target>拒绝</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Your e-mail</source>
+        <target>你的邮箱</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>What were you doing?</source>
+        <target>你当时在做什么？</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Review: %s</source>
+        <target>复核：%s</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Request sent</source>
+        <target>申请已发送</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Firewall: last 7 days</source>
+        <target>防火墙：最近 7 天</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Busiest addresses:</source>
+        <target>最活跃的地址：</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>What:</source>
+        <target>内容：</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Test the firewall</source>
+        <target>测试防火墙</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Works: a database injection was recognised and blocked (403).</source>
+        <target>正常：识别出数据库注入并已拦截（403）。</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>The test attack was not recognised. Please report it to Draco Insomnis.</source>
+        <target>未能识别测试攻击。请向 Draco Insomnis 报告。</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>The firewall is off: switch it on and save, then test again.</source>
+        <target>防火墙已关闭：请开启并保存，然后再测试。</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Draco Insomnis</source>
+        <target>Draco Insomnis</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.</source>
+        <target>正常：识别出数据库注入。在“仅记录”模式下只记录不拦截；准备好后切换到“拦截”。</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Settings</source>
+        <target>设置</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Save</source>
+        <target>保存</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Stops fake customer sign-ups without captchas, firewall and anti-copy limits. Open source.</source>
+        <target>无需验证码即可阻止虚假的顾客注册，提供防火墙和防复制限制。开源。</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Settings saved.</source>
+        <target>设置已保存。</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.</source>
+        <target>无需验证码即可阻止虚假的顾客注册：机器人拿不到账户，每次可疑尝试都会保存 90 天，作为滥用举报的证据。绝不会向攻击者回发任何内容。</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Your address as the module sees it:</source>
+        <target>模块看到的你的地址：</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>(connection address:</source>
+        <target>（连接地址：</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".</source>
+        <target>如果商店位于 Cloudflare 或其他代理之后，且它们与你的真实地址不同，请在“访客地址”中选择相应选项。</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Protect customer sign-ups</source>
+        <target>保护顾客注册</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Adds an invisible trap and a signed page stamp to the sign-up form (account page and checkout). Bots get no account; three bot attempts in a day block the address for a week.</source>
+        <target>在注册表单中加入一个隐形陷阱和一个签名的页面戳（账户页面和结账）。机器人拿不到账户；一天内三次机器人尝试会把该地址封锁一周。</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Yes</source>
+        <target>是</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>No</source>
+        <target>否</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with "Log only" and move to "Block" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still browse, but not post. Emergency exit: define('DRACO_WAF_OFF', true); in config/defines_custom.inc.php.</source>
+        <target>阻止具有攻击特征的请求（数据库注入、读取服务器文件、执行代码、链接中的脚本）以及 sqlmap、Nikto 等扫描器。先用“仅记录”，几天后再改为“封锁”。10 分钟内五次攻击会把该地址封锁一周；被封锁的地址仍可浏览，但不能提交。紧急出口：在 config/defines_custom.inc.php 中写入 define('DRACO_WAF_OFF', true);。</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>More pages per minute than a person reads get "429 Too many requests" until the minute ends. Logged-in customers, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited.</source>
+        <target>每分钟请求的页面数超过一个人能阅读的数量时，会收到“429 Too many requests”，直到这一分钟结束。已登录的顾客、你自己的地址以及经 DNS 验证的搜索引擎（Google、Bing、Apple、Yandex）永远不受限制。</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Leave "Connection address" unless the shop is behind a proxy: a header can be forged by anyone.</source>
+        <target>除非商店位于代理之后，否则请保留“连接地址”：任何人都能伪造请求头。</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot.</source>
+        <target>每行一个范围（CIDR），会添加到模块已知的范围中。出现在此列表中只会加分：单凭它永远不会把任何人判定为机器人。</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
+        <target>出于安全原因，此请求已被拦下。如果你认为这是误判，请联系商店的负责人。</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
+        <target>请求头被忽略：此连接（%s）既不是来自 Cloudflare，也不是来自受信任的代理。如果你的代理在互联网上，请在“受信任的代理”中添加它的地址。</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.</source>
+        <target>未封锁任何内容：该值无效、属于员工，或是你自己的地址。</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).</source>
+        <target>你的顾客可能来自许多国家，而攻击者会用 VPN 换国家。只过滤登录、注册和表单，并先用“仅记录”。员工、你放行的人和搜索引擎永远不会被过滤。需要开启防火墙（记录或封锁）。</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>The whole shop</source>
+        <target>整个商店</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.</source>
+        <target>在商店页面上：不猜测文件类型、不允许其他网站嵌入、减少来源信息、不为嵌入内容开放摄像头、麦克风或位置。绝不重复发送已有的响应头。</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</source>
+        <target>仅当整个商店都通过 HTTPS 运行并会一直如此时使用：浏览器会记住它，并在到期前拒绝普通 HTTP。</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
+        <target>绝不封锁员工，也不封锁你自己的地址。范围不得宽于 /16（IPv4）或 /32（IPv6）。</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.</source>
+        <target>一位被防火墙拦下的访客请求复核。打开 Draco Insomnis 模块决定是否放行。</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.</source>
+        <target>谢谢。商店负责人会查看，如果是误判，会让你通过。</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:</source>
+        <target>出于安全原因，此请求已被拦下。如果你认为这是误判，请告诉商店负责人你当时在做什么：</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.</source>
+        <target>测试无法从服务器本身访问商店（部分主机不允许这样做）。防火墙仍可能在工作：请查看最近的尝试。</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers.</source>
+        <target>测试在到达 PrestaShop 之前就被主机自己的防火墙拦下了。很好：两层防护。</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>%1$d attacks seen, %2$d blocked.</source>
+        <target>发现 %1$d 次攻击，拦截 %2$d 次。</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.</source>
+        <target>向商店发送一个无害的、形似攻击的请求，并告诉你发生了什么。它不会被记录。</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>From 8 to 64 characters; 0 leaves only the shop's own rules. Applied when a customer creates an account or changes the password.</source>
+        <target>8 到 64 个字符；0 表示只保留商店自己的规则。在顾客创建账户或修改密码时生效。</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Asks Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.</source>
+        <target>以 k-匿名方式查询 Have I Been Pwned：只有密码 SHA-1 的前 5 个字符离开商店，绝不发送密码本身。如果服务在 3 秒内没有响应，则接受该密码。</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

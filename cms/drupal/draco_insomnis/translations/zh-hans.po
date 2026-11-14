@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — zh-hans (generated from i18n/zh_CN.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh-hans\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. 无需验证码即可阻止虚假注册，提供应用防火墙和防复制速率限制。开源。"
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "无需验证码即可阻止虚假注册：机器人拿不到账户，每次可疑尝试都会保存 90 天，作为滥用举报的证据。绝不会向攻击者回发任何内容。"
+
+msgid "Protect user sign-ups"
+msgstr "保护用户注册"
+
+msgid "Firewall"
+msgstr "防火墙"
+
+msgid "Anti-copy pace limit"
+msgstr "防复制速率限制"
+
+msgid "Off"
+msgstr "关闭"
+
+msgid "Log only: record what it would stop"
+msgstr "仅记录：记下本会阻止的内容"
+
+msgid "Block"
+msgstr "封锁"
+
+msgid "Pages per minute, per address"
+msgstr "每个地址每分钟的页面数"
+
+msgid "Pages per minute, per network"
+msgstr "每个网段每分钟的页面数"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "IPv4 的 /24 网段或 IPv6 的 /64：抓取程序轮换相邻地址时能拿到的范围。"
+
+msgid "Visitor address"
+msgstr "访客地址"
+
+msgid "Connection address (recommended)"
+msgstr "连接地址（推荐）"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare（CF-Connecting-IP）"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "其他代理（X-Forwarded-For）"
+
+msgid "Rented-server networks"
+msgstr "租用服务器网段"
+
+msgid "The registration could not be completed."
+msgstr "无法完成注册。"
+
+msgid "Request blocked"
+msgstr "请求已被拦截"
+
+msgid "Address unblocked."
+msgstr "地址已解除封锁。"
+
+msgid "Unblock"
+msgstr "解除封锁"
+
+msgid "Nothing blocked right now."
+msgstr "目前没有任何封锁。"
+
+msgid "Last suspicious attempts"
+msgstr "最近的可疑尝试"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "保存 90 天。绝不保存密码。某个地址的 CSV 包含它做过的一切，可以直接附在向其网络服务商提交的滥用举报中。"
+
+msgid "Nothing yet."
+msgstr "暂无记录。"
+
+msgid "Address or e-mail"
+msgstr "地址或电子邮件"
+
+msgid "Reason"
+msgstr "原因"
+
+msgid "Until (UTC)"
+msgstr "截止 (UTC)"
+
+msgid "Date (UTC)"
+msgstr "日期 (UTC)"
+
+msgid "Address"
+msgstr "地址"
+
+msgid "Where"
+msgstr "范围"
+
+msgid "Verdict"
+msgstr "判定"
+
+msgid "Signs"
+msgstr "迹象"
+
+msgid "Data"
+msgstr "数据"
+
+msgid "Trusted proxies"
+msgstr "受信任的代理"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "只有来自这些地址的连接才能通过请求头设置访客地址。每行一个地址或范围。留空：本服务器和私有网络。Cloudflare 自己的范围已经内置。"
+
+msgid "Countries"
+msgstr "国家"
+
+msgid "Filter"
+msgstr "过滤"
+
+msgid "Refuse the countries listed"
+msgstr "拒绝列表中的国家"
+
+msgid "Only the countries listed"
+msgstr "仅允许列表中的国家"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "登录、注册和表单（推荐）"
+
+msgid "The whole site"
+msgstr "整个网站"
+
+msgid "What to do"
+msgstr "处理方式"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "国家（两字母代码，例如 ES, FR, DE）"
+
+msgid "Country list downloaded."
+msgstr "国家列表已下载。"
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "仅当整个网站都使用 HTTPS 且会一直如此时启用：浏览器会记住，在到期前拒绝 HTTP。"
+
+msgid "Minimum password length"
+msgstr "密码最小长度"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "拒绝在数据泄露中出现过的密码"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "以 k-匿名方式查询 Have I Been Pwned：只有密码 SHA-1 的前 5 个字符离开网站，绝不发送密码本身。如果服务在 3 秒内没有响应，则接受该密码。"
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "此密码出现在已知的数据泄露中，攻击者会最先尝试。请换一个。"
+
+msgid "Block an address or range"
+msgstr "封锁一个地址或范围"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP 或网段（例如 203.0.113.0/24）"
+
+msgid "For"
+msgstr "时长"
+
+msgid "7 days"
+msgstr "7 天"
+
+msgid "15 days"
+msgstr "15 天"
+
+msgid "30 days"
+msgstr "30 天"
+
+msgid "90 days"
+msgstr "90 天"
+
+msgid "Forever"
+msgstr "永久"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "未封锁任何内容：该值无效、属于管理员，或是你自己的地址。"
+
+msgid "E-mail"
+msgstr "邮箱"
+
+msgid "Message"
+msgstr "留言"
+
+msgid "Done."
+msgstr "完成。"
+
+msgid "It could not be done for that address."
+msgstr "无法对该地址执行此操作。"
+
+msgid "No requests."
+msgstr "暂无申请。"
+
+msgid "Review requests"
+msgstr "复核申请"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "被防火墙拦下的人可以在拦截页面申请。如果是误拦，可暂时放行。Draco 从不给他们写信：如有需要，请用你自己的邮箱回复。"
+
+msgid "Let through 24 hours"
+msgstr "放行 24 小时"
+
+msgid "Let through"
+msgstr "放行"
+
+msgid "Attacker: blocked"
+msgstr "攻击者：已拦截"
+
+msgid "Attacker"
+msgstr "攻击者"
+
+msgid "Ask for a review"
+msgstr "申请复核"
+
+msgid "Denied"
+msgstr "已拒绝"
+
+msgid "Deny"
+msgstr "拒绝"
+
+msgid "Your e-mail"
+msgstr "你的邮箱"
+
+msgid "What were you doing?"
+msgstr "你当时在做什么？"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "谢谢。网站负责人会查看，如果是误拦会放你通过。"
+
+msgid "Request sent"
+msgstr "申请已发送"
+
+msgid "Firewall: last 7 days"
+msgstr "防火墙：最近 7 天"
+
+msgid "Test the firewall"
+msgstr "测试防火墙"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "正常：识别出数据库注入并已拦截（403）。"
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "向网站发送一个无害的攻击样式请求，并告诉你结果。不会被记录。"
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "未能识别测试攻击。请向 Draco Insomnis 报告。"
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "防火墙已关闭：请开启并保存，然后再测试。"
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "测试无法从服务器本身访问网站（部分主机不允许这样做）。防火墙仍可能在工作：请查看最近的尝试。"
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "绝不封锁管理员，也不封锁你自己的地址。范围不得宽于 /16（IPv4）或 /32（IPv6）。"
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "绕过 Draco Insomnis 防火墙"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "除非网站位于代理之后，否则请保留“连接地址”：任何人都能伪造请求头。"
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "正常：识别出数据库注入。在“仅记录”模式下只记录不拦截；准备好后切换到“拦截”。"
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "出于安全原因，此请求已被拦截。如果你认为是误拦，请告诉网站负责人你当时在做什么："
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "每行一个范围（CIDR），会添加到模块已知的范围中。出现在此列表中只会加分：单凭它永远不会把任何人判定为机器人。"
+
+msgid "The password must have at least @count characters."
+msgstr "密码至少需要 @count 个字符。"
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] 有人请你复核一次防火墙封锁"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "一位被防火墙拦下的访客请求复核。打开 Draco Insomnis 决定是否放行："
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "防火墙：10 分钟内 @count 次攻击"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "自动：24 小时内 @count 次机器人尝试"
+
+msgid "Review: @email"
+msgstr "复核：@email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "测试在到达 Drupal 之前就被主机自己的防火墙拦下了。很好：两层防护。"
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "模块看到的你的地址：%ip（连接地址：%remote）。如果网站位于 Cloudflare 或其他代理之后，且它们与你的真实地址不同，请在“访客地址”中选择相应选项。"
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "请求头被忽略：此连接（%remote）既不是来自 Cloudflare，也不是来自受信任的代理。如果你的代理在互联网上，请在“受信任的代理”中添加它的地址。"
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "在公开注册表单中加入一个隐形陷阱和一个签名的页面戳。机器人拿不到账户；一天内三次机器人尝试会把该地址封锁一周。"
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "阻止具有攻击特征的请求（数据库注入、读取服务器文件、执行代码、链接中的脚本）以及 sqlmap、Nikto 等扫描器。先用“仅记录”，几天后再改为“封锁”。10 分钟内五次攻击会把该地址封锁一周；被封锁的地址仍可浏览网站，但不能提交或登录。拥有“绕过 Draco Insomnis 防火墙”权限的用户永远不会被检查。紧急出口：在 settings.php 中写入 $settings['draco_waf_off'] = TRUE;。"
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "每分钟请求的页面数超过一个人能阅读的数量时，会收到“429 Too many requests”，直到这一分钟结束。已登录用户、你自己的地址以及经 DNS 验证的搜索引擎（Google、Bing、Apple、Yandex）永远不受限制。"
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "你的访客可能来自许多国家，而攻击者会用 VPN 换国家。只过滤登录、注册和表单，并先用“仅记录”。管理员、你放行的人和搜索引擎永远不会被过滤。"
+
+msgid "Log only"
+msgstr "仅记录"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "国家列表：尚未下载（开启过滤器时下载）。"
+
+msgid "Country list of @date."
+msgstr "@date 的国家列表。"
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "IP 地理定位由 <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> 提供（CC BY 4.0）。在你自己的服务器上查询：不会把任何地址发往别处。"
+
+msgid "Send security headers on public pages"
+msgstr "在公开页面上发送安全响应头"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "不猜测文件类型、不允许其他网站嵌入、减少来源信息、不为嵌入内容开放摄像头、麦克风或位置。绝不重复发送服务器已发送的响应头。"
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "在浏览器中强制 HTTPS 6 个月（HSTS）"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "8 到 64 个字符；0 = 无最小值。在创建账户或修改密码时生效。"
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "无法下载国家列表。在列表到位之前过滤器不起作用；请稍后再试。"
+
+msgid "Blocked: @value"
+msgstr "已封锁：@value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "发现 @total 次攻击，封锁 @blocked 次。"
+
+msgid "What"
+msgstr "内容"
+
+msgid "Busiest addresses"
+msgstr "最活跃的地址"
+
+msgid "Blocked addresses (@count)"
+msgstr "被封锁的地址（@count）"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "注册防机器人护盾、防火墙和防复制限制。"
+
+msgid "Administer Draco Insomnis"
+msgstr "管理 Draco Insomnis"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "修改设置、查看证据并解除地址封锁。"
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "这些用户的请求永远不会被检查。请授予在内容中编写代码或 SQL 的编辑。"
+

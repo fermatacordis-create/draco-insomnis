@@ -214,5 +214,14 @@ reset
 rm -f "$jar" "$jar".*
 echo "     admin addresses after cleanup: $($D sget draco_insomnis.admin_ips 2>/dev/null)"
 
+if [ "${I18N:-}" = 1 ]; then
+  echo "== translations (locale module)"
+  $D en language locale -y >/dev/null 2>&1
+  $D language:add fr >/dev/null 2>&1
+  $D locale:check >/dev/null 2>&1; $D locale:update >/dev/null 2>&1
+  tr=$($D php:eval 'echo (string) t("Administer Draco Insomnis", [], ["langcode" => "fr"]);' 2>/dev/null)
+  [ "$tr" = "Administrer Draco Insomnis" ] && ok "the module's French is imported: $tr" || ko "French not imported: [$tr]"
+fi
+
 echo "== done: $pass ok, $fail failed"
 [ "$fail" = 0 ]
