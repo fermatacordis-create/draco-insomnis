@@ -102,7 +102,7 @@ final class Cli
 
     private function base(): string
     {
-        return rtrim(Config::forHost('')['state_dir'] ?? Config::STATE, '/');
+        return Config::stateDir(Config::forHost(''));
     }
 
     /** @return array<string, string> folder => user name */
@@ -170,6 +170,15 @@ final class Cli
         foreach (glob('/etc/php/*/{fpm,apache2,cgi}/conf.d', GLOB_ONLYDIR | GLOB_BRACE) ?: [] as $d) {
             $dirs[] = $d;
         }
+        // Official Docker images of PHP (and WordPress, Drupal, Joomla, MediaWiki… built on them).
+        // The Docker volume mode: the app reads /opt/draco/conf.d through PHP_INI_SCAN_DIR.
+        if (is_dir(Config::bundle() . '/conf.d')) {
+            $dirs[] = Config::bundle() . '/conf.d';
+        }
+        $docker = getenv('PHP_INI_DIR');
+        if (is_string($docker) && $docker !== '' && is_dir($docker . '/conf.d')) {
+            $dirs[] = $docker . '/conf.d';
+        }
         foreach (['/etc/php.d', '/etc/opt/remi/*/php.d'] as $pattern) {
             foreach (glob($pattern, GLOB_ONLYDIR) ?: [] as $d) {
                 $dirs[] = $d;
@@ -227,8 +236,18 @@ final class Cli
 
     private function reload(): void
     {
-        if (!is_executable('/usr/bin/systemctl') && !is_executable('/bin/systemctl')) {
-            echo "Reload PHP-FPM and Apache yourself for it to take effect.\n";
+        if (!is_dir('/run/systemd/system')) {
+            // A container: PHP-FPM or Apache is usually process 1.
+            $one = (string) @file_get_contents('/proc/1/cmdline');
+            if (str_contains($one, 'php-fpm')) {
+                exec('kill -USR2 1 2>&1', $o, $code);
+                echo $code === 0 ? "reloaded: php-fpm\n" : "Reload PHP-FPM yourself (kill -USR2 1).\n";
+            } elseif (str_contains($one, 'apache2') || str_contains($one, 'httpd')) {
+                exec('apachectl -k graceful 2>&1', $o, $code);
+                echo $code === 0 ? "reloaded: apache\n" : "Reload Apache yourself (apachectl -k graceful).\n";
+            } else {
+                echo "Reload PHP-FPM and Apache yourself for it to take effect.\n";
+            }
 
             return;
         }

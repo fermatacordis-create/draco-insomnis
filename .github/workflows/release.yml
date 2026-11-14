@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  packages: write
 
 jobs:
   release:
@@ -32,6 +33,17 @@ jobs:
           sudo apt-get install -y -qq rpm >/dev/null
           bin/build-all.sh release | tee release/files.txt
           (cd release && sha256sum *.zip *.deb *.rpm *.tar.gz > SHA256SUMS.txt && cat SHA256SUMS.txt)
+      - name: Docker image (ghcr.io/fermatacordis-create/draco-insomnis)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          image=ghcr.io/fermatacordis-create/draco-insomnis
+          echo "$GH_TOKEN" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          bin/build-docker.sh "$image:$version" "$image:latest"
+          docker push "$image:$version"
+          docker push "$image:latest"
+          docker inspect --format '{{index .RepoDigests 0}}' "$image:$version" | tee release/docker-digest.txt
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
@@ -51,6 +63,7 @@ jobs:
             echo "| Laravel 11 to 13 (Composer package) | \`draco-insomnis-laravel-$version.zip\` |"
             echo "| Any PHP site on a Debian or Ubuntu server | \`draco-insomnis-server_${version}_all.deb\` |"
             echo "| Any PHP site on RHEL, AlmaLinux, Rocky or Fedora | \`draco-insomnis-server-$version-1.noarch.rpm\` |"
+            echo "| Any PHP container (Docker add-on) | \`ghcr.io/fermatacordis-create/draco-insomnis:$version\` |"
             echo "| Any PHP site on another Linux (install.sh) | \`draco-insomnis-server-$version.tar.gz\` |"
             echo
             echo "Checksums in \`SHA256SUMS.txt\`."

@@ -4,3 +4,5 @@
 *.zip
 /dist/
 /.phpunit.result.cache
+
+server/docker/build/

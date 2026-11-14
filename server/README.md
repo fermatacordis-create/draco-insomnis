@@ -26,6 +26,22 @@ RHEL, AlmaLinux, Rocky, Fedora: `sudo dnf install ./draco-insomnis-server-0.1.17
 
 Other Linux (PHP 8.0+ with pdo_sqlite): unpack the `.tar.gz` and run `sudo sh install.sh`, then `sudo draco enable`. Where `draco enable` finds no PHP, add `auto_prepend_file = /usr/share/draco-insomnis/guard.php` to your php.ini.
 
+## Docker: an add-on for PHP containers
+
+`ghcr.io/fermatacordis-create/draco-insomnis` is not an app of its own but an add-on for any container built on the official PHP images. That includes `php:*-apache` and `php:*-fpm`, and the official `wordpress`, `drupal`, `joomla`, `mediawiki`, `nextcloud` and `matomo` images.
+
+**A. Inside your image**: two lines in your Dockerfile.
+
+```dockerfile
+FROM wordpress:php8.3-apache
+COPY --from=ghcr.io/fermatacordis-create/draco-insomnis:latest /draco /opt/draco
+RUN sh /opt/draco/install-docker.sh        # ENV DRACO_WAF_MODE=block etc. before it set the first settings
+```
+
+Then use `docker exec <app> draco status`, `draco set waf_mode block`, `draco reviews`… To keep the settings and the evidence when the container is replaced, put `/etc/draco-insomnis` and `/var/lib/draco-insomnis` on volumes.
+
+**B. Without rebuilding**: a `draco` service fills a volume. The app mounts it at `/opt/draco` and adds `PHP_INI_SCAN_DIR=":/opt/draco/conf.d"`. See [docker/docker-compose.example.yml](docker/docker-compose.example.yml). The commands are `docker compose exec app php /opt/draco/share/bin/draco …`. A new image tag updates the files and keeps `draco.ini` and the evidence.
+
 ## Everyday commands
 
 ```text
