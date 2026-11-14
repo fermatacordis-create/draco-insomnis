@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — bn (generated from i18n/bn.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: bn\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. ক্যাপচা ছাড়াই ভুয়া নিবন্ধন থামায়, সঙ্গে অ্যাপ্লিকেশন ফায়ারওয়াল ও নকল-রোধী গতিসীমা। ওপেন সোর্স।"
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "ক্যাপচা ছাড়াই ভুয়া নিবন্ধন থামায়: বট অ্যাকাউন্ট পায় না, আর প্রতিটি সন্দেহজনক চেষ্টা অপব্যবহারের অভিযোগের প্রমাণ হিসেবে ৯০ দিন রাখা হয়। আক্রমণকারীকে কখনো কিছু ফেরত পাঠানো হয় না।"
+
+msgid "Protect user sign-ups"
+msgstr "ব্যবহারকারী নিবন্ধন সুরক্ষিত করুন"
+
+msgid "Firewall"
+msgstr "ফায়ারওয়াল"
+
+msgid "Anti-copy pace limit"
+msgstr "নকল-রোধী গতিসীমা"
+
+msgid "Off"
+msgstr "বন্ধ"
+
+msgid "Log only: record what it would stop"
+msgstr "শুধু লগ: যা থামানো হতো তা লিখে রাখুন"
+
+msgid "Block"
+msgstr "ব্লক"
+
+msgid "Pages per minute, per address"
+msgstr "প্রতি ঠিকানা থেকে প্রতি মিনিটে পৃষ্ঠা"
+
+msgid "Pages per minute, per network"
+msgstr "প্রতি নেটওয়ার্ক থেকে প্রতি মিনিটে পৃষ্ঠা"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "IPv4-এর জন্য /24 বা IPv6-এর জন্য /64 নেটওয়ার্ক: পাশাপাশি ঠিকানা বদলাতে থাকা স্ক্র্যাপার এটুকুই পায়।"
+
+msgid "Visitor address"
+msgstr "দর্শকের ঠিকানা"
+
+msgid "Connection address (recommended)"
+msgstr "সংযোগের ঠিকানা (প্রস্তাবিত)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "অন্য প্রক্সি (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "ভাড়া করা সার্ভারের নেটওয়ার্ক"
+
+msgid "The registration could not be completed."
+msgstr "নিবন্ধন সম্পন্ন করা যায়নি।"
+
+msgid "Request blocked"
+msgstr "অনুরোধ ব্লক করা হয়েছে"
+
+msgid "Address unblocked."
+msgstr "ঠিকানার ব্লক তুলে নেওয়া হয়েছে।"
+
+msgid "Unblock"
+msgstr "আনব্লক"
+
+msgid "Nothing blocked right now."
+msgstr "এখন কিছুই ব্লক করা নেই।"
+
+msgid "Last suspicious attempts"
+msgstr "সাম্প্রতিক সন্দেহজনক চেষ্টা"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "৯০ দিন রাখা হয়। পাসওয়ার্ড কখনো নয়। একটি ঠিকানার CSV-তে তার করা সবকিছু থাকে, যা তার নেটওয়ার্ক প্রদানকারীর কাছে অপব্যবহারের অভিযোগে যুক্ত করার জন্য প্রস্তুত।"
+
+msgid "Nothing yet."
+msgstr "এখনো কিছু নেই।"
+
+msgid "Address or e-mail"
+msgstr "ঠিকানা বা ইমেল"
+
+msgid "Reason"
+msgstr "কারণ"
+
+msgid "Until (UTC)"
+msgstr "পর্যন্ত (UTC)"
+
+msgid "Date (UTC)"
+msgstr "তারিখ (UTC)"
+
+msgid "Address"
+msgstr "ঠিকানা"
+
+msgid "Where"
+msgstr "কোথায়"
+
+msgid "Verdict"
+msgstr "সিদ্ধান্ত"
+
+msgid "Signs"
+msgstr "লক্ষণ"
+
+msgid "Data"
+msgstr "তথ্য"
+
+msgid "Trusted proxies"
+msgstr "বিশ্বস্ত প্রক্সি"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "কেবল এই ঠিকানাগুলো থেকে আসা সংযোগ হেডারের মাধ্যমে দর্শকের ঠিকানা ঠিক করতে পারে। প্রতি লাইনে একটি ঠিকানা বা পরিসর। খালি: এই সার্ভার ও ব্যক্তিগত নেটওয়ার্ক। Cloudflare-এর নিজস্ব পরিসর আগে থেকেই জানা।"
+
+msgid "Countries"
+msgstr "দেশ"
+
+msgid "Filter"
+msgstr "ফিল্টার"
+
+msgid "Refuse the countries listed"
+msgstr "তালিকার দেশগুলো প্রত্যাখ্যান করুন"
+
+msgid "Only the countries listed"
+msgstr "শুধু তালিকার দেশগুলো"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "লগইন, নিবন্ধন ও ফর্ম (প্রস্তাবিত)"
+
+msgid "The whole site"
+msgstr "পুরো সাইট"
+
+msgid "What to do"
+msgstr "কী করবেন"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "দেশ (দুই অক্ষরের কোড, যেমন ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "দেশের তালিকা ডাউনলোড হয়েছে।"
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "শুধু যদি পুরো সাইট HTTPS-এ চলে এবং চলতে থাকবে: ব্রাউজার এটি মনে রাখে এবং মেয়াদ শেষ না হওয়া পর্যন্ত HTTP প্রত্যাখ্যান করে।"
+
+msgid "Minimum password length"
+msgstr "পাসওয়ার্ডের ন্যূনতম দৈর্ঘ্য"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "ডেটা ফাঁসে পাওয়া পাসওয়ার্ড প্রত্যাখ্যান করুন"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "k-বেনামিত্বে Have I Been Pwned-কে জিজ্ঞেস করে: সাইট থেকে পাসওয়ার্ডের SHA-1-এর মাত্র ৫টি অক্ষর বাইরে যায়, পাসওয়ার্ড কখনো নয়। পরিষেবা ৩ সেকেন্ডে উত্তর না দিলে পাসওয়ার্ড গৃহীত হয়।"
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "এই পাসওয়ার্ড পরিচিত ডেটা ফাঁসে আছে, তাই আক্রমণকারীরা এটি আগে চেষ্টা করে। দয়া করে অন্য একটি বেছে নিন।"
+
+msgid "Block an address or range"
+msgstr "একটি ঠিকানা বা পরিসর ব্লক করুন"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP বা রেঞ্জ (যেমন 203.0.113.0/24)"
+
+msgid "For"
+msgstr "সময়কাল"
+
+msgid "7 days"
+msgstr "৭ দিন"
+
+msgid "15 days"
+msgstr "১৫ দিন"
+
+msgid "30 days"
+msgstr "৩০ দিন"
+
+msgid "90 days"
+msgstr "৯০ দিন"
+
+msgid "Forever"
+msgstr "চিরকাল"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "কিছুই ব্লক হয়নি: মানটি বৈধ নয়, কোনো অ্যাডমিনিস্ট্রেটরের, অথবা আপনার নিজের ঠিকানা।"
+
+msgid "E-mail"
+msgstr "ইমেইল"
+
+msgid "Message"
+msgstr "বার্তা"
+
+msgid "Done."
+msgstr "হয়ে গেছে।"
+
+msgid "It could not be done for that address."
+msgstr "সেই ঠিকানার জন্য এটি করা যায়নি।"
+
+msgid "No requests."
+msgstr "কোনো অনুরোধ নেই।"
+
+msgid "Review requests"
+msgstr "পর্যালোচনার অনুরোধ"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "ফায়ারওয়ালে আটকানো মানুষ ব্লক পৃষ্ঠা থেকে অনুরোধ করতে পারেন। ভুল হলে কিছু সময়ের জন্য যেতে দিন। Draco তাদের কখনো লেখে না: চাইলে নিজের মেইল থেকে উত্তর দিন।"
+
+msgid "Let through 24 hours"
+msgstr "২৪ ঘণ্টা ঢুকতে দিন"
+
+msgid "Let through"
+msgstr "যেতে দিন"
+
+msgid "Attacker: blocked"
+msgstr "আক্রমণকারী: ব্লক করা"
+
+msgid "Attacker"
+msgstr "আক্রমণকারী"
+
+msgid "Ask for a review"
+msgstr "পর্যালোচনা চান"
+
+msgid "Denied"
+msgstr "প্রত্যাখ্যাত"
+
+msgid "Deny"
+msgstr "প্রত্যাখ্যান"
+
+msgid "Your e-mail"
+msgstr "আপনার ইমেইল"
+
+msgid "What were you doing?"
+msgstr "আপনি কী করছিলেন?"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "ধন্যবাদ। সাইটের মালিক এটি দেখবেন এবং ভুল হলে আপনাকে যেতে দেবেন।"
+
+msgid "Request sent"
+msgstr "অনুরোধ পাঠানো হয়েছে"
+
+msgid "Firewall: last 7 days"
+msgstr "ফায়ারওয়াল: গত ৭ দিন"
+
+msgid "Test the firewall"
+msgstr "ফায়ারওয়াল পরীক্ষা করুন"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "কাজ করছে: একটি ডেটাবেস ইনজেকশন চেনা গেছে এবং ব্লক হয়েছে (403)।"
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "সাইটে আক্রমণের মতো দেখতে একটি নিরীহ অনুরোধ পাঠায় এবং কী হলো জানায়। এটি লগ হয় না।"
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "পরীক্ষার আক্রমণটি চেনা যায়নি। দয়া করে Draco Insomnis-কে জানান।"
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "ফায়ারওয়াল বন্ধ: চালু করুন, সংরক্ষণ করুন, তারপর আবার পরীক্ষা করুন।"
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "পরীক্ষাটি সার্ভার থেকেই সাইটে পৌঁছাতে পারেনি (কিছু হোস্টিং এটি করতে দেয় না)। ফায়ারওয়াল তবুও কাজ করতে পারে: সাম্প্রতিক চেষ্টা দেখুন।"
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "কখনো কোনো অ্যাডমিন নয়, আপনার নিজের ঠিকানাও নয়। পরিসর /16 (IPv4) বা /32 (IPv6)-এর চেয়ে বড় নয়।"
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "Draco Insomnis ফায়ারওয়াল এড়িয়ে যান"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "সাইট কোনো প্রক্সির পেছনে না থাকলে «সংযোগের ঠিকানা» রেখে দিন: হেডার যে কেউ জাল করতে পারে।"
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "কাজ করছে: একটি ডেটাবেস ইনজেকশন চেনা গেছে। \"শুধু লগ\"-এ এটি লেখা হয় কিন্তু থামানো হয় না; প্রস্তুত হলে \"ব্লক\"-এ যান।"
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "নিরাপত্তার কারণে এই অনুরোধ থামানো হয়েছে। এটি ভুল মনে হলে সাইটের মালিককে জানান আপনি কী করছিলেন:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "প্রতি লাইনে একটি পরিসর (CIDR), যা মডিউলের আগে থেকে জানা পরিসরের সঙ্গে যোগ হয়। এই তালিকায় থাকা কেবল পয়েন্ট বাড়ায়: একা এটি কাউকে বট বানায় না।"
+
+msgid "The password must have at least @count characters."
+msgstr "পাসওয়ার্ডে অন্তত @count টি অক্ষর থাকতে হবে।"
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] কেউ আপনাকে ফায়ারওয়ালের একটি ব্লক পর্যালোচনা করতে বলছেন"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "ফায়ারওয়ালে আটকে যাওয়া একজন দর্শক পর্যালোচনা চাইছেন। তাকে ঢুকতে দেবেন কি না ঠিক করতে Draco Insomnis খুলুন:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "ফায়ারওয়াল: ১০ মিনিটে @count টি আক্রমণ"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "স্বয়ংক্রিয়: ২৪ ঘণ্টায় @count বার বটের চেষ্টা"
+
+msgid "Review: @email"
+msgstr "পর্যালোচনা: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "পরীক্ষাটি Drupal-এ পৌঁছানোর আগেই হোস্টিংয়ের নিজস্ব ফায়ারওয়াল থামিয়ে দিয়েছে। ভালো: দুই স্তর।"
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "মডিউল যেভাবে আপনার ঠিকানা দেখে: %ip (সংযোগের ঠিকানা: %remote)। সাইট যদি Cloudflare বা অন্য প্রক্সির পেছনে থাকে এবং এগুলো আপনার আসল ঠিকানা থেকে আলাদা হয়, তবে «দর্শকের ঠিকানা»-তে মিলে যাওয়া বিকল্পটি বেছে নিন।"
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "হেডার উপেক্ষা করা হচ্ছে: এই সংযোগ (%remote) Cloudflare বা কোনো বিশ্বস্ত প্রক্সি থেকে আসেনি। আপনার প্রক্সি ইন্টারনেটে থাকলে তার ঠিকানা «বিশ্বস্ত প্রক্সি»-তে যোগ করুন।"
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "সর্বজনীন নিবন্ধন ফর্মে একটি অদৃশ্য ফাঁদ ও পৃষ্ঠার স্বাক্ষরিত সিল যোগ করে। বট অ্যাকাউন্ট পায় না; এক দিনে তিনবার বটের চেষ্টা সেই ঠিকানাকে এক সপ্তাহের জন্য ব্লক করে।"
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "আক্রমণের মতো দেখতে অনুরোধ (ডেটাবেসে ইনজেকশন, সার্ভারের ফাইল পড়া, কোড চালানো, লিংকে স্ক্রিপ্ট) এবং sqlmap বা Nikto-র মতো স্ক্যানার থামায়। «শুধু লগ» দিয়ে শুরু করুন এবং কয়েক দিন পর «ব্লক»-এ যান। ১০ মিনিটে পাঁচটি আক্রমণ ঠিকানাটিকে এক সপ্তাহের জন্য ব্লক করে; ব্লক করা ঠিকানা সাইট পড়তে পারে, কিন্তু কিছু পাঠাতে বা লগ ইন করতে পারে না। «Draco Insomnis ফায়ারওয়াল এড়িয়ে যান» অনুমতিধারী ব্যবহারকারীদের কখনো পরীক্ষা করা হয় না। জরুরি পথ: settings.php-তে $settings['draco_waf_off'] = TRUE; লিখুন।"
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "যে এক মিনিটে একজন মানুষের পড়ার চেয়ে বেশি পৃষ্ঠা চায়, সে মিনিট শেষ না হওয়া পর্যন্ত «429 Too many requests» পায়। লগ ইন করা ব্যবহারকারী, আপনার নিজের ঠিকানা এবং DNS দিয়ে যাচাই করা সার্চ ইঞ্জিন (Google, Bing, Apple, Yandex) কখনো সীমিত হয় না।"
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "আপনার দর্শকরা অনেক দেশ থেকে আসতে পারেন, আর আক্রমণকারী VPN দিয়ে দেশ বদলায়। শুধু লগইন, নিবন্ধন ও ফর্ম ফিল্টার করুন, এবং \"শুধু লগ\" দিয়ে শুরু করুন। অ্যাডমিনিস্ট্রেটর, আপনি যাদের যেতে দেন এবং সার্চ ইঞ্জিন কখনো ফিল্টার হয় না।"
+
+msgid "Log only"
+msgstr "শুধু লগ"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "দেশের তালিকা: এখনো ডাউনলোড হয়নি (ফিল্টার চালু করলে ডাউনলোড হয়)।"
+
+msgid "Country list of @date."
+msgstr "@date তারিখের দেশের তালিকা।"
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "IP-এর অবস্থান <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0) থেকে। আপনার নিজের সার্ভারে খোঁজা হয়: কোনো ঠিকানা কোথাও পাঠানো হয় না।"
+
+msgid "Send security headers on public pages"
+msgstr "সর্বজনীন পৃষ্ঠায় নিরাপত্তা হেডার পাঠান"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "ফাইলের ধরন অনুমান নয়, অন্য সাইটে জুড়ে দেওয়া নয়, কম রেফারার তথ্য, জুড়ে দেওয়া বিষয়বস্তুর জন্য ক্যামেরা, মাইক্রোফোন বা অবস্থান নয়। সার্ভার আগে থেকে পাঠানো হেডার কখনো আবার নয়।"
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "ব্রাউজারে ৬ মাসের জন্য HTTPS বাধ্যতামূলক করুন (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "৮ থেকে ৬৪ অক্ষর; ০ = কোনো ন্যূনতম নেই। অ্যাকাউন্ট তৈরি বা পাসওয়ার্ড বদলানোর সময় প্রযোজ্য।"
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "দেশের তালিকা ডাউনলোড করা যায়নি। তালিকা না আসা পর্যন্ত ফিল্টার কিছু করে না; পরে আবার চেষ্টা করুন।"
+
+msgid "Blocked: @value"
+msgstr "ব্লক করা হয়েছে: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "@total টি আক্রমণ দেখা গেছে, @blocked টি ব্লক করা হয়েছে।"
+
+msgid "What"
+msgstr "কী"
+
+msgid "Busiest addresses"
+msgstr "সবচেয়ে সক্রিয় ঠিকানা"
+
+msgid "Blocked addresses (@count)"
+msgstr "ব্লক করা ঠিকানা (@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "নিবন্ধনের জন্য বট-রোধী ঢাল, ফায়ারওয়াল ও নকল-রোধী সীমা।"
+
+msgid "Administer Draco Insomnis"
+msgstr "Draco Insomnis পরিচালনা করুন"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "সেটিংস বদলানো, প্রমাণ দেখা এবং ঠিকানার ব্লক তুলে নেওয়া।"
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "এই ব্যবহারকারীদের অনুরোধ কখনো পরীক্ষা করা হয় না। যে সম্পাদকরা তাদের বিষয়বস্তুতে কোড বা SQL লেখেন তাদের দিন।"
+

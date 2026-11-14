@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — fa (generated from i18n/fa.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fa\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. ثبت‌نام‌های جعلی را بدون کپچا متوقف می‌کند، با دیوار آتش برنامه و محدودیت سرعت ضد کپی. متن‌باز."
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "ثبت‌نام‌های جعلی را بدون کپچا متوقف می‌کند: ربات‌ها حساب نمی‌گیرند و هر تلاش مشکوک ۹۰ روز به‌عنوان مدرک برای گزارش سوءاستفاده نگه داشته می‌شود. هرگز چیزی برای مهاجم پس فرستاده نمی‌شود."
+
+msgid "Protect user sign-ups"
+msgstr "محافظت از ثبت‌نام کاربران"
+
+msgid "Firewall"
+msgstr "دیوار آتش"
+
+msgid "Anti-copy pace limit"
+msgstr "محدودیت سرعت ضد کپی"
+
+msgid "Off"
+msgstr "خاموش"
+
+msgid "Log only: record what it would stop"
+msgstr "فقط ثبت: یادداشت آنچه متوقف می‌شد"
+
+msgid "Block"
+msgstr "مسدود کردن"
+
+msgid "Pages per minute, per address"
+msgstr "صفحه در دقیقه، برای هر نشانی"
+
+msgid "Pages per minute, per network"
+msgstr "صفحه در دقیقه، برای هر شبکه"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "شبکهٔ /24 برای IPv4 یا /64 برای IPv6: آنچه یک خزندهٔ کپی‌گر با چرخیدن میان نشانی‌های مجاور به دست می‌آورد."
+
+msgid "Visitor address"
+msgstr "نشانی بازدیدکننده"
+
+msgid "Connection address (recommended)"
+msgstr "نشانی اتصال (پیشنهادی)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "پراکسی دیگر (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "شبکه‌های سرورهای اجاره‌ای"
+
+msgid "The registration could not be completed."
+msgstr "ثبت‌نام کامل نشد."
+
+msgid "Request blocked"
+msgstr "درخواست مسدود شد"
+
+msgid "Address unblocked."
+msgstr "مسدودی نشانی برداشته شد."
+
+msgid "Unblock"
+msgstr "رفع مسدودی"
+
+msgid "Nothing blocked right now."
+msgstr "اکنون چیزی مسدود نیست."
+
+msgid "Last suspicious attempts"
+msgstr "آخرین تلاش‌های مشکوک"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "۹۰ روز نگه داشته می‌شوند. هرگز گذرواژه نه. پروندهٔ CSV هر نشانی همهٔ کارهای آن را دارد و آمادهٔ پیوست به گزارش سوءاستفاده برای ارائه‌دهندهٔ شبکهٔ آن است."
+
+msgid "Nothing yet."
+msgstr "هنوز چیزی نیست."
+
+msgid "Address or e-mail"
+msgstr "نشانی یا ایمیل"
+
+msgid "Reason"
+msgstr "دلیل"
+
+msgid "Until (UTC)"
+msgstr "تا (UTC)"
+
+msgid "Date (UTC)"
+msgstr "تاریخ (UTC)"
+
+msgid "Address"
+msgstr "نشانی"
+
+msgid "Where"
+msgstr "کجا"
+
+msgid "Verdict"
+msgstr "حکم"
+
+msgid "Signs"
+msgstr "نشانه‌ها"
+
+msgid "Data"
+msgstr "داده‌ها"
+
+msgid "Trusted proxies"
+msgstr "پراکسی‌های مورد اعتماد"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "فقط اتصال‌هایی که از این نشانی‌ها می‌آیند می‌توانند نشانی بازدیدکننده را با سرآیند تعیین کنند. یک نشانی یا بازه در هر خط. خالی: همین سرور و شبکه‌های خصوصی. بازه‌های خود Cloudflare از پیش شناخته شده‌اند."
+
+msgid "Countries"
+msgstr "کشورها"
+
+msgid "Filter"
+msgstr "فیلتر"
+
+msgid "Refuse the countries listed"
+msgstr "رد کردن کشورهای فهرست‌شده"
+
+msgid "Only the countries listed"
+msgstr "فقط کشورهای فهرست‌شده"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "ورود، ثبت‌نام و فرم‌ها (پیشنهادی)"
+
+msgid "The whole site"
+msgstr "کل سایت"
+
+msgid "What to do"
+msgstr "چه کاری انجام شود"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "کشورها (کدهای دوحرفی، مثلاً ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "فهرست کشورها دانلود شد."
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "فقط وقتی کل سایت روی HTTPS کار می‌کند و خواهد کرد: مرورگرها آن را به خاطر می‌سپارند و تا پایان مدت HTTP را رد می‌کنند."
+
+msgid "Minimum password length"
+msgstr "کمترین طول گذرواژه"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "رد گذرواژه‌هایی که در نشت داده‌ها پیدا شده‌اند"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "با ناشناسی k از Have I Been Pwned می‌پرسد: فقط ۵ نویسه از SHA-1 گذرواژه از سایت بیرون می‌رود، هرگز خود گذرواژه. اگر سرویس در ۳ ثانیه پاسخ ندهد، گذرواژه پذیرفته می‌شود."
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "این رمز عبور در نشت‌های دادهٔ شناخته‌شده آمده است، پس مهاجمان اول آن را امتحان می‌کنند. لطفاً رمز دیگری برگزینید."
+
+msgid "Block an address or range"
+msgstr "مسدود کردن یک نشانی یا بازه"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP یا بازه (مثلاً 203.0.113.0/24)"
+
+msgid "For"
+msgstr "به مدت"
+
+msgid "7 days"
+msgstr "۷ روز"
+
+msgid "15 days"
+msgstr "۱۵ روز"
+
+msgid "30 days"
+msgstr "۳۰ روز"
+
+msgid "90 days"
+msgstr "۹۰ روز"
+
+msgid "Forever"
+msgstr "برای همیشه"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "چیزی مسدود نشد: مقدار معتبر نیست، متعلق به یک مدیر است، یا نشانی خود شماست."
+
+msgid "E-mail"
+msgstr "ایمیل"
+
+msgid "Message"
+msgstr "پیام"
+
+msgid "Done."
+msgstr "انجام شد."
+
+msgid "It could not be done for that address."
+msgstr "برای آن نشانی ممکن نشد."
+
+msgid "No requests."
+msgstr "درخواستی نیست."
+
+msgid "Review requests"
+msgstr "درخواست‌های بازبینی"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "کسانی که دیوار آتش متوقفشان کرده می‌توانند از صفحهٔ مسدودی درخواست کنند. اگر اشتباه بوده، مدتی اجازهٔ عبور دهید. Draco هرگز به آنها نامه نمی‌نویسد: اگر خواستید از ایمیل خودتان پاسخ دهید."
+
+msgid "Let through 24 hours"
+msgstr "اجازهٔ عبور به مدت ۲۴ ساعت"
+
+msgid "Let through"
+msgstr "اجازهٔ عبور"
+
+msgid "Attacker: blocked"
+msgstr "مهاجم: مسدود شد"
+
+msgid "Attacker"
+msgstr "مهاجم"
+
+msgid "Ask for a review"
+msgstr "درخواست بازبینی"
+
+msgid "Denied"
+msgstr "رد شد"
+
+msgid "Deny"
+msgstr "رد کردن"
+
+msgid "Your e-mail"
+msgstr "ایمیل شما"
+
+msgid "What were you doing?"
+msgstr "چه کاری می‌کردید؟"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "سپاس. صاحب سایت آن را بررسی می‌کند و اگر اشتباه بوده، اجازهٔ عبور می‌دهد."
+
+msgid "Request sent"
+msgstr "درخواست فرستاده شد"
+
+msgid "Firewall: last 7 days"
+msgstr "دیوار آتش: ۷ روز گذشته"
+
+msgid "Test the firewall"
+msgstr "آزمایش دیوار آتش"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "کار می‌کند: یک تزریق به پایگاه داده شناخته و مسدود شد (403)."
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "یک درخواست بی‌خطر به شکل حمله به سایت می‌فرستد و می‌گوید چه شد. ثبت نمی‌شود."
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "حملهٔ آزمایشی شناخته نشد. لطفاً به Draco Insomnis گزارش دهید."
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "دیوار آتش خاموش است: روشنش کنید، ذخیره کنید و دوباره آزمایش کنید."
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "آزمایش نتوانست از خود سرور به سایت برسد (برخی میزبان‌ها اجازه نمی‌دهند). دیوار آتش ممکن است همچنان کار کند: آخرین تلاش‌ها را ببینید."
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "هرگز یک مدیر و هرگز نشانی خودتان. بازه‌ها نه پهن‌تر از /16 (IPv4) یا /32 (IPv6)."
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "عبور از دیوار آتش Draco Insomnis"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "«نشانی اتصال» را نگه دارید مگر سایت پشت پراکسی باشد: سرآیند را هر کسی می‌تواند جعل کند."
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "کار می‌کند: یک تزریق به پایگاه داده شناخته شد. در «فقط ثبت» یادداشت می‌شود اما متوقف نمی‌شود؛ وقتی آماده بودید به «مسدود کردن» بروید."
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "این درخواست به دلایل امنیتی متوقف شد. اگر فکر می‌کنید اشتباه است، به صاحب سایت بگویید چه کاری می‌کردید:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "یک بازه در هر خط (CIDR) که به بازه‌هایی که ماژول از پیش می‌شناسد افزوده می‌شود. بودن در این فهرست فقط امتیاز می‌افزاید: به‌تنهایی هرگز کسی را ربات نمی‌کند."
+
+msgid "The password must have at least @count characters."
+msgstr "گذرواژه باید دست‌کم @count نویسه داشته باشد."
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] کسی از شما می‌خواهد یک مسدودی دیوار آتش را بازبینی کنید"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "بازدیدکننده‌ای که دیوار آتش متوقفش کرده درخواست بازبینی دارد. Draco Insomnis را باز کنید تا اجازهٔ عبور بدهید یا ندهید:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "دیوار آتش: @count حمله در ۱۰ دقیقه"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "خودکار: @count تلاش ربات در ۲۴ ساعت"
+
+msgid "Review: @email"
+msgstr "بازبینی: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "آزمایش پیش از رسیدن به Drupal با دیوار آتش خود میزبان متوقف شد. خوب است: دو لایه."
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "نشانی شما از دید ماژول: %ip (نشانی اتصال: %remote). اگر سایت پشت Cloudflare یا پراکسی دیگری است و این‌ها با نشانی واقعی شما فرق دارند، گزینهٔ مناسب را در «نشانی بازدیدکننده» انتخاب کنید."
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "سرآیند نادیده گرفته می‌شود: این اتصال (%remote) نه از Cloudflare می‌آید و نه از پراکسی مورد اعتماد. اگر پراکسی شما روی اینترنت است، نشانی‌هایش را در «پراکسی‌های مورد اعتماد» بیفزایید."
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "یک تله نامرئی و یک مهر امضاشدهٔ صفحه به فرم عمومی ثبت‌نام اضافه می‌کند. ربات‌ها حساب نمی‌گیرند؛ سه تلاش ربات در یک روز آن نشانی را یک هفته مسدود می‌کند."
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "درخواست‌هایی را که شکل حمله دارند (تزریق به پایگاه داده، خواندن پرونده‌های سرور، اجرای کد، اسکریپت در پیوندها) و پویشگرهایی مانند sqlmap یا Nikto را متوقف می‌کند. با «فقط ثبت» شروع کنید و پس از چند روز به «مسدود کردن» بروید. پنج حمله در ۱۰ دقیقه نشانی را یک هفته مسدود می‌کند؛ نشانی‌های مسدودشده هنوز می‌توانند سایت را بخوانند، اما نمی‌توانند چیزی بفرستند یا وارد شوند. کاربران دارای مجوز «عبور از دیوار آتش Draco Insomnis» هرگز بررسی نمی‌شوند. راه خروج اضطراری: $settings['draco_waf_off'] = TRUE; در settings.php."
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "هر که در دقیقه بیش از آنچه یک انسان می‌خواند صفحه بخواهد، تا پایان آن دقیقه «429 Too many requests» می‌گیرد. کاربران واردشده، نشانی‌های خودتان و موتورهای جست‌وجوی تأییدشده با DNS (Google، Bing، Apple، Yandex) هرگز محدود نمی‌شوند."
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "بازدیدکنندگان شما ممکن است از کشورهای زیادی بیایند، و مهاجم با VPN کشور عوض می‌کند. فقط ورود، ثبت‌نام و فرم‌ها را فیلتر کنید و با «فقط ثبت» شروع کنید. مدیران، کسانی که اجازهٔ عبور داده‌اید و موتورهای جست‌وجو هرگز فیلتر نمی‌شوند."
+
+msgid "Log only"
+msgstr "فقط ثبت"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "فهرست کشورها: هنوز دانلود نشده (با روشن کردن فیلتر دانلود می‌شود)."
+
+msgid "Country list of @date."
+msgstr "فهرست کشورها به تاریخ @date."
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "مکان‌یابی IP از <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). روی سرور خودتان جست‌وجو می‌شود: هیچ نشانی‌ای به جایی فرستاده نمی‌شود."
+
+msgid "Send security headers on public pages"
+msgstr "فرستادن سرآیندهای امنیتی در صفحه‌های عمومی"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "بدون حدس زدن نوع پرونده، بدون جاسازی در سایت‌های دیگر، دادهٔ ارجاع کمتر، بدون دوربین، میکروفون یا مکان برای محتوای جاسازی‌شده. هرگز سرآیندی که سرور از پیش می‌فرستد."
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "اجبار HTTPS در مرورگرها به مدت ۶ ماه (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "از ۸ تا ۶۴ نویسه؛ ۰ = بدون کمینه. هنگام ساخت حساب یا تغییر گذرواژه اعمال می‌شود."
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "فهرست کشورها بارگیری نشد. تا وقتی فهرست نباشد پالایه کاری نمی‌کند؛ بعداً دوباره امتحان کنید."
+
+msgid "Blocked: @value"
+msgstr "مسدود شد: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "@total حمله دیده شد، @blocked مسدود شد."
+
+msgid "What"
+msgstr "چه"
+
+msgid "Busiest addresses"
+msgstr "پرکارترین نشانی‌ها"
+
+msgid "Blocked addresses (@count)"
+msgstr "نشانی‌های مسدودشده (@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "سپر ضد ربات برای ثبت‌نام‌ها، دیوار آتش و محدودیت‌های ضد کپی."
+
+msgid "Administer Draco Insomnis"
+msgstr "مدیریت Draco Insomnis"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "تغییر تنظیمات، دیدن مدارک و برداشتن مسدودی نشانی‌ها."
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "درخواست‌های این کاربران هرگز بررسی نمی‌شوند. آن را به ویراستارانی بدهید که در محتوایشان کد یا SQL می‌نویسند."
+

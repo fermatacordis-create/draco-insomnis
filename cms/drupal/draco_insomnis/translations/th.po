@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — th (generated from i18n/th.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: th\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. หยุดการสมัครปลอมโดยไม่ต้องใช้แคปช่า มีไฟร์วอลล์แอปพลิเคชันและการจำกัดความเร็วกันการคัดลอก โอเพนซอร์ส"
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "หยุดการสมัครปลอมโดยไม่ต้องใช้แคปช่า: บอตไม่ได้บัญชี และทุกความพยายามที่น่าสงสัยจะถูกเก็บไว้ 90 วันเป็นหลักฐานสำหรับการแจ้งการละเมิด ไม่มีอะไรถูกส่งกลับไปหาผู้โจมตีเลย"
+
+msgid "Protect user sign-ups"
+msgstr "ปกป้องการสมัครสมาชิก"
+
+msgid "Firewall"
+msgstr "ไฟร์วอลล์"
+
+msgid "Anti-copy pace limit"
+msgstr "การจำกัดความเร็วกันการคัดลอก"
+
+msgid "Off"
+msgstr "ปิด"
+
+msgid "Log only: record what it would stop"
+msgstr "บันทึกอย่างเดียว: จดสิ่งที่จะหยุดไว้"
+
+msgid "Block"
+msgstr "บล็อก"
+
+msgid "Pages per minute, per address"
+msgstr "หน้าต่อนาที ต่อที่อยู่"
+
+msgid "Pages per minute, per network"
+msgstr "หน้าต่อนาที ต่อเครือข่าย"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "เครือข่าย /24 สำหรับ IPv4 หรือ /64 สำหรับ IPv6: สิ่งที่โปรแกรมดูดข้อมูลได้รับเมื่อสลับใช้ที่อยู่ที่อยู่ติดกัน"
+
+msgid "Visitor address"
+msgstr "ที่อยู่ของผู้เยี่ยมชม"
+
+msgid "Connection address (recommended)"
+msgstr "ที่อยู่การเชื่อมต่อ (แนะนำ)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "พร็อกซีอื่น (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "เครือข่ายเซิร์ฟเวอร์เช่า"
+
+msgid "The registration could not be completed."
+msgstr "ไม่สามารถสมัครให้เสร็จได้"
+
+msgid "Request blocked"
+msgstr "คำขอถูกบล็อก"
+
+msgid "Address unblocked."
+msgstr "ยกเลิกการบล็อกที่อยู่แล้ว"
+
+msgid "Unblock"
+msgstr "เลิกบล็อก"
+
+msgid "Nothing blocked right now."
+msgstr "ตอนนี้ไม่มีอะไรถูกบล็อก"
+
+msgid "Last suspicious attempts"
+msgstr "ความพยายามที่น่าสงสัยล่าสุด"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "เก็บไว้ 90 วัน ไม่เคยเก็บรหัสผ่าน ไฟล์ CSV ของที่อยู่หนึ่งมีทุกสิ่งที่มันทำ พร้อมแนบไปกับการแจ้งการละเมิดถึงผู้ให้บริการเครือข่ายของมัน"
+
+msgid "Nothing yet."
+msgstr "ยังไม่มี"
+
+msgid "Address or e-mail"
+msgstr "ที่อยู่หรืออีเมล"
+
+msgid "Reason"
+msgstr "เหตุผล"
+
+msgid "Until (UTC)"
+msgstr "จนถึง (UTC)"
+
+msgid "Date (UTC)"
+msgstr "วันที่ (UTC)"
+
+msgid "Address"
+msgstr "ที่อยู่"
+
+msgid "Where"
+msgstr "ที่ไหน"
+
+msgid "Verdict"
+msgstr "คำตัดสิน"
+
+msgid "Signs"
+msgstr "สัญญาณ"
+
+msgid "Data"
+msgstr "ข้อมูล"
+
+msgid "Trusted proxies"
+msgstr "พร็อกซีที่เชื่อถือได้"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "เฉพาะการเชื่อมต่อจากที่อยู่เหล่านี้เท่านั้นที่กำหนดที่อยู่ของผู้เยี่ยมชมผ่านเฮดเดอร์ได้ หนึ่งที่อยู่หรือช่วงต่อบรรทัด เว้นว่าง: เซิร์ฟเวอร์นี้และเครือข่ายส่วนตัว ช่วงของ Cloudflare เองรู้จักอยู่แล้ว"
+
+msgid "Countries"
+msgstr "ประเทศ"
+
+msgid "Filter"
+msgstr "ตัวกรอง"
+
+msgid "Refuse the countries listed"
+msgstr "ปฏิเสธประเทศในรายการ"
+
+msgid "Only the countries listed"
+msgstr "เฉพาะประเทศในรายการ"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "การเข้าสู่ระบบ การสมัคร และฟอร์ม (แนะนำ)"
+
+msgid "The whole site"
+msgstr "ทั้งเว็บไซต์"
+
+msgid "What to do"
+msgstr "ทำอะไร"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "ประเทศ (รหัสสองตัวอักษร เช่น ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "ดาวน์โหลดรายชื่อประเทศแล้ว"
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "เฉพาะเมื่อทั้งเว็บไซต์ทำงานบน HTTPS และจะเป็นเช่นนั้นต่อไป: เบราว์เซอร์จะจำไว้และปฏิเสธ HTTP จนกว่าจะหมดอายุ"
+
+msgid "Minimum password length"
+msgstr "ความยาวรหัสผ่านขั้นต่ำ"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "ปฏิเสธรหัสผ่านที่พบในข้อมูลรั่วไหล"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "ถาม Have I Been Pwned แบบ k-anonymity: มีเพียง 5 อักขระของ SHA-1 ของรหัสผ่านที่ออกจากเว็บไซต์ ไม่เคยส่งรหัสผ่าน หากบริการไม่ตอบภายใน 3 วินาที รหัสผ่านจะถูกยอมรับ"
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "รหัสผ่านนี้อยู่ในข้อมูลรั่วไหลที่รู้จัก ผู้โจมตีจึงลองเป็นอันดับแรก โปรดเลือกรหัสอื่น"
+
+msgid "Block an address or range"
+msgstr "บล็อกที่อยู่หรือช่วง"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP หรือช่วง (เช่น 203.0.113.0/24)"
+
+msgid "For"
+msgstr "ระยะเวลา"
+
+msgid "7 days"
+msgstr "7 วัน"
+
+msgid "15 days"
+msgstr "15 วัน"
+
+msgid "30 days"
+msgstr "30 วัน"
+
+msgid "90 days"
+msgstr "90 วัน"
+
+msgid "Forever"
+msgstr "ตลอดไป"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "ไม่ได้บล็อกอะไร: ค่าไม่ถูกต้อง เป็นของผู้ดูแลระบบ หรือเป็นที่อยู่ของคุณเอง"
+
+msgid "E-mail"
+msgstr "อีเมล"
+
+msgid "Message"
+msgstr "ข้อความ"
+
+msgid "Done."
+msgstr "เสร็จแล้ว"
+
+msgid "It could not be done for that address."
+msgstr "ทำไม่ได้สำหรับที่อยู่นั้น"
+
+msgid "No requests."
+msgstr "ไม่มีคำขอ"
+
+msgid "Review requests"
+msgstr "คำขอให้ตรวจสอบ"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "ผู้ที่ถูกไฟร์วอลล์หยุดขอได้จากหน้าที่ถูกบล็อก ให้ผ่านสักพักหากผิดพลาด Draco ไม่เขียนถึงพวกเขาเลย: ตอบจากอีเมลของคุณเองหากต้องการ"
+
+msgid "Let through 24 hours"
+msgstr "ให้ผ่าน 24 ชั่วโมง"
+
+msgid "Let through"
+msgstr "ให้ผ่าน"
+
+msgid "Attacker: blocked"
+msgstr "ผู้โจมตี: บล็อกแล้ว"
+
+msgid "Attacker"
+msgstr "ผู้โจมตี"
+
+msgid "Ask for a review"
+msgstr "ขอให้ตรวจสอบ"
+
+msgid "Denied"
+msgstr "ปฏิเสธแล้ว"
+
+msgid "Deny"
+msgstr "ปฏิเสธ"
+
+msgid "Your e-mail"
+msgstr "อีเมลของคุณ"
+
+msgid "What were you doing?"
+msgstr "คุณกำลังทำอะไรอยู่?"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "ขอบคุณ เจ้าของเว็บไซต์จะตรวจสอบ และหากผิดพลาดจะให้คุณผ่าน"
+
+msgid "Request sent"
+msgstr "ส่งคำขอแล้ว"
+
+msgid "Firewall: last 7 days"
+msgstr "ไฟร์วอลล์: 7 วันที่ผ่านมา"
+
+msgid "Test the firewall"
+msgstr "ทดสอบไฟร์วอลล์"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "ใช้งานได้: รู้จักการแทรกคำสั่งในฐานข้อมูลและบล็อกแล้ว (403)"
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "ส่งคำขอที่ไม่เป็นอันตรายแต่มีลักษณะเหมือนการโจมตีไปยังเว็บไซต์และบอกคุณว่าเกิดอะไรขึ้น ไม่ถูกบันทึก"
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "ไม่รู้จักการโจมตีทดสอบ โปรดแจ้ง Draco Insomnis"
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "ไฟร์วอลล์ปิดอยู่: เปิด บันทึก แล้วทดสอบอีกครั้ง"
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "การทดสอบเข้าถึงเว็บไซต์จากตัวเซิร์ฟเวอร์เองไม่ได้ (โฮสติ้งบางแห่งไม่อนุญาต) ไฟร์วอลล์อาจยังทำงานอยู่: ดูความพยายามล่าสุด"
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "ไม่เคยบล็อกผู้ดูแลระบบหรือที่อยู่ของคุณเอง ช่วงต้องไม่กว้างกว่า /16 (IPv4) หรือ /32 (IPv6)"
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "ข้ามไฟร์วอลล์ Draco Insomnis"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "คงไว้ที่ “ที่อยู่การเชื่อมต่อ” เว้นแต่เว็บไซต์อยู่หลังพร็อกซี: ใครก็ปลอมเฮดเดอร์ได้"
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "ใช้งานได้: รู้จักการแทรกคำสั่งในฐานข้อมูลแล้ว ใน \"บันทึกอย่างเดียว\" จะจดไว้แต่ไม่หยุด; เปลี่ยนเป็น \"บล็อก\" เมื่อพร้อม"
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "คำขอนี้ถูกหยุดด้วยเหตุผลด้านความปลอดภัย หากคุณคิดว่าผิดพลาด บอกเจ้าของเว็บไซต์ว่าคุณกำลังทำอะไร:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "หนึ่งช่วงต่อบรรทัด (CIDR) โดยเพิ่มจากช่วงที่โมดูลรู้จักอยู่แล้ว การอยู่ในรายการนี้แค่เพิ่มคะแนน: ลำพังมันไม่ทำให้ใครกลายเป็นบอต"
+
+msgid "The password must have at least @count characters."
+msgstr "รหัสผ่านต้องมีอย่างน้อย @count อักขระ"
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] มีคนขอให้คุณตรวจสอบการบล็อกของไฟร์วอลล์"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "ผู้เยี่ยมชมที่ถูกไฟร์วอลล์หยุดไว้ขอให้ตรวจสอบ เปิด Draco Insomnis เพื่อให้ผ่านหรือไม่:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "ไฟร์วอลล์: โจมตี @count ครั้งใน 10 นาที"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "อัตโนมัติ: บอตพยายาม @count ครั้งใน 24 ชม."
+
+msgid "Review: @email"
+msgstr "การตรวจสอบ: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "การทดสอบถูกหยุดก่อนถึง Drupal โดยไฟร์วอลล์ของโฮสติ้งเอง ดีมาก: สองชั้น"
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "ที่อยู่ของคุณตามที่โมดูลเห็น: %ip (ที่อยู่การเชื่อมต่อ: %remote) หากเว็บไซต์อยู่หลัง Cloudflare หรือพร็อกซีอื่นและค่าเหล่านี้ต่างจากที่อยู่จริงของคุณ ให้เลือกตัวเลือกที่ตรงกันใน “ที่อยู่ของผู้เยี่ยมชม”"
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "เฮดเดอร์ถูกละเว้น: การเชื่อมต่อนี้ (%remote) ไม่ได้มาจาก Cloudflare หรือพร็อกซีที่เชื่อถือได้ หากพร็อกซีของคุณอยู่บนอินเทอร์เน็ต ให้เพิ่มที่อยู่ของมันใน “พร็อกซีที่เชื่อถือได้”"
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "เพิ่มกับดักที่มองไม่เห็นและตราประทับหน้าที่ลงลายมือชื่อในแบบฟอร์มสมัครสาธารณะ บอตไม่ได้บัญชี และบอตที่พยายามสามครั้งในหนึ่งวันจะทำให้ที่อยู่นั้นถูกบล็อกหนึ่งสัปดาห์"
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "หยุดคำขอที่มีลักษณะเป็นการโจมตี (การแทรกคำสั่งในฐานข้อมูล การอ่านไฟล์ของเซิร์ฟเวอร์ การรันโค้ด สคริปต์ในลิงก์) และเครื่องมือสแกนอย่าง sqlmap หรือ Nikto เริ่มด้วย “บันทึกอย่างเดียว” แล้วเปลี่ยนเป็น “บล็อก” หลังจากผ่านไปไม่กี่วัน การโจมตีห้าครั้งใน 10 นาทีจะบล็อกที่อยู่นั้นหนึ่งสัปดาห์ ที่อยู่ที่ถูกบล็อกยังอ่านเว็บไซต์ได้ แต่ส่งข้อมูลหรือเข้าสู่ระบบไม่ได้ ผู้ใช้ที่มีสิทธิ์ “ข้ามไฟร์วอลล์ Draco Insomnis” จะไม่ถูกตรวจเลย ทางออกฉุกเฉิน: $settings['draco_waf_off'] = TRUE; ใน settings.php"
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "ผู้ที่ขอหน้าเว็บต่อนาทีมากกว่าที่คนอ่านได้จะได้รับ “429 Too many requests” จนกว่านาทีนั้นจะหมด ผู้ใช้ที่เข้าสู่ระบบ ที่อยู่ของคุณเอง และเครื่องมือค้นหาที่ยืนยันผ่าน DNS (Google, Bing, Apple, Yandex) จะไม่ถูกจำกัดเลย"
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "ผู้เยี่ยมชมของคุณอาจมาจากหลายประเทศ และผู้โจมตีเปลี่ยนประเทศได้ด้วย VPN กรองเฉพาะการเข้าสู่ระบบ การสมัคร และฟอร์ม และเริ่มด้วย \"บันทึกอย่างเดียว\" ผู้ดูแลระบบ คนที่คุณให้ผ่าน และเครื่องมือค้นหาไม่ถูกกรองเลย"
+
+msgid "Log only"
+msgstr "บันทึกอย่างเดียว"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "รายชื่อประเทศ: ยังไม่ได้ดาวน์โหลด (จะดาวน์โหลดเมื่อคุณเปิดตัวกรอง)"
+
+msgid "Country list of @date."
+msgstr "รายชื่อประเทศ ณ @date"
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "ระบุตำแหน่ง IP โดย <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0) ค้นหาบนเซิร์ฟเวอร์ของคุณเอง: ไม่มีที่อยู่ใดถูกส่งไปที่ไหน"
+
+msgid "Send security headers on public pages"
+msgstr "ส่งเฮดเดอร์ความปลอดภัยในหน้าสาธารณะ"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "ไม่เดาชนิดไฟล์ ไม่ให้เว็บอื่นฝังหน้า ลดข้อมูลแหล่งที่มา ไม่ให้เนื้อหาที่ฝังใช้กล้อง ไมโครโฟน หรือตำแหน่ง ไม่ส่งเฮดเดอร์ที่เซิร์ฟเวอร์ส่งอยู่แล้วซ้ำ"
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "บังคับ HTTPS ในเบราว์เซอร์ 6 เดือน (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "8 ถึง 64 อักขระ 0 = ไม่มีขั้นต่ำ ใช้เมื่อสร้างบัญชีหรือเปลี่ยนรหัสผ่าน"
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "ดาวน์โหลดรายชื่อประเทศไม่ได้ ตัวกรองจะไม่ทำอะไรจนกว่าจะมีรายชื่อ ลองอีกครั้งภายหลัง"
+
+msgid "Blocked: @value"
+msgstr "บล็อกแล้ว: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "พบการโจมตี @total ครั้ง บล็อก @blocked ครั้ง"
+
+msgid "What"
+msgstr "อะไร"
+
+msgid "Busiest addresses"
+msgstr "ที่อยู่ที่ใช้งานมากที่สุด"
+
+msgid "Blocked addresses (@count)"
+msgstr "ที่อยู่ที่ถูกบล็อก (@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "เกราะกันบอตสำหรับการสมัคร ไฟร์วอลล์ และการจำกัดกันการคัดลอก"
+
+msgid "Administer Draco Insomnis"
+msgstr "จัดการ Draco Insomnis"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "เปลี่ยนการตั้งค่า ดูหลักฐาน และยกเลิกการบล็อกที่อยู่"
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "คำขอของผู้ใช้เหล่านี้จะไม่ถูกตรวจเลย มอบสิทธิ์นี้ให้บรรณาธิการที่เขียนโค้ดหรือ SQL ในเนื้อหา"
+

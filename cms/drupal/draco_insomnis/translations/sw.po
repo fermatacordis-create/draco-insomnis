@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — sw (generated from i18n/sw.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sw\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. Huzuia usajili bandia bila captcha, ngome ya mtandao ya programu na kikomo cha kasi dhidi ya kunakili. Chanzo huria."
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "Huzuia usajili bandia bila captcha: roboti hazipati akaunti, na kila jaribio la kutiliwa shaka huhifadhiwa siku 90 kama ushahidi wa ripoti ya matumizi mabaya. Hakuna kinachorudishwa kwa mshambuliaji."
+
+msgid "Protect user sign-ups"
+msgstr "Linda usajili wa watumiaji"
+
+msgid "Firewall"
+msgstr "Ngome ya mtandao"
+
+msgid "Anti-copy pace limit"
+msgstr "Kikomo cha kasi dhidi ya kunakili"
+
+msgid "Off"
+msgstr "Imezimwa"
+
+msgid "Log only: record what it would stop"
+msgstr "Rekodi tu: andika kile ambacho kingezuiwa"
+
+msgid "Block"
+msgstr "Zuia"
+
+msgid "Pages per minute, per address"
+msgstr "Kurasa kwa dakika, kwa kila anwani"
+
+msgid "Pages per minute, per network"
+msgstr "Kurasa kwa dakika, kwa kila mtandao"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "Mtandao wa /24 kwa IPv4 au /64 kwa IPv6: kile anachopata mvunaji anapozungusha anwani zilizo jirani."
+
+msgid "Visitor address"
+msgstr "Anwani ya mgeni"
+
+msgid "Connection address (recommended)"
+msgstr "Anwani ya muunganisho (inapendekezwa)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "Proksi nyingine (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "Mitandao ya seva za kukodisha"
+
+msgid "The registration could not be completed."
+msgstr "Usajili haukuweza kukamilika."
+
+msgid "Request blocked"
+msgstr "Ombi limezuiwa"
+
+msgid "Address unblocked."
+msgstr "Anwani imeondolewa kizuizi."
+
+msgid "Unblock"
+msgstr "Ondoa kizuizi"
+
+msgid "Nothing blocked right now."
+msgstr "Hakuna kilichozuiwa sasa hivi."
+
+msgid "Last suspicious attempts"
+msgstr "Majaribio ya hivi karibuni ya kutiliwa shaka"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "Huhifadhiwa siku 90. Kamwe si nywila. CSV ya anwani ina kila kitu ilichofanya, tayari kuambatishwa kwenye ripoti ya matumizi mabaya kwa mtoa huduma wake wa mtandao."
+
+msgid "Nothing yet."
+msgstr "Bado hakuna kitu."
+
+msgid "Address or e-mail"
+msgstr "Anwani au barua pepe"
+
+msgid "Reason"
+msgstr "Sababu"
+
+msgid "Until (UTC)"
+msgstr "Hadi (UTC)"
+
+msgid "Date (UTC)"
+msgstr "Tarehe (UTC)"
+
+msgid "Address"
+msgstr "Anwani"
+
+msgid "Where"
+msgstr "Wapi"
+
+msgid "Verdict"
+msgstr "Uamuzi"
+
+msgid "Signs"
+msgstr "Ishara"
+
+msgid "Data"
+msgstr "Data"
+
+msgid "Trusted proxies"
+msgstr "Proksi zinazoaminika"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "Ni miunganisho kutoka anwani hizi tu inayoweza kuweka anwani ya mgeni kupitia kichwa. Anwani au safu moja kwa kila mstari. Tupu: seva hii na mitandao binafsi. Safu za Cloudflare zenyewe tayari zinajulikana."
+
+msgid "Countries"
+msgstr "Nchi"
+
+msgid "Filter"
+msgstr "Kichujio"
+
+msgid "Refuse the countries listed"
+msgstr "Kataa nchi zilizoorodheshwa"
+
+msgid "Only the countries listed"
+msgstr "Nchi zilizoorodheshwa pekee"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "Kuingia, usajili na fomu (inapendekezwa)"
+
+msgid "The whole site"
+msgstr "Tovuti nzima"
+
+msgid "What to do"
+msgstr "Nini cha kufanya"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "Nchi (misimbo ya herufi mbili, mf. ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "Orodha ya nchi imepakuliwa."
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "Tu ikiwa tovuti nzima inafanya kazi kwa HTTPS na itaendelea hivyo: vivinjari hukumbuka na kukataa HTTP hadi muda uishe."
+
+msgid "Minimum password length"
+msgstr "Urefu wa chini wa nywila"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "Kataa nywila zilizopatikana katika uvujaji wa data"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "Huuliza Have I Been Pwned kwa k-utambulisho fiche: ni herufi 5 tu za SHA-1 ya nywila zinazotoka kwenye tovuti, kamwe si nywila yenyewe. Huduma isipojibu ndani ya sekunde 3, nywila hukubaliwa."
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "Nenosiri hili linaonekana katika uvujaji wa data unaojulikana, kwa hivyo washambulizi hulijaribu kwanza. Tafadhali chagua jingine."
+
+msgid "Block an address or range"
+msgstr "Zuia anwani au safu"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP au safu (mf. 203.0.113.0/24)"
+
+msgid "For"
+msgstr "Kwa muda wa"
+
+msgid "7 days"
+msgstr "Siku 7"
+
+msgid "15 days"
+msgstr "Siku 15"
+
+msgid "30 days"
+msgstr "Siku 30"
+
+msgid "90 days"
+msgstr "Siku 90"
+
+msgid "Forever"
+msgstr "Milele"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "Hakuna kilichozuiwa: thamani si halali, ni ya msimamizi, au ni anwani yako mwenyewe."
+
+msgid "E-mail"
+msgstr "Barua pepe"
+
+msgid "Message"
+msgstr "Ujumbe"
+
+msgid "Done."
+msgstr "Imekamilika."
+
+msgid "It could not be done for that address."
+msgstr "Haikuwezekana kwa anwani hiyo."
+
+msgid "No requests."
+msgstr "Hakuna maombi."
+
+msgid "Review requests"
+msgstr "Maombi ya ukaguzi"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "Watu waliozuiwa na ngome wanaweza kuomba kutoka kwenye ukurasa wa kizuizi. Waruhusu kupita kwa muda ikiwa lilikuwa kosa. Draco haiwaandikii kamwe: jibu kutoka kwa barua pepe yako mwenyewe ukipenda."
+
+msgid "Let through 24 hours"
+msgstr "Ruhusu kupita saa 24"
+
+msgid "Let through"
+msgstr "Ruhusu kupita"
+
+msgid "Attacker: blocked"
+msgstr "Mshambulizi: amezuiwa"
+
+msgid "Attacker"
+msgstr "Mshambulizi"
+
+msgid "Ask for a review"
+msgstr "Omba ukaguzi"
+
+msgid "Denied"
+msgstr "Limekataliwa"
+
+msgid "Deny"
+msgstr "Kataa"
+
+msgid "Your e-mail"
+msgstr "Barua pepe yako"
+
+msgid "What were you doing?"
+msgstr "Ulikuwa unafanya nini?"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "Asante. Mmiliki wa tovuti ataliangalia na, ikiwa lilikuwa kosa, atakuruhusu kupita."
+
+msgid "Request sent"
+msgstr "Ombi limetumwa"
+
+msgid "Firewall: last 7 days"
+msgstr "Ngome ya mtandao: siku 7 zilizopita"
+
+msgid "Test the firewall"
+msgstr "Jaribu ngome"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "Inafanya kazi: uingizaji kwenye hifadhidata umetambuliwa na kuzuiwa (403)."
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "Inatuma kwa tovuti ombi lisilo na madhara lenye umbo la shambulio na kukueleza kilichotokea. Halirekodiwi."
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "Shambulio la jaribio halikutambuliwa. Tafadhali iarifu Draco Insomnis."
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "Ngome imezimwa: iwashe, hifadhi, kisha jaribu tena."
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "Jaribio halikuweza kufikia tovuti kutoka kwenye seva yenyewe (baadhi ya wahudumu wa tovuti hawaruhusu hilo). Ngome ya mtandao bado inaweza kuwa inafanya kazi: angalia majaribio ya hivi karibuni."
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "Kamwe si msimamizi, wala anwani yako mwenyewe. Safu zisizo pana kuliko /16 (IPv4) au /32 (IPv6)."
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "Pita ngome ya mtandao ya Draco Insomnis"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "Acha “Anwani ya muunganisho” isipokuwa tovuti iko nyuma ya proksi: kichwa kinaweza kughushiwa na yeyote."
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "Inafanya kazi: uingizaji kwenye hifadhidata umetambuliwa. Katika \"Rekodi tu\" unaandikwa lakini hauzuiwi; hamia \"Zuia\" ukiwa tayari."
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "Ombi hili limesimamishwa kwa sababu za usalama. Ukidhani ni kosa, mweleze mmiliki wa tovuti ulichokuwa ukifanya:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "Safu moja kwa kila mstari (CIDR), inayoongezwa kwa zile moduli inazozijua tayari. Kuwa kwenye orodha hii huongeza alama tu: peke yake haimfanyi mtu yeyote kuwa roboti."
+
+msgid "The password must have at least @count characters."
+msgstr "Nywila lazima iwe na angalau herufi @count."
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] Mtu anakuomba ukague kizuizi cha ngome ya mtandao"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "Mgeni aliyezuiwa na ngome ya mtandao anaomba ukaguzi. Fungua Draco Insomnis ili umruhusu kupita au la:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "Ngome ya mtandao: mashambulio @count ndani ya dakika 10"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "Kiotomatiki: majaribio @count ya roboti ndani ya saa 24"
+
+msgid "Review: @email"
+msgstr "Ukaguzi: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "Jaribio lilizuiwa kabla ya kufika Drupal, na ngome ya mtandao ya mhudumu wa tovuti mwenyewe. Vizuri: tabaka mbili."
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "Anwani yako kama moduli inavyoiona: %ip (anwani ya muunganisho: %remote). Ikiwa tovuti iko nyuma ya Cloudflare au proksi nyingine na hizi zinatofautiana na anwani yako halisi, chagua chaguo linalofaa katika “Anwani ya mgeni”."
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "Kichwa kinapuuzwa: muunganisho huu (%remote) haukutoka Cloudflare wala kwa proksi inayoaminika. Ikiwa proksi yako iko kwenye intaneti, ongeza anwani zake katika “Proksi zinazoaminika”."
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "Huongeza mtego usioonekana na muhuri wa ukurasa uliotiwa saini kwenye fomu ya usajili ya umma. Roboti hazipati akaunti; majaribio matatu ya roboti kwa siku moja huzuia anwani kwa wiki moja."
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "Huzuia maombi yenye umbo la shambulio (kudunga hifadhidata, kusoma faili za seva, kuendesha msimbo, hati katika viungo) na vichanganuzi kama sqlmap au Nikto. Anza na “Rekodi tu” kisha badilisha kuwa “Zuia” baada ya siku chache. Mashambulio matano ndani ya dakika 10 huzuia anwani kwa wiki moja; anwani zilizozuiwa bado zinaweza kusoma tovuti, lakini haziwezi kutuma wala kuingia. Watumiaji wenye ruhusa ya “Pita ngome ya mtandao ya Draco Insomnis” hawakaguliwi kamwe. Njia ya dharura: $settings['draco_waf_off'] = TRUE; katika settings.php."
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "Anayeomba kurasa nyingi kwa dakika kuliko anavyosoma mtu hupata “429 Too many requests” hadi dakika iishe. Watumiaji walioingia, anwani zako mwenyewe na injini za utafutaji zilizothibitishwa kwa DNS (Google, Bing, Apple, Yandex) hawawekewi kikomo kamwe."
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "Wageni wako wanaweza kutoka nchi nyingi, na mshambulizi hubadilisha nchi kwa VPN. Chuja tu kuingia, usajili na fomu, na uanze na \"Rekodi tu\". Wasimamizi, watu uliowaruhusu kupita na injini za utafutaji hawachujwi kamwe."
+
+msgid "Log only"
+msgstr "Rekodi tu"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "Orodha ya nchi: bado haijapakuliwa (inapakuliwa unapowasha kichujio)."
+
+msgid "Country list of @date."
+msgstr "Orodha ya nchi ya @date."
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "Mahali pa IP kutoka <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Huangaliwa kwenye seva yako mwenyewe: hakuna anwani inayotumwa popote."
+
+msgid "Send security headers on public pages"
+msgstr "Tuma vichwa vya usalama kwenye kurasa za umma"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "Hakuna kukisia aina za faili, hakuna kupachikwa ndani ya tovuti nyingine, data ndogo ya kirejeleo, hakuna kamera, maikrofoni wala mahali kwa maudhui yaliyopachikwa. Kamwe kichwa ambacho seva tayari inatuma."
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "Lazimisha HTTPS kwenye vivinjari kwa miezi 6 (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "Herufi 8 hadi 64; 0 = hakuna kiwango cha chini. Hutumika akaunti inapoundwa au nywila inapobadilishwa."
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "Orodha ya nchi haikuweza kupakuliwa. Kichujio hakifanyi chochote hadi orodha iwepo; jaribu tena baadaye."
+
+msgid "Blocked: @value"
+msgstr "Imezuiwa: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "Mashambulio @total yameonekana, @blocked yamezuiwa."
+
+msgid "What"
+msgstr "Nini"
+
+msgid "Busiest addresses"
+msgstr "Anwani zenye shughuli nyingi zaidi"
+
+msgid "Blocked addresses (@count)"
+msgstr "Anwani zilizozuiwa (@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "Ngao dhidi ya roboti kwa usajili, ngome ya mtandao na vikomo dhidi ya kunakili."
+
+msgid "Administer Draco Insomnis"
+msgstr "Simamia Draco Insomnis"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "Kubadilisha mipangilio, kuona ushahidi na kuondoa vizuizi vya anwani."
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "Maombi ya watumiaji hawa hayakaguliwi kamwe. Wape wahariri wanaoandika msimbo au SQL katika maudhui yao."
+

@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.22
+Stable tag: 0.1.23
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,9 @@ The country filter uses IP geolocation by DB-IP (https://db-ip.com), "IP to Coun
 Only if "Refuse passwords that appear in known data breaches" is switched on, Draco asks Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com) with the first 5 characters of the SHA-1 of a password being chosen or used to log in. The password itself and its full hash are never sent. Terms: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy: https://haveibeenpwned.com/Privacy
 
 == Changelog ==
+
+= 0.1.23 =
+* PrestaShop, Drupal, Joomla, Moodle and Laravel in the last 8 languages of the WordPress version: Bengali, Persian, Malay, Swahili, Tamil, Thai, Tagalog and Urdu. All 27 languages now ship for every CMS (28 with English; the Spanish variants of WordPress share one Spanish).
 
 = 0.1.22 =
 * PrestaShop, Drupal, Joomla, Moodle and Laravel in 10 more languages: Dutch, Portuguese (Portugal), Catalan, Polish, Turkish, Indonesian, Ukrainian, Vietnamese, Korean and Hindi (20 with English). The last 8 of the WordPress version follow.
