@@ -26,7 +26,7 @@ final class ServerHost implements Host
     public function __construct(?array $settings = null, ?string $dir = null)
     {
         $this->settings = $settings ?? Config::forHost((string) ($_SERVER['HTTP_HOST'] ?? ''));
-        $this->dir = $dir ?? self::userDir($this->settings['state_dir'] ?? Config::STATE);
+        $this->dir = $dir ?? self::userDir(Config::stateDir($this->settings));
     }
 
     public static function userDir(string $base): string
@@ -87,7 +87,7 @@ final class ServerHost implements Host
         $value = $this->settings[$name] ?? '';
         if ($name === 'geo_file' && $value === '') {
             // Shared and public data (DB-IP Lite), refreshed monthly by the root timer.
-            return rtrim($this->settings['state_dir'] ?? Config::STATE, '/') . '/draco-geo.bin';
+            return Config::stateDir($this->settings) . '/draco-geo.bin';
         }
         if (in_array($name, ['headers', 'hsts'], true)) {
             return in_array(strtolower($value), ['1', 'yes', 'on', 'true'], true) ? '1' : '';

@@ -1,0 +1,28 @@
+# Draco Insomnis in front of a PHP container without rebuilding it (mode B).
+# The "draco" service fills the volume and exits; the app mounts it and tells PHP to read its .ini.
+# Commands:  docker compose exec app php /opt/draco/share/bin/draco status
+#            docker compose exec app php /opt/draco/share/bin/draco set waf_mode block
+# Upgrade:   change the draco tag and run docker compose up -d (settings and evidence stay in the volume).
+
+services:
+  draco:
+    image: ghcr.io/fermatacordis-create/draco-insomnis:latest
+    volumes:
+      - draco:/opt/draco
+    restart: "no"
+
+  app:
+    image: wordpress:php8.3-apache   # or drupal, joomla, mediawiki, nextcloud, matomo, php:8.x-fpm…
+    depends_on:
+      draco:
+        condition: service_completed_successfully
+    environment:
+      # The leading colon keeps the image's own conf.d and adds Draco's.
+      PHP_INI_SCAN_DIR: ":/opt/draco/conf.d"
+    volumes:
+      - draco:/opt/draco
+    ports:
+      - "8080:80"
+
+volumes:
+  draco:

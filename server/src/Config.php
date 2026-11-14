@@ -34,18 +34,51 @@ final class Config
         'lang' => 'en',
         'except' => '',
         'sensitive' => '/wp-login.php, /login, /register, /signup, /user/login, /user/register, /login/index.php, /login/signup.php, /administrator/index.php, /Special:UserLogin, /Special:CreateAccount, /typo3/, /admin, /customer/account/login, /customer/account/create',
-        'state_dir' => self::STATE,
+        'state_dir' => '',
     ];
 
     /** @var array<string, array<string, string>>|null */
     private static ?array $parsed = null;
     private static string $parsedFile = '';
 
+    /**
+     * DRACO_CONFIG, else /etc/draco-insomnis/draco.ini, else the draco.ini next to the files (the
+     * Docker volume mode: /opt/draco/draco.ini). PHP-FPM workers usually get no environment, so the
+     * last two must work without it.
+     */
     public static function file(): string
     {
         $env = getenv('DRACO_CONFIG');
+        if (is_string($env) && $env !== '') {
+            return $env;
+        }
+        if (is_file(self::FILE)) {
+            return self::FILE;
+        }
+        $bundle = self::bundle() . '/draco.ini';
 
-        return is_string($env) && $env !== '' ? $env : self::FILE;
+        return is_file($bundle) ? $bundle : self::FILE;
+    }
+
+    /** The folder above the installed files: /usr/share for packages, /opt/draco in the Docker volume. */
+    public static function bundle(): string
+    {
+        return dirname(__DIR__, 2);
+    }
+
+    /** state_dir, else /var/lib/draco-insomnis when it exists, else state/ next to the files (Docker volume). @param array<string, string> $settings */
+    public static function stateDir(array $settings): string
+    {
+        $set = rtrim((string) ($settings['state_dir'] ?? ''), '/');
+        if ($set !== '') {
+            return $set;
+        }
+        if (is_dir(self::STATE)) {
+            return self::STATE;
+        }
+        $bundle = self::bundle() . '/state';
+
+        return is_dir($bundle) ? $bundle : self::STATE;
     }
 
     /** Settings for one host name: defaults, then the global part, then its [site:…] section. @return array<string, string> */

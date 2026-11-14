@@ -437,6 +437,50 @@ jobs:
         if: always()
         run: grep -h "Draco Insomnis Server" /var/log/php-fpm/*.log /var/log/httpd/*log 2>/dev/null | tail -20 || true
 
+  docker:
+    name: Docker add-on — ${{ matrix.mode }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: ['inside the image (php:8.3-apache)', 'volume, no rebuild (php:8.2-apache)']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the add-on image
+        run: bin/build-docker.sh draco-insomnis:test
+      - name: The app container
+        run: |
+          w=$(mktemp -d); chmod 755 "$w"
+          printf '<?php echo "app ok";\n' > "$w/index.php"
+          printf '<?php echo $_SERVER["REMOTE_ADDR"];\n' > "$w/ip.php"
+          printf '<?php header("X-Frame-Options: DENY"); echo "own";\n' > "$w/own-header.php"
+          if [[ "${{ matrix.mode }}" == inside* ]]; then
+            printf 'FROM php:8.3-apache\nCOPY --from=draco-insomnis:test /draco /opt/draco\nRUN sh /opt/draco/install-docker.sh\nCOPY index.php ip.php own-header.php /var/www/html/\n' > "$w/Dockerfile"
+            docker build -q -t app "$w"
+            docker run -d --name app -p 8080:80 app
+          else
+            docker run --rm -v draco:/opt/draco draco-insomnis:test
+            docker run -d --name app -p 8080:80 -e PHP_INI_SCAN_DIR=:/opt/draco/conf.d -v draco:/opt/draco -v "$w":/var/www/html:ro php:8.2-apache
+          fi
+          sleep 3; curl -s http://127.0.0.1:8080/index.php
+      - name: End-to-end tests
+        run: |
+          common=(BASE=http://127.0.0.1:8080 TEST_URL=http://127.0.0.1/index.php SUDO="docker exec app" RELOAD="docker exec app apachectl -k graceful")
+          if [[ "${{ matrix.mode }}" == inside* ]]; then
+            env "${common[@]}" DRACO="docker exec app draco" bash tests/e2e/server.sh
+          else
+            env "${common[@]}" DRACO="docker exec app php /opt/draco/share/bin/draco" STATE=/opt/draco/state INI=/opt/draco/draco.ini bash tests/e2e/server.sh
+          fi
+      - name: Upgrading the add-on keeps settings and evidence
+        if: ${{ startsWith(matrix.mode, 'volume') }}
+        run: |
+          docker exec app php /opt/draco/share/bin/draco set waf_mode block
+          docker run --rm -v draco:/opt/draco draco-insomnis:test
+          [ "$(docker exec app php /opt/draco/share/bin/draco get waf_mode)" = block ] && echo "settings kept"
+      - name: Draco errors from the run
+        if: always()
+        run: docker logs app 2>&1 | grep -i "draco insomnis" | tail -20 || true
+
   package:
     name: ZIP
     runs-on: ubuntu-latest

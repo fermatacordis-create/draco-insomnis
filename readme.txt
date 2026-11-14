@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.17
+Stable tag: 0.1.18
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,10 @@ The country filter uses IP geolocation by DB-IP (https://db-ip.com), "IP to Coun
 Only if "Refuse passwords that appear in known data breaches" is switched on, Draco asks Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com) with the first 5 characters of the SHA-1 of a password being chosen or used to log in. The password itself and its full hash are never sent. Terms: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy: https://haveibeenpwned.com/Privacy
 
 == Changelog ==
+
+= 0.1.18 =
+* Docker: Draco Insomnis as an add-on for PHP containers (ghcr.io/fermatacordis-create/draco-insomnis). It works inside your image, with two Dockerfile lines (COPY --from and install-docker.sh, first settings from DRACO_* variables), or without rebuilding: a service fills a volume that the app mounts and loads through PHP_INI_SCAN_DIR, and upgrades keep the settings and the evidence. Works with images built on the official PHP ones (WordPress, Drupal, Joomla, MediaWiki, Nextcloud…). The draco command finds the container's PHP and reloads Apache or PHP-FPM there.
+* CI: both Docker modes are tested end to end (php:8.3-apache and php:8.2-apache).
 
 = 0.1.17 =
 * Draco Insomnis Server for RHEL, AlmaLinux, Rocky and Fedora: an .rpm next to the .deb, with the SELinux label that lets PHP-FPM and Apache write their evidence folder (httpd_sys_rw_content_t) and nothing else. Tested end to end on AlmaLinux 9 with PHP 8.0 and 8.3 behind httpd.

@@ -5,7 +5,9 @@
 set -uo pipefail
 : "${BASE:?BASE is required}"
 DRACO="${DRACO:-sudo draco}"
-SUDO="${SUDO-sudo}"
+SUDO="${SUDO-sudo}"   # or "docker exec <container>": where the evidence and the settings are
+STATE="${STATE:-/var/lib/draco-insomnis}"
+INI="${INI:-/etc/draco-insomnis/draco.ini}"
 # Without systemd (containers), draco enable/disable cannot reload PHP: RELOAD does it.
 reload() { if [ -n "${RELOAD:-}" ]; then eval "$RELOAD"; sleep 1; fi; }
 UA='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36'
@@ -20,13 +22,13 @@ U=(); [ -n "${PHPUSER:-}" ] && U=(--user="$PHPUSER")
 d() { $DRACO "$@" "${U[@]}"; }
 dset() { $DRACO set "$@" >/dev/null; }
 q() { # one SQL query on the evidence of the site's PHP user
-  $SUDO php -r '$f = glob("/var/lib/draco-insomnis/u*/draco.sqlite"); $db = new PDO("sqlite:" . $f[0]); foreach ($db->query($argv[1])->fetchAll(PDO::FETCH_NUM) as $r) echo implode("|", $r), "\n";' "$1"
+  $SUDO php -r '$f = glob($argv[2] . "/u*/draco.sqlite"); $db = new PDO("sqlite:" . $f[0]); foreach ($db->query($argv[1])->fetchAll(PDO::FETCH_NUM) as $r) echo implode("|", $r), "\n";' "$1" "$STATE"
 }
 reset() { q "DELETE FROM events" >/dev/null; q "DELETE FROM blocks" >/dev/null; q "DELETE FROM cache" >/dev/null; }
 
 echo "== installed and loaded"
 st=$($DRACO status); sed 's/^/     /' <<< "$st"
-grep -q 'Loaded in: /etc' <<< "$st" && ok "loaded in PHP" || ko "not loaded"
+grep -q 'Loaded in: /' <<< "$st" && ok "loaded in PHP" || ko "not loaded"
 c=$(code "$BASE/index.php?$(cb)"); [ "$c" = 200 ] && ok "site answers 200" || ko "site $c"
 [ -n "$(q 'SELECT 1')" ] && ok "evidence store made by the site's PHP user" || ko "no store"
 reset
@@ -67,7 +69,7 @@ c=$(code "$(attack)"); [ "$c" = 200 ] && ok "approved address passes the firewal
 reset
 
 echo "== firewall test"
-out=$(d test "$BASE/index.php"); [[ "$out" == Works:*blocked* ]] && ok "draco test: $out" || ko "test: $out"
+out=$(d test "${TEST_URL:-$BASE/index.php}" 2>&1); [[ "$out" == Works:*blocked* ]] && ok "draco test: $out" || ko "test: $out"
 [ "$(q "SELECT COUNT(*) FROM events")" = 0 ] && ok "the test leaves no evidence" || ko "test logged"
 
 echo "== range blocked forever, by hand"
@@ -90,7 +92,7 @@ echo "== per-site settings"
 dset waf_mode log
 $DRACO set waf_mode block --site=127.0.0.1 >/dev/null
 c=$(code "$(attack)"); [ "$c" = 403 ] && ok "[site:127.0.0.1] blocks while the default only logs" || ko "site section $c"
-$SUDO sed -i '/^\[site:127.0.0.1\]/,$d' /etc/draco-insomnis/draco.ini
+$SUDO sed -i '/^\[site:127.0.0.1\]/,$d' "$INI"
 reset
 
 echo "== anti-copy pace"
