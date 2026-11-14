@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="modules/dracoinsomnis" source-language="en-US" target-language="ja-JP" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Firewall</source>
+        <target>ファイアウォール</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Anti-copy pace limit</source>
+        <target>コピー対策の速度制限</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Off</source>
+        <target>オフ</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Log only: record what it would stop</source>
+        <target>記録のみ: 止めるはずだったものを記録</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Block</source>
+        <target>ブロック</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Pages per minute, per address</source>
+        <target>1 分あたりのページ数（アドレスごと）</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Pages per minute, per network</source>
+        <target>1 分あたりのページ数（ネットワークごと）</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other.</source>
+        <target>IPv4 なら /24、IPv6 なら /64 のネットワーク: 隣り合うアドレスを渡り歩くスクレイパーが使える範囲です。</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Visitor address</source>
+        <target>訪問者のアドレス</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Connection address (recommended)</source>
+        <target>接続元アドレス（推奨）</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cloudflare (CF-Connecting-IP)</source>
+        <target>Cloudflare（CF-Connecting-IP）</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Other proxy (X-Forwarded-For)</source>
+        <target>その他のプロキシ（X-Forwarded-For）</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Rented-server networks</source>
+        <target>レンタルサーバーのネットワーク</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Automatic: %d bot attempts in 24 h</source>
+        <target>自動：24時間に %d 回のボットの試み</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Firewall: %d attacks in 10 minutes</source>
+        <target>ファイアウォール：10分間に %d 件の攻撃</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>[%s] Someone asks you to review a firewall block</source>
+        <target>[%s] ファイアウォールのブロックの確認依頼が届きました</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>The registration could not be completed.</source>
+        <target>登録を完了できませんでした。</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Request blocked</source>
+        <target>リクエストがブロックされました</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Address unblocked.</source>
+        <target>アドレスのブロックを解除しました。</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Unblock</source>
+        <target>ブロック解除</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Blocked addresses</source>
+        <target>ブロック中のアドレス</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Nothing blocked right now.</source>
+        <target>現在ブロックしているものはありません。</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Last suspicious attempts</source>
+        <target>最近の疑わしい試行</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider.</source>
+        <target>90 日間保存されます。パスワードは保存しません。アドレスごとの CSV にはそのアドレスの行動がすべて含まれ、そのままネットワーク事業者への不正利用の報告に添付できます。</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Nothing yet.</source>
+        <target>まだありません。</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Address or e-mail</source>
+        <target>アドレスまたはメールアドレス</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Reason</source>
+        <target>理由</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Until (UTC)</source>
+        <target>期限 (UTC)</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Date (UTC)</source>
+        <target>日時 (UTC)</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Address</source>
+        <target>アドレス</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Where</source>
+        <target>対象</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Verdict</source>
+        <target>判定</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Signs</source>
+        <target>兆候</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Data</source>
+        <target>データ</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Trusted proxies</source>
+        <target>信頼するプロキシ</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known.</source>
+        <target>これらのアドレスからの接続だけが、ヘッダーで訪問者のアドレスを指定できます。1 行に 1 つのアドレスまたは範囲。空欄: このサーバーとプライベートネットワーク。Cloudflare 自身の範囲は既に登録済みです。</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Countries</source>
+        <target>国</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Refuse the countries listed</source>
+        <target>リストの国を拒否</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Only the countries listed</source>
+        <target>リストの国のみ</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Logging in, signing up and forms (recommended)</source>
+        <target>ログイン、登録、フォーム（推奨）</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>What to do</source>
+        <target>動作</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Countries (two-letter codes, e.g. ES, FR, DE)</source>
+        <target>国（2 文字コード。例: ES, FR, DE）</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.</source>
+        <target>IP の位置情報は DB-IP（db-ip.com、CC BY 4.0）によるもので、フィルタを有効にしたときにダウンロードされ、あなたのサーバー上で照合されます。アドレスがどこかへ送られることはありません。</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Country list downloaded.</source>
+        <target>国リストをダウンロードしました。</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>The country list could not be downloaded. The filter does nothing until it is there; save again later.</source>
+        <target>国のリストをダウンロードできませんでした。リストが揃うまでフィルタは何もしません。後でもう一度保存してください。</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Security headers</source>
+        <target>セキュリティヘッダー</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Force HTTPS for 6 months (HSTS)</source>
+        <target>HTTPS を 6 か月間強制する（HSTS）</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Minimum password length</source>
+        <target>パスワードの最小文字数</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Refuse passwords found in data breaches</source>
+        <target>データ漏えいで見つかったパスワードを拒否する</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>The password must have at least %d characters.</source>
+        <target>パスワードは %d 文字以上にしてください。</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>This password appears in known data breaches, so attackers try it first. Please choose another one.</source>
+        <target>このパスワードは既知のデータ漏洩に含まれているため、攻撃者が最初に試します。別のパスワードを選んでください。</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>IP or range (e.g. 203.0.113.0/24)</source>
+        <target>IP または範囲（例: 203.0.113.0/24）</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>For</source>
+        <target>期間</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>7 days</source>
+        <target>7 日</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>15 days</source>
+        <target>15 日</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>30 days</source>
+        <target>30 日</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>90 days</source>
+        <target>90 日</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Forever</source>
+        <target>無期限</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Blocked: %s</source>
+        <target>ブロックしました: %s</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>E-mail</source>
+        <target>メール</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Message</source>
+        <target>メッセージ</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Done.</source>
+        <target>完了しました。</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>It could not be done for that address.</source>
+        <target>そのアドレスではできませんでした。</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>No requests.</source>
+        <target>依頼はありません。</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Review requests</source>
+        <target>確認依頼</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.</source>
+        <target>ファイアウォールに止められた人はブロックページから依頼できます。誤りなら一定期間通してください。Draco から相手に連絡することはありません。必要ならご自身のメールで返信してください。</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Let through 24 hours</source>
+        <target>24 時間通す</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Let through</source>
+        <target>通す</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Attacker: blocked</source>
+        <target>攻撃者: ブロック済み</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Attacker</source>
+        <target>攻撃者</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Ask for a review</source>
+        <target>確認を依頼する</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Denied</source>
+        <target>拒否済み</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Deny</source>
+        <target>拒否</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Your e-mail</source>
+        <target>メールアドレス</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>What were you doing?</source>
+        <target>何をしていましたか？</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Review: %s</source>
+        <target>確認: %s</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Request sent</source>
+        <target>送信しました</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Firewall: last 7 days</source>
+        <target>ファイアウォール: 過去 7 日間</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Busiest addresses:</source>
+        <target>最も活発なアドレス:</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>What:</source>
+        <target>内容:</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Test the firewall</source>
+        <target>ファイアウォールをテスト</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Works: a database injection was recognised and blocked (403).</source>
+        <target>動作しています: データベースへのインジェクションを認識してブロックしました（403）。</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>The test attack was not recognised. Please report it to Draco Insomnis.</source>
+        <target>テスト攻撃が認識されませんでした。Draco Insomnis に報告してください。</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>The firewall is off: switch it on and save, then test again.</source>
+        <target>ファイアウォールはオフです。オンにして保存し、もう一度テストしてください。</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Draco Insomnis</source>
+        <target>Draco Insomnis</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.</source>
+        <target>動作しています: データベースへのインジェクションを認識しました。「記録のみ」では記録されますが止めません。準備ができたら「ブロック」に切り替えてください。</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Settings</source>
+        <target>設定</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Save</source>
+        <target>保存</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Stops fake customer sign-ups without captchas, firewall and anti-copy limits. Open source.</source>
+        <target>CAPTCHA なしで偽の顧客登録を止め、ファイアウォールとコピー対策の制限を備えます。オープンソース。</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Settings saved.</source>
+        <target>設定を保存しました。</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.</source>
+        <target>CAPTCHA なしで偽の顧客登録を止めます。ボットはアカウントを得られず、疑わしい試行はすべて不正利用の報告用の証拠として 90 日間保存されます。攻撃者に何かを送り返すことはありません。</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Your address as the module sees it:</source>
+        <target>モジュールから見たあなたのアドレス:</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>(connection address:</source>
+        <target>（接続元アドレス:</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".</source>
+        <target>ショップが Cloudflare などのプロキシの背後にあり、これらが実際のアドレスと異なる場合は、「訪問者のアドレス」で該当する項目を選んでください。</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Protect customer sign-ups</source>
+        <target>顧客登録を保護する</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Adds an invisible trap and a signed page stamp to the sign-up form (account page and checkout). Bots get no account; three bot attempts in a day block the address for a week.</source>
+        <target>登録フォーム（アカウントページとチェックアウト）に見えない罠と署名付きのページスタンプを加えます。ボットはアカウントを得られず、1 日に 3 回ボットと判定されたアドレスは 1 週間ブロックされます。</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Yes</source>
+        <target>はい</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>No</source>
+        <target>いいえ</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with "Log only" and move to "Block" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still browse, but not post. Emergency exit: define('DRACO_WAF_OFF', true); in config/defines_custom.inc.php.</source>
+        <target>攻撃の形をしたリクエスト（データベースへのインジェクション、サーバーファイルの読み取り、コードの実行、リンク内のスクリプト）と、sqlmap や Nikto などのスキャナーを止めます。まず「記録のみ」で始め、数日後に「ブロック」に切り替えてください。10 分間に 5 回の攻撃でそのアドレスは 1 週間ブロックされます。ブロックされたアドレスも閲覧はできますが、送信はできません。非常口: config/defines_custom.inc.php に define('DRACO_WAF_OFF', true); と書きます。</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>More pages per minute than a person reads get "429 Too many requests" until the minute ends. Logged-in customers, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited.</source>
+        <target>人が読める以上のページを 1 分間に要求すると、その 1 分が終わるまで「429 Too many requests」が返されます。ログイン中の顧客、あなた自身のアドレス、DNS で確認された検索エンジン（Google、Bing、Apple、Yandex）は制限されません。</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Leave "Connection address" unless the shop is behind a proxy: a header can be forged by anyone.</source>
+        <target>ショップがプロキシの背後にない限り「接続元アドレス」のままにしてください。ヘッダーは誰でも偽装できます。</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot.</source>
+        <target>1 行に 1 つの範囲（CIDR）。モジュールが既に知っている範囲に追加されます。このリストに載っていても点数が加わるだけで、それだけでボットと判定されることはありません。</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
+        <target>このリクエストはセキュリティ上の理由で止められました。誤りだと思われる場合は、ショップの運営者に連絡してください。</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
+        <target>ヘッダーは無視されます: この接続（%s）は Cloudflare からも信頼するプロキシからも来ていません。プロキシがインターネット上にある場合は、「信頼するプロキシ」にそのアドレスを追加してください。</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.</source>
+        <target>何もブロックされませんでした: 値が正しくないか、従業員のものか、あなた自身のアドレスです。</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).</source>
+        <target>顧客は多くの国から来る可能性があり、攻撃者は VPN で国を変えます。ログイン、登録、フォームだけを対象にし、まず「記録のみ」で始めてください。従業員、あなたが通した人、検索エンジンはフィルタされません。ファイアウォールを有効（記録またはブロック）にする必要があります。</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>The whole shop</source>
+        <target>ショップ全体</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.</source>
+        <target>ショップのページで: ファイル形式の推測をさせない、他サイトへの埋め込みを許さない、参照元の情報を減らす、埋め込みコンテンツにカメラ・マイク・位置情報を使わせない。既に送られているものは重ねて送りません。</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</source>
+        <target>ショップ全体が HTTPS で動いていて今後もそうである場合だけ: ブラウザがこれを記憶し、期限が切れるまで HTTP を拒否します。</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
+        <target>従業員やあなた自身のアドレスは対象外です。範囲は /16（IPv4）または /32（IPv6）より広くできません。</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.</source>
+        <target>ファイアウォールに止められた訪問者が確認を依頼しています。Draco Insomnis モジュールを開いて、通すかどうか決めてください。</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.</source>
+        <target>ありがとうございます。ショップの運営者が確認し、誤りだった場合は通過できるようにします。</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:</source>
+        <target>このリクエストはセキュリティ上の理由で止められました。誤りだと思われる場合は、何をしていたかをショップの運営者に伝えてください:</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.</source>
+        <target>サーバー自身からショップに到達できませんでした（一部のホスティングでは許可されていません）。それでもファイアウォールは動作している可能性があります。最近の試行を確認してください。</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers.</source>
+        <target>テストは PrestaShop に届く前に、ホスティング側のファイアウォールで止められました。良好です: 二重の防御です。</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>%1$d attacks seen, %2$d blocked.</source>
+        <target>攻撃 %1$d 件、うちブロック %2$d 件。</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.</source>
+        <target>攻撃の形をした無害なリクエストをショップに送り、何が起きたかを知らせます。記録はされません。</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>From 8 to 64 characters; 0 leaves only the shop's own rules. Applied when a customer creates an account or changes the password.</source>
+        <target>8～64 文字。0 にするとショップ自身の規則だけが残ります。顧客がアカウントを作るときとパスワードを変更するときに適用されます。</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Asks Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.</source>
+        <target>k-匿名性で Have I Been Pwned に問い合わせます。ショップから出るのはパスワードの SHA-1 の 5 文字だけで、パスワードそのものは送りません。3 秒以内に応答がなければ、パスワードは受け入れられます。</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

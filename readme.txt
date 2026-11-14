@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.20
+Stable tag: 0.1.21
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,9 @@ The country filter uses IP geolocation by DB-IP (https://db-ip.com), "IP to Coun
 Only if "Refuse passwords that appear in known data breaches" is switched on, Draco asks Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com) with the first 5 characters of the SHA-1 of a password being chosen or used to log in. The password itself and its full hash are never sent. Terms: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy: https://haveibeenpwned.com/Privacy
 
 == Changelog ==
+
+= 0.1.21 =
+* PrestaShop, Drupal, Joomla, Moodle and Laravel in 9 more languages besides English: Spanish (now complete), French, German, Italian, Portuguese (Brazil), Russian, Chinese (Simplified), Japanese and Arabic. One source per language (i18n/<lang>.json) feeds every package in its own format (Joomla INI, Moodle lang, PrestaShop XLIFF, Drupal .po imported by the locale module, Laravel lang), and bin/i18n-build.php check makes sure no placeholder or HTML is lost. Only complete languages ship; the other 30 languages of the WordPress version follow.
 
 = 0.1.20 =
 * CrowdSec, both ways (server edition and Docker add-on). In: Draco is a bouncer of the CrowdSec Local API, and its bans on addresses and ranges become Draco blocks (they may read, not post or log in), copied at most once a minute so no visitor waits; lifting a ban in CrowdSec lifts it in Draco, and administrators' addresses are never imported. Out: with crowdsec_log = 1 Draco writes its attempts as JSON lines, and the parser and scenario shipped in crowdsec/ turn 5 attacks in a short while into a CrowdSec ban for its other bouncers (firewall, nginx…). New command: draco crowdsec [sync].

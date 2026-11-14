@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="modules/dracoinsomnis" source-language="en-US" target-language="ar-SA" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Firewall</source>
+        <target>جدار الحماية</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Anti-copy pace limit</source>
+        <target>حدّ سرعة التصفح ضد النسخ</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Off</source>
+        <target>متوقف</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Log only: record what it would stop</source>
+        <target>التسجيل فقط: تدوين ما كان سيُوقَف</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Block</source>
+        <target>حظر</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Pages per minute, per address</source>
+        <target>صفحات في الدقيقة لكل عنوان</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Pages per minute, per network</source>
+        <target>صفحات في الدقيقة لكل شبكة</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other.</source>
+        <target>شبكة ‎/24 في IPv4 أو ‎/64 في IPv6: ما يحصل عليه برنامج النسخ حين يتنقل بين عناوين متجاورة.</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Visitor address</source>
+        <target>عنوان الزائر</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Connection address (recommended)</source>
+        <target>عنوان الاتصال (موصى به)</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cloudflare (CF-Connecting-IP)</source>
+        <target>Cloudflare (CF-Connecting-IP)</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Other proxy (X-Forwarded-For)</source>
+        <target>وكيل آخر (X-Forwarded-For)</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Rented-server networks</source>
+        <target>شبكات الخوادم المستأجرة</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Automatic: %d bot attempts in 24 h</source>
+        <target>تلقائي: عدد محاولات الروبوت خلال 24 ساعة: %d</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Firewall: %d attacks in 10 minutes</source>
+        <target>جدار الحماية: عدد الهجمات خلال 10 دقائق: %d</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>[%s] Someone asks you to review a firewall block</source>
+        <target>[%s] شخص يطلب منك مراجعة حظر من الجدار الناري</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>The registration could not be completed.</source>
+        <target>تعذّر إكمال التسجيل.</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Request blocked</source>
+        <target>تم حظر الطلب</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Address unblocked.</source>
+        <target>أُلغي حظر العنوان.</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Unblock</source>
+        <target>إلغاء الحظر</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Blocked addresses</source>
+        <target>العناوين المحظورة</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Nothing blocked right now.</source>
+        <target>لا شيء محظور الآن.</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Last suspicious attempts</source>
+        <target>آخر المحاولات المشبوهة</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider.</source>
+        <target>تُحفظ 90 يومًا. لا كلمات مرور أبدًا. يحوي ملف CSV لكل عنوان كل ما فعله، جاهزًا لإرفاقه ببلاغ إساءة استخدام إلى مزوّد شبكته.</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Nothing yet.</source>
+        <target>لا شيء بعد.</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Address or e-mail</source>
+        <target>العنوان أو البريد الإلكتروني</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Reason</source>
+        <target>السبب</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Until (UTC)</source>
+        <target>حتى (UTC)</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Date (UTC)</source>
+        <target>التاريخ (UTC)</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Address</source>
+        <target>العنوان</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Where</source>
+        <target>أين</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Verdict</source>
+        <target>الحكم</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Signs</source>
+        <target>علامات</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Data</source>
+        <target>بيانات</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Trusted proxies</source>
+        <target>الوكلاء الموثوقون</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known.</source>
+        <target>لا يحق إلا للاتصالات القادمة من هذه العناوين تحديد عنوان الزائر عبر ترويسة. عنوان أو نطاق واحد في كل سطر. فارغ: هذا الخادم والشبكات الخاصة. نطاقات Cloudflare نفسها معروفة مسبقًا.</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Countries</source>
+        <target>البلدان</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Refuse the countries listed</source>
+        <target>رفض البلدان المدرجة</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Only the countries listed</source>
+        <target>البلدان المدرجة فقط</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Logging in, signing up and forms (recommended)</source>
+        <target>تسجيل الدخول والتسجيل والنماذج (موصى به)</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>What to do</source>
+        <target>ماذا تفعل</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Countries (two-letter codes, e.g. ES, FR, DE)</source>
+        <target>البلدان (رموز من حرفين، مثل ES وFR وDE)</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.</source>
+        <target>تحديد الموقع الجغرافي لعناوين IP من DB-IP (db-ip.com، CC BY 4.0)، يُنزَّل عند تشغيل المرشح ويُستعلم عنه على خادمك: لا يُرسل أي عنوان إلى أي مكان.</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Country list downloaded.</source>
+        <target>تم تنزيل قائمة البلدان.</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>The country list could not be downloaded. The filter does nothing until it is there; save again later.</source>
+        <target>تعذر تنزيل قائمة البلدان. لا يفعل المرشح شيئًا حتى تتوفر؛ احفظ مرة أخرى لاحقًا.</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Security headers</source>
+        <target>ترويسات الأمان</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Force HTTPS for 6 months (HSTS)</source>
+        <target>فرض HTTPS لمدة 6 أشهر (HSTS)</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Minimum password length</source>
+        <target>الحد الأدنى لطول كلمة المرور</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Refuse passwords found in data breaches</source>
+        <target>رفض كلمات المرور الموجودة في تسريبات البيانات</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>The password must have at least %d characters.</source>
+        <target>يجب أن تتكون كلمة المرور من %d أحرف على الأقل.</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>This password appears in known data breaches, so attackers try it first. Please choose another one.</source>
+        <target>تظهر كلمة المرور هذه في تسريبات بيانات معروفة، لذلك يجربها المهاجمون أولًا. اختر كلمة أخرى من فضلك.</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>IP or range (e.g. 203.0.113.0/24)</source>
+        <target>عنوان IP أو نطاق (مثل 203.0.113.0/24)</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>For</source>
+        <target>المدة</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>7 days</source>
+        <target>7 أيام</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>15 days</source>
+        <target>15 يومًا</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>30 days</source>
+        <target>30 يومًا</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>90 days</source>
+        <target>90 يومًا</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Forever</source>
+        <target>إلى الأبد</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Blocked: %s</source>
+        <target>محظور: %s</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>E-mail</source>
+        <target>البريد الإلكتروني</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Message</source>
+        <target>الرسالة</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Done.</source>
+        <target>تم.</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>It could not be done for that address.</source>
+        <target>تعذّر تنفيذ ذلك لهذا العنوان.</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>No requests.</source>
+        <target>لا توجد طلبات.</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Review requests</source>
+        <target>طلبات المراجعة</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.</source>
+        <target>يمكن لمن أوقفهم الجدار الناري الطلب من صفحة الحظر. اسمح لهم بالمرور لفترة إن كان خطأً. لا يراسلهم Draco أبدًا: أجبهم من بريدك إن أردت.</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Let through 24 hours</source>
+        <target>السماح بالمرور 24 ساعة</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Let through</source>
+        <target>اسمح بالمرور</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Attacker: blocked</source>
+        <target>مهاجم: محظور</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Attacker</source>
+        <target>مهاجم</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Ask for a review</source>
+        <target>اطلب مراجعة</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Denied</source>
+        <target>مرفوض</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Deny</source>
+        <target>ارفض</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Your e-mail</source>
+        <target>بريدك الإلكتروني</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>What were you doing?</source>
+        <target>ماذا كنت تفعل؟</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Review: %s</source>
+        <target>مراجعة: %s</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Request sent</source>
+        <target>تم إرسال الطلب</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Firewall: last 7 days</source>
+        <target>جدار الحماية: آخر 7 أيام</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Busiest addresses:</source>
+        <target>أكثر العناوين نشاطًا:</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>What:</source>
+        <target>ماذا:</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Test the firewall</source>
+        <target>اختبر الجدار الناري</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Works: a database injection was recognised and blocked (403).</source>
+        <target>يعمل: تم التعرّف على حقن في قاعدة البيانات وحظره (403).</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>The test attack was not recognised. Please report it to Draco Insomnis.</source>
+        <target>لم يُتعرَّف على هجوم الاختبار. يُرجى إبلاغ Draco Insomnis.</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>The firewall is off: switch it on and save, then test again.</source>
+        <target>الجدار الناري متوقف: شغّله واحفظ ثم اختبر مجددًا.</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Draco Insomnis</source>
+        <target>Draco Insomnis</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.</source>
+        <target>يعمل: تم التعرّف على حقن في قاعدة البيانات. في وضع «التسجيل فقط» يُدوَّن ولا يُوقف؛ انتقل إلى «حظر» عندما تكون جاهزًا.</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Settings</source>
+        <target>الإعدادات</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Save</source>
+        <target>حفظ</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Stops fake customer sign-ups without captchas, firewall and anti-copy limits. Open source.</source>
+        <target>يوقف تسجيلات العملاء المزيفة بلا كابتشا، مع جدار حماية وحدود ضد النسخ. مفتوح المصدر.</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Settings saved.</source>
+        <target>حُفظت الإعدادات.</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.</source>
+        <target>يوقف تسجيلات العملاء المزيفة بلا كابتشا: لا تحصل الروبوتات على حساب، وتُحفظ كل محاولة مشبوهة 90 يومًا دليلًا لبلاغ عن إساءة الاستخدام. لا يُرسل أي شيء إلى المهاجم أبدًا.</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Your address as the module sees it:</source>
+        <target>عنوانك كما تراه الوحدة:</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>(connection address:</source>
+        <target>(عنوان الاتصال:</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".</source>
+        <target>إذا كان المتجر خلف Cloudflare أو وكيل آخر واختلف هذان عن عنوانك الحقيقي، فاختر الخيار المناسب في «عنوان الزائر».</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Protect customer sign-ups</source>
+        <target>حماية تسجيلات العملاء</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Adds an invisible trap and a signed page stamp to the sign-up form (account page and checkout). Bots get no account; three bot attempts in a day block the address for a week.</source>
+        <target>يضيف فخًا غير مرئي وختمًا موقّعًا للصفحة إلى نموذج التسجيل (صفحة الحساب وإتمام الطلب). لا تحصل الروبوتات على حساب؛ وثلاث محاولات روبوت في يوم واحد تحظر العنوان أسبوعًا.</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Yes</source>
+        <target>نعم</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>No</source>
+        <target>لا</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with "Log only" and move to "Block" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still browse, but not post. Emergency exit: define('DRACO_WAF_OFF', true); in config/defines_custom.inc.php.</source>
+        <target>يوقف الطلبات التي تحمل شكل هجوم (حقن قاعدة البيانات، قراءة ملفات الخادم، تشغيل شيفرة، سكربتات في الروابط) والماسحات مثل sqlmap أو Nikto. ابدأ بـ«التسجيل فقط» وانتقل إلى «حظر» بعد بضعة أيام. خمس هجمات في 10 دقائق تحظر العنوان أسبوعًا؛ ويظل بإمكان العناوين المحظورة التصفح، لكن دون الإرسال. مخرج الطوارئ: define('DRACO_WAF_OFF', true); في config/defines_custom.inc.php.</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>More pages per minute than a person reads get "429 Too many requests" until the minute ends. Logged-in customers, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited.</source>
+        <target>من يطلب صفحات في الدقيقة أكثر مما يقرأ الإنسان يتلقى «429 Too many requests» حتى تنتهي الدقيقة. لا يُقيَّد أبدًا العملاء المسجلون دخولهم ولا عناوينك ولا محركات البحث الموثّقة عبر DNS (Google وBing وApple وYandex).</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Leave "Connection address" unless the shop is behind a proxy: a header can be forged by anyone.</source>
+        <target>اترك «عنوان الاتصال» ما لم يكن المتجر خلف وكيل: يمكن لأي أحد تزوير الترويسة.</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot.</source>
+        <target>نطاق واحد في كل سطر (CIDR)، يُضاف إلى النطاقات التي تعرفها الوحدة. الوجود في هذه القائمة يضيف نقاطًا فقط: وحده لا يجعل أحدًا روبوتًا أبدًا.</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
+        <target>أُوقف هذا الطلب لأسباب أمنية. إذا كنت تظن أن هذا خطأ، فتواصل مع صاحب المتجر.</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
+        <target>تُتجاهل الترويسة: هذا الاتصال (%s) لا يأتي من Cloudflare ولا من وكيل موثوق. إذا كان وكيلك على الإنترنت، فأضف عناوينه في «الوكلاء الموثوقون».</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.</source>
+        <target>لم يُحظر شيء: القيمة غير صالحة، أو تخص موظفًا، أو هي عنوانك.</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).</source>
+        <target>قد يأتي عملاؤك من بلدان كثيرة، والمهاجم يغيّر بلده عبر VPN. صفِّ تسجيل الدخول والتسجيل والنماذج فقط، وابدأ بـ«التسجيل فقط». لا يُصفّى أبدًا الموظفون ولا من تسمح لهم بالمرور ولا محركات البحث. يحتاج إلى تشغيل جدار الحماية (تسجيل أو حظر).</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>The whole shop</source>
+        <target>المتجر بأكمله</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.</source>
+        <target>في صفحات المتجر: لا تخمين لأنواع الملفات، ولا تضمين داخل مواقع أخرى، وبيانات أقل عن المصدر، ولا كاميرا أو ميكروفون أو موقع للمحتوى المضمّن. لا ترويسة مرسلة سابقًا أبدًا.</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</source>
+        <target>فقط حين يعمل المتجر كله عبر HTTPS وسيستمر كذلك: تتذكر المتصفحات ذلك وترفض HTTP العادي حتى انتهاء المدة.</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
+        <target>لا يُحظر موظف ولا عنوانك أبدًا. النطاقات لا تتجاوز ‎/16 (IPv4) أو ‎/32 (IPv6).</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.</source>
+        <target>زائر أوقفه جدار الحماية يطلب مراجعة. افتح وحدة Draco Insomnis للسماح له بالمرور أو لا.</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.</source>
+        <target>شكرًا. سينظر صاحب المتجر في الأمر، وإن كان خطأً فسيسمح لك بالمرور.</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:</source>
+        <target>أُوقف هذا الطلب لأسباب أمنية. إذا كنت تظن أن هذا خطأ، فأخبر صاحب المتجر بما كنت تفعله:</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.</source>
+        <target>تعذّر على الاختبار الوصول إلى المتجر من الخادم نفسه (بعض الاستضافات لا تسمح بذلك). قد يعمل جدار الحماية مع ذلك: راجع آخر المحاولات.</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers.</source>
+        <target>أُوقف الاختبار قبل وصوله إلى PrestaShop بجدار حماية الاستضافة نفسها. جيد: طبقتان.</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>%1$d attacks seen, %2$d blocked.</source>
+        <target>هجمات شوهدت: %1$d، محظورة: %2$d.</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.</source>
+        <target>يرسل إلى المتجر طلبًا غير ضار على شكل هجوم ويخبرك بما حدث. لا يُسجَّل.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>From 8 to 64 characters; 0 leaves only the shop's own rules. Applied when a customer creates an account or changes the password.</source>
+        <target>من 8 إلى 64 حرفًا؛ القيمة 0 تُبقي قواعد المتجر وحدها. يُطبَّق عندما ينشئ العميل حسابًا أو يغيّر كلمة المرور.</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Asks Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.</source>
+        <target>يسأل Have I Been Pwned بإخفاء الهوية k: لا يغادر المتجر سوى 5 أحرف من SHA-1 لكلمة المرور، ولا تغادره كلمة المرور أبدًا. إذا لم تستجب الخدمة خلال 3 ثوانٍ، تُقبل كلمة المرور.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

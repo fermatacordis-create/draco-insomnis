@@ -135,7 +135,7 @@ jobs:
           cd "$DR_DIR"
           vendor/bin/drush cr
           sleep 2
-          DRUSH=vendor/bin/drush "$GITHUB_WORKSPACE/tests/e2e/drupal.sh"
+          I18N=1 DRUSH=vendor/bin/drush "$GITHUB_WORKSPACE/tests/e2e/drupal.sh"
       - name: PHP errors from the run
         if: always()
         run: |

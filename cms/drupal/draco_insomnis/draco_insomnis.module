@@ -93,6 +93,19 @@ function draco_insomnis_register_validate(array &$form, FormStateInterface $form
 }
 
 /**
+ * Implements hook_locale_translation_projects_alter().
+ *
+ * The module brings its own translations (translations/<langcode>.po); the locale module imports them
+ * from wherever the module is installed.
+ */
+function draco_insomnis_locale_translation_projects_alter(array &$projects): void {
+  if (isset($projects['draco_insomnis'])) {
+    $path = \Drupal::service('extension.list.module')->getPath('draco_insomnis');
+    $projects['draco_insomnis']['info']['interface translation server pattern'] = $path . '/translations/%language.po';
+  }
+}
+
+/**
  * Implements hook_cron().
  */
 function draco_insomnis_cron(): void {
