@@ -105,6 +105,7 @@ jobs:
             echo "| Joomla 5 and 6 | \`plg_system_dracoinsomnis-joomla-$version.zip\` |"
             echo "| Moodle 4.5 to 5.x | \`local_dracoinsomnis-moodle-$version.zip\` |"
             echo "| Laravel 11 to 13 (Composer package) | \`draco-insomnis-laravel-$version.zip\` |"
+            echo "| Magento 2.4 and Mage-OS (Composer package or app/code) | \`draco-insomnis-magento-$version.zip\` |"
             echo "| Any PHP site on a Debian or Ubuntu server | \`draco-insomnis-server_${version}_all.deb\` |"
             echo "| Any PHP site on RHEL, AlmaLinux, Rocky or Fedora | \`draco-insomnis-server-$version-1.noarch.rpm\` |"
             echo "| Any PHP container (Docker add-on) | \`ghcr.io/fermatacordis-create/draco-insomnis:$version\` |"

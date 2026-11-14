@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Customer\Controller\Account\CreatePost">
+        <plugin name="draco_insomnis_shield" type="DracoInsomnis\Magento\Plugin\SignUpShieldPlugin"/>
+    </type>
+    <type name="DracoInsomnis\Magento\Plugin\SignUpShieldPlugin">
+        <arguments>
+            <argument name="customers" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+</config>

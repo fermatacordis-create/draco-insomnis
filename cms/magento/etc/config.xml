@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!-- Every part starts off. Stores > Configuration > Advanced > Draco Insomnis. -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <draco_insomnis>
+            <firewall>
+                <mode>off</mode>
+            </firewall>
+            <anticopy>
+                <mode>off</mode>
+                <rate_ip>120</rate_ip>
+                <rate_net>600</rate_net>
+            </anticopy>
+            <shield>
+                <enabled>0</enabled>
+            </shield>
+            <network>
+                <proxy_header></proxy_header>
+                <trusted_proxies></trusted_proxies>
+                <hosting_nets></hosting_nets>
+                <admin_ips></admin_ips>
+                <except>health_check.php</except>
+            </network>
+            <country>
+                <mode>off</mode>
+                <countries></countries>
+                <scope>sensitive</scope>
+                <action>log</action>
+            </country>
+            <headers>
+                <enabled>0</enabled>
+                <hsts>0</hsts>
+            </headers>
+            <passwords>
+                <min_length>0</min_length>
+                <breached>0</breached>
+            </passwords>
+            <notify>
+                <email></email>
+            </notify>
+        </draco_insomnis>
+    </default>
+</config>

@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Outermost plugin: it runs before the built-in full page cache answers from the cache. -->
+    <type name="Magento\Framework\App\FrontControllerInterface">
+        <plugin name="draco_insomnis_guard" type="DracoInsomnis\Magento\Plugin\FrontControllerPlugin" sortOrder="-1000"/>
+    </type>
+    <type name="DracoInsomnis\Magento\Plugin\FrontControllerPlugin">
+        <arguments>
+            <argument name="customers" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <!-- Password rules wherever a customer chooses a password: storefront, REST and GraphQL. -->
+    <type name="Magento\Customer\Api\AccountManagementInterface">
+        <plugin name="draco_insomnis_passwords" type="DracoInsomnis\Magento\Plugin\PasswordsPlugin"/>
+    </type>
+    <!-- One per request: the per-request caches (blocked ranges, allowed addresses) live in it. -->
+    <type name="DracoInsomnis\Magento\Model\Store" shared="true"/>
+    <!-- bin/magento builds every command on each run, even during setup:install: nothing heavy until used. -->
+    <type name="DracoInsomnis\Magento\Console\StatusCommand">
+        <arguments>
+            <argument name="store" xsi:type="object">DracoInsomnis\Magento\Model\Store\Proxy</argument>
+            <argument name="settings" xsi:type="object">DracoInsomnis\Magento\Model\Settings\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="DracoInsomnis\Magento\Console\EvidenceCommand">
+        <arguments>
+            <argument name="store" xsi:type="object">DracoInsomnis\Magento\Model\Store\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="DracoInsomnis\Magento\Console\BlockCommand">
+        <arguments>
+            <argument name="store" xsi:type="object">DracoInsomnis\Magento\Model\Store\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="DracoInsomnis\Magento\Console\ReviewsCommand">
+        <arguments>
+            <argument name="store" xsi:type="object">DracoInsomnis\Magento\Model\Store\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="DracoInsomnis\Magento\Console\TestCommand">
+        <arguments>
+            <argument name="host" xsi:type="object">DracoInsomnis\Magento\Model\MagentoHost\Proxy</argument>
+            <argument name="settings" xsi:type="object">DracoInsomnis\Magento\Model\Settings\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="DracoInsomnis\Magento\Console\CleanupCommand">
+        <arguments>
+            <argument name="cleanup" xsi:type="object">DracoInsomnis\Magento\Cron\Cleanup\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="draco_status" xsi:type="object">DracoInsomnis\Magento\Console\StatusCommand</item>
+                <item name="draco_evidence" xsi:type="object">DracoInsomnis\Magento\Console\EvidenceCommand</item>
+                <item name="draco_block" xsi:type="object">DracoInsomnis\Magento\Console\BlockCommand</item>
+                <item name="draco_reviews" xsi:type="object">DracoInsomnis\Magento\Console\ReviewsCommand</item>
+                <item name="draco_test" xsi:type="object">DracoInsomnis\Magento\Console\TestCommand</item>
+                <item name="draco_cleanup" xsi:type="object">DracoInsomnis\Magento\Console\CleanupCommand</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

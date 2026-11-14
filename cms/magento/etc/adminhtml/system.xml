@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="draco_insomnis" translate="label" sortOrder="900" showInDefault="1">
+            <label>Draco Insomnis</label>
+            <tab>advanced</tab>
+            <resource>DracoInsomnis_Magento::config</resource>
+            <group id="firewall" translate="label comment" sortOrder="10" showInDefault="1">
+                <label>Firewall</label>
+                <comment>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and the scanners that look for weak spots. The admin panel is never inspected. Start with "Log only" for a few days. Emergency exit: 'draco_waf_off' => true in app/etc/env.php. Try it: bin/magento draco:test</comment>
+                <field id="mode" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Mode</label>
+                    <source_model>DracoInsomnis\Magento\Model\Config\Source\Mode</source_model>
+                </field>
+            </group>
+            <group id="anticopy" translate="label comment" sortOrder="20" showInDefault="1">
+                <label>Anti-copy pace limit</label>
+                <comment>Too many pages a minute from one address or one network get "429, come back in a minute". Customers who are logged in and search engines verified by DNS are never limited.</comment>
+                <field id="mode" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Mode</label>
+                    <source_model>DracoInsomnis\Magento\Model\Config\Source\Mode</source_model>
+                </field>
+                <field id="rate_ip" translate="label" type="text" sortOrder="20" showInDefault="1">
+                    <label>Pages a minute per address</label>
+                    <validate>validate-digits validate-digits-range digits-range-10-100000</validate>
+                </field>
+                <field id="rate_net" translate="label" type="text" sortOrder="30" showInDefault="1">
+                    <label>Pages a minute per network</label>
+                    <validate>validate-digits validate-digits-range digits-range-10-100000</validate>
+                </field>
+            </group>
+            <group id="shield" translate="label comment" sortOrder="30" showInDefault="1">
+                <label>Anti-bot shield on customer sign-ups</label>
+                <comment>Adds an invisible trap and a signed page stamp to the "Create an Account" form, without captchas. Bots get no account; three bot attempts in one day block the address for a week.</comment>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Protect the sign-up form</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="country" translate="label comment" sortOrder="40" showInDefault="1">
+                <label>Countries</label>
+                <comment>Refuse or allow visitors by country, from a public list (DB-IP Lite, CC BY 4.0) downloaded once a month by cron and looked up locally. Behind Cloudflare its own country header is used.</comment>
+                <field id="mode" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Filter</label>
+                    <source_model>DracoInsomnis\Magento\Model\Config\Source\GeoMode</source_model>
+                </field>
+                <field id="countries" translate="label comment" type="text" sortOrder="20" showInDefault="1">
+                    <label>Countries</label>
+                    <comment>Two-letter codes separated by commas, such as RU, CN.</comment>
+                </field>
+                <field id="scope" translate="label" type="select" sortOrder="30" showInDefault="1">
+                    <label>Where</label>
+                    <source_model>DracoInsomnis\Magento\Model\Config\Source\GeoScope</source_model>
+                </field>
+                <field id="action" translate="label" type="select" sortOrder="40" showInDefault="1">
+                    <label>What to do</label>
+                    <source_model>DracoInsomnis\Magento\Model\Config\Source\GeoAction</source_model>
+                </field>
+            </group>
+            <group id="network" translate="label comment" sortOrder="50" showInDefault="1">
+                <label>Visitor address</label>
+                <comment>Only change the header when the shop is behind that proxy. A header from any other connection is ignored, so nobody can pose as another address.</comment>
+                <field id="proxy_header" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Read the visitor address from</label>
+                    <source_model>DracoInsomnis\Magento\Model\Config\Source\ProxyHeader</source_model>
+                </field>
+                <field id="trusted_proxies" translate="label comment" type="text" sortOrder="20" showInDefault="1">
+                    <label>Trusted proxies</label>
+                    <comment>Addresses or CIDR ranges, separated by commas. Empty: this machine and private networks. Cloudflare's ranges are already known.</comment>
+                </field>
+                <field id="hosting_nets" translate="label comment" type="textarea" sortOrder="30" showInDefault="1">
+                    <label>Rented-server networks</label>
+                    <comment>CIDR ranges, one per line, added to the ones Draco knows.</comment>
+                </field>
+                <field id="admin_ips" translate="label comment" type="text" sortOrder="40" showInDefault="1">
+                    <label>Addresses never blocked or limited</label>
+                    <comment>Separated by commas, on top of the last addresses administrators logged in from.</comment>
+                </field>
+                <field id="except" translate="label comment" type="textarea" sortOrder="50" showInDefault="1">
+                    <label>Paths never inspected</label>
+                    <comment>Start of the path, one per line, such as webhooks that receive signed payloads.</comment>
+                </field>
+            </group>
+            <group id="headers" translate="label comment" sortOrder="60" showInDefault="1">
+                <label>Security headers</label>
+                <comment>nosniff, SAMEORIGIN, Referrer-Policy and Permissions-Policy. Draco never replaces a header the shop already sends.</comment>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Send them</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="hsts" translate="label comment" type="select" sortOrder="20" showInDefault="1">
+                    <label>Force HTTPS in browsers for 6 months (HSTS)</label>
+                    <comment>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="passwords" translate="label comment" sortOrder="70" showInDefault="1">
+                <label>Customer passwords</label>
+                <comment>Applied when a customer chooses a password: sign-up, account page, reset link and the API. Existing passwords keep working.</comment>
+                <field id="min_length" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Minimum length</label>
+                    <source_model>DracoInsomnis\Magento\Model\Config\Source\MinLength</source_model>
+                </field>
+                <field id="breached" translate="label comment" type="select" sortOrder="20" showInDefault="1">
+                    <label>Refuse passwords that appear in known data breaches</label>
+                    <comment>Asks Have I Been Pwned with only the first 5 characters of the password's SHA-1: the password never leaves your server. If the service does not answer in 3 seconds, the password is accepted.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="notify" translate="label comment" sortOrder="80" showInDefault="1">
+                <label>Review requests</label>
+                <comment>Visitors stopped by the firewall can ask for a review from the block page. You get at most one e-mail an hour; decide with bin/magento draco:reviews.</comment>
+                <field id="email" translate="label comment" type="text" sortOrder="10" showInDefault="1">
+                    <label>Send them to</label>
+                    <comment>Empty: the store's general contact e-mail.</comment>
+                    <validate>validate-email</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
