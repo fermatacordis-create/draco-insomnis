@@ -4,5 +4,5 @@ description: 'Ab insomni custodita dracone. Stops fake sign-ups without captchas
 package: Security
 core_version_requirement: ^10.3 || ^11
 php: 8.1
-version: '0.1.19'
+version: '0.1.20'
 configure: draco_insomnis.settings

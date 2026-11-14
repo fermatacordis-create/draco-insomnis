@@ -1,0 +1,11 @@
+# CrowdSec parser, stage s00-raw: the JSON lines Draco Insomnis writes to events.log
+# (draco set crowdsec_log 1). Copy to /etc/crowdsec/parsers/s00-raw/.
+onsuccess: next_stage
+filter: "evt.Line.Labels.type == 'draco-insomnis'"
+name: draco-insomnis/draco-insomnis-raw
+description: "Draco Insomnis evidence (JSON lines)"
+statics:
+  - parsed: program
+    value: draco-insomnis
+  - parsed: message
+    expression: evt.Line.Raw

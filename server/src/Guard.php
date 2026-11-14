@@ -56,6 +56,12 @@ final class Guard
         // Only pages a person reads count for the pace limit, not API calls or AJAX.
         $pages = in_array($request->method, ['GET', 'HEAD'], true) && ($accept === '' || str_contains($accept, 'text/html'))
             && strtolower((string) ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '')) !== 'xmlhttprequest';
+        try {
+            CrowdSec::maybeSync($host);
+        } catch (\Throwable $e) {
+            // CrowdSec unreachable or odd: Draco goes on with what it has.
+            unset($e);
+        }
         $answer = (new Gatekeeper($host))->decide($request, $waf, $pace, Config::list($host->setting('sensitive')), $pages);
         if ($answer === null) {
             return;

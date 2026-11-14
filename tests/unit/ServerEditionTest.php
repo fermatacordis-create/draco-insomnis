@@ -81,4 +81,33 @@ final class ServerEditionTest extends TestCase
         $this->assertNotSame($a->secret(), $b->secret());
         $this->assertSame(0700, fileperms($this->dir . '/state/u1') & 0777);
     }
+
+    public function test_crowdsec_durations(): void
+    {
+        $this->assertSame(14381, \DracoInsomnis\Server\CrowdSec::seconds('3h59m40.5s'));
+        $this->assertSame(2700, \DracoInsomnis\Server\CrowdSec::seconds('45m'));
+        $this->assertSame(1, \DracoInsomnis\Server\CrowdSec::seconds('250ms'));
+        $this->assertSame(0, \DracoInsomnis\Server\CrowdSec::seconds('-5m'));
+        $this->assertSame(0, \DracoInsomnis\Server\CrowdSec::seconds('soon'));
+    }
+
+    public function test_crowdsec_bans_are_imported_within_draco_limits(): void
+    {
+        $host = new ServerHost(Config::forHost(''), $this->dir . '/state/u1');
+        $host->ready();
+        $store = $host->store();
+        $this->assertTrue($store->importBlock('203.0.113.9', time() + 600, 'CrowdSec: crowdsecurity/http-probing', []));
+        $this->assertTrue($store->importBlock('198.51.100.0/24', time() + 600, 'CrowdSec: lists', []));
+        $this->assertTrue($store->importBlock('203.0.113.9', time() + 900, 'CrowdSec: again', []), 'a newer decision replaces the old one');
+        $this->assertFalse($store->importBlock('10.0.0.0/8', time() + 600, 'CrowdSec: too wide', []));
+        $this->assertFalse($store->importBlock('192.0.2.1', time() + 600, 'CrowdSec: admin', ['192.0.2.1']));
+        $this->assertFalse($store->importBlock('192.0.2.2', time() - 1, 'CrowdSec: expired', []));
+        $this->assertTrue($store->isBlocked('', '203.0.113.9'));
+        $this->assertTrue($store->isBlocked('', '198.51.100.77'));
+        $this->assertCount(2, $store->activeBlocks());
+        $store->block('ip', '192.0.2.50', 30, 'By hand');
+        $this->assertSame(1, $store->removeImported('CrowdSec', '203.0.113.9'));
+        $this->assertSame(1, $store->removeImported('CrowdSec', null));
+        $this->assertSame(['192.0.2.50'], array_column($store->activeBlocks(), 'value'), 'blocks made by hand stay');
+    }
 }

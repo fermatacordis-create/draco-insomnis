@@ -518,6 +518,14 @@ jobs:
         if: always()
         run: docker logs app 2>&1 | grep -i "draco insomnis" | tail -20 || true
 
+  crowdsec:
+    name: Draco and CrowdSec, both ways
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bans in, attacks out (real CrowdSec Local API and agent)
+        run: bash tests/e2e/crowdsec.sh
+
   package:
     name: ZIP
     runs-on: ubuntu-latest

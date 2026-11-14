@@ -53,7 +53,7 @@ final class ServerHost implements Host
 
     public function store(): Store
     {
-        return $this->store ??= new Store($this->dir . '/draco.sqlite', $this->configuredAdminIps());
+        return $this->store ??= new Store($this->dir . '/draco.sqlite', $this->configuredAdminIps(), in_array(strtolower($this->setting('crowdsec_log')), ['1', 'yes', 'on', 'true'], true));
     }
 
     /** One random secret per state folder, made on first use. */

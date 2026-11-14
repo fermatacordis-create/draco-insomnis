@@ -1,0 +1,19 @@
+# CrowdSec scenario: an address that Draco Insomnis stopped 5 times in a short while.
+# Copy to /etc/crowdsec/scenarios/. CrowdSec then bans it with its own bouncers (firewall, nginx…).
+type: leaky
+name: draco-insomnis/attacks
+description: "Attacks stopped by Draco Insomnis (firewall rules, scanners, bots)"
+filter: "evt.Meta.log_type == 'draco_attack'"
+groupby: evt.Meta.source_ip
+capacity: 4
+leakspeed: 2m
+blackhole: 10m
+labels:
+  service: http
+  remediation: true
+  confidence: 2
+  spoofable: 0
+  classification:
+    - attack.T1190
+  label: "Attacks stopped by Draco Insomnis"
+  behavior: "http:exploit"

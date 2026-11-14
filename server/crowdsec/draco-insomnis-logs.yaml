@@ -1,0 +1,21 @@
+# CrowdSec parser, stage s01-parse: one Draco Insomnis attempt. Copy to /etc/crowdsec/parsers/s01-parse/.
+# Only what Draco judged an attack or a bot counts (verdict "bot"), not what it merely logged.
+onsuccess: next_stage
+filter: "evt.Parsed.program == 'draco-insomnis'"
+name: draco-insomnis/draco-insomnis-logs
+description: "An attempt stopped or recorded by Draco Insomnis"
+statics:
+  - meta: service
+    value: http
+  - meta: log_type
+    expression: "JsonExtract(evt.Line.Raw, 'verdict') == 'bot' ? 'draco_attack' : 'draco_doubtful'"
+  - meta: source_ip
+    expression: "JsonExtract(evt.Line.Raw, 'ip')"
+  - meta: target_fqdn
+    expression: "JsonExtract(evt.Line.Raw, 'host')"
+  - meta: draco_endpoint
+    expression: "JsonExtract(evt.Line.Raw, 'endpoint')"
+  - meta: http_user_agent
+    expression: "JsonExtract(evt.Line.Raw, 'user_agent')"
+  - target: evt.StrTime
+    expression: "JsonExtract(evt.Line.Raw, 'time')"
