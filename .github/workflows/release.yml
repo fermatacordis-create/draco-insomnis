@@ -102,10 +102,17 @@ jobs:
             echo "| Any PHP site on RHEL, AlmaLinux, Rocky or Fedora | \`draco-insomnis-server-$version-1.noarch.rpm\` |"
             echo "| Any PHP container (Docker add-on) | \`ghcr.io/fermatacordis-create/draco-insomnis:$version\` |"
             echo "| Any PHP site on another Linux (install.sh) | \`draco-insomnis-server-$version.tar.gz\` |"
-            echo "| Node.js: Express, Koa, Strapi, Directus; Cloudflare Workers | \`draco-insomnis-js-$version.tgz\` (\`npm install ./draco-insomnis-js-$version.tgz\`) |"
+            echo "| Node.js: Express, Koa, Strapi, Directus; Cloudflare Workers | \`draco-insomnis-js-$version.tgz\` (also \`npm install draco-insomnis@$version\`, once approved on npm) |"
             echo
             echo "Checksums in \`SHA256SUMS.txt\`, signed with Sigstore (\`SHA256SUMS.txt.sigstore.json\`). Every file has a GitHub build provenance attestation and the release has a CycloneDX SBOM. How to verify: SECURITY.md."
             if [ -n "$notes" ]; then echo; echo "## Changes"; echo; echo "$notes"; fi
           } > release/notes.md
           gh release create "$GITHUB_REF_NAME" release/*.zip release/*.deb release/*.rpm release/*.tar.gz release/*.tgz release/SHA256SUMS.txt release/SHA256SUMS.txt.sigstore.json release/*.cdx.json \
             --title "Draco Insomnis $version" --notes-file release/notes.md
+      - name: Stage the JavaScript package on npm (a maintainer approves it there with 2FA)
+        # Trusted publishing (OIDC): no npm token is stored anywhere. The trust on npmjs.com allows
+        # only "npm stage publish", so nothing reaches npm until a maintainer presses Approve.
+        # It stages the very file listed in SHA256SUMS.txt, with npm provenance.
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          npx -y npm@12.2.2 stage publish "release/draco-insomnis-js-$version.tgz" --provenance --access public
