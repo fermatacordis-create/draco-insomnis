@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DracoInsomnis\Core;
 
+// phpcs:disable WordPress.WP.AlternativeFunctions -- this engine also runs outside WordPress; the WordPress plugin checks passwords through wp_remote_get() instead (Login\Passwords).
+
 /**
  * Password rules for every CMS, both off by default (settings "pwd_min" and "pwd_breached"):
  * - a minimum length, 8 to 64 characters;
