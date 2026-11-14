@@ -22,8 +22,8 @@ q() { # one SQL query on the evidence of the site's PHP user
 reset() { q "DELETE FROM events" >/dev/null; q "DELETE FROM blocks" >/dev/null; q "DELETE FROM cache" >/dev/null; }
 
 echo "== installed and loaded"
-$DRACO status | sed 's/^/     /'
-$DRACO status | grep -q 'Loaded in: /etc' && ok "loaded in PHP" || ko "not loaded"
+st=$($DRACO status); sed 's/^/     /' <<< "$st"
+grep -q 'Loaded in: /etc' <<< "$st" && ok "loaded in PHP" || ko "not loaded"
 c=$(code "$BASE/index.php?$(cb)"); [ "$c" = 200 ] && ok "site answers 200" || ko "site $c"
 [ -n "$(q 'SELECT 1')" ] && ok "evidence store made by the site's PHP user" || ko "no store"
 reset
@@ -58,7 +58,7 @@ c=$(curl -s -o /dev/null -w '%{http_code}' -A "$UA" -d draco_review=1 -d "draco_
 [ "$c" = 200 ] && ok "review request accepted" || ko "review $c"
 r=$(q "SELECT verdict, reasons FROM events WHERE endpoint='review'"); [[ "$r" == pending\|*sqli* ]] && ok "queued for the owner with the rule: $r" || ko "queue: $r"
 id=$(q "SELECT id FROM events WHERE endpoint='review'")
-d reviews | grep -q 'maria@example.org' && ok "draco reviews lists it" || ko "reviews list"
+grep -q 'maria@example.org' <<< "$(d reviews)" && ok "draco reviews lists it" || ko "reviews list"
 d reviews "$id" --approve=1 >/dev/null && ok "approved for 1 day" || ko "approve"
 c=$(code "$(attack)"); [ "$c" = 200 ] && ok "approved address passes the firewall" || ko "approved still $c"
 reset
