@@ -75,6 +75,25 @@ foreach (['draco_insomnis.info.yml' => ['name', 'description'], 'draco_insomnis.
     }
 }
 
+// Magento: __('…') literals in PHP code, and the labels and comments of the settings (system.xml).
+$files = array_filter(
+    iterator_to_array(new RecursiveIteratorIterator(new RecursiveDirectoryIterator("$root/cms/magento", FilesystemIterator::SKIP_DOTS))),
+    static fn (SplFileInfo $f): bool => $f->getExtension() === 'php' && !str_contains($f->getPathname(), '/core/')
+);
+foreach ($files as $file) {
+    $tokens = token_get_all((string) file_get_contents($file->getPathname()));
+    foreach ($tokens as $i => $tok) {
+        if (is_array($tok) && $tok[0] === T_STRING && $tok[1] === '__' && ($tokens[$i + 1] ?? null) === '('
+            && is_array($tokens[$i + 2] ?? null) && $tokens[$i + 2][0] === T_CONSTANT_ENCAPSED_STRING) {
+            $add((string) eval('return ' . $tokens[$i + 2][1] . ';'), 'magento');
+        }
+    }
+}
+$system = simplexml_load_file("$root/cms/magento/etc/adminhtml/system.xml");
+foreach ($system->xpath('//label | //comment') ?: [] as $node) {
+    $add((string) $node, 'magento:system');
+}
+
 // WordPress translations of the same texts.
 $wp = [];
 foreach (glob("$root/languages/draco-insomnis-*.l10n.php") as $file) {

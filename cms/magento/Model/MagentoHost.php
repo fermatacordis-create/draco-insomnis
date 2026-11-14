@@ -9,6 +9,8 @@ use DracoInsomnis\Core\Host;
 use DracoInsomnis\Core\Request as DracoRequest;
 use DracoInsomnis\Core\WafRules;
 use Magento\Framework\App\Area;
+use Magento\Framework\App\AreaList;
+use Magento\Framework\App\State;
 use Magento\Framework\App\Request\Http as HttpRequest;
 use Magento\Framework\DataObject;
 use Magento\Framework\Event\ManagerInterface as EventManager;
@@ -21,12 +23,33 @@ class MagentoHost implements Host
     /** JSON bodies larger than this are not inspected (API calls carry no page-sized payloads). */
     private const MAX_JSON = 65536;
 
+    private bool $translated = false;
+
     public function __construct(
         private Settings $settings,
         private Store $store,
         private EventManager $events,
-        private TransportBuilder $mail
+        private TransportBuilder $mail,
+        private AreaList $areas,
+        private State $state
     ) {
+    }
+
+    /**
+     * Draco answers before Magento loads the shop's translations (that happens inside the controller),
+     * so it loads them itself, once, and only when it is about to show or keep a text.
+     */
+    public function translate(): void
+    {
+        if ($this->translated) {
+            return;
+        }
+        $this->translated = true;
+        try {
+            $this->areas->getArea($this->state->getAreaCode())->load(Area::PART_TRANSLATE);
+        } catch (\Throwable $e) {
+            // English, then.
+        }
     }
 
     /** One visitor request as plain values. The connection address is read as is. */
@@ -109,6 +132,8 @@ class MagentoHost implements Host
 
     public function text(string $id, int $number): string
     {
+        $this->translate();
+
         return match ($id) {
             'waf_block' => (string) __('Firewall: %1 attacks in 10 minutes', $number),
             'pwd_short' => (string) __('The password must have at least %1 characters.', $number),

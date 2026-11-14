@@ -3,7 +3,8 @@
  * Translations of the non-WordPress packages, from one source per language.
  *
  *   i18n/<lang>.json   {"<English text>": "<translation>"} — the English texts come from the catalogue
- *                      (bin/i18n-catalogue.php), shared by Joomla, Moodle, PrestaShop, Drupal and Laravel.
+ *                      (bin/i18n-catalogue.php), shared by Joomla, Moodle, PrestaShop, Drupal, Laravel
+ *                      and Magento.
  *
  *   php bin/i18n-build.php seed           first i18n/*.json from the WordPress translations (and the
  *                                         existing Spanish of Joomla, PrestaShop and Laravel)
@@ -43,6 +44,20 @@ const LANGS = [
     'ur'    => ['ur-PK', 'ur',    'ur-PK',  'ur',      'ur',    'ur'],
     'vi'    => ['vi-VN', 'vi',    'vi-VN',  'vi',      'vi',    'vi'],
     'zh_CN' => ['zh-CN', 'zh_cn', 'zh-CN',  'zh-hans', 'zh_CN', 'zh_CN'],
+];
+
+/**
+ * Magento loads a module's i18n/<locale>.csv for the store's exact locale, so each language ships under
+ * every locale Magento offers for it. Magento offers no Tamil and no Urdu locale.
+ */
+const MAGENTO = [
+    'ar' => ['ar_DZ', 'ar_EG', 'ar_KW', 'ar_MA', 'ar_SA'], 'bn' => ['bn_BD'], 'ca' => ['ca_ES'],
+    'de' => ['de_AT', 'de_CH', 'de_DE', 'de_LU'],
+    'es' => ['es_AR', 'es_BO', 'es_CL', 'es_CO', 'es_CR', 'es_ES', 'es_MX', 'es_PA', 'es_PE', 'es_US', 'es_VE'],
+    'fa' => ['fa_IR'], 'fr' => ['fr_BE', 'fr_CA', 'fr_CH', 'fr_FR', 'fr_LU'], 'hi' => ['hi_IN'], 'id' => ['id_ID'],
+    'it' => ['it_CH', 'it_IT'], 'ja' => ['ja_JP'], 'ko' => ['ko_KR'], 'ms' => ['ms_Latn_MY', 'ms_MY'], 'nl' => ['nl_BE', 'nl_NL'],
+    'pl' => ['pl_PL'], 'pt_BR' => ['pt_BR'], 'pt_PT' => ['pt_PT'], 'ru' => ['ru_RU'], 'sw' => ['sw_KE'], 'ta' => [],
+    'th' => ['th_TH'], 'tl' => ['fil_PH'], 'tr' => ['tr_TR'], 'uk' => ['uk_UA'], 'ur' => [], 'vi' => ['vi_VN'], 'zh_CN' => ['zh_Hans_CN'],
 ];
 
 function catalogue(string $root): array
@@ -241,13 +256,28 @@ if ($cmd === 'write') {
         }
         @mkdir("$root/cms/laravel/lang/$lcode", 0755, true);
         file_put_contents("$root/cms/laravel/lang/$lcode/messages.php", $php . "];\n");
+
+        // Magento: i18n/<locale>.csv in the module, "English","translation" per line.
+        $csv = fopen('php://temp', 'w+');
+        foreach ($cat['strings'] as $en => $where) {
+            if (preg_grep('/^magento/', $where) && ($x = $tr($en)) !== null) {
+                fputcsv($csv, [$en, $x], ',', '"', '');
+            }
+        }
+        rewind($csv);
+        $rows = (string) stream_get_contents($csv);
+        fclose($csv);
+        @mkdir("$root/cms/magento/i18n", 0755, true);
+        foreach (MAGENTO[$lang] ?? [] as $locale) {
+            file_put_contents("$root/cms/magento/i18n/$locale.csv", $rows);
+        }
     }
 
     // Joomla manifest: English plus every language written.
     $xml = (string) file_get_contents("$jx/dracoinsomnis.xml");
     $list = "\t<languages>\n\t\t<language tag=\"en-GB\">language/en-GB/plg_system_dracoinsomnis.ini</language>\n\t\t<language tag=\"en-GB\">language/en-GB/plg_system_dracoinsomnis.sys.ini</language>\n" . implode("\n", $manifest) . "\n\t</languages>";
     file_put_contents("$jx/dracoinsomnis.xml", preg_replace('#\t<languages>.*?</languages>#s', $list, $xml));
-    echo 'written: ', count($manifest) / 2, " complete languages × 5 CMS\n";
+    echo 'written: ', count($manifest) / 2, " complete languages × 6 CMS\n";
     exit(0);
 }
 

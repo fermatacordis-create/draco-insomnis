@@ -54,6 +54,7 @@ class Guard
         $post = (array) $http->getPost()->toArray();
         if (Review::isRequest($request, $post)) {
             (new Review($this->host))->accept($request, $post, time());
+            $this->host->translate();
 
             return $this->page((string) __('Request sent'), (string) __('Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.'), 'review', '', 200);
         }
@@ -70,6 +71,7 @@ class Guard
             ]);
         }
         // No details for the attacker: what matched stays in the log.
+        $this->host->translate();
         $form = (new Review($this->host))->form($request, $answer['why'], time(), [
             'email' => (string) __('Your e-mail'),
             'message' => (string) __('What were you doing?'),

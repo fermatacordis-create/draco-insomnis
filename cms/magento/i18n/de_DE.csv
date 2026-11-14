@@ -1,0 +1,69 @@
+Firewall,Firewall
+"Anti-copy pace limit",Anti-Kopier-Tempolimit
+Off,Aus
+Block,Blockieren
+"Visitor address",Besucheradresse
+"Cloudflare (CF-Connecting-IP)","Cloudflare (CF-Connecting-IP)"
+"Rented-server networks","Netze gemieteter Server"
+"The registration could not be completed.","Die Registrierung konnte nicht abgeschlossen werden."
+"Request blocked","Anfrage blockiert"
+Where,Wo
+"Trusted proxies","Vertrauenswürdige Proxys"
+Countries,Länder
+Filter,Filter
+"Refuse the countries listed","Aufgelistete Länder ablehnen"
+"What to do","Was tun"
+"Security headers",Sicherheits-Header
+"This password appears in known data breaches, so attackers try it first. Please choose another one.","Dieses Passwort taucht in bekannten Datenlecks auf, deshalb probieren Angreifer es zuerst. Bitte wähle ein anderes."
+"Review requests",Überprüfungsanfragen
+"Ask for a review","Überprüfung anfordern"
+"Your e-mail","Deine E-Mail"
+"What were you doing?","Was hast du gerade gemacht?"
+"Request sent","Anfrage gesendet"
+"Draco Insomnis","Draco Insomnis"
+"The whole shop","Der ganze Shop"
+"Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.","Nur wenn der ganze Shop über HTTPS läuft und weiter laufen wird: Browser merken es sich und lehnen einfaches HTTP ab, bis es abläuft."
+"Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.","Danke. Der Betreiber des Shops sieht es sich an und lässt Sie durch, wenn es ein Fehler war."
+"This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:","Diese Anfrage wurde aus Sicherheitsgründen gestoppt. Wenn Sie glauben, dass das ein Fehler ist, schreiben Sie dem Betreiber des Shops, was Sie getan haben:"
+"Force HTTPS in browsers for 6 months (HSTS)","HTTPS in Browsern für 6 Monate erzwingen (HSTS)"
+"Firewall: %1 attacks in 10 minutes","Firewall: %1 Angriffe in 10 Minuten"
+"The password must have at least %1 characters.","Das Passwort muss mindestens %1 Zeichen haben."
+"[%1] Someone asks you to review a firewall block","[%1] Jemand bittet dich, eine Firewall-Sperre zu prüfen"
+"A visitor stopped by the firewall asks for a review. To let them through or not: bin/magento draco:reviews","Ein von der Firewall gestoppter Besucher bittet um Prüfung. Durchlassen oder nicht: bin/magento draco:reviews"
+"Automatic: %1 bot attempts in 24 h","Automatisch: %1 Bot-Versuche in 24 h"
+"Login, sign-up and anything posted","Anmeldung, Registrierung und alles Gesendete"
+"No minimum (Magento rules only)","Kein Minimum (nur die Regeln von Magento)"
+"%1 characters · recommended","%1 Zeichen · empfohlen"
+"%1 characters","%1 Zeichen"
+"Only allow the countries listed","Nur die aufgeführten Länder zulassen"
+"The connection address (recommended)","Die Verbindungsadresse (empfohlen)"
+"Another proxy (X-Forwarded-For)","Ein anderer Proxy (X-Forwarded-For)"
+"Log only (stop nothing)","Nur protokollieren (stoppt nichts)"
+"Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and the scanners that look for weak spots. The admin panel is never inspected. Start with ""Log only"" for a few days. Emergency exit: 'draco_waf_off' => true in app/etc/env.php. Try it: bin/magento draco:test","Stoppt Anfragen in Form eines Angriffs (Datenbank-Injection, Lesen von Serverdateien, Ausführen von Code, Skripte in Links) und Scanner, die Schwachstellen suchen. Das Admin-Panel wird nie geprüft. Beginne ein paar Tage mit „Nur protokollieren“. Notausgang: 'draco_waf_off' => true in app/etc/env.php. Ausprobieren: bin/magento draco:test"
+Mode,Modus
+"Too many pages a minute from one address or one network get ""429, come back in a minute"". Customers who are logged in and search engines verified by DNS are never limited.","Zu viele Seiten pro Minute von einer Adresse oder einem Netz erhalten „429, komm in einer Minute wieder“. Angemeldete Kunden und per DNS verifizierte Suchmaschinen werden nie begrenzt."
+"Pages a minute per address","Seiten pro Minute je Adresse"
+"Pages a minute per network","Seiten pro Minute je Netz"
+"Anti-bot shield on customer sign-ups","Anti-Bot-Schutz für Kundenregistrierungen"
+"Adds an invisible trap and a signed page stamp to the ""Create an Account"" form, without captchas. Bots get no account; three bot attempts in one day block the address for a week.","Fügt dem Formular „Konto erstellen“ eine unsichtbare Falle und einen signierten Seitenstempel hinzu, ohne Captchas. Bots erhalten kein Konto; drei Bot-Versuche an einem Tag sperren die Adresse für eine Woche."
+"Protect the sign-up form","Registrierungsformular schützen"
+"Refuse or allow visitors by country, from a public list (DB-IP Lite, CC BY 4.0) downloaded once a month by cron and looked up locally. Behind Cloudflare its own country header is used.","Besucher nach Land ablehnen oder zulassen, anhand einer öffentlichen Liste (DB-IP Lite, CC BY 4.0), die der Cron einmal im Monat herunterlädt und lokal abfragt. Hinter Cloudflare wird dessen eigener Länder-Header verwendet."
+"Two-letter codes separated by commas, such as RU, CN.","Zweibuchstabige Codes, durch Kommas getrennt, z. B. RU, CN."
+"Only change the header when the shop is behind that proxy. A header from any other connection is ignored, so nobody can pose as another address.","Ändere den Header nur, wenn der Shop hinter diesem Proxy steht. Ein Header von jeder anderen Verbindung wird ignoriert, sodass sich niemand als andere Adresse ausgeben kann."
+"Read the visitor address from","Besucheradresse lesen aus"
+"Addresses or CIDR ranges, separated by commas. Empty: this machine and private networks. Cloudflare's ranges are already known.","Adressen oder CIDR-Bereiche, durch Kommas getrennt. Leer: dieser Rechner und private Netze. Die Bereiche von Cloudflare sind bereits bekannt."
+"CIDR ranges, one per line, added to the ones Draco knows.","CIDR-Bereiche, einer pro Zeile, zusätzlich zu denen, die Draco kennt."
+"Addresses never blocked or limited","Adressen, die nie gesperrt oder begrenzt werden"
+"Separated by commas, on top of the last addresses administrators logged in from.","Durch Kommas getrennt, zusätzlich zu den letzten Adressen, von denen sich Administratoren angemeldet haben."
+"Paths never inspected","Pfade, die nie geprüft werden"
+"Start of the path, one per line, such as webhooks that receive signed payloads.","Anfang des Pfads, einer pro Zeile, etwa Webhooks, die signierte Daten empfangen."
+"nosniff, SAMEORIGIN, Referrer-Policy and Permissions-Policy. Draco never replaces a header the shop already sends.","nosniff, SAMEORIGIN, Referrer-Policy und Permissions-Policy. Draco ersetzt nie einen Header, den der Shop bereits sendet."
+"Send them",Senden
+"Customer passwords",Kundenpasswörter
+"Applied when a customer chooses a password: sign-up, account page, reset link and the API. Existing passwords keep working.","Gilt, wenn ein Kunde ein Passwort wählt: Registrierung, Kontoseite, Link zum Zurücksetzen und die API. Bestehende Passwörter funktionieren weiter."
+"Minimum length",Mindestlänge
+"Refuse passwords that appear in known data breaches","Passwörter ablehnen, die in bekannten Datenlecks vorkommen"
+"Asks Have I Been Pwned with only the first 5 characters of the password's SHA-1: the password never leaves your server. If the service does not answer in 3 seconds, the password is accepted.","Fragt Have I Been Pwned mit nur den ersten 5 Zeichen des SHA-1 des Passworts: Das Passwort verlässt nie deinen Server. Antwortet der Dienst nicht innerhalb von 3 Sekunden, wird das Passwort akzeptiert."
+"Visitors stopped by the firewall can ask for a review from the block page. You get at most one e-mail an hour; decide with bin/magento draco:reviews.","Von der Firewall gestoppte Besucher können auf der Sperrseite um Prüfung bitten. Du erhältst höchstens eine E-Mail pro Stunde; entscheide mit bin/magento draco:reviews."
+"Send them to","Senden an"
+"Empty: the store's general contact e-mail.","Leer: die allgemeine Kontakt-E-Mail des Shops."

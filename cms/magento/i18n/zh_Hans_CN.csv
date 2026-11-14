@@ -1,0 +1,69 @@
+Firewall,防火墙
+"Anti-copy pace limit",防复制速率限制
+Off,关闭
+Block,封锁
+"Visitor address",访客地址
+"Cloudflare (CF-Connecting-IP)",Cloudflare（CF-Connecting-IP）
+"Rented-server networks",租用服务器网段
+"The registration could not be completed.",无法完成注册。
+"Request blocked",请求已被拦截
+Where,范围
+"Trusted proxies",受信任的代理
+Countries,国家
+Filter,过滤
+"Refuse the countries listed",拒绝列表中的国家
+"What to do",处理方式
+"Security headers",安全响应头
+"This password appears in known data breaches, so attackers try it first. Please choose another one.",此密码出现在已知的数据泄露中，攻击者会最先尝试。请换一个。
+"Review requests",复核申请
+"Ask for a review",申请复核
+"Your e-mail",你的邮箱
+"What were you doing?",你当时在做什么？
+"Request sent",申请已发送
+"Draco Insomnis","Draco Insomnis"
+"The whole shop",整个商店
+"Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.","仅当整个商店都通过 HTTPS 运行并会一直如此时使用：浏览器会记住它，并在到期前拒绝普通 HTTP。"
+"Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.",谢谢。商店负责人会查看，如果是误判，会让你通过。
+"This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:",出于安全原因，此请求已被拦下。如果你认为这是误判，请告诉商店负责人你当时在做什么：
+"Force HTTPS in browsers for 6 months (HSTS)","在浏览器中强制 HTTPS 6 个月（HSTS）"
+"Firewall: %1 attacks in 10 minutes","防火墙：10 分钟内 %1 次攻击"
+"The password must have at least %1 characters.","密码至少需要 %1 个字符。"
+"[%1] Someone asks you to review a firewall block","[%1] 有人请你复核一次防火墙拦截"
+"A visitor stopped by the firewall asks for a review. To let them through or not: bin/magento draco:reviews","一位被防火墙拦下的访客请求复核。是否放行：bin/magento draco:reviews"
+"Automatic: %1 bot attempts in 24 h","自动：24 小时内 %1 次机器人尝试"
+"Login, sign-up and anything posted",登录、注册以及所有提交的内容
+"No minimum (Magento rules only)","无最低要求（仅 Magento 的规则）"
+"%1 characters · recommended","%1 个字符 · 推荐"
+"%1 characters","%1 个字符"
+"Only allow the countries listed",只允许列表中的国家
+"The connection address (recommended)",连接地址（推荐）
+"Another proxy (X-Forwarded-For)",其他代理（X-Forwarded-For）
+"Log only (stop nothing)",仅记录（不拦截任何请求）
+"Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and the scanners that look for weak spots. The admin panel is never inspected. Start with ""Log only"" for a few days. Emergency exit: 'draco_waf_off' => true in app/etc/env.php. Try it: bin/magento draco:test","拦截具有攻击特征的请求（数据库注入、读取服务器文件、执行代码、链接中的脚本）以及寻找弱点的扫描器。管理后台从不检查。请先用“仅记录”运行几天。紧急关闭：在 app/etc/env.php 中设置 'draco_waf_off' => true。试一试：bin/magento draco:test"
+Mode,模式
+"Too many pages a minute from one address or one network get ""429, come back in a minute"". Customers who are logged in and search engines verified by DNS are never limited.","同一地址或同一网络每分钟请求过多页面时，会收到“429，请一分钟后再来”。已登录的顾客和经 DNS 验证的搜索引擎从不受限。"
+"Pages a minute per address",每个地址每分钟页面数
+"Pages a minute per network",每个网络每分钟页面数
+"Anti-bot shield on customer sign-ups",顾客注册的防机器人盾牌
+"Adds an invisible trap and a signed page stamp to the ""Create an Account"" form, without captchas. Bots get no account; three bot attempts in one day block the address for a week.",在“创建账户”表单中加入隐形陷阱和带签名的页面印记，无需验证码。机器人得不到账户；同一天内三次机器人尝试会将该地址封禁一周。
+"Protect the sign-up form",保护注册表单
+"Refuse or allow visitors by country, from a public list (DB-IP Lite, CC BY 4.0) downloaded once a month by cron and looked up locally. Behind Cloudflare its own country header is used.","按国家拒绝或允许访客，依据一份公开列表（DB-IP Lite，CC BY 4.0），由 cron 每月下载一次并在本地查询。位于 Cloudflare 之后时，使用其自身的国家头。"
+"Two-letter codes separated by commas, such as RU, CN.","用逗号分隔的两字母代码，例如 RU, CN。"
+"Only change the header when the shop is behind that proxy. A header from any other connection is ignored, so nobody can pose as another address.",只有当商店位于该代理之后时才更改此头。来自任何其他连接的头都会被忽略，因此没人能冒充其他地址。
+"Read the visitor address from",读取访客地址的来源
+"Addresses or CIDR ranges, separated by commas. Empty: this machine and private networks. Cloudflare's ranges are already known.","用逗号分隔的地址或 CIDR 范围。留空：本机和私有网络。Cloudflare 的范围已内置。"
+"CIDR ranges, one per line, added to the ones Draco knows.","CIDR 范围，每行一个，追加到 Draco 已知的范围中。"
+"Addresses never blocked or limited",从不封禁也不限速的地址
+"Separated by commas, on top of the last addresses administrators logged in from.",用逗号分隔，此外还包括管理员最近登录所用的地址。
+"Paths never inspected",从不检查的路径
+"Start of the path, one per line, such as webhooks that receive signed payloads.","路径的开头，每行一个，例如接收签名数据的 webhook。"
+"nosniff, SAMEORIGIN, Referrer-Policy and Permissions-Policy. Draco never replaces a header the shop already sends.","nosniff、SAMEORIGIN、Referrer-Policy 和 Permissions-Policy。Draco 从不替换商店已经发送的头。"
+"Send them",发送这些头
+"Customer passwords",顾客密码
+"Applied when a customer chooses a password: sign-up, account page, reset link and the API. Existing passwords keep working.","在顾客设置密码时生效：注册、账户页面、重置链接和 API。现有密码继续有效。"
+"Minimum length",最小长度
+"Refuse passwords that appear in known data breaches",拒绝出现在已知数据泄露中的密码
+"Asks Have I Been Pwned with only the first 5 characters of the password's SHA-1: the password never leaves your server. If the service does not answer in 3 seconds, the password is accepted.","只用密码 SHA-1 的前 5 个字符查询 Have I Been Pwned：密码永远不会离开你的服务器。如果服务在 3 秒内没有回应，则接受该密码。"
+"Visitors stopped by the firewall can ask for a review from the block page. You get at most one e-mail an hour; decide with bin/magento draco:reviews.","被防火墙拦下的访客可以在拦截页面上请求复核。你每小时最多收到一封邮件；用 bin/magento draco:reviews 做决定。"
+"Send them to",发送到
+"Empty: the store's general contact e-mail.",留空：商店的通用联系邮箱。

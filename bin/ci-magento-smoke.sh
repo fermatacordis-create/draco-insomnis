@@ -50,6 +50,10 @@ expect "ordinary search still works" 200 "$(code "$BASE/catalogsearch/result/?q=
 expect ".env probe gets 403" 403 "$(code "$BASE/.env")"
 expect "SQL injection in a REST JSON body gets 403" 403 "$(code -X POST -H 'Content-Type: application/json' --data '{"username":"x","password":"1'"'"' UNION SELECT password_hash FROM admin_user-- "}' "$BASE/rest/V1/integration/customer/token")"
 expect "the admin panel is never inspected" 1 "$(code "$BASE/admin/?q=1%27%20UNION%20SELECT%20password%20FROM%20admin_user--%20" >/dev/null; [ "$(cat "$tmp/head" | head -1 | grep -c ' 403')" = 0 ] && echo 1 || echo 0)"
+mg config:set general/locale/code es_ES >/dev/null; mg cache:clean config translate >/dev/null
+code "$BASE/?q=1%27%20UNION%20SELECT%201--%20" >/dev/null
+contains "the block page speaks the shop's language" "Petición bloqueada" "$tmp/body"
+mg config:set general/locale/code en_US >/dev/null; mg cache:clean config translate >/dev/null
 expect "draco:test recognises and blocks" 0 "$(mg draco:test "$BASE/" >/dev/null 2>&1; echo $?)"
 attacks=$(mg draco:status | grep -o '[0-9]* attacks seen' | grep -o '^[0-9]*')
 [ "${attacks:-0}" -ge 3 ] && pass "attacks are logged ($attacks)" || fail "attacks are logged (got ${attacks:-0})"
