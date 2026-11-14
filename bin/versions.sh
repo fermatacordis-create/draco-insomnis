@@ -11,12 +11,16 @@ drupal=$(sed -n "s/^version: *'\([^']*\)'.*/\1/p" cms/drupal/draco_insomnis/drac
 joomla=$(sed -n 's/.*<version>\([^<]*\)<\/version>.*/\1/p' cms/joomla/plg_system_dracoinsomnis/dracoinsomnis.xml)
 moodle=$(sed -n "s/^\$plugin->release = '\([^']*\)';.*/\1/p" cms/moodle/local_dracoinsomnis/version.php)
 server=$(sed -n "s/^define('DRACO_SERVER_VERSION', '\([^']*\)');/\1/p" server/bin/draco)
+js=$(sed -n 's/^  "version": "\([^"]*\)",$/\1/p' js/package.json | head -1)
+js_lock=$(sed -n 's/^  "version": "\([^"]*\)",$/\1/p' js/package-lock.json | head -1)
+js_const=$(sed -n "s/^export const VERSION = '\([^']*\)';/\1/p" js/src/index.ts)
 guard=$(sed -n "s/^define('DRACO_SERVER_GUARD', '\([^']*\)');/\1/p" server/guard.php)
 printf '%s %s\n' wordpress "$wp" wordpress-constant "$wp_const" wordpress-stable-tag "$wp_stable" \
-  prestashop "$presta" drupal "$drupal" joomla "$joomla" moodle "$moodle" server "$server" server-guard "$guard"
+  prestashop "$presta" drupal "$drupal" joomla "$joomla" moodle "$moodle" server "$server" server-guard "$guard" \
+  javascript "$js" javascript-lock "$js_lock" javascript-constant "$js_const"
 if [ "${1:-}" = "--check" ]; then
   want="${2:-$wp}"
-  for v in "$wp" "$wp_const" "$wp_stable" "$presta" "$drupal" "$joomla" "$moodle" "$server" "$guard"; do
+  for v in "$wp" "$wp_const" "$wp_stable" "$presta" "$drupal" "$joomla" "$moodle" "$server" "$guard" "$js" "$js_lock" "$js_const"; do
     if [ "$v" != "$want" ]; then
       echo "Versions differ: every package must be $want (run bin/set-version.sh $want)" >&2
       exit 1

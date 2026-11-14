@@ -526,6 +526,47 @@ jobs:
       - name: Bans in, attacks out (real CrowdSec Local API and agent)
         run: bash tests/e2e/crowdsec.sh
 
+  js:
+    name: JavaScript (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['22', '24']
+    defaults:
+      run:
+        working-directory: js
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm ci --no-audit --no-fund
+      - run: npm run typecheck
+      - name: Same firewall answers as PHP (tests/vectors), engine and adapters
+        run: npm test
+
+  js-frameworks:
+    name: JavaScript package with real Express 5 and Koa (Node 20)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Build the package
+        run: bin/build-js.sh dist
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install it next to Express, Koa and a body parser, then attack them
+        run: |
+          work=$(mktemp -d)
+          cp js/test/e2e-frameworks.mjs "$work/"
+          cd "$work"
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund express@5 koa@2 @koa/bodyparser "$GITHUB_WORKSPACE"/dist/draco-insomnis-js-*.tgz
+          node e2e-frameworks.mjs
+
   package:
     name: ZIP
     runs-on: ubuntu-latest

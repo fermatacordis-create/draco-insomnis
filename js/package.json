@@ -1,0 +1,29 @@
+{
+  "name": "draco-insomnis",
+  "version": "0.1.25",
+  "description": "Firewall, anti-copy pace and country rules for Node.js (Express, Koa, Strapi, Directus) and Cloudflare Workers. No dependencies.",
+  "license": "GPL-2.0-or-later",
+  "type": "module",
+  "homepage": "https://github.com/fermatacordis-create/draco-insomnis/tree/main/js",
+  "repository": { "type": "git", "url": "git+https://github.com/fermatacordis-create/draco-insomnis.git", "directory": "js" },
+  "keywords": ["security", "waf", "firewall", "express", "koa", "strapi", "directus", "cloudflare-workers", "rate-limit"],
+  "engines": { "node": ">=20" },
+  "sideEffects": false,
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
+    "./express": { "types": "./dist/express.d.ts", "default": "./dist/express.js" },
+    "./koa": { "types": "./dist/koa.d.ts", "default": "./dist/koa.js" },
+    "./worker": { "types": "./dist/worker.d.ts", "default": "./dist/worker.js" }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --experimental-strip-types --test test/*.test.ts",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.8.3"
+  }
+}

