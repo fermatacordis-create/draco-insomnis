@@ -17,6 +17,7 @@ cp server/src/*.php "$share/src/"
 cp src/Core/*.php "$share/core/"
 cp server/bin/draco "$share/bin/draco"; chmod 755 "$share/bin/draco"
 cp LICENSE "$share/LICENSE"
+mkdir -p "$share/crowdsec" && cp server/crowdsec/*.yaml "$share/crowdsec/"
 for f in "$share"/*.php "$share"/src/*.php "$share"/core/*.php "$share/bin/draco"; do php -l "$f" >/dev/null; done
 
 # .tar.gz

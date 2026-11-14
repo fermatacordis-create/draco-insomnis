@@ -42,6 +42,15 @@ Then use `docker exec <app> draco status`, `draco set waf_mode block`, `draco re
 
 **B. Without rebuilding**: a `draco` service fills a volume. The app mounts it at `/opt/draco` and adds `PHP_INI_SCAN_DIR=":/opt/draco/conf.d"`. See [docker/docker-compose.example.yml](docker/docker-compose.example.yml). The commands are `docker compose exec app php /opt/draco/share/bin/draco …`. A new image tag updates the files and keeps `draco.ini` and the evidence.
 
+## CrowdSec
+
+Draco and [CrowdSec](https://crowdsec.net) help each other.
+
+- **CrowdSec → Draco.** Run `cscli bouncers add draco`, then `draco set crowdsec_lapi_url http://127.0.0.1:8080` and `draco set crowdsec_api_key <key>`. CrowdSec's bans on addresses and ranges become Draco blocks: a banned address can read but cannot post or log in. Draco copies them at most once a minute, so a page never waits for CrowdSec. Administrators' addresses are never imported. Lifting a ban in CrowdSec lifts it in Draco.
+- **Draco → CrowdSec.** Run `draco set crowdsec_log 1`, then copy the files from `/usr/share/draco-insomnis/crowdsec`: `draco-insomnis-raw.yaml` goes to `parsers/s00-raw/`, `draco-insomnis-logs.yaml` to `parsers/s01-parse/`, `draco-insomnis-attacks.yaml` to `scenarios/`, and `acquis-draco.yaml` to `acquis.d/`. Reload CrowdSec once the sites have had their first visits, because it only watches folders that already exist. An address that Draco stops 5 times in a short while then gets a CrowdSec ban, and CrowdSec's other bouncers (firewall, nginx…) apply it to the whole server.
+
+`draco crowdsec` shows the state, and `draco crowdsec sync` syncs now.
+
 ## Everyday commands
 
 ```text

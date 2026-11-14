@@ -34,6 +34,9 @@ final class Config
         'lang' => 'en',
         'except' => '',
         'sensitive' => '/wp-login.php, /login, /register, /signup, /user/login, /user/register, /login/index.php, /login/signup.php, /administrator/index.php, /Special:UserLogin, /Special:CreateAccount, /typo3/, /admin, /customer/account/login, /customer/account/create',
+        'crowdsec_lapi_url' => '',
+        'crowdsec_api_key' => '',
+        'crowdsec_log' => '0',
         'state_dir' => '',
     ];
 

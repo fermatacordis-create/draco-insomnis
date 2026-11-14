@@ -1,0 +1,6 @@
+# CrowdSec acquisition of Draco Insomnis evidence. Copy to /etc/crowdsec/acquis.d/draco-insomnis.yaml
+# (in the Docker volume mode the files are in /opt/draco/state/u*/events.log instead).
+filenames:
+  - /var/lib/draco-insomnis/u*/events.log
+labels:
+  type: draco-insomnis

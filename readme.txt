@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.19
+Stable tag: 0.1.20
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,10 @@ The country filter uses IP geolocation by DB-IP (https://db-ip.com), "IP to Coun
 Only if "Refuse passwords that appear in known data breaches" is switched on, Draco asks Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com) with the first 5 characters of the SHA-1 of a password being chosen or used to log in. The password itself and its full hash are never sent. Terms: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy: https://haveibeenpwned.com/Privacy
 
 == Changelog ==
+
+= 0.1.20 =
+* CrowdSec, both ways (server edition and Docker add-on). In: Draco is a bouncer of the CrowdSec Local API, and its bans on addresses and ranges become Draco blocks (they may read, not post or log in), copied at most once a minute so no visitor waits; lifting a ban in CrowdSec lifts it in Draco, and administrators' addresses are never imported. Out: with crowdsec_log = 1 Draco writes its attempts as JSON lines, and the parser and scenario shipped in crowdsec/ turn 5 attacks in a short while into a CrowdSec ban for its other bouncers (firewall, nginx…). New command: draco crowdsec [sync].
+* CI: tested against a real CrowdSec (Local API and agent).
 
 = 0.1.19 =
 * Tested in front of real applications that have no Draco plugin: MediaWiki 1.43 and TYPO3 13 run with the Docker add-on, and CI checks every change against both. The checks: the app works, log mode changes nothing for it, attacks get Draco's 403 without naming the rule, a blocked address can still read but not use the login page, a review request lets it back in, draco test answers, and draco disable gives everything back to the app.

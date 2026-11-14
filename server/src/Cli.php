@@ -50,6 +50,7 @@ final class Cli
                 'test' => $cli->test(),
                 'cleanup' => $cli->cleanup(),
                 'geo-update' => $cli->geoUpdate(),
+                'crowdsec' => $cli->crowdsec(),
                 'version' => $cli->out(DRACO_SERVER_VERSION),
                 default => $cli->help(),
             };
@@ -90,6 +91,7 @@ final class Cli
               draco test <url>                  Sends a harmless attack-shaped request and says what happened
               draco cleanup                     Old evidence out; country list refreshed (daily timer)
               draco geo-update                  Downloads the country list (DB-IP Lite, CC BY 4.0)
+              draco crowdsec [sync]             CrowdSec bans copied in, Draco's attacks shared (see draco.ini)
 
             Options: --user=<php user> picks whose evidence (default: the only one there is).
             TXT);
@@ -432,6 +434,33 @@ final class Cli
         $file = (new ServerHost(Config::forHost(''), $this->base()))->setting('geo_file');
         if ($uses && GeoUpdate::stale($file, time())) {
             $this->geoUpdate();
+        }
+
+        return 0;
+    }
+
+    private function crowdsec(): int
+    {
+        $s = Config::forHost('');
+        $dirs = $this->dirs();
+        if (($this->args[0] ?? '') === 'sync') {
+            $code = 0;
+            foreach (array_keys($dirs) as $dir) {
+                $r = CrowdSec::sync(new ServerHost($s, $dir));
+                echo $dirs[$dir], ': ', $r['error'] === '' ? '+' . $r['added'] . ' bans, -' . $r['removed'] : 'not synced (' . $r['error'] . ')', "\n";
+                $code = $r['error'] === '' ? $code : 1;
+            }
+
+            return $dirs === [] ? $this->fail('No evidence folder yet: Draco has not seen any web request.') : $code;
+        }
+        echo 'Local API: ', $s['crowdsec_lapi_url'] === '' ? 'not set (draco set crowdsec_lapi_url http://127.0.0.1:8080)' : $s['crowdsec_lapi_url'], "\n";
+        echo 'Bouncer key: ', $s['crowdsec_api_key'] === '' ? 'not set (cscli bouncers add draco, then draco set crowdsec_api_key …)' : 'set', "\n";
+        echo 'Sharing Draco\'s attacks: ', in_array($s['crowdsec_log'], ['1', 'yes', 'on', 'true'], true) ? 'on (events.log in each folder)' : 'off (draco set crowdsec_log 1)', "\n";
+        foreach (array_keys($dirs) as $dir) {
+            $store = (new ServerHost($s, $dir))->store();
+            $n = count($store->rows('SELECT 1 FROM blocks WHERE reason LIKE ? AND until_at > ?', [CrowdSec::REASON . '%', time()]));
+            [$at, $what] = array_pad(explode('|', (string) $store->recall('crowdsec_last'), 2), 2, '');
+            printf("  %-14s %d CrowdSec bans in force · last sync: %s\n", $dirs[$dir], $n, $at === '' ? 'never' : gmdate('Y-m-d H:i', (int) $at) . ' UTC ' . $what);
         }
 
         return 0;

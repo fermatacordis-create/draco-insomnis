@@ -20,8 +20,8 @@ final class Store implements EventStore
 
     private ?\PDO $pdo = null;
 
-    /** @param list<string> $adminIps */
-    public function __construct(private string $file, private array $adminIps = [])
+    /** @param list<string> $adminIps @param bool $eventLog Also write each attempt to events.log (CrowdSec). */
+    public function __construct(private string $file, private array $adminIps = [], private bool $eventLog = false)
     {
     }
 
@@ -115,11 +115,17 @@ final class Store implements EventStore
         if ($this->bump('rows_' . md5($ip), 3600) > self::MAX_ROWS_PER_IP_HOUR) {
             return;
         }
+        $row = [
+            'ip' => $ip, 'host' => substr(strtolower((string) ($_SERVER['HTTP_HOST'] ?? '')), 0, 190), 'endpoint' => substr($endpoint, 0, 40),
+            'verdict' => (string) $result['verdict'], 'reasons' => substr(implode(',', $result['reasons']), 0, 190), 'user_agent' => substr($userAgent, 0, 255),
+        ];
         $this->run('INSERT INTO events (created_at, ip, remote_addr, host, endpoint, score, verdict, reasons, user_agent, fields) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
-            time(), $ip, $remoteAddr, substr(strtolower((string) ($_SERVER['HTTP_HOST'] ?? '')), 0, 190), substr($endpoint, 0, 40),
-            min(65535, max(0, (int) $result['score'])), (string) $result['verdict'], substr(implode(',', $result['reasons']), 0, 190),
-            substr($userAgent, 0, 255), (string) json_encode($fields, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+            time(), $ip, $remoteAddr, $row['host'], $row['endpoint'], min(65535, max(0, (int) $result['score'])), $row['verdict'], $row['reasons'],
+            $row['user_agent'], (string) json_encode($fields, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
         ]);
+        if ($this->eventLog && $endpoint !== Review::ENDPOINT) {
+            CrowdSec::logLine(dirname($this->file), $row);
+        }
     }
 
     public function botAttemptsSince(string $ip, int $seconds): int
@@ -152,6 +158,32 @@ final class Store implements EventStore
         $this->run('INSERT INTO blocks (kind, value, reason, created_at, until_at) VALUES (?, ?, ?, ?, ?)', [$kind, $value, substr($reason, 0, 190), time(), Blocklist::untilTs($days, time())]);
 
         return true;
+    }
+
+    /**
+     * A block decided elsewhere (CrowdSec), until a given time. Same limits as any block: never an
+     * administrator's address, no range wider than /16 (IPv4) or /32 (IPv6).
+     *
+     * @param list<string> $admins
+     */
+    public function importBlock(string $value, int $until, string $reason, array $admins): bool
+    {
+        $address = Blocklist::address($value, 30, $admins);
+        if ($address === null || $until <= time()) {
+            return false;
+        }
+        $this->run('DELETE FROM blocks WHERE kind = ? AND value = ? AND reason LIKE ?', [$address['kind'], $address['value'], CrowdSec::REASON . '%']);
+        $this->run('INSERT INTO blocks (kind, value, reason, created_at, until_at) VALUES (?, ?, ?, ?, ?)', [$address['kind'], $address['value'], substr($reason, 0, 190), time(), $until]);
+
+        return true;
+    }
+
+    /** Removes imported blocks: all from that source, or one value. */
+    public function removeImported(string $prefix, ?string $value): int
+    {
+        return $value === null
+            ? $this->run('DELETE FROM blocks WHERE reason LIKE ?', [$prefix . '%'])
+            : $this->run('DELETE FROM blocks WHERE reason LIKE ? AND value = ?', [$prefix . '%', $value]);
     }
 
     // Owner side (CLI).
@@ -223,6 +255,11 @@ final class Store implements EventStore
     public function cleanup(): int
     {
         $now = time();
+        // The CrowdSec agent reads events.log as it grows; past 5 MB it starts again.
+        $log = dirname($this->file) . '/events.log';
+        if (is_file($log) && filesize($log) > 5 * 1024 * 1024) {
+            @file_put_contents($log, '');
+        }
 
         return $this->run('DELETE FROM events WHERE created_at < ?', [$now - self::KEEP_DAYS * 86400])
             + $this->run('DELETE FROM blocks WHERE until_at < ?', [$now])
