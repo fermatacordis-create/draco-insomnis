@@ -481,6 +481,43 @@ jobs:
         if: always()
         run: docker logs app 2>&1 | grep -i "draco insomnis" | tail -20 || true
 
+  apps:
+    name: Draco in front of ${{ matrix.app }} (Docker add-on)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ['MediaWiki 1.43', 'TYPO3 13']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the add-on image and fill the volume
+        run: |
+          bin/build-docker.sh draco-insomnis:test
+          docker run --rm -v draco:/opt/draco draco-insomnis:test
+      - name: Install ${{ matrix.app }} with Draco loaded
+        run: |
+          if [[ "${{ matrix.app }}" == MediaWiki* ]]; then
+            docker run -d --name app -p 8080:80 -e PHP_INI_SCAN_DIR=:/opt/draco/conf.d -v draco:/opt/draco mediawiki:1.43
+            sleep 3
+            docker exec app bash -c 'mkdir -p /var/www/data && chown www-data /var/www/data && php maintenance/run.php install --dbtype=sqlite --dbpath=/var/www/data --server=http://127.0.0.1:8080 --scriptpath="" --pass="Draco-Lab-2026-wiki!" "Draco Wiki" admin | tail -1 && chown -R www-data /var/www/data'
+          else
+            docker build -q -t typo3-lab tests/e2e/typo3
+            docker run -d --name app -p 8080:80 -e PHP_INI_SCAN_DIR=:/opt/draco/conf.d -v draco:/opt/draco typo3-lab
+            sleep 3
+            docker exec -u www-data -w /var/www/typo3 app vendor/bin/typo3 setup --driver=sqlite --admin-username=admin --admin-user-password='Draco-Lab-2026!x'               --admin-email=admin@example.org --project-name="Draco TYPO3" --server-type=apache --create-site="http://127.0.0.1:8080/" --force -n | tail -1
+          fi
+      - name: End-to-end tests
+        run: |
+          common=(BASE=http://127.0.0.1:8080 DRACO="docker exec app php /opt/draco/share/bin/draco" SUDO="docker exec app" STATE=/opt/draco/state RELOAD="docker exec app apachectl -k graceful")
+          if [[ "${{ matrix.app }}" == MediaWiki* ]]; then
+            env "${common[@]}" APP=MediaWiki HOME_PATH=/index.php MARK="Draco Wiki" LOGIN_PATH=/index.php/Special:UserLogin TEST_URL=http://127.0.0.1/index.php bash tests/e2e/apps.sh
+          else
+            env "${common[@]}" APP=TYPO3 HOME_PATH=/ MARK="powered by TYPO3" LOGIN_PATH=/typo3/ TEST_URL=http://127.0.0.1/ bash tests/e2e/apps.sh
+          fi
+      - name: Draco errors from the run
+        if: always()
+        run: docker logs app 2>&1 | grep -i "draco insomnis" | tail -20 || true
+
   package:
     name: ZIP
     runs-on: ubuntu-latest
