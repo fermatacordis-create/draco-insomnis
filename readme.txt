@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.26
+Stable tag: 0.1.27
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,11 @@ Only if "Refuse passwords that appear in known data breaches" is switched on, Dr
 Only when an administrator opens an abuse report, Draco asks the public internet registry (RDAP, at https://rdap.org, which forwards to the regional registry: ARIN, RIPE NCC, APNIC, LACNIC or AFRINIC) who looks after the reported address, to find its abuse contact. Only that address is sent. Nothing is e-mailed until the administrator reads the draft and presses Send.
 
 == Changelog ==
+
+= 0.1.27 =
+* Accounts that can change the site (WordPress, off by default, under Two-step login). Administrators, editors and shop managers only work once the owner approved them: an account created by an attack, by a vulnerable plugin or straight in the database cannot log in, through the login form, cookies, application passwords or XML-RPC. If the site e-mail, its address, the default role or open registration change without an approved administrator, every privileged account is paused and the owner gets a one-time link (24 hours) at the e-mail kept when the lock was switched on. Emergency exit for whoever has the server: define('DRACO_LOCK_OFF', true); in wp-config.php. Not on multisite yet.
+* The abuse report screens (0.1.25) and the new lock are translated into the 27 languages.
+* JavaScript: draco-insomnis is on npm (npm install draco-insomnis). From this version on, each release stages it on npm from GitHub Actions without any stored token, and a maintainer approves it there with two-factor authentication.
 
 = 0.1.26 =
 * Draco for JavaScript: the firewall, block list, country filter, anti-copy pace and security headers for Node.js and Cloudflare Workers, in a package with no dependencies (draco-insomnis-js-0.1.26.tgz in the release, signed like the others). Middleware for Express (also Directus) and Koa (also Strapi), and a wrapper for Workers with Workers KV. The signatures are the same as in PHP: both languages run the same test cases. Not yet in JavaScript: the review request on the block page, the country without Cloudflare, and CrowdSec.
