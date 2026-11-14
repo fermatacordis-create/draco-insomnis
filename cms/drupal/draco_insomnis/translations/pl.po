@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — pl (generated from i18n/pl.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pl\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. Zatrzymuje fałszywe rejestracje bez captchy, zapora aplikacji i limit tempa przeciw kopiowaniu. Otwarte źródło."
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "Zatrzymuje fałszywe rejestracje bez captchy: boty nie dostają konta, a każda podejrzana próba jest przechowywana 90 dni jako dowód do zgłoszenia nadużycia. Atakującemu nigdy nic nie jest odsyłane."
+
+msgid "Protect user sign-ups"
+msgstr "Chroń rejestrację użytkowników"
+
+msgid "Firewall"
+msgstr "Zapora"
+
+msgid "Anti-copy pace limit"
+msgstr "Limit tempa przeciw kopiowaniu"
+
+msgid "Off"
+msgstr "Wyłączone"
+
+msgid "Log only: record what it would stop"
+msgstr "Tylko zapisuj: notuj, co zostałoby zatrzymane"
+
+msgid "Block"
+msgstr "Zablokuj"
+
+msgid "Pages per minute, per address"
+msgstr "Stron na minutę, na adres"
+
+msgid "Pages per minute, per network"
+msgstr "Stron na minutę, na sieć"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "Sieć /24 dla IPv4 lub /64 dla IPv6: tyle dostaje scraper, który przeskakuje między sąsiednimi adresami."
+
+msgid "Visitor address"
+msgstr "Adres odwiedzającego"
+
+msgid "Connection address (recommended)"
+msgstr "Adres połączenia (zalecane)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "Inne proxy (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "Sieci wynajmowanych serwerów"
+
+msgid "The registration could not be completed."
+msgstr "Nie udało się ukończyć rejestracji."
+
+msgid "Request blocked"
+msgstr "Żądanie zablokowane"
+
+msgid "Address unblocked."
+msgstr "Adres odblokowany."
+
+msgid "Unblock"
+msgstr "Odblokuj"
+
+msgid "Nothing blocked right now."
+msgstr "Obecnie nic nie jest zablokowane."
+
+msgid "Last suspicious attempts"
+msgstr "Ostatnie podejrzane próby"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "Przechowywane 90 dni. Nigdy hasła. Plik CSV adresu zawiera wszystko, co zrobił, gotowe do dołączenia do zgłoszenia nadużycia u jego dostawcy sieci."
+
+msgid "Nothing yet."
+msgstr "Na razie nic."
+
+msgid "Address or e-mail"
+msgstr "Adres lub e-mail"
+
+msgid "Reason"
+msgstr "Powód"
+
+msgid "Until (UTC)"
+msgstr "Do (UTC)"
+
+msgid "Date (UTC)"
+msgstr "Data (UTC)"
+
+msgid "Address"
+msgstr "Adres"
+
+msgid "Where"
+msgstr "Gdzie"
+
+msgid "Verdict"
+msgstr "Werdykt"
+
+msgid "Signs"
+msgstr "Oznaki"
+
+msgid "Data"
+msgstr "Dane"
+
+msgid "Trusted proxies"
+msgstr "Zaufane serwery proxy"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "Tylko połączenia z tych adresów mogą ustawiać adres odwiedzającego przez nagłówek. Jeden adres lub zakres w wierszu. Puste: ten serwer i sieci prywatne. Zakresy samego Cloudflare są już znane."
+
+msgid "Countries"
+msgstr "Kraje"
+
+msgid "Filter"
+msgstr "Filtr"
+
+msgid "Refuse the countries listed"
+msgstr "Odrzucaj kraje z listy"
+
+msgid "Only the countries listed"
+msgstr "Tylko kraje z listy"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "Logowanie, rejestracja i formularze (zalecane)"
+
+msgid "The whole site"
+msgstr "Cała witryna"
+
+msgid "What to do"
+msgstr "Co robić"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "Kraje (dwuliterowe kody, np. ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "Lista krajów pobrana."
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "Tylko jeśli cała witryna działa na HTTPS i tak zostanie: przeglądarki to pamiętają i odrzucają HTTP aż do wygaśnięcia."
+
+msgid "Minimum password length"
+msgstr "Minimalna długość hasła"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "Odrzucaj hasła znalezione w wyciekach danych"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "Pyta Have I Been Pwned z k-anonimowością: witrynę opuszcza tylko 5 znaków SHA-1 hasła, nigdy samo hasło. Jeśli usługa nie odpowie w 3 sekundy, hasło jest akceptowane."
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "To hasło występuje w znanych wyciekach danych, więc atakujący próbują go najpierw. Wybierz, proszę, inne."
+
+msgid "Block an address or range"
+msgstr "Zablokuj adres lub zakres"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP lub zakres (np. 203.0.113.0/24)"
+
+msgid "For"
+msgstr "Na"
+
+msgid "7 days"
+msgstr "7 dni"
+
+msgid "15 days"
+msgstr "15 dni"
+
+msgid "30 days"
+msgstr "30 dni"
+
+msgid "90 days"
+msgstr "90 dni"
+
+msgid "Forever"
+msgstr "Na zawsze"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "Nic nie zostało zablokowane: wartość jest nieprawidłowa, należy do administratora albo to twój własny adres."
+
+msgid "E-mail"
+msgstr "E-mail"
+
+msgid "Message"
+msgstr "Wiadomość"
+
+msgid "Done."
+msgstr "Gotowe."
+
+msgid "It could not be done for that address."
+msgstr "Dla tego adresu nie udało się tego zrobić."
+
+msgid "No requests."
+msgstr "Brak próśb."
+
+msgid "Review requests"
+msgstr "Prośby o sprawdzenie"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "Osoby zatrzymane przez zaporę mogą poprosić o to ze strony blokady. Przepuść je na jakiś czas, jeśli to był błąd. Draco nigdy do nich nie pisze: odpowiedz ze swojej poczty, jeśli chcesz."
+
+msgid "Let through 24 hours"
+msgstr "Przepuść na 24 godziny"
+
+msgid "Let through"
+msgstr "Przepuść"
+
+msgid "Attacker: blocked"
+msgstr "Atakujący: zablokowany"
+
+msgid "Attacker"
+msgstr "Atakujący"
+
+msgid "Ask for a review"
+msgstr "Poproś o sprawdzenie"
+
+msgid "Denied"
+msgstr "Odrzucona"
+
+msgid "Deny"
+msgstr "Odrzuć"
+
+msgid "Your e-mail"
+msgstr "Twój e-mail"
+
+msgid "What were you doing?"
+msgstr "Co robiłeś?"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "Dziękujemy. Właściciel witryny to sprawdzi i, jeśli to był błąd, przepuści cię."
+
+msgid "Request sent"
+msgstr "Prośba wysłana"
+
+msgid "Firewall: last 7 days"
+msgstr "Zapora: ostatnie 7 dni"
+
+msgid "Test the firewall"
+msgstr "Przetestuj zaporę"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "Działa: wstrzyknięcie do bazy danych zostało rozpoznane i zablokowane (403)."
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "Wysyła do witryny nieszkodliwe żądanie w kształcie ataku i mówi, co się stało. Nie jest zapisywane."
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "Testowy atak nie został rozpoznany. Zgłoś to, proszę, do Draco Insomnis."
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "Zapora jest wyłączona: włącz ją, zapisz i przetestuj ponownie."
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "Test nie mógł dotrzeć do witryny z samego serwera (niektóre hostingi na to nie pozwalają). Zapora może mimo to działać: sprawdź ostatnie próby."
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "Nigdy administrator ani Twój własny adres. Zakresy nie szersze niż /16 (IPv4) lub /32 (IPv6)."
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "Omijanie zapory Draco Insomnis"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "Zostaw „Adres połączenia”, chyba że witryna stoi za proxy: nagłówek może podrobić każdy."
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "Działa: wstrzyknięcie do bazy danych zostało rozpoznane. W trybie „Tylko zapisuj” jest notowane, ale nie zatrzymywane; przełącz na „Blokuj”, gdy będziesz gotowy."
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "To żądanie zostało zatrzymane ze względów bezpieczeństwa. Jeśli uważasz, że to błąd, napisz właścicielowi witryny, co robiłeś:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "Jeden zakres w wierszu (CIDR), dodawany do tych, które moduł już zna. Obecność na tej liście tylko dodaje punkty: sama w sobie nigdy nie robi z nikogo bota."
+
+msgid "The password must have at least @count characters."
+msgstr "Hasło musi mieć co najmniej @count znaków."
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] Ktoś prosi Cię o sprawdzenie blokady zapory"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "Odwiedzający zatrzymany przez zaporę prosi o sprawdzenie. Otwórz Draco Insomnis, aby go przepuścić lub nie:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "Zapora: @count ataków w 10 minut"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "Automatycznie: @count prób bota w 24 h"
+
+msgid "Review: @email"
+msgstr "Sprawdzenie: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "Test został zatrzymany przed Drupalem przez zaporę hostingu. Dobrze: dwie warstwy."
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "Twój adres tak, jak widzi go moduł: %ip (adres połączenia: %remote). Jeśli witryna stoi za Cloudflare lub innym proxy i różnią się one od Twojego prawdziwego adresu, wybierz odpowiednią opcję w „Adres odwiedzającego”."
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "Nagłówek jest ignorowany: to połączenie (%remote) nie pochodzi z Cloudflare ani z zaufanego proxy. Jeśli Twoje proxy jest w internecie, dodaj jego adresy w „Zaufane serwery proxy”."
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "Dodaje do publicznego formularza rejestracji niewidoczną pułapkę i podpisany znacznik strony. Boty nie dostają konta; trzy próby bota w ciągu dnia blokują adres na tydzień."
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "Zatrzymuje żądania wyglądające na atak (wstrzyknięcie do bazy danych, odczyt plików serwera, uruchamianie kodu, skrypty w linkach) oraz skanery takie jak sqlmap czy Nikto. Zacznij od „Tylko zapisuj”, a po kilku dniach przejdź na „Zablokuj”. Pięć ataków w 10 minut blokuje adres na tydzień; zablokowane adresy nadal mogą czytać witrynę, ale nie mogą niczego wysyłać ani się logować. Użytkownicy z uprawnieniem „Omijanie zapory Draco Insomnis” nigdy nie są sprawdzani. Wyjście awaryjne: $settings['draco_waf_off'] = TRUE; w settings.php."
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "Kto pobiera więcej stron na minutę, niż czyta człowiek, dostaje „429 Too many requests” do końca minuty. Zalogowani użytkownicy, Twoje własne adresy i wyszukiwarki zweryfikowane przez DNS (Google, Bing, Apple, Yandex) nigdy nie są ograniczani."
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "Twoi odwiedzający mogą pochodzić z wielu krajów, a atakujący zmienia kraj przez VPN. Filtruj tylko logowanie, rejestrację i formularze, i zacznij od „Tylko zapisuj”. Administratorzy, osoby, które przepuszczasz, i wyszukiwarki nigdy nie są filtrowane."
+
+msgid "Log only"
+msgstr "Tylko zapisuj"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "Lista krajów: jeszcze nie pobrana (pobiera się po włączeniu filtra)."
+
+msgid "Country list of @date."
+msgstr "Lista krajów z @date."
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "Geolokalizacja IP od <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Sprawdzana na Twoim własnym serwerze: żaden adres nie jest nigdzie wysyłany."
+
+msgid "Send security headers on public pages"
+msgstr "Wysyłaj nagłówki bezpieczeństwa na stronach publicznych"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "Bez zgadywania typów plików, bez osadzania w obcych witrynach, mniej danych o pochodzeniu, bez kamery, mikrofonu i lokalizacji dla osadzonych treści. Nigdy nagłówek, który serwer już wysyła."
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "Wymuś HTTPS w przeglądarkach na 6 miesięcy (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "Od 8 do 64 znaków; 0 = bez minimum. Stosowane przy tworzeniu konta lub zmianie hasła."
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "Nie udało się pobrać listy krajów. Filtr nic nie robi, dopóki jej nie ma; spróbuj ponownie później."
+
+msgid "Blocked: @value"
+msgstr "Zablokowano: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "Wykryte ataki: @total, zablokowane: @blocked."
+
+msgid "What"
+msgstr "Co"
+
+msgid "Busiest addresses"
+msgstr "Najaktywniejsze adresy"
+
+msgid "Blocked addresses (@count)"
+msgstr "Zablokowane adresy (@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "Tarcza antybotowa dla rejestracji, zapora i limity przeciw kopiowaniu."
+
+msgid "Administer Draco Insomnis"
+msgstr "Administruj Draco Insomnis"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "Zmieniać ustawienia, przeglądać dowody i odblokowywać adresy."
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "Żądania tych użytkowników nigdy nie są sprawdzane. Nadaj je redaktorom, którzy piszą kod lub SQL w swoich treściach."
+

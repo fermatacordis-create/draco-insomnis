@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — nl (generated from i18n/nl.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. Stopt nepregistraties zonder captcha’s, applicatiefirewall en tempolimiet tegen kopiëren. Open source."
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "Stopt nepregistraties zonder captcha’s: bots krijgen geen account en elke verdachte poging wordt 90 dagen bewaard als bewijs voor een misbruikmelding. Er wordt nooit iets teruggestuurd naar de aanvaller."
+
+msgid "Protect user sign-ups"
+msgstr "Gebruikersregistraties beschermen"
+
+msgid "Firewall"
+msgstr "Firewall"
+
+msgid "Anti-copy pace limit"
+msgstr "Tempolimiet tegen kopiëren"
+
+msgid "Off"
+msgstr "Uit"
+
+msgid "Log only: record what it would stop"
+msgstr "Alleen loggen: noteren wat het zou stoppen"
+
+msgid "Block"
+msgstr "Blokkeren"
+
+msgid "Pages per minute, per address"
+msgstr "Pagina’s per minuut, per adres"
+
+msgid "Pages per minute, per network"
+msgstr "Pagina’s per minuut, per netwerk"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "Een /24-netwerk voor IPv4 of een /64 voor IPv6: wat een scraper krijgt als hij tussen naburige adressen wisselt."
+
+msgid "Visitor address"
+msgstr "Adres van de bezoeker"
+
+msgid "Connection address (recommended)"
+msgstr "Verbindingsadres (aanbevolen)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "Andere proxy (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "Netwerken van gehuurde servers"
+
+msgid "The registration could not be completed."
+msgstr "De registratie kon niet worden afgerond."
+
+msgid "Request blocked"
+msgstr "Verzoek geblokkeerd"
+
+msgid "Address unblocked."
+msgstr "Adres gedeblokkeerd."
+
+msgid "Unblock"
+msgstr "Deblokkeren"
+
+msgid "Nothing blocked right now."
+msgstr "Er is nu niets geblokkeerd."
+
+msgid "Last suspicious attempts"
+msgstr "Laatste verdachte pogingen"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "90 dagen bewaard. Nooit wachtwoorden. De CSV van een adres bevat alles wat het deed, klaar om bij een misbruikmelding aan de netwerkprovider te voegen."
+
+msgid "Nothing yet."
+msgstr "Nog niets."
+
+msgid "Address or e-mail"
+msgstr "Adres of e-mail"
+
+msgid "Reason"
+msgstr "Reden"
+
+msgid "Until (UTC)"
+msgstr "Tot (UTC)"
+
+msgid "Date (UTC)"
+msgstr "Datum (UTC)"
+
+msgid "Address"
+msgstr "Adres"
+
+msgid "Where"
+msgstr "Waar"
+
+msgid "Verdict"
+msgstr "Oordeel"
+
+msgid "Signs"
+msgstr "Signalen"
+
+msgid "Data"
+msgstr "Gegevens"
+
+msgid "Trusted proxies"
+msgstr "Vertrouwde proxy’s"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "Alleen verbindingen van deze adressen mogen het bezoekersadres via een header doorgeven. Eén adres of bereik per regel. Leeg: deze server en privénetwerken. De bereiken van Cloudflare zelf zijn al bekend."
+
+msgid "Countries"
+msgstr "Landen"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Refuse the countries listed"
+msgstr "Weiger de genoemde landen"
+
+msgid "Only the countries listed"
+msgstr "Alleen de genoemde landen"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "Inloggen, aanmelden en formulieren (aanbevolen)"
+
+msgid "The whole site"
+msgstr "De hele site"
+
+msgid "What to do"
+msgstr "Wat te doen"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "Landen (tweeletterige codes, bijv. ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "Landenlijst gedownload."
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "Alleen als de hele site via HTTPS werkt en dat zo blijft: browsers onthouden het en weigeren HTTP tot het verloopt."
+
+msgid "Minimum password length"
+msgstr "Minimale wachtwoordlengte"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "Wachtwoorden uit datalekken weigeren"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "Vraagt Have I Been Pwned met k-anonimiteit: alleen 5 tekens van de SHA-1 van het wachtwoord verlaten de site, nooit het wachtwoord. Antwoordt de dienst niet binnen 3 seconden, dan wordt het wachtwoord geaccepteerd."
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "Dit wachtwoord komt voor in bekende datalekken, dus aanvallers proberen het als eerste. Kies alsjeblieft een ander."
+
+msgid "Block an address or range"
+msgstr "Een adres of bereik blokkeren"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP of bereik (bijv. 203.0.113.0/24)"
+
+msgid "For"
+msgstr "Voor"
+
+msgid "7 days"
+msgstr "7 dagen"
+
+msgid "15 days"
+msgstr "15 dagen"
+
+msgid "30 days"
+msgstr "30 dagen"
+
+msgid "90 days"
+msgstr "90 dagen"
+
+msgid "Forever"
+msgstr "Voor altijd"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "Er is niets geblokkeerd: de waarde is ongeldig, hoort bij een beheerder of is je eigen adres."
+
+msgid "E-mail"
+msgstr "E-mail"
+
+msgid "Message"
+msgstr "Bericht"
+
+msgid "Done."
+msgstr "Klaar."
+
+msgid "It could not be done for that address."
+msgstr "Dat kon niet voor dat adres."
+
+msgid "No requests."
+msgstr "Geen verzoeken."
+
+msgid "Review requests"
+msgstr "Controleverzoeken"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "Wie door de firewall is tegengehouden, kan het vragen vanaf de blokkeerpagina. Laat hem een tijdje door als het een vergissing was. Draco schrijft hem nooit: antwoord vanuit je eigen mail als je wilt."
+
+msgid "Let through 24 hours"
+msgstr "24 uur doorlaten"
+
+msgid "Let through"
+msgstr "Doorlaten"
+
+msgid "Attacker: blocked"
+msgstr "Aanvaller: geblokkeerd"
+
+msgid "Attacker"
+msgstr "Aanvaller"
+
+msgid "Ask for a review"
+msgstr "Om controle vragen"
+
+msgid "Denied"
+msgstr "Geweigerd"
+
+msgid "Deny"
+msgstr "Weigeren"
+
+msgid "Your e-mail"
+msgstr "Je e-mail"
+
+msgid "What were you doing?"
+msgstr "Wat was je aan het doen?"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "Bedankt. De beheerder van de site bekijkt het en laat je door als het een vergissing was."
+
+msgid "Request sent"
+msgstr "Verzoek verzonden"
+
+msgid "Firewall: last 7 days"
+msgstr "Firewall: laatste 7 dagen"
+
+msgid "Test the firewall"
+msgstr "Firewall testen"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "Werkt: een database-injectie werd herkend en geblokkeerd (403)."
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "Stuurt de site een onschuldig verzoek in de vorm van een aanval en vertelt je wat er gebeurde. Het wordt niet gelogd."
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "De testaanval werd niet herkend. Meld dit alsjeblieft aan Draco Insomnis."
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "De firewall staat uit: zet hem aan, sla op en test opnieuw."
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "De test kon de site niet bereiken vanaf de server zelf (sommige hosts staan dat niet toe). De firewall kan toch werken: bekijk de laatste pogingen."
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "Nooit een beheerder, en nooit uw eigen adres. Bereiken niet breder dan /16 (IPv4) of /32 (IPv6)."
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "De firewall van Draco Insomnis omzeilen"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "Laat ‘Verbindingsadres’ staan, tenzij de site achter een proxy staat: een header kan door iedereen worden vervalst."
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "Werkt: een database-injectie werd herkend. Bij ‘Alleen loggen’ wordt die genoteerd maar niet tegengehouden; schakel over naar ‘Blokkeren’ als je zover bent."
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "Dit verzoek is om veiligheidsredenen tegengehouden. Denk je dat het een vergissing is, vertel de beheerder van de site wat je aan het doen was:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "Eén bereik per regel (CIDR), naast de bereiken die de module al kent. Op deze lijst staan geeft alleen punten: op zichzelf maakt het niemand tot bot."
+
+msgid "The password must have at least @count characters."
+msgstr "Het wachtwoord moet minstens @count tekens hebben."
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] Iemand vraagt u een blokkade van de firewall te controleren"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "Een bezoeker die door de firewall is gestopt, vraagt om een controle. Open Draco Insomnis om hem wel of niet door te laten:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "Firewall: @count aanvallen in 10 minuten"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "Automatisch: @count botpogingen in 24 u"
+
+msgid "Review: @email"
+msgstr "Controle: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "De test werd vóór Drupal gestopt door de firewall van de host. Goed: twee lagen."
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "Uw adres zoals de module het ziet: %ip (verbindingsadres: %remote). Als de site achter Cloudflare of een andere proxy staat en deze verschillen van uw echte adres, kies dan de passende optie bij ‘Bezoekersadres’."
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "De header wordt genegeerd: deze verbinding (%remote) komt niet van Cloudflare of van een vertrouwde proxy. Staat uw proxy op internet, voeg dan zijn adressen toe bij ‘Vertrouwde proxy’s’."
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "Voegt een onzichtbare val en een ondertekende paginastempel toe aan het openbare registratieformulier. Bots krijgen geen account; drie botpogingen op één dag blokkeren het adres een week."
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "Stopt verzoeken die op een aanval lijken (database-injectie, serverbestanden lezen, code uitvoeren, scripts in links) en scanners zoals sqlmap of Nikto. Begin met ‘Alleen loggen’ en ga na een paar dagen naar ‘Blokkeren’. Vijf aanvallen in 10 minuten blokkeren het adres een week; geblokkeerde adressen kunnen de site nog lezen, maar niets versturen of inloggen. Gebruikers met de machtiging ‘De firewall van Draco Insomnis omzeilen’ worden nooit gecontroleerd. Nooduitgang: $settings['draco_waf_off'] = TRUE; in settings.php."
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "Wie meer pagina’s per minuut opvraagt dan een mens leest, krijgt ‘429 Too many requests’ tot de minuut voorbij is. Ingelogde gebruikers, uw eigen adressen en via DNS gecontroleerde zoekmachines (Google, Bing, Apple, Yandex) worden nooit beperkt."
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "Je bezoekers komen misschien uit veel landen, en een aanvaller wisselt van land met een VPN. Filter alleen inloggen, aanmelden en formulieren, en begin met ‘Alleen loggen’. Beheerders, mensen die je doorlaat en zoekmachines worden nooit gefilterd."
+
+msgid "Log only"
+msgstr "Alleen loggen"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "Landenlijst: nog niet gedownload (gebeurt bij het inschakelen van het filter)."
+
+msgid "Country list of @date."
+msgstr "Landenlijst van @date."
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "IP-geolocatie door <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Opgezocht op uw eigen server: er wordt nergens een adres naartoe gestuurd."
+
+msgid "Send security headers on public pages"
+msgstr "Beveiligingsheaders op openbare pagina’s versturen"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "Geen raden van bestandstypen, niet insluiten in andere sites, minder herkomstgegevens, geen camera, microfoon of locatie voor ingesloten inhoud. Nooit een header die de server al verzendt."
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "HTTPS afdwingen in browsers voor 6 maanden (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "8 tot 64 tekens; 0 = geen minimum. Geldt bij het aanmaken van een account of het wijzigen van een wachtwoord."
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "De landenlijst kon niet worden gedownload. Het filter doet niets tot die er is; probeer het later opnieuw."
+
+msgid "Blocked: @value"
+msgstr "Geblokkeerd: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "@total aanvallen gezien, @blocked geblokkeerd."
+
+msgid "What"
+msgstr "Wat"
+
+msgid "Busiest addresses"
+msgstr "Drukste adressen"
+
+msgid "Blocked addresses (@count)"
+msgstr "Geblokkeerde adressen (@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "Antibotschild voor registraties, firewall en limieten tegen kopiëren."
+
+msgid "Administer Draco Insomnis"
+msgstr "Draco Insomnis beheren"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "Instellingen wijzigen, bewijs bekijken en adressen deblokkeren."
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "Verzoeken van deze gebruikers worden nooit gecontroleerd. Geef het aan redacteuren die code of SQL in hun inhoud schrijven."
+

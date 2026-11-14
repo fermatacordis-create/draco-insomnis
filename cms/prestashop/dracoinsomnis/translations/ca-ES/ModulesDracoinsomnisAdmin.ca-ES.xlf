@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="modules/dracoinsomnis" source-language="en-US" target-language="ca-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Firewall</source>
+        <target>Tallafoc</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Anti-copy pace limit</source>
+        <target>Límit de ritme anticòpia</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Off</source>
+        <target>Desactivat</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Log only: record what it would stop</source>
+        <target>Només registrar el que aturaria</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Block</source>
+        <target>Bloqueja</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Pages per minute, per address</source>
+        <target>Pàgines per minut, per adreça</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Pages per minute, per network</source>
+        <target>Pàgines per minut, per xarxa</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other.</source>
+        <target>Una xarxa /24 en IPv4 o /64 en IPv6: el que obté un copiador que va canviant d’adreces veïnes.</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Visitor address</source>
+        <target>IP del visitant</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Connection address (recommended)</source>
+        <target>Adreça de la connexió (recomanat)</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cloudflare (CF-Connecting-IP)</source>
+        <target>Cloudflare (CF-Connecting-IP)</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Other proxy (X-Forwarded-For)</source>
+        <target>Un altre proxy (X-Forwarded-For)</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Rented-server networks</source>
+        <target>Xarxes de servidors llogats</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Automatic: %d bot attempts in 24 h</source>
+        <target>Automàtic: %d intents de bot en 24 h</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Firewall: %d attacks in 10 minutes</source>
+        <target>Tallafoc: %d atacs en 10 minuts</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>[%s] Someone asks you to review a firewall block</source>
+        <target>[%s] Algú et demana revisar un bloqueig del tallafoc</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>The registration could not be completed.</source>
+        <target>No s’ha pogut completar el registre.</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Request blocked</source>
+        <target>Petició bloquejada</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Address unblocked.</source>
+        <target>Adreça desbloquejada.</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Unblock</source>
+        <target>Desbloqueja</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Blocked addresses</source>
+        <target>Adreces bloquejades</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Nothing blocked right now.</source>
+        <target>Ara no hi ha res bloquejat.</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Last suspicious attempts</source>
+        <target>Últims intents sospitosos</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider.</source>
+        <target>Es guarden 90 dies. Mai contrasenyes. El CSV d’una adreça conté tot el que ha fet, a punt per adjuntar a una denúncia d’abús al seu proveïdor de xarxa.</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Nothing yet.</source>
+        <target>Encara res.</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Address or e-mail</source>
+        <target>Adreça o correu</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Reason</source>
+        <target>Motiu</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Until (UTC)</source>
+        <target>Fins a (UTC)</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Date (UTC)</source>
+        <target>Data (UTC)</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Address</source>
+        <target>Adreça</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Where</source>
+        <target>On</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Verdict</source>
+        <target>Veredicte</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Signs</source>
+        <target>Senyals</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Data</source>
+        <target>Dades</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Trusted proxies</source>
+        <target>Proxies de confiança</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known.</source>
+        <target>Només les connexions d’aquestes adreces poden fixar l’adreça del visitant amb una capçalera. Una adreça o rang per línia. Buit: aquest servidor i les xarxes privades. Els rangs de Cloudflare ja són coneguts.</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Countries</source>
+        <target>Països</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Refuse the countries listed</source>
+        <target>Rebutjar els països de la llista</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Only the countries listed</source>
+        <target>Només els països de la llista</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Logging in, signing up and forms (recommended)</source>
+        <target>Accés, altes i formularis (recomanat)</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>What to do</source>
+        <target>Què fer</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Countries (two-letter codes, e.g. ES, FR, DE)</source>
+        <target>Països (codis de dues lletres, p. ex. ES, FR, DE)</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.</source>
+        <target>Geolocalització d’IP de DB-IP (db-ip.com, CC BY 4.0), baixada quan actives el filtre i consultada al teu propi servidor: no s’envia cap adreça enlloc.</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Country list downloaded.</source>
+        <target>Llista de països baixada.</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>The country list could not be downloaded. The filter does nothing until it is there; save again later.</source>
+        <target>No s’ha pogut baixar la llista de països. El filtre no fa res fins que hi sigui; torna a desar més tard.</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Security headers</source>
+        <target>Capçaleres de seguretat</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Force HTTPS for 6 months (HSTS)</source>
+        <target>Forçar HTTPS durant 6 mesos (HSTS)</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Minimum password length</source>
+        <target>Longitud mínima de la contrasenya</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Refuse passwords found in data breaches</source>
+        <target>Rebutjar contrasenyes trobades en filtracions de dades</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>The password must have at least %d characters.</source>
+        <target>La contrasenya ha de tenir almenys %d caràcters.</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>This password appears in known data breaches, so attackers try it first. Please choose another one.</source>
+        <target>Aquesta contrasenya apareix en filtracions de dades conegudes, i els atacants la proven primer. Tria'n una altra, si us plau.</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>IP or range (e.g. 203.0.113.0/24)</source>
+        <target>IP o rang (p. ex. 203.0.113.0/24)</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>For</source>
+        <target>Durant</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>7 days</source>
+        <target>7 dies</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>15 days</source>
+        <target>15 dies</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>30 days</source>
+        <target>30 dies</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>90 days</source>
+        <target>90 dies</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Forever</source>
+        <target>Per sempre</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Blocked: %s</source>
+        <target>Bloquejat: %s</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>E-mail</source>
+        <target>Correu</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Message</source>
+        <target>Missatge</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Done.</source>
+        <target>Fet.</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>It could not be done for that address.</source>
+        <target>No s’ha pogut fer per a aquesta adreça.</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>No requests.</source>
+        <target>No hi ha sol·licituds.</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Review requests</source>
+        <target>Sol·licituds de revisió</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.</source>
+        <target>Qui ha estat aturat pel tallafoc ho pot demanar des de la pàgina de bloqueig. Deixa'l passar un temps si va ser un error. Draco mai no li escriu: respon-li des del teu correu si vols.</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Let through 24 hours</source>
+        <target>Deixar passar 24 hores</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Let through</source>
+        <target>Deixar passar</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Attacker: blocked</source>
+        <target>Atacant: bloquejat</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Attacker</source>
+        <target>Atacant</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Ask for a review</source>
+        <target>Demanar una revisió</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Denied</source>
+        <target>Denegada</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Deny</source>
+        <target>Denegar</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Your e-mail</source>
+        <target>El teu correu</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>What were you doing?</source>
+        <target>Què estaves fent?</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Review: %s</source>
+        <target>Revisió: %s</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Request sent</source>
+        <target>Sol·licitud enviada</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Firewall: last 7 days</source>
+        <target>Tallafoc: últims 7 dies</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Busiest addresses:</source>
+        <target>Adreces més actives:</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>What:</source>
+        <target>Què:</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Test the firewall</source>
+        <target>Provar el tallafoc</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Works: a database injection was recognised and blocked (403).</source>
+        <target>Funciona: s'ha reconegut una injecció a la base de dades i s'ha bloquejat (403).</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>The test attack was not recognised. Please report it to Draco Insomnis.</source>
+        <target>No s'ha reconegut l'atac de prova. Avisa Draco Insomnis, si us plau.</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>The firewall is off: switch it on and save, then test again.</source>
+        <target>El tallafoc està apagat: engega'l, desa i torna a provar.</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Draco Insomnis</source>
+        <target>Draco Insomnis</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.</source>
+        <target>Funciona: s'ha reconegut una injecció a la base de dades. En «Només registrar» s'anota però no s'atura; passa a «Bloquejar» quan estiguis a punt.</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Settings</source>
+        <target>Configuració</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Save</source>
+        <target>Desa</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Stops fake customer sign-ups without captchas, firewall and anti-copy limits. Open source.</source>
+        <target>Atura els registres falsos de clients sense captcha, tallafoc i límits anticòpia. Codi obert.</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Settings saved.</source>
+        <target>S’ha desat la configuració.</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.</source>
+        <target>Atura els registres falsos de clients sense captcha: els bots no obtenen compte i cada intent sospitós es guarda 90 dies com a prova per a una denúncia d’abús. Mai no s’envia res a l’atacant.</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Your address as the module sees it:</source>
+        <target>La teva adreça tal com la veu el mòdul:</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>(connection address:</source>
+        <target>(adreça de la connexió:</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".</source>
+        <target>Si la botiga és darrere de Cloudflare o d’un altre proxy i no coincideixen amb la teva adreça real, tria l’opció corresponent a «IP del visitant».</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Protect customer sign-ups</source>
+        <target>Protegir els registres de clients</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Adds an invisible trap and a signed page stamp to the sign-up form (account page and checkout). Bots get no account; three bot attempts in a day block the address for a week.</source>
+        <target>Afegeix una trampa invisible i un segell signat de la pàgina al formulari de registre (pàgina del compte i pagament). Els bots no obtenen compte; tres intents de bot en un dia bloquegen l’adreça una setmana.</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Yes</source>
+        <target>Sí</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>No</source>
+        <target>No</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with "Log only" and move to "Block" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still browse, but not post. Emergency exit: define('DRACO_WAF_OFF', true); in config/defines_custom.inc.php.</source>
+        <target>Atura les peticions amb forma d’atac (injecció a la base de dades, lectura de fitxers del servidor, execució de codi, scripts als enllaços) i els escàners com sqlmap o Nikto. Comença amb «Només registrar» i passa a «Bloqueja» al cap d’uns dies. Cinc atacs en 10 minuts bloquegen l’adreça una setmana; les adreces bloquejades poden continuar navegant, però no enviar res. Sortida d’emergència: define('DRACO_WAF_OFF', true); a config/defines_custom.inc.php.</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>More pages per minute than a person reads get "429 Too many requests" until the minute ends. Logged-in customers, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited.</source>
+        <target>Qui demana més pàgines per minut de les que llegeix una persona rep «429 Too many requests» fins que acaba el minut. Els clients amb la sessió iniciada, les teves pròpies adreces i els cercadors verificats per DNS (Google, Bing, Apple, Yandex) no es limiten mai.</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Leave "Connection address" unless the shop is behind a proxy: a header can be forged by anyone.</source>
+        <target>Deixa «Adreça de la connexió» llevat que la botiga sigui darrere d’un proxy: qualsevol pot falsificar una capçalera.</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot.</source>
+        <target>Un rang per línia (CIDR), afegit als que el mòdul ja coneix. Ser en aquesta llista només suma punts: per si sola, mai no converteix ningú en bot.</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
+        <target>Aquesta petició s’ha aturat per motius de seguretat. Si creus que és un error, contacta amb el responsable de la botiga.</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
+        <target>La capçalera s’ignora: aquesta connexió (%s) no ve de Cloudflare ni d’un proxy de confiança. Si el teu proxy és a internet, afegeix-ne les adreces a «Proxies de confiança».</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.</source>
+        <target>No s’ha bloquejat res: el valor no és vàlid, pertany a un treballador o és la teva pròpia adreça.</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).</source>
+        <target>Els teus clients poden venir de molts països, i un atacant canvia de país amb una VPN. Filtra només l’inici de sessió, el registre i els formularis, i comença amb «Només registrar». Els treballadors, les persones que deixes passar i els cercadors no es filtren mai. Cal el tallafoc engegat (registrar o bloquejar).</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>The whole shop</source>
+        <target>Tota la botiga</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.</source>
+        <target>A les pàgines de la botiga: sense endevinar tipus de fitxer, sense incrustar-les en altres llocs, menys dades de procedència, sense càmera, micròfon ni ubicació per al contingut incrustat. Mai una que ja s’enviï.</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</source>
+        <target>Només si tota la botiga funciona amb HTTPS i hi continuarà funcionant: els navegadors ho recorden i rebutgen l’HTTP fins que caduca.</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
+        <target>Mai un treballador ni la teva pròpia adreça. Rangs no més amplis que /16 (IPv4) o /32 (IPv6).</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.</source>
+        <target>Un visitant aturat pel tallafoc demana una revisió. Obre el mòdul Draco Insomnis per deixar-lo passar o no.</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.</source>
+        <target>Gràcies. El responsable de la botiga ho mirarà i, si ha estat un error, et deixarà passar.</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:</source>
+        <target>Aquesta petició s’ha aturat per motius de seguretat. Si creus que és un error, explica al responsable de la botiga què estaves fent:</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.</source>
+        <target>La prova no ha pogut arribar a la botiga des del mateix servidor (alguns allotjaments no ho permeten). El tallafoc pot funcionar igualment: mira els últims intents.</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers.</source>
+        <target>La prova s’ha aturat abans d’arribar a PrestaShop, al tallafoc del mateix allotjament. Bé: dues capes.</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>%1$d attacks seen, %2$d blocked.</source>
+        <target>%1$d atacs vistos, %2$d bloquejats.</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.</source>
+        <target>Envia a la botiga una petició inofensiva amb forma d’atac i t’explica què ha passat. No queda registrada.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>From 8 to 64 characters; 0 leaves only the shop's own rules. Applied when a customer creates an account or changes the password.</source>
+        <target>De 8 a 64 caràcters; amb 0 queden només les regles de la botiga. S’aplica quan un client crea un compte o canvia la contrasenya.</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Asks Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.</source>
+        <target>Pregunta a Have I Been Pwned amb k-anonimat: de la botiga només en surten 5 caràcters de l’SHA-1 de la contrasenya, mai la contrasenya. Si el servei no respon en 3 segons, la contrasenya s’accepta.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

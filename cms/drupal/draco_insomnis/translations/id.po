@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — id (generated from i18n/id.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: id\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. Menghentikan pendaftaran palsu tanpa captcha, firewall aplikasi, dan batas laju anti-salin. Sumber terbuka."
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "Menghentikan pendaftaran palsu tanpa captcha: bot tidak mendapat akun, dan setiap percobaan mencurigakan disimpan 90 hari sebagai bukti untuk laporan penyalahgunaan. Tidak ada yang pernah dikirim balik ke penyerang."
+
+msgid "Protect user sign-ups"
+msgstr "Lindungi pendaftaran pengguna"
+
+msgid "Firewall"
+msgstr "Firewall"
+
+msgid "Anti-copy pace limit"
+msgstr "Batas laju anti-salin"
+
+msgid "Off"
+msgstr "Mati"
+
+msgid "Log only: record what it would stop"
+msgstr "Catat saja: catat apa yang akan dihentikan"
+
+msgid "Block"
+msgstr "Blokir"
+
+msgid "Pages per minute, per address"
+msgstr "Halaman per menit, per alamat"
+
+msgid "Pages per minute, per network"
+msgstr "Halaman per menit, per jaringan"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "Jaringan /24 untuk IPv4 atau /64 untuk IPv6: yang didapat scraper saat berganti-ganti alamat yang berdekatan."
+
+msgid "Visitor address"
+msgstr "Alamat pengunjung"
+
+msgid "Connection address (recommended)"
+msgstr "Alamat koneksi (disarankan)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "Proxy lain (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "Jaringan server sewaan"
+
+msgid "The registration could not be completed."
+msgstr "Pendaftaran tidak dapat diselesaikan."
+
+msgid "Request blocked"
+msgstr "Permintaan diblokir"
+
+msgid "Address unblocked."
+msgstr "Blokir alamat dibuka."
+
+msgid "Unblock"
+msgstr "Buka blokir"
+
+msgid "Nothing blocked right now."
+msgstr "Saat ini tidak ada yang diblokir."
+
+msgid "Last suspicious attempts"
+msgstr "Percobaan mencurigakan terakhir"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "Disimpan 90 hari. Tidak pernah kata sandi. CSV sebuah alamat berisi semua yang dilakukannya, siap dilampirkan ke laporan penyalahgunaan kepada penyedia jaringannya."
+
+msgid "Nothing yet."
+msgstr "Belum ada."
+
+msgid "Address or e-mail"
+msgstr "Alamat atau email"
+
+msgid "Reason"
+msgstr "Alasan"
+
+msgid "Until (UTC)"
+msgstr "Sampai (UTC)"
+
+msgid "Date (UTC)"
+msgstr "Tanggal (UTC)"
+
+msgid "Address"
+msgstr "Alamat"
+
+msgid "Where"
+msgstr "Di mana"
+
+msgid "Verdict"
+msgstr "Putusan"
+
+msgid "Signs"
+msgstr "Tanda"
+
+msgid "Data"
+msgstr "Data"
+
+msgid "Trusted proxies"
+msgstr "Proxy tepercaya"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "Hanya koneksi dari alamat ini yang boleh menetapkan alamat pengunjung lewat header. Satu alamat atau rentang per baris. Kosong: server ini dan jaringan privat. Rentang milik Cloudflare sudah dikenal."
+
+msgid "Countries"
+msgstr "Negara"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Refuse the countries listed"
+msgstr "Tolak negara dalam daftar"
+
+msgid "Only the countries listed"
+msgstr "Hanya negara dalam daftar"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "Login, pendaftaran, dan formulir (disarankan)"
+
+msgid "The whole site"
+msgstr "Seluruh situs"
+
+msgid "What to do"
+msgstr "Apa yang dilakukan"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "Negara (kode dua huruf, mis. ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "Daftar negara diunduh."
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "Hanya jika seluruh situs berjalan di HTTPS dan akan tetap begitu: peramban mengingatnya dan menolak HTTP sampai kedaluwarsa."
+
+msgid "Minimum password length"
+msgstr "Panjang minimum kata sandi"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "Tolak kata sandi yang ditemukan dalam kebocoran data"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "Menanyakan Have I Been Pwned dengan k-anonimitas: hanya 5 karakter SHA-1 kata sandi yang keluar dari situs, tidak pernah kata sandinya. Jika layanan tidak menjawab dalam 3 detik, kata sandi diterima."
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "Kata sandi ini muncul di kebocoran data yang diketahui, jadi penyerang mencobanya lebih dulu. Silakan pilih yang lain."
+
+msgid "Block an address or range"
+msgstr "Blokir alamat atau rentang"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP atau rentang (mis. 203.0.113.0/24)"
+
+msgid "For"
+msgstr "Selama"
+
+msgid "7 days"
+msgstr "7 hari"
+
+msgid "15 days"
+msgstr "15 hari"
+
+msgid "30 days"
+msgstr "30 hari"
+
+msgid "90 days"
+msgstr "90 hari"
+
+msgid "Forever"
+msgstr "Selamanya"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "Tidak ada yang diblokir: nilainya tidak valid, milik administrator, atau alamat Anda sendiri."
+
+msgid "E-mail"
+msgstr "Email"
+
+msgid "Message"
+msgstr "Pesan"
+
+msgid "Done."
+msgstr "Selesai."
+
+msgid "It could not be done for that address."
+msgstr "Tidak dapat dilakukan untuk alamat itu."
+
+msgid "No requests."
+msgstr "Tidak ada permintaan."
+
+msgid "Review requests"
+msgstr "Permintaan peninjauan"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "Orang yang dihentikan firewall dapat memintanya dari halaman blokir. Izinkan lewat untuk sementara jika itu kesalahan. Draco tidak pernah menulis kepada mereka: balas dari email Anda sendiri jika mau."
+
+msgid "Let through 24 hours"
+msgstr "Izinkan lewat 24 jam"
+
+msgid "Let through"
+msgstr "Izinkan lewat"
+
+msgid "Attacker: blocked"
+msgstr "Penyerang: diblokir"
+
+msgid "Attacker"
+msgstr "Penyerang"
+
+msgid "Ask for a review"
+msgstr "Minta peninjauan"
+
+msgid "Denied"
+msgstr "Ditolak"
+
+msgid "Deny"
+msgstr "Tolak"
+
+msgid "Your e-mail"
+msgstr "Email Anda"
+
+msgid "What were you doing?"
+msgstr "Apa yang sedang Anda lakukan?"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "Terima kasih. Pemilik situs akan memeriksanya dan, jika itu kesalahan, mengizinkan Anda lewat."
+
+msgid "Request sent"
+msgstr "Permintaan terkirim"
+
+msgid "Firewall: last 7 days"
+msgstr "Firewall: 7 hari terakhir"
+
+msgid "Test the firewall"
+msgstr "Uji firewall"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "Berfungsi: injeksi basis data dikenali dan diblokir (403)."
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "Mengirim permintaan tak berbahaya berbentuk serangan ke situs dan memberi tahu apa yang terjadi. Tidak dicatat."
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "Serangan uji tidak dikenali. Mohon laporkan ke Draco Insomnis."
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "Firewall mati: nyalakan, simpan, lalu uji lagi."
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "Pengujian tidak dapat menjangkau situs dari server itu sendiri (sebagian hosting tidak mengizinkannya). Firewall mungkin tetap bekerja: lihat percobaan terakhir."
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "Tidak pernah administrator, juga bukan alamat Anda sendiri. Rentang tidak lebih lebar dari /16 (IPv4) atau /32 (IPv6)."
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "Lewati firewall Draco Insomnis"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "Biarkan “Alamat koneksi” kecuali situs berada di belakang proxy: header bisa dipalsukan siapa saja."
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "Berfungsi: injeksi basis data dikenali. Dalam «Hanya catat» dicatat tetapi tidak dihentikan; beralih ke «Blokir» saat Anda siap."
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "Permintaan ini dihentikan demi keamanan. Jika Anda merasa ini kesalahan, beri tahu pemilik situs apa yang sedang Anda lakukan:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "Satu rentang per baris (CIDR), ditambahkan ke rentang yang sudah dikenal modul. Masuk daftar ini hanya menambah poin: dengan sendirinya tidak pernah menjadikan siapa pun bot."
+
+msgid "The password must have at least @count characters."
+msgstr "Kata sandi harus terdiri dari minimal @count karakter."
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] Seseorang meminta Anda meninjau blokir firewall"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "Pengunjung yang dihentikan firewall meminta peninjauan. Buka Draco Insomnis untuk mengizinkannya lewat atau tidak:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "Firewall: @count serangan dalam 10 menit"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "Otomatis: @count percobaan bot dalam 24 jam"
+
+msgid "Review: @email"
+msgstr "Peninjauan: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "Pengujian dihentikan sebelum mencapai Drupal, oleh firewall milik hosting. Bagus: dua lapis."
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "Alamat Anda menurut modul: %ip (alamat koneksi: %remote). Jika situs berada di belakang Cloudflare atau proxy lain dan keduanya berbeda dari alamat asli Anda, pilih opsi yang sesuai di “Alamat pengunjung”."
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "Header diabaikan: koneksi ini (%remote) tidak berasal dari Cloudflare maupun proxy tepercaya. Jika proxy Anda ada di internet, tambahkan alamatnya di “Proxy tepercaya”."
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "Menambahkan perangkap tak terlihat dan cap halaman bertanda tangan ke formulir pendaftaran publik. Bot tidak mendapat akun; tiga percobaan bot dalam sehari memblokir alamat selama seminggu."
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "Menghentikan permintaan berbentuk serangan (injeksi basis data, membaca berkas server, menjalankan kode, skrip dalam tautan) dan pemindai seperti sqlmap atau Nikto. Mulailah dengan “Catat saja” lalu pindah ke “Blokir” setelah beberapa hari. Lima serangan dalam 10 menit memblokir alamat selama seminggu; alamat yang diblokir tetap bisa membaca situs, tetapi tidak bisa mengirim atau masuk. Pengguna dengan izin “Lewati firewall Draco Insomnis” tidak pernah diperiksa. Jalan darurat: $settings['draco_waf_off'] = TRUE; di settings.php."
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "Yang meminta lebih banyak halaman per menit daripada yang dibaca manusia mendapat “429 Too many requests” sampai menit itu berakhir. Pengguna yang masuk, alamat Anda sendiri, dan mesin pencari yang diverifikasi lewat DNS (Google, Bing, Apple, Yandex) tidak pernah dibatasi."
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "Pengunjung Anda mungkin datang dari banyak negara, dan penyerang berganti negara dengan VPN. Saring hanya login, pendaftaran, dan formulir, dan mulailah dengan «Hanya catat». Administrator, orang yang Anda izinkan lewat, dan mesin pencari tidak pernah disaring."
+
+msgid "Log only"
+msgstr "Catat saja"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "Daftar negara: belum diunduh (diunduh saat filter dinyalakan)."
+
+msgid "Country list of @date."
+msgstr "Daftar negara per @date."
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "Geolokasi IP oleh <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Dicari di server Anda sendiri: tidak ada alamat yang dikirim ke mana pun."
+
+msgid "Send security headers on public pages"
+msgstr "Kirim header keamanan di halaman publik"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "Tanpa menebak jenis berkas, tanpa disematkan di situs lain, lebih sedikit data perujuk, tanpa kamera, mikrofon, atau lokasi untuk konten sematan. Tidak pernah header yang sudah dikirim server."
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "Paksa HTTPS di peramban selama 6 bulan (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "8 sampai 64 karakter; 0 = tanpa minimum. Berlaku saat membuat akun atau mengganti kata sandi."
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "Daftar negara tidak dapat diunduh. Filter tidak melakukan apa pun sampai daftar itu ada; coba lagi nanti."
+
+msgid "Blocked: @value"
+msgstr "Diblokir: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "@total serangan terlihat, @blocked diblokir."
+
+msgid "What"
+msgstr "Apa"
+
+msgid "Busiest addresses"
+msgstr "Alamat paling aktif"
+
+msgid "Blocked addresses (@count)"
+msgstr "Alamat yang diblokir (@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "Perisai anti-bot untuk pendaftaran, firewall, dan batas anti-salin."
+
+msgid "Administer Draco Insomnis"
+msgstr "Kelola Draco Insomnis"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "Mengubah pengaturan, melihat bukti, dan membuka blokir alamat."
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "Permintaan pengguna ini tidak pernah diperiksa. Berikan kepada editor yang menulis kode atau SQL dalam konten mereka."
+

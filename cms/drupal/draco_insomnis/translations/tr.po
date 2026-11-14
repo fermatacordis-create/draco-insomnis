@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — tr (generated from i18n/tr.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. Captcha olmadan sahte kayıtları durdurur; uygulama güvenlik duvarı ve kopyalamaya karşı hız sınırı. Açık kaynak."
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "Captcha olmadan sahte kayıtları durdurur: botlar hesap alamaz ve her şüpheli deneme kötüye kullanım bildirimi için kanıt olarak 90 gün saklanır. Saldırgana asla bir şey geri gönderilmez."
+
+msgid "Protect user sign-ups"
+msgstr "Kullanıcı kayıtlarını koru"
+
+msgid "Firewall"
+msgstr "Güvenlik duvarı"
+
+msgid "Anti-copy pace limit"
+msgstr "Kopyalamaya karşı hız sınırı"
+
+msgid "Off"
+msgstr "Kapalı"
+
+msgid "Log only: record what it would stop"
+msgstr "Yalnızca kaydet: durduracağı şeyi not al"
+
+msgid "Block"
+msgstr "Engelle"
+
+msgid "Pages per minute, per address"
+msgstr "Adres başına dakikada sayfa"
+
+msgid "Pages per minute, per network"
+msgstr "Ağ başına dakikada sayfa"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "IPv4 için /24, IPv6 için /64 ağ: komşu adresler arasında dolaşan bir kazıyıcının elde ettiği alan."
+
+msgid "Visitor address"
+msgstr "Ziyaretçi adresi"
+
+msgid "Connection address (recommended)"
+msgstr "Bağlantı adresi (önerilir)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "Diğer proxy (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "Kiralık sunucu ağları"
+
+msgid "The registration could not be completed."
+msgstr "Kayıt tamamlanamadı."
+
+msgid "Request blocked"
+msgstr "İstek engellendi"
+
+msgid "Address unblocked."
+msgstr "Adresin engeli kaldırıldı."
+
+msgid "Unblock"
+msgstr "Engeli kaldır"
+
+msgid "Nothing blocked right now."
+msgstr "Şu anda engellenen bir şey yok."
+
+msgid "Last suspicious attempts"
+msgstr "Son şüpheli denemeler"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "90 gün saklanır. Asla parola tutulmaz. Bir adresin CSV dosyası yaptığı her şeyi içerir; ağ sağlayıcısına yapılacak kötüye kullanım bildirimine eklemeye hazırdır."
+
+msgid "Nothing yet."
+msgstr "Henüz bir şey yok."
+
+msgid "Address or e-mail"
+msgstr "Adres veya e-posta"
+
+msgid "Reason"
+msgstr "Neden"
+
+msgid "Until (UTC)"
+msgstr "Bitiş (UTC)"
+
+msgid "Date (UTC)"
+msgstr "Tarih (UTC)"
+
+msgid "Address"
+msgstr "Adres"
+
+msgid "Where"
+msgstr "Nerede"
+
+msgid "Verdict"
+msgstr "Karar"
+
+msgid "Signs"
+msgstr "İşaretler"
+
+msgid "Data"
+msgstr "Veriler"
+
+msgid "Trusted proxies"
+msgstr "Güvenilen proxy’ler"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "Ziyaretçi adresini bir başlıkla yalnızca bu adreslerden gelen bağlantılar belirleyebilir. Her satıra bir adres veya aralık. Boş: bu sunucu ve özel ağlar. Cloudflare’in kendi aralıkları zaten biliniyor."
+
+msgid "Countries"
+msgstr "Ülkeler"
+
+msgid "Filter"
+msgstr "Filtre"
+
+msgid "Refuse the countries listed"
+msgstr "Listedeki ülkeleri reddet"
+
+msgid "Only the countries listed"
+msgstr "Yalnızca listedeki ülkeler"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "Giriş, kayıt ve formlar (önerilen)"
+
+msgid "The whole site"
+msgstr "Tüm site"
+
+msgid "What to do"
+msgstr "Ne yapılsın"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "Ülkeler (iki harfli kodlar, ör. ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "Ülke listesi indirildi."
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "Yalnızca tüm site HTTPS ile çalışıyorsa ve öyle kalacaksa: tarayıcılar bunu hatırlar ve süre dolana kadar HTTP'yi reddeder."
+
+msgid "Minimum password length"
+msgstr "En kısa parola uzunluğu"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "Veri sızıntılarında bulunan parolaları reddet"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "Have I Been Pwned’e k-anonimlikle sorar: siteden parolanın SHA-1 değerinin yalnızca 5 karakteri çıkar, parolanın kendisi asla. Hizmet 3 saniye içinde yanıt vermezse parola kabul edilir."
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "Bu parola bilinen veri sızıntılarında geçiyor, bu yüzden saldırganlar önce onu dener. Lütfen başka bir parola seçin."
+
+msgid "Block an address or range"
+msgstr "Bir adresi veya aralığı engelle"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP veya aralık (ör. 203.0.113.0/24)"
+
+msgid "For"
+msgstr "Süre"
+
+msgid "7 days"
+msgstr "7 gün"
+
+msgid "15 days"
+msgstr "15 gün"
+
+msgid "30 days"
+msgstr "30 gün"
+
+msgid "90 days"
+msgstr "90 gün"
+
+msgid "Forever"
+msgstr "Süresiz"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "Hiçbir şey engellenmedi: değer geçersiz, bir yöneticiye ait ya da sizin adresiniz."
+
+msgid "E-mail"
+msgstr "E-posta"
+
+msgid "Message"
+msgstr "Mesaj"
+
+msgid "Done."
+msgstr "Tamam."
+
+msgid "It could not be done for that address."
+msgstr "Bu adres için yapılamadı."
+
+msgid "No requests."
+msgstr "İstek yok."
+
+msgid "Review requests"
+msgstr "İnceleme istekleri"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "Güvenlik duvarının durdurduğu kişiler engel sayfasından isteyebilir. Bir hataysa bir süre geçmelerine izin verin. Draco onlara asla yazmaz: isterseniz kendi e-postanızdan yanıtlayın."
+
+msgid "Let through 24 hours"
+msgstr "24 saat geçir"
+
+msgid "Let through"
+msgstr "Geçir"
+
+msgid "Attacker: blocked"
+msgstr "Saldırgan: engellendi"
+
+msgid "Attacker"
+msgstr "Saldırgan"
+
+msgid "Ask for a review"
+msgstr "İnceleme iste"
+
+msgid "Denied"
+msgstr "Reddedildi"
+
+msgid "Deny"
+msgstr "Reddet"
+
+msgid "Your e-mail"
+msgstr "E-postanız"
+
+msgid "What were you doing?"
+msgstr "Ne yapıyordunuz?"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "Teşekkürler. Site sahibi inceleyecek ve bir hataysa geçmenize izin verecek."
+
+msgid "Request sent"
+msgstr "İstek gönderildi"
+
+msgid "Firewall: last 7 days"
+msgstr "Güvenlik duvarı: son 7 gün"
+
+msgid "Test the firewall"
+msgstr "Güvenlik duvarını test et"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "Çalışıyor: bir veritabanı enjeksiyonu tanındı ve engellendi (403)."
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "Siteye saldırı biçiminde zararsız bir istek gönderir ve ne olduğunu söyler. Kaydedilmez."
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "Test saldırısı tanınmadı. Lütfen Draco Insomnis'e bildirin."
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "Güvenlik duvarı kapalı: açın, kaydedin ve yeniden deneyin."
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "Test, sunucunun kendisinden siteye ulaşamadı (bazı barındırma hizmetleri buna izin vermez). Güvenlik duvarı yine de çalışıyor olabilir: son denemelere bakın."
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "Asla bir yönetici ya da kendi adresiniz değil. Aralıklar /16 (IPv4) veya /32 (IPv6) değerinden geniş olamaz."
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "Draco Insomnis güvenlik duvarını atla"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "Site bir proxy arkasında değilse “Bağlantı adresi”ni bırakın: bir başlığı herkes taklit edebilir."
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "Çalışıyor: bir veritabanı enjeksiyonu tanındı. «Yalnızca kaydet» modunda not edilir ama durdurulmaz; hazır olduğunuzda «Engelle»ye geçin."
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "Bu istek güvenlik nedeniyle durduruldu. Bunun bir hata olduğunu düşünüyorsanız, site sahibine ne yaptığınızı anlatın:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "Her satıra bir aralık (CIDR); modülün zaten bildiklerine eklenir. Bu listede olmak yalnızca puan ekler: tek başına kimseyi bot yapmaz."
+
+msgid "The password must have at least @count characters."
+msgstr "Parola en az @count karakter olmalıdır."
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] Birisi bir güvenlik duvarı engelini incelemenizi istiyor"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "Güvenlik duvarının durdurduğu bir ziyaretçi inceleme istiyor. Geçirip geçirmemeye karar vermek için Draco Insomnis’i açın:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "Güvenlik duvarı: 10 dakikada @count saldırı"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "Otomatik: 24 saatte @count bot denemesi"
+
+msgid "Review: @email"
+msgstr "İnceleme: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "Test, Drupal’a ulaşmadan barındırma hizmetinin kendi güvenlik duvarında durduruldu. İyi: iki katman."
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "Modülün gördüğü adresiniz: %ip (bağlantı adresi: %remote). Site Cloudflare veya başka bir proxy arkasındaysa ve bunlar gerçek adresinizden farklıysa, “Ziyaretçi adresi” bölümünde uygun seçeneği seçin."
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "Başlık yok sayılıyor: bu bağlantı (%remote) Cloudflare’den ya da güvenilen bir proxy’den gelmiyor. Proxy’niz internetteyse adreslerini “Güvenilen proxy’ler” bölümüne ekleyin."
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "Herkese açık kayıt formuna görünmez bir tuzak ve imzalı bir sayfa damgası ekler. Botlar hesap alamaz; bir günde üç bot denemesi adresi bir hafta engeller."
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "Saldırı biçimindeki istekleri (veritabanı enjeksiyonu, sunucu dosyalarını okuma, kod çalıştırma, bağlantılarda betik) ve sqlmap ya da Nikto gibi tarayıcıları durdurur. “Yalnızca kaydet” ile başlayın ve birkaç gün sonra “Engelle”ye geçin. 10 dakikada beş saldırı adresi bir hafta engeller; engellenen adresler siteyi okumaya devam edebilir ama bir şey gönderemez ve oturum açamaz. “Draco Insomnis güvenlik duvarını atla” iznine sahip kullanıcılar asla denetlenmez. Acil çıkış: settings.php dosyasına $settings['draco_waf_off'] = TRUE; ekleyin."
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "Bir insanın okuyabileceğinden fazla sayfayı dakikada isteyen, dakika bitene kadar “429 Too many requests” alır. Oturum açmış kullanıcılar, kendi adresleriniz ve DNS ile doğrulanmış arama motorları (Google, Bing, Apple, Yandex) asla sınırlanmaz."
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "Ziyaretçileriniz birçok ülkeden gelebilir ve bir saldırgan VPN ile ülke değiştirir. Yalnızca girişi, kayıtları ve formları filtreleyin ve «Yalnızca kaydet» ile başlayın. Yöneticiler, geçmesine izin verdiğiniz kişiler ve arama motorları asla filtrelenmez."
+
+msgid "Log only"
+msgstr "Yalnızca kaydet"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "Ülke listesi: henüz indirilmedi (filtre açıldığında indirilir)."
+
+msgid "Country list of @date."
+msgstr "@date tarihli ülke listesi."
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "IP konum bilgisi <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a>’den (CC BY 4.0). Kendi sunucunuzda sorgulanır: hiçbir adres hiçbir yere gönderilmez."
+
+msgid "Send security headers on public pages"
+msgstr "Herkese açık sayfalarda güvenlik başlıkları gönder"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "Dosya türü tahmini yok, başka sitelere gömülme yok, daha az kaynak verisi, gömülü içerik için kamera, mikrofon veya konum yok. Sunucunun zaten gönderdiği bir başlık asla tekrar gönderilmez."
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "Tarayıcılarda 6 ay boyunca HTTPS'i zorunlu kıl (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "8 ile 64 karakter arası; 0 = en az sınır yok. Hesap oluşturulurken veya parola değiştirilirken uygulanır."
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "Ülke listesi indirilemedi. Liste gelene kadar filtre hiçbir şey yapmaz; daha sonra yeniden deneyin."
+
+msgid "Blocked: @value"
+msgstr "Engellendi: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "@total saldırı görüldü, @blocked engellendi."
+
+msgid "What"
+msgstr "Ne"
+
+msgid "Busiest addresses"
+msgstr "En yoğun adresler"
+
+msgid "Blocked addresses (@count)"
+msgstr "Engellenen adresler (@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "Kayıtlar için bot kalkanı, güvenlik duvarı ve kopyalamaya karşı sınırlar."
+
+msgid "Administer Draco Insomnis"
+msgstr "Draco Insomnis’i yönet"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "Ayarları değiştirme, kanıtları görme ve adreslerin engelini kaldırma."
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "Bu kullanıcıların istekleri asla denetlenmez. İçeriklerine kod veya SQL yazan editörlere verin."
+

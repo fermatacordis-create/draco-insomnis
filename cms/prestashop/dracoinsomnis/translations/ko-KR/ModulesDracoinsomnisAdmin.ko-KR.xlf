@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="modules/dracoinsomnis" source-language="en-US" target-language="ko-KR" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Firewall</source>
+        <target>방화벽</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Anti-copy pace limit</source>
+        <target>복제 방지 속도 제한</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Off</source>
+        <target>끔</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Log only: record what it would stop</source>
+        <target>기록만: 막았을 것을 기록</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Block</source>
+        <target>차단</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Pages per minute, per address</source>
+        <target>주소당 분당 페이지 수</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Pages per minute, per network</source>
+        <target>네트워크당 분당 페이지 수</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other.</source>
+        <target>IPv4는 /24, IPv6는 /64 네트워크: 이웃한 주소를 돌려 쓰는 스크래퍼가 얻는 범위입니다.</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Visitor address</source>
+        <target>방문자 주소</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Connection address (recommended)</source>
+        <target>연결 주소(권장)</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cloudflare (CF-Connecting-IP)</source>
+        <target>Cloudflare (CF-Connecting-IP)</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Other proxy (X-Forwarded-For)</source>
+        <target>기타 프록시 (X-Forwarded-For)</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Rented-server networks</source>
+        <target>임대 서버 네트워크</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Automatic: %d bot attempts in 24 h</source>
+        <target>자동: 24시간 동안 봇 시도 %d번</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Firewall: %d attacks in 10 minutes</source>
+        <target>방화벽: 10분 동안 공격 %d건</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>[%s] Someone asks you to review a firewall block</source>
+        <target>[%s] 방화벽 차단 검토 요청이 왔습니다</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>The registration could not be completed.</source>
+        <target>가입을 완료할 수 없습니다.</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Request blocked</source>
+        <target>요청이 차단되었습니다</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Address unblocked.</source>
+        <target>주소 차단을 해제했습니다.</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Unblock</source>
+        <target>차단 해제</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Blocked addresses</source>
+        <target>차단된 주소</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Nothing blocked right now.</source>
+        <target>현재 차단된 것이 없습니다.</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Last suspicious attempts</source>
+        <target>최근의 의심스러운 시도</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider.</source>
+        <target>90일간 보관됩니다. 비밀번호는 절대 저장하지 않습니다. 주소별 CSV에는 그 주소가 한 모든 일이 담겨 있어, 네트워크 제공자에게 보내는 악용 신고에 바로 첨부할 수 있습니다.</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Nothing yet.</source>
+        <target>아직 없습니다.</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Address or e-mail</source>
+        <target>주소 또는 이메일</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Reason</source>
+        <target>사유</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Until (UTC)</source>
+        <target>만료 (UTC)</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Date (UTC)</source>
+        <target>날짜 (UTC)</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Address</source>
+        <target>주소</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Where</source>
+        <target>적용 범위</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Verdict</source>
+        <target>판정</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Signs</source>
+        <target>징후</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Data</source>
+        <target>데이터</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Trusted proxies</source>
+        <target>신뢰하는 프록시</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known.</source>
+        <target>이 주소에서 오는 연결만 헤더로 방문자 주소를 지정할 수 있습니다. 한 줄에 주소나 범위 하나. 비워 두면: 이 서버와 사설 네트워크. Cloudflare 자체 범위는 이미 알고 있습니다.</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Countries</source>
+        <target>국가</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Refuse the countries listed</source>
+        <target>목록의 국가 거부</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Only the countries listed</source>
+        <target>목록의 국가만</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Logging in, signing up and forms (recommended)</source>
+        <target>로그인, 가입, 양식 (권장)</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>What to do</source>
+        <target>동작</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Countries (two-letter codes, e.g. ES, FR, DE)</source>
+        <target>국가 (두 글자 코드, 예: ES, FR, DE)</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.</source>
+        <target>IP 위치 정보는 DB-IP(db-ip.com, CC BY 4.0)를 사용하며, 필터를 켤 때 내려받아 내 서버에서 조회합니다. 어떤 주소도 외부로 보내지 않습니다.</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Country list downloaded.</source>
+        <target>국가 목록을 다운로드했습니다.</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>The country list could not be downloaded. The filter does nothing until it is there; save again later.</source>
+        <target>국가 목록을 내려받지 못했습니다. 목록이 준비될 때까지 필터는 아무것도 하지 않습니다. 나중에 다시 저장하세요.</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Security headers</source>
+        <target>보안 헤더</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Force HTTPS for 6 months (HSTS)</source>
+        <target>6개월간 HTTPS 강제(HSTS)</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Minimum password length</source>
+        <target>비밀번호 최소 길이</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Refuse passwords found in data breaches</source>
+        <target>데이터 유출에서 발견된 비밀번호 거부</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>The password must have at least %d characters.</source>
+        <target>비밀번호는 %d자 이상이어야 합니다.</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>This password appears in known data breaches, so attackers try it first. Please choose another one.</source>
+        <target>이 비밀번호는 알려진 데이터 유출에 있어 공격자가 가장 먼저 시도합니다. 다른 비밀번호를 선택하세요.</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>IP or range (e.g. 203.0.113.0/24)</source>
+        <target>IP 또는 범위 (예: 203.0.113.0/24)</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>For</source>
+        <target>기간</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>7 days</source>
+        <target>7일</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>15 days</source>
+        <target>15일</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>30 days</source>
+        <target>30일</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>90 days</source>
+        <target>90일</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Forever</source>
+        <target>영구</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Blocked: %s</source>
+        <target>차단됨: %s</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>E-mail</source>
+        <target>이메일</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Message</source>
+        <target>메시지</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Done.</source>
+        <target>완료.</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>It could not be done for that address.</source>
+        <target>그 주소에는 할 수 없었습니다.</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>No requests.</source>
+        <target>요청이 없습니다.</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Review requests</source>
+        <target>검토 요청</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.</source>
+        <target>방화벽에 막힌 사람은 차단 페이지에서 요청할 수 있습니다. 실수였다면 잠시 통과시켜 주세요. Draco는 그들에게 절대 메일을 보내지 않습니다. 원하면 직접 메일로 답하세요.</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Let through 24 hours</source>
+        <target>24시간 통과</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Let through</source>
+        <target>통과</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Attacker: blocked</source>
+        <target>공격자: 차단됨</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Attacker</source>
+        <target>공격자</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Ask for a review</source>
+        <target>검토 요청</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Denied</source>
+        <target>거부됨</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Deny</source>
+        <target>거부</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Your e-mail</source>
+        <target>이메일</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>What were you doing?</source>
+        <target>무엇을 하고 계셨나요?</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Review: %s</source>
+        <target>검토: %s</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Request sent</source>
+        <target>요청을 보냈습니다</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Firewall: last 7 days</source>
+        <target>방화벽: 최근 7일</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Busiest addresses:</source>
+        <target>가장 활발한 주소:</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>What:</source>
+        <target>내용:</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Test the firewall</source>
+        <target>방화벽 테스트</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Works: a database injection was recognised and blocked (403).</source>
+        <target>작동합니다: 데이터베이스 주입을 인식하고 차단했습니다(403).</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>The test attack was not recognised. Please report it to Draco Insomnis.</source>
+        <target>테스트 공격이 인식되지 않았습니다. Draco Insomnis에 알려 주세요.</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>The firewall is off: switch it on and save, then test again.</source>
+        <target>방화벽이 꺼져 있습니다. 켜고 저장한 뒤 다시 테스트하세요.</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Draco Insomnis</source>
+        <target>Draco Insomnis</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.</source>
+        <target>작동합니다: 데이터베이스 주입을 인식했습니다. «기록만» 모드에서는 기록만 하고 막지 않습니다. 준비되면 «차단»으로 바꾸세요.</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Settings</source>
+        <target>설정</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Save</source>
+        <target>저장</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Stops fake customer sign-ups without captchas, firewall and anti-copy limits. Open source.</source>
+        <target>캡차 없이 가짜 고객 가입을 막고, 방화벽과 복제 방지 제한을 제공합니다. 오픈 소스.</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Settings saved.</source>
+        <target>설정을 저장했습니다.</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.</source>
+        <target>캡차 없이 가짜 고객 가입을 막습니다. 봇은 계정을 얻지 못하고, 의심스러운 시도는 모두 악용 신고를 위한 증거로 90일간 보관됩니다. 공격자에게는 아무것도 돌려보내지 않습니다.</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Your address as the module sees it:</source>
+        <target>모듈이 보는 내 주소:</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>(connection address:</source>
+        <target>(연결 주소:</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".</source>
+        <target>상점이 Cloudflare나 다른 프록시 뒤에 있고 이 주소가 실제 주소와 다르면 ‘방문자 주소’에서 알맞은 항목을 고르세요.</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Protect customer sign-ups</source>
+        <target>고객 가입 보호</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Adds an invisible trap and a signed page stamp to the sign-up form (account page and checkout). Bots get no account; three bot attempts in a day block the address for a week.</source>
+        <target>가입 양식(계정 페이지와 결제)에 보이지 않는 함정과 서명된 페이지 스탬프를 추가합니다. 봇은 계정을 얻지 못하며, 하루에 봇 시도가 세 번이면 그 주소는 일주일 동안 차단됩니다.</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Yes</source>
+        <target>예</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>No</source>
+        <target>아니요</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with "Log only" and move to "Block" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still browse, but not post. Emergency exit: define('DRACO_WAF_OFF', true); in config/defines_custom.inc.php.</source>
+        <target>공격 형태의 요청(데이터베이스 삽입, 서버 파일 읽기, 코드 실행, 링크 속 스크립트)과 sqlmap, Nikto 같은 스캐너를 막습니다. ‘기록만’으로 시작하고 며칠 뒤 ‘차단’으로 바꾸세요. 10분에 공격 5번이면 그 주소는 일주일 동안 차단되며, 차단된 주소도 둘러볼 수는 있지만 전송은 할 수 없습니다. 비상구: config/defines_custom.inc.php에 define('DRACO_WAF_OFF', true); 를 넣으세요.</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>More pages per minute than a person reads get "429 Too many requests" until the minute ends. Logged-in customers, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited.</source>
+        <target>사람이 읽는 것보다 많은 페이지를 1분에 요청하면 그 1분이 끝날 때까지 ‘429 Too many requests’를 받습니다. 로그인한 고객, 내 주소, DNS로 확인된 검색 엔진(Google, Bing, Apple, Yandex)은 제한하지 않습니다.</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Leave "Connection address" unless the shop is behind a proxy: a header can be forged by anyone.</source>
+        <target>상점이 프록시 뒤에 있지 않다면 ‘연결 주소’를 그대로 두세요. 헤더는 누구나 위조할 수 있습니다.</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot.</source>
+        <target>한 줄에 범위 하나(CIDR). 모듈이 이미 아는 범위에 더해집니다. 이 목록에 있으면 점수만 더해질 뿐, 그것만으로 누군가를 봇으로 판정하지는 않습니다.</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
+        <target>보안상의 이유로 이 요청을 막았습니다. 잘못되었다고 생각되면 상점 운영자에게 연락하세요.</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
+        <target>헤더를 무시합니다: 이 연결(%s)은 Cloudflare나 신뢰하는 프록시에서 오지 않았습니다. 프록시가 인터넷에 있다면 그 주소를 ‘신뢰하는 프록시’에 추가하세요.</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.</source>
+        <target>아무것도 차단하지 않았습니다: 값이 올바르지 않거나, 직원의 것이거나, 내 주소입니다.</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).</source>
+        <target>고객은 여러 나라에서 올 수 있고, 공격자는 VPN으로 나라를 바꿉니다. 로그인, 가입, 양식만 거르고 ‘기록만’으로 시작하세요. 직원, 통과시킨 사람, 검색 엔진은 거르지 않습니다. 방화벽이 켜져 있어야 합니다(기록 또는 차단).</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>The whole shop</source>
+        <target>상점 전체</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.</source>
+        <target>상점 페이지에서: 파일 형식 추측 금지, 다른 사이트에 삽입 금지, 출처 정보 축소, 삽입된 콘텐츠의 카메라·마이크·위치 사용 금지. 이미 보낸 헤더는 다시 보내지 않습니다.</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</source>
+        <target>상점 전체가 HTTPS로 동작하고 앞으로도 그럴 때만: 브라우저가 이를 기억하고 만료될 때까지 일반 HTTP를 거부합니다.</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
+        <target>직원과 내 주소는 차단하지 않습니다. 범위는 /16(IPv4) 또는 /32(IPv6)보다 넓을 수 없습니다.</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.</source>
+        <target>방화벽에 막힌 방문자가 검토를 요청했습니다. Draco Insomnis 모듈을 열어 통과시킬지 정하세요.</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.</source>
+        <target>감사합니다. 상점 운영자가 확인하고, 잘못이었다면 통과시켜 드릴 것입니다.</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:</source>
+        <target>보안상의 이유로 이 요청을 막았습니다. 잘못되었다고 생각되면 무엇을 하던 중이었는지 상점 운영자에게 알려 주세요:</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.</source>
+        <target>서버 자신에서 상점에 접속하지 못했습니다(일부 호스팅은 허용하지 않습니다). 그래도 방화벽은 작동할 수 있으니 최근 시도를 확인하세요.</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers.</source>
+        <target>테스트가 PrestaShop에 닿기 전에 호스팅 자체 방화벽에서 막혔습니다. 좋습니다: 이중 방어입니다.</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>%1$d attacks seen, %2$d blocked.</source>
+        <target>공격 %1$d건, 차단 %2$d건.</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.</source>
+        <target>공격 형태의 무해한 요청을 상점에 보내고 무슨 일이 있었는지 알려 줍니다. 기록되지 않습니다.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>From 8 to 64 characters; 0 leaves only the shop's own rules. Applied when a customer creates an account or changes the password.</source>
+        <target>8~64자. 0이면 상점 자체 규칙만 남습니다. 고객이 계정을 만들거나 비밀번호를 바꿀 때 적용됩니다.</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Asks Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.</source>
+        <target>k-익명성으로 Have I Been Pwned에 묻습니다. 상점 밖으로 나가는 것은 비밀번호 SHA-1의 5자뿐이며 비밀번호 자체는 절대 나가지 않습니다. 서비스가 3초 안에 답하지 않으면 비밀번호를 받아들입니다.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

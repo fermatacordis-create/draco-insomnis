@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="modules/dracoinsomnis" source-language="en-US" target-language="id-ID" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Firewall</source>
+        <target>Firewall</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Anti-copy pace limit</source>
+        <target>Batas laju anti-salin</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Off</source>
+        <target>Mati</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Log only: record what it would stop</source>
+        <target>Catat saja: catat apa yang akan dihentikan</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Block</source>
+        <target>Blokir</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Pages per minute, per address</source>
+        <target>Halaman per menit, per alamat</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Pages per minute, per network</source>
+        <target>Halaman per menit, per jaringan</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other.</source>
+        <target>Jaringan /24 untuk IPv4 atau /64 untuk IPv6: yang didapat scraper saat berganti-ganti alamat yang berdekatan.</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Visitor address</source>
+        <target>Alamat pengunjung</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Connection address (recommended)</source>
+        <target>Alamat koneksi (disarankan)</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cloudflare (CF-Connecting-IP)</source>
+        <target>Cloudflare (CF-Connecting-IP)</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Other proxy (X-Forwarded-For)</source>
+        <target>Proxy lain (X-Forwarded-For)</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Rented-server networks</source>
+        <target>Jaringan server sewaan</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Automatic: %d bot attempts in 24 h</source>
+        <target>Otomatis: %d percobaan bot dalam 24 jam</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Firewall: %d attacks in 10 minutes</source>
+        <target>Firewall: %d serangan dalam 10 menit</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>[%s] Someone asks you to review a firewall block</source>
+        <target>[%s] Seseorang meminta Anda meninjau blokir firewall</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>The registration could not be completed.</source>
+        <target>Pendaftaran tidak dapat diselesaikan.</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Request blocked</source>
+        <target>Permintaan diblokir</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Address unblocked.</source>
+        <target>Blokir alamat dibuka.</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Unblock</source>
+        <target>Buka blokir</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Blocked addresses</source>
+        <target>Alamat yang diblokir</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Nothing blocked right now.</source>
+        <target>Saat ini tidak ada yang diblokir.</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Last suspicious attempts</source>
+        <target>Percobaan mencurigakan terakhir</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider.</source>
+        <target>Disimpan 90 hari. Tidak pernah kata sandi. CSV sebuah alamat berisi semua yang dilakukannya, siap dilampirkan ke laporan penyalahgunaan kepada penyedia jaringannya.</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Nothing yet.</source>
+        <target>Belum ada.</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Address or e-mail</source>
+        <target>Alamat atau email</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Reason</source>
+        <target>Alasan</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Until (UTC)</source>
+        <target>Sampai (UTC)</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Date (UTC)</source>
+        <target>Tanggal (UTC)</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Address</source>
+        <target>Alamat</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Where</source>
+        <target>Di mana</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Verdict</source>
+        <target>Putusan</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Signs</source>
+        <target>Tanda</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Data</source>
+        <target>Data</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Trusted proxies</source>
+        <target>Proxy tepercaya</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known.</source>
+        <target>Hanya koneksi dari alamat ini yang boleh menetapkan alamat pengunjung lewat header. Satu alamat atau rentang per baris. Kosong: server ini dan jaringan privat. Rentang milik Cloudflare sudah dikenal.</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Countries</source>
+        <target>Negara</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Refuse the countries listed</source>
+        <target>Tolak negara dalam daftar</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Only the countries listed</source>
+        <target>Hanya negara dalam daftar</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Logging in, signing up and forms (recommended)</source>
+        <target>Login, pendaftaran, dan formulir (disarankan)</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>What to do</source>
+        <target>Apa yang dilakukan</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Countries (two-letter codes, e.g. ES, FR, DE)</source>
+        <target>Negara (kode dua huruf, mis. ES, FR, DE)</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>IP geolocation by DB-IP (db-ip.com, CC BY 4.0), downloaded when you switch the filter on and looked up on your own server: no address is sent anywhere.</source>
+        <target>Geolokasi IP oleh DB-IP (db-ip.com, CC BY 4.0), diunduh saat Anda mengaktifkan filter dan dicari di server Anda sendiri: tidak ada alamat yang dikirim ke mana pun.</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Country list downloaded.</source>
+        <target>Daftar negara diunduh.</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>The country list could not be downloaded. The filter does nothing until it is there; save again later.</source>
+        <target>Daftar negara tidak dapat diunduh. Filter tidak melakukan apa pun sampai daftar itu ada; simpan lagi nanti.</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Security headers</source>
+        <target>Header keamanan</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Force HTTPS for 6 months (HSTS)</source>
+        <target>Paksa HTTPS selama 6 bulan (HSTS)</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Minimum password length</source>
+        <target>Panjang minimum kata sandi</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Refuse passwords found in data breaches</source>
+        <target>Tolak kata sandi yang ditemukan dalam kebocoran data</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>The password must have at least %d characters.</source>
+        <target>Kata sandi harus minimal %d karakter.</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>This password appears in known data breaches, so attackers try it first. Please choose another one.</source>
+        <target>Kata sandi ini muncul di kebocoran data yang diketahui, jadi penyerang mencobanya lebih dulu. Silakan pilih yang lain.</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>IP or range (e.g. 203.0.113.0/24)</source>
+        <target>IP atau rentang (mis. 203.0.113.0/24)</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>For</source>
+        <target>Selama</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>7 days</source>
+        <target>7 hari</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>15 days</source>
+        <target>15 hari</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>30 days</source>
+        <target>30 hari</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>90 days</source>
+        <target>90 hari</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Forever</source>
+        <target>Selamanya</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Blocked: %s</source>
+        <target>Diblokir: %s</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>E-mail</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Message</source>
+        <target>Pesan</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Done.</source>
+        <target>Selesai.</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>It could not be done for that address.</source>
+        <target>Tidak dapat dilakukan untuk alamat itu.</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>No requests.</source>
+        <target>Tidak ada permintaan.</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Review requests</source>
+        <target>Permintaan peninjauan</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want.</source>
+        <target>Orang yang dihentikan firewall dapat memintanya dari halaman blokir. Izinkan lewat untuk sementara jika itu kesalahan. Draco tidak pernah menulis kepada mereka: balas dari email Anda sendiri jika mau.</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Let through 24 hours</source>
+        <target>Izinkan lewat 24 jam</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Let through</source>
+        <target>Izinkan lewat</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Attacker: blocked</source>
+        <target>Penyerang: diblokir</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Attacker</source>
+        <target>Penyerang</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Ask for a review</source>
+        <target>Minta peninjauan</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Denied</source>
+        <target>Ditolak</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Deny</source>
+        <target>Tolak</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Your e-mail</source>
+        <target>Email Anda</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>What were you doing?</source>
+        <target>Apa yang sedang Anda lakukan?</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Review: %s</source>
+        <target>Peninjauan: %s</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Request sent</source>
+        <target>Permintaan terkirim</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Firewall: last 7 days</source>
+        <target>Firewall: 7 hari terakhir</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Busiest addresses:</source>
+        <target>Alamat paling sibuk:</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>What:</source>
+        <target>Apa:</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Test the firewall</source>
+        <target>Uji firewall</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Works: a database injection was recognised and blocked (403).</source>
+        <target>Berfungsi: injeksi basis data dikenali dan diblokir (403).</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>The test attack was not recognised. Please report it to Draco Insomnis.</source>
+        <target>Serangan uji tidak dikenali. Mohon laporkan ke Draco Insomnis.</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>The firewall is off: switch it on and save, then test again.</source>
+        <target>Firewall mati: nyalakan, simpan, lalu uji lagi.</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Draco Insomnis</source>
+        <target>Draco Insomnis</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Works: a database injection was recognised. In "Log only" it is written down but not stopped; switch to "Block" when you are ready.</source>
+        <target>Berfungsi: injeksi basis data dikenali. Dalam «Hanya catat» dicatat tetapi tidak dihentikan; beralih ke «Blokir» saat Anda siap.</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Settings</source>
+        <target>Pengaturan</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Save</source>
+        <target>Simpan</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Stops fake customer sign-ups without captchas, firewall and anti-copy limits. Open source.</source>
+        <target>Menghentikan pendaftaran pelanggan palsu tanpa captcha, firewall, dan batas anti-salin. Sumber terbuka.</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Settings saved.</source>
+        <target>Pengaturan disimpan.</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Stops fake customer sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker.</source>
+        <target>Menghentikan pendaftaran pelanggan palsu tanpa captcha: bot tidak mendapat akun, dan setiap percobaan mencurigakan disimpan 90 hari sebagai bukti untuk laporan penyalahgunaan. Tidak ada yang pernah dikirim balik ke penyerang.</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Your address as the module sees it:</source>
+        <target>Alamat Anda menurut modul:</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>(connection address:</source>
+        <target>(alamat koneksi:</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>If the shop is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in "Visitor address".</source>
+        <target>Jika toko berada di belakang Cloudflare atau proxy lain dan keduanya berbeda dari alamat asli Anda, pilih opsi yang sesuai di “Alamat pengunjung”.</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Protect customer sign-ups</source>
+        <target>Lindungi pendaftaran pelanggan</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Adds an invisible trap and a signed page stamp to the sign-up form (account page and checkout). Bots get no account; three bot attempts in a day block the address for a week.</source>
+        <target>Menambahkan perangkap tak terlihat dan cap halaman bertanda tangan ke formulir pendaftaran (halaman akun dan checkout). Bot tidak mendapat akun; tiga percobaan bot dalam sehari memblokir alamat selama seminggu.</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Yes</source>
+        <target>Ya</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>No</source>
+        <target>Tidak</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with "Log only" and move to "Block" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still browse, but not post. Emergency exit: define('DRACO_WAF_OFF', true); in config/defines_custom.inc.php.</source>
+        <target>Menghentikan permintaan berbentuk serangan (injeksi basis data, membaca berkas server, menjalankan kode, skrip dalam tautan) dan pemindai seperti sqlmap atau Nikto. Mulailah dengan “Catat saja” lalu pindah ke “Blokir” setelah beberapa hari. Lima serangan dalam 10 menit memblokir alamat selama seminggu; alamat yang diblokir tetap bisa menjelajah, tetapi tidak bisa mengirim. Jalan darurat: define('DRACO_WAF_OFF', true); di config/defines_custom.inc.php.</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>More pages per minute than a person reads get "429 Too many requests" until the minute ends. Logged-in customers, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited.</source>
+        <target>Yang meminta lebih banyak halaman per menit daripada yang dibaca manusia mendapat “429 Too many requests” sampai menit itu berakhir. Pelanggan yang masuk, alamat Anda sendiri, dan mesin pencari yang diverifikasi lewat DNS (Google, Bing, Apple, Yandex) tidak pernah dibatasi.</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Leave "Connection address" unless the shop is behind a proxy: a header can be forged by anyone.</source>
+        <target>Biarkan “Alamat koneksi” kecuali toko berada di belakang proxy: header bisa dipalsukan siapa saja.</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot.</source>
+        <target>Satu rentang per baris (CIDR), ditambahkan ke rentang yang sudah dikenal modul. Masuk daftar ini hanya menambah poin: dengan sendirinya tidak pernah menjadikan siapa pun bot.</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>This request was stopped for security reasons. If you think this is a mistake, contact the owner of the shop.</source>
+        <target>Permintaan ini dihentikan karena alasan keamanan. Jika Anda merasa ini keliru, hubungi pemilik toko.</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in "Trusted proxies".</source>
+        <target>Header diabaikan: koneksi ini (%s) tidak berasal dari Cloudflare maupun proxy tepercaya. Jika proxy Anda ada di internet, tambahkan alamatnya di “Proxy tepercaya”.</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Nothing was blocked: the value is not valid, belongs to an employee, or is your own address.</source>
+        <target>Tidak ada yang diblokir: nilainya tidak valid, milik karyawan, atau alamat Anda sendiri.</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Most of your customers may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Employees, people you let through and search engines are never filtered. Needs the firewall on (log or block).</source>
+        <target>Pelanggan Anda bisa datang dari banyak negara, dan penyerang berganti negara dengan VPN. Saring hanya login, pendaftaran, dan formulir, dan mulailah dengan “Catat saja”. Karyawan, orang yang Anda izinkan lewat, dan mesin pencari tidak pernah disaring. Firewall harus aktif (catat atau blokir).</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>The whole shop</source>
+        <target>Seluruh toko</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>On shop pages: no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one already sent.</source>
+        <target>Di halaman toko: tanpa menebak jenis berkas, tanpa disematkan di situs lain, lebih sedikit data perujuk, tanpa kamera, mikrofon, atau lokasi untuk konten sematan. Tidak pernah header yang sudah dikirim.</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.</source>
+        <target>Hanya jika seluruh toko berjalan di HTTPS dan akan tetap begitu: peramban mengingatnya dan menolak HTTP biasa sampai kedaluwarsa.</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Never an employee, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6).</source>
+        <target>Tidak pernah karyawan, juga bukan alamat Anda sendiri. Rentang tidak lebih lebar dari /16 (IPv4) atau /32 (IPv6).</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>A visitor stopped by the firewall asks for a review. Open the Draco Insomnis module to let them through or not.</source>
+        <target>Pengunjung yang dihentikan firewall meminta peninjauan. Buka modul Draco Insomnis untuk mengizinkannya lewat atau tidak.</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.</source>
+        <target>Terima kasih. Pemilik toko akan memeriksanya dan, jika itu keliru, mengizinkan Anda lewat.</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:</source>
+        <target>Permintaan ini dihentikan karena alasan keamanan. Jika Anda merasa ini keliru, beri tahu pemilik toko apa yang sedang Anda lakukan:</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>The test could not reach the shop from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts.</source>
+        <target>Pengujian tidak dapat menjangkau toko dari server itu sendiri (sebagian hosting tidak mengizinkannya). Firewall mungkin tetap bekerja: lihat percobaan terakhir.</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>The test was stopped before it reached PrestaShop, by the hosting's own firewall. Good: two layers.</source>
+        <target>Pengujian dihentikan sebelum mencapai PrestaShop, oleh firewall milik hosting. Bagus: dua lapis.</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>%1$d attacks seen, %2$d blocked.</source>
+        <target>%1$d serangan terlihat, %2$d diblokir.</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Sends a harmless attack-shaped request to the shop and tells you what happened. It is not logged.</source>
+        <target>Mengirim permintaan tak berbahaya berbentuk serangan ke toko dan memberi tahu Anda apa yang terjadi. Tidak dicatat.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>From 8 to 64 characters; 0 leaves only the shop's own rules. Applied when a customer creates an account or changes the password.</source>
+        <target>8 sampai 64 karakter; 0 hanya menyisakan aturan toko sendiri. Berlaku saat pelanggan membuat akun atau mengganti kata sandi.</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Asks Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the shop, never the password. If the service does not answer in 3 seconds, the password is accepted.</source>
+        <target>Menanyakan Have I Been Pwned dengan k-anonimitas: hanya 5 karakter SHA-1 kata sandi yang keluar dari toko, tidak pernah kata sandinya. Jika layanan tidak menjawab dalam 3 detik, kata sandi diterima.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
