@@ -46,7 +46,9 @@ takes the site down with it.
 ## Install
 
 ```sh
-npm install ./draco-insomnis-js-X.Y.Z.tgz   # from the GitHub release (signed, see SECURITY.md)
+npm install draco-insomnis
+# or the same file from the GitHub release (signed, see SECURITY.md):
+npm install ./draco-insomnis-js-X.Y.Z.tgz
 ```
 
 Building the package needs Node.js 22 or newer; the built package runs on Node.js 20 or newer.
