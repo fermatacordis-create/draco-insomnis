@@ -127,6 +127,12 @@ final class DrupalHost implements Host {
   }
 
   public function text(string $id, int $number): string {
+    if ($id === 'pwd_short') {
+      return (string) t('The password must have at least @count characters.', ['@count' => $number]);
+    }
+    if ($id === 'pwd_breached') {
+      return (string) t('This password appears in known data breaches, so attackers try it first. Please choose another one.');
+    }
     if ($id === 'review_subject') {
       return (string) t('[@site] Someone asks you to review a firewall block', ['@site' => (string) \Drupal::config('system.site')->get('name')]);
     }

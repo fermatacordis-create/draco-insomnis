@@ -179,6 +179,12 @@ final class moodle_host implements Host {
 
     public function text(string $id, int $number): string {
         global $SITE;
+        if ($id === 'pwd_short') {
+            return get_string('pwdshort', 'local_dracoinsomnis', $number);
+        }
+        if ($id === 'pwd_breached') {
+            return get_string('pwdbreachedrefused', 'local_dracoinsomnis');
+        }
         if ($id === 'review_subject') {
             return get_string('reviewsubject', 'local_dracoinsomnis', format_string($SITE->shortname ?? ''));
         }

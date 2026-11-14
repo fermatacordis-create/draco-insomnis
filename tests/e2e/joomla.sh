@@ -157,6 +157,28 @@ echo "$h" | grep -qi '^x-draco-test-result:' && ko "a forged test header was ans
 param waf_mode off
 reset
 
+echo "== password rules"
+$PHP "$JLH" users allowUserRegistration 1
+param shield 0
+reg() { # password -> the page after the redirect
+  local jar u p; jar=$(mktemp); u="maria.lab$RANDOM"
+  p=$(curl -sL -c "$jar" -b "$jar" -A "$UA" "$REG&$(cb)")
+  curl -sL -c "$jar" -b "$jar" -A "$UA" -d "$(echo "$p" | $PHP "$HERE/formfields.php" member-registration)" \
+    --data-urlencode "jform[name]=$u" --data-urlencode "jform[username]=$u" --data-urlencode "jform[email1]=$u@example.org" \
+    --data-urlencode "jform[password1]=$1" --data-urlencode "jform[password2]=$1" "$BASE/index.php?option=com_users&task=registration.register&$(cb)"
+  rm -f "$jar"
+}
+labs() { sql "SELECT COUNT(*) FROM #__users WHERE email LIKE 'maria.lab%'"; }
+param pwd_min 20
+out=$(reg 'Draco-Lab-2026!x'); [ "$(labs)" = 0 ] && grep -qE "at least 20 characters|al menos 20 caracteres" <<< "$out" && ok "short password refused with the reason" || ko "min length (users $(labs))"
+param pwd_min 0; param pwd_breached 1
+out=$(reg 'passwordpassword'); [ "$(labs)" = 0 ] && grep -qE "data breaches|filtraciones" <<< "$out" && ok "breached password refused with the reason" || ko "breached (users $(labs))"
+reg 'Draco-Lab-2026!x' >/dev/null; [ "$(labs)" = 1 ] && ok "good password: account created" || ko "good password (users $(labs))"
+for id in $(sql "SELECT id FROM #__users WHERE email LIKE 'maria.lab%'"); do sql "DELETE FROM #__user_usergroup_map WHERE user_id=$id"; sql "DELETE FROM #__users WHERE id=$id"; done
+param pwd_breached 0
+$PHP "$JLH" users allowUserRegistration 0
+reset
+
 echo "== anti-copy pace"
 param pace_mode block
 param anticopy_rate_ip 10

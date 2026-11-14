@@ -55,6 +55,18 @@ function local_dracoinsomnis_validate_extend_signup_form($data) {
 }
 
 /**
+ * Draco's password rules (minimum length, refusing breached passwords), next to Moodle's own policy.
+ * Moodle asks plugins only while "Password policy" is on in Site administration > Security.
+ *
+ * @param string $password The new password.
+ * @param stdClass|null $user Whose password it is.
+ * @return string Why it is refused, or '' when it is fine.
+ */
+function local_dracoinsomnis_check_password_policy($password, $user = null) {
+    return \DracoInsomnis\Core\Passwords::problem(\local_dracoinsomnis\moodle_host::get(), (string) $password);
+}
+
+/**
  * The country filter was switched on: download the country list if it is not there yet.
  */
 function local_dracoinsomnis_geo_updated(): void {

@@ -170,6 +170,17 @@ n=$($P -r 'define("CLI_SCRIPT", true); require getcwd()."/config.php"; echo \Dra
 cfg waf_mode off
 reset
 
+echo "== password rules"
+# Through Moodle's own check_password_policy(), as every password form calls it.
+pw() { $P -r 'define("CLI_SCRIPT", true); require getcwd()."/config.php"; $e = ""; check_password_policy($argv[1], $e); echo strip_tags(str_replace("</div>", " | ", (string) $e));' "$1"; }
+r=$(pw 'passwordpassword'); [[ ! "$r" =~ (data\ breaches|filtraciones) ]] && ok "rules off: Draco refuses nothing" || ko "off but refused: $r"
+cfg pwd_min 20
+r=$(pw 'Draco-Lab-2026!x'); [[ "$r" =~ (at\ least\ 20\ characters|al\ menos\ 20\ caracteres) ]] && ok "short password refused: $r" || ko "min length: [$r]"
+cfg pwd_min 0; cfg pwd_breached 1
+r=$(pw 'passwordpassword'); [[ "$r" =~ (data\ breaches|filtraciones) ]] && ok "breached password refused" || ko "breached: [$r]"
+r=$(pw 'Draco-Lab-2026!x'); [ -z "$r" ] && ok "good password accepted" || ko "good password: [$r]"
+cfg pwd_breached 0
+
 echo "== anti-copy pace"
 cfg pace_mode block
 cfg anticopy_rate_ip 10

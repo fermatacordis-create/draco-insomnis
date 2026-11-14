@@ -6,7 +6,7 @@
 	<copyright>(C) 2026 Notorius Vision</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorUrl>https://notoriusvision.com</authorUrl>
-	<version>0.1.14</version>
+	<version>0.1.15</version>
 	<description>PLG_SYSTEM_DRACOINSOMNIS_XML_DESCRIPTION</description>
 	<namespace path="src">Notorius\Plugin\System\DracoInsomnis</namespace>
 	<files>
@@ -108,6 +108,11 @@
 					<option value="1">JYES</option>
 				</field>
 				<field name="hsts" type="radio" layout="joomla.form.field.radio.switcher" label="PLG_SYSTEM_DRACOINSOMNIS_HSTS_LABEL" description="PLG_SYSTEM_DRACOINSOMNIS_HSTS_DESC" default="0" filter="integer">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="pwd_min" type="number" label="PLG_SYSTEM_DRACOINSOMNIS_PWD_MIN_LABEL" description="PLG_SYSTEM_DRACOINSOMNIS_PWD_MIN_DESC" default="0" min="0" max="64" filter="integer" />
+				<field name="pwd_breached" type="radio" layout="joomla.form.field.radio.switcher" label="PLG_SYSTEM_DRACOINSOMNIS_PWD_BREACHED_LABEL" description="PLG_SYSTEM_DRACOINSOMNIS_PWD_BREACHED_DESC" default="0" filter="integer">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>

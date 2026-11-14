@@ -156,6 +156,31 @@ echo "$h" | grep -qi '^x-draco-test-result:' && ko "a forged test header was ans
 setcfg DRACO_WAF_MODE off
 reset
 
+echo "== password rules"
+setcfg DRACO_SHIELD 0
+preg() { # jar password email
+  curl -s -c "$1" -b "$1" -A "$UA" -d submitCreate=1 -d id_gender=1 -d psgdpr=1 -d customer_privacy=1 -d firstname=Maria -d lastname=Garcia \
+    --data-urlencode "email=$3" --data-urlencode "password=$2" "$REG"
+}
+jar=$(mktemp); email="maria.lab$RANDOM@example.org"
+labs() { sql "SELECT COUNT(*) FROM ps_customer WHERE email='$email'"; }
+setcfg DRACO_PWD_MIN 20
+out=$(preg "$jar" 'Draco-Lab-2026!x' "$email"); [ "$(labs)" = 0 ] && grep -qE "at least 20 characters|al menos 20 caracteres" <<< "$out" && ok "sign-up: short password refused with the reason" || ko "min length (customers $(labs))"
+setcfg DRACO_PWD_MIN 0; setcfg DRACO_PWD_BREACHED 1
+out=$(preg "$jar" 'passwordpassword' "$email")
+# A breach check that gets no answer in 3 s accepts the password by design; ask once more if so.
+grep -qE "data breaches|filtraciones" <<< "$out" || { echo "     (no answer from Have I Been Pwned in time: once more)"; out=$(preg "$jar" 'passwordpassword' "$email"); }
+[ "$(labs)" = 0 ] && grep -qE "data breaches|filtraciones" <<< "$out" && ok "sign-up: breached password refused with the reason" || ko "breached (customers $(labs))"
+preg "$jar" 'Draco-Lab-2026!x' "$email" >/dev/null; [ "$(labs)" = 1 ] && ok "sign-up: good password accepted" || ko "good password (customers $(labs))"
+hash=$(sql "SELECT passwd FROM ps_customer WHERE email='$email'")
+out=$(curl -s -c "$jar" -b "$jar" -A "$UA" -d submitCreate=1 -d id_gender=1 -d firstname=Maria -d lastname=Garcia --data-urlencode "email=$email" \
+  --data-urlencode 'password=Draco-Lab-2026!x' -d new_password=passwordpassword -d psgdpr=1 -d customer_privacy=1 "$BASE/index.php?controller=identity")
+[ "$(sql "SELECT passwd FROM ps_customer WHERE email='$email'")" = "$hash" ] && grep -qE "data breaches|filtraciones" <<< "$out" && ok "account page: breached new password refused" || ko "identity change: hash ${hash:0:12} -> $(sql "SELECT LEFT(passwd,12) FROM ps_customer WHERE email='$email'"), message [$(echo "$out" | grep -oE "data breaches|filtraciones" | head -1)], notices: $(echo "$out" | grep -oE 'alert-(danger|success)[^<]*<[^>]*>[^<]{0,80}' | tr '\n' ' ' | head -c 300)"
+for id in $(sql "SELECT id_customer FROM ps_customer WHERE email LIKE 'maria.lab%@example.org'"); do sql "DELETE FROM ps_customer_group WHERE id_customer=$id"; sql "DELETE FROM ps_customer WHERE id_customer=$id"; done
+setcfg DRACO_PWD_BREACHED 0
+rm -f "$jar"
+reset
+
 echo "== anti-copy pace"
 setcfg DRACO_PACE_MODE block
 setcfg DRACO_ANTICOPY_RATE_IP 10

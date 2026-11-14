@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.14
+Stable tag: 0.1.15
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,11 @@ The country filter uses IP geolocation by DB-IP (https://db-ip.com), "IP to Coun
 Only if "Refuse passwords that appear in known data breaches" is switched on, Draco asks Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com) with the first 5 characters of the SHA-1 of a password being chosen or used to log in. The password itself and its full hash are never sent. Terms: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy: https://haveibeenpwned.com/Privacy
 
 == Changelog ==
+
+= 0.1.15 =
+* PrestaShop, Drupal, Joomla, Moodle and Laravel catch up with WordPress (parity 3): password rules, both off by default. A minimum length (8 to 64 characters) and refusing passwords found in known data breaches, asked to Have I Been Pwned with k-anonymity: only 5 characters of the password's SHA-1 leave the site, never the password, and if the service does not answer in 3 seconds the password is accepted. Applied when an account is created or a password is changed: Drupal (sign-up and account forms), Joomla (every user save, next to the rules in Users: Options), Moodle (through its password policy, while "Password policy" is on), PrestaShop (sign-up, "Your personal information" and the reset link) and Laravel (the DracoPassword rule or 'draco_password' in validation, with DRACO_PWD_MIN and DRACO_PWD_BREACHED).
+* One shared engine for the rules (Core\Passwords).
+* Still WordPress only, for the next version: the 39 languages (0.1.16).
 
 = 0.1.14 =
 * Security fix for every version since 0.1.9: the review form on the block page carried the name of the rule that matched (for example "sqli") in a hidden field, and the block page must never say what matched. The rule now travels sealed with the site's secret.

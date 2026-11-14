@@ -141,6 +141,12 @@ final class JoomlaHost implements Host
 
     public function text(string $id, int $number): string
     {
+        if ($id === 'pwd_short') {
+            return Text::sprintf('PLG_SYSTEM_DRACOINSOMNIS_PWD_SHORT', $number);
+        }
+        if ($id === 'pwd_breached') {
+            return Text::_('PLG_SYSTEM_DRACOINSOMNIS_PWD_BREACHED');
+        }
         if ($id === 'review_subject') {
             return Text::sprintf('PLG_SYSTEM_DRACOINSOMNIS_REVIEW_SUBJECT', (string) \Joomla\CMS\Factory::getApplication()->get('sitename'));
         }

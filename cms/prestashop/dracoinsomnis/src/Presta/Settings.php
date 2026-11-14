@@ -32,10 +32,12 @@ final class Settings
     public const GEO_FILE = 'DRACO_GEO_FILE';
     public const HEADERS = 'DRACO_HEADERS';
     public const HSTS = 'DRACO_HSTS';
+    public const PWD_MIN = 'DRACO_PWD_MIN';
+    public const PWD_BREACHED = 'DRACO_PWD_BREACHED';
     public const MODES = ['off', 'log', 'block'];
     public const PROXIES = ['', 'cf', 'xff'];
 
-    private const ALL = [self::SECRET, self::SHIELD, self::WAF_MODE, self::PACE_MODE, self::RATE_IP, self::RATE_NET, self::PROXY, self::TRUSTED, self::NETS, self::ADMIN_IPS, self::GEO_MODE, self::GEO_COUNTRIES, self::GEO_SCOPE, self::GEO_ACTION, self::GEO_FILE, self::HEADERS, self::HSTS];
+    private const ALL = [self::SECRET, self::SHIELD, self::WAF_MODE, self::PACE_MODE, self::RATE_IP, self::RATE_NET, self::PROXY, self::TRUSTED, self::NETS, self::ADMIN_IPS, self::GEO_MODE, self::GEO_COUNTRIES, self::GEO_SCOPE, self::GEO_ACTION, self::GEO_FILE, self::HEADERS, self::HSTS, self::PWD_MIN, self::PWD_BREACHED];
 
     public static function install(): bool
     {

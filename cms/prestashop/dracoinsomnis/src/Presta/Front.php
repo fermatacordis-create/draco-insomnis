@@ -91,6 +91,42 @@ final class Front
         return false;
     }
 
+    /** False stops the sign-up: Draco's password rules on the new account's password. */
+    public static function signUpPassword(): bool
+    {
+        $problem = \DracoInsomnis\Core\Passwords::problem(PsHost::get(), (string) \Tools::getValue('password'));
+        if ($problem === '') {
+            return true;
+        }
+        $controller = \Context::getContext()->controller;
+        if ($controller !== null) {
+            $controller->errors[] = $problem;
+        }
+
+        return false;
+    }
+
+    /**
+     * "Your personal information" and the reset link: there is no hook before the password is saved,
+     * so a refused password takes the submit away; the page shows the form again with the reason.
+     */
+    public static function passwordChange(\Context $context): void
+    {
+        $controller = $context->controller;
+        $page = $controller !== null && isset($controller->php_self) ? (string) $controller->php_self : '';
+        $fields = ['identity' => ['new_password', 'submitCreate'], 'password' => ['passwd', 'passwd']][$page] ?? null;
+        if ($fields === null || ($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
+            return;
+        }
+        [$field, $submit] = $fields;
+        $problem = \DracoInsomnis\Core\Passwords::problem(PsHost::get(), (string) \Tools::getValue($field));
+        if ($problem === '') {
+            return;
+        }
+        $controller->errors[] = $problem;
+        unset($_POST[$submit], $_GET[$submit], $_POST[$field]);
+    }
+
     private static function customerLoggedIn(): bool
     {
         $cookie = \Context::getContext()->cookie;

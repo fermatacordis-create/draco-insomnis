@@ -13,4 +13,6 @@ return [
     'review_email' => 'Tu correo',
     'review_message' => '¿Qué estabas haciendo?',
     'review_button' => 'Pedir revisión',
+    'pwd_short' => 'La contraseña debe tener al menos :min caracteres.',
+    'pwd_breached' => 'Esta contraseña aparece en filtraciones de datos conocidas, así que los atacantes la prueban primero. Elige otra, por favor.',
 ];

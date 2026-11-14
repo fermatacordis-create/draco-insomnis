@@ -40,7 +40,8 @@ interface Host
 
     /**
      * The few texts the engines store or send, in the site's language: "auto_block" and "waf_block",
-     * each with a number of attempts; "review_subject" and "review_body" (number unused).
+     * each with a number of attempts; "review_subject" and "review_body" (number unused);
+     * "pwd_short" (number = minimum length) and "pwd_breached" (number unused).
      */
     public function text(string $id, int $number): string;
 

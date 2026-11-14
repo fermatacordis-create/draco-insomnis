@@ -47,6 +47,13 @@ return [
     'headers' => (bool) env('DRACO_HEADERS', false),
     'hsts' => (bool) env('DRACO_HSTS', false),
 
+    // Password rules (off by default), through new \DracoInsomnis\Laravel\Rules\DracoPassword() or
+    // 'draco_password' in your validation: a minimum length (8 to 64; 0 = none) and refusing passwords
+    // found in known data breaches, asked to Have I Been Pwned with k-anonymity (only 5 characters of
+    // the SHA-1 leave the server; if it does not answer in 3 s, the password is accepted).
+    'pwd_min' => (int) env('DRACO_PWD_MIN', 0),
+    'pwd_breached' => (bool) env('DRACO_PWD_BREACHED', false),
+
     // A Gate ability: users who pass it are never inspected by the firewall, and the addresses they
     // work from are never blocked or limited. null = nobody is exempt by role.
     'bypass_ability' => env('DRACO_BYPASS_ABILITY'),
