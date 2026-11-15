@@ -119,6 +119,35 @@ In Workers the visitor's address is the one Cloudflare sets, and the country com
 atomic increment, and each isolate counts on its own. Without a store, everything stays in memory.
 Form and JSON bodies up to 64 KB are read from a copy of the request.
 
+## "This is a mistake": review requests
+
+With a secret of your own, the 403 page carries a short form: the person who was stopped leaves an
+e-mail and what they were doing, and the request reaches you.
+
+```js
+draco({
+  waf: 'block',
+  review: {
+    secret: process.env.DRACO_SECRET,          // 16+ characters, the same on every server
+    onRequest: (r) => mailMe(`Review: ${r.email} (${r.ip}, rule ${r.rule}): ${r.message}`),
+  },
+});
+```
+
+It works like the PHP editions, and both languages check the same cases (`tests/vectors/review.json`):
+
+- The form is signed for the address and the moment it was shown, and is valid for a day.
+- The rule that stopped the request travels sealed, so the page never says what matched.
+- A hidden trap field catches bots; one address may send 3 requests a day, the site 50.
+- The visitor always gets the same "Request sent" page, whether the request was kept or not.
+- Draco never writes to the person who asks: that would let anyone make your site send mail. Let
+  someone through with `gate.blocks.remove(ip)` or by adding the address to `adminIps`.
+
+The body must be parsed: `express.urlencoded()` in Express, a body parser before Draco in Koa
+(Strapi: after `strapi::body`). Workers read it themselves. The texts of the pages are in `texts`
+(`reviewEmail`, `reviewMessage`, `reviewButton`, `reviewSentTitle`, `reviewSentText`,
+`textWithReview`).
+
 ## Several servers
 
 The default `MemoryStore` serves a single process. For several processes or servers, give every one

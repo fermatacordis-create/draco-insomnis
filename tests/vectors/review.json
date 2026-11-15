@@ -1,0 +1,46 @@
+{
+    "about": "Review form signatures: the PHP engine (src/Core/Review.php) and the JavaScript port (js/src/core/review.ts) must give the same values. secret = MemoryHost::secret().",
+    "secret": "abababababababababababababababababababababababababababababababab",
+    "cases": [
+        {
+            "ip": "198.51.100.20",
+            "ts": 1800000000,
+            "rule": "sqli",
+            "opened": "sqli",
+            "sealed": "de024a03d2adc6419e3b8f352452b443f721f9bde3537cc2e5b80c8d2b606a86",
+            "sig": "fbc13f170d5c9b3a7f2a07ef218718e31dce61ade961f4afb859a532914ae15c"
+        },
+        {
+            "ip": "2001:db8::7",
+            "ts": 1800000123,
+            "rule": "blocked",
+            "opened": "blocked",
+            "sealed": "9acc1bb9e99dc09e59124637bb1c25d43e35fe4e3ae4b1ae62bebd5a09ca3824",
+            "sig": "68ec21f6732538f09b61f3b6f30ca900074e029dd1c5e224aa28766bf59d609f"
+        },
+        {
+            "ip": "203.0.113.9",
+            "ts": 1799999999,
+            "rule": "geo",
+            "opened": "geo",
+            "sealed": "f2e022dd0a050cf422706ddf017692b393c249a2776383907caff02568b9e9ea",
+            "sig": "a72a8946d07231159fcbb838dc5a5d5bef94270221ad7ecf27b3fe7c591a76e9"
+        },
+        {
+            "ip": "192.0.2.1",
+            "ts": 1800000500,
+            "rule": "",
+            "opened": "",
+            "sealed": "4a5f2f0b43fc7e77ca48d856c01020e629920b8bed71570a72c007be5bc020ab",
+            "sig": "4390874bdb1d058f0f8504b7f4e96587d37813068dbacfae503e1ead87903e7b"
+        },
+        {
+            "ip": "198.51.100.21",
+            "ts": 1800000000,
+            "rule": "path_traversal_with_a_long_name_x",
+            "opened": "path_traversal_with_a_long_name_",
+            "sealed": "223159f17895e8f44d07e5eda78811c06c777af6632d8fcdc2f3462f634958e8",
+            "sig": "2f03212d8ed8e0a70660ffce62e9e2776d6d165c561276386cd923fc0381cd8d"
+        }
+    ]
+}

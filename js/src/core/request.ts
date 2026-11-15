@@ -23,6 +23,8 @@ export interface DracoRequest {
   accept?: string;
   /** Sent with "X-Requested-With: XMLHttpRequest". */
   ajax?: boolean;
+  /** The text fields of a posted form (urlencoded or JSON), for the review form. */
+  form?: Record<string, string>;
 }
 
 export type ProxyMode = '' | 'cf' | 'xff';

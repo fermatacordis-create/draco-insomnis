@@ -9,6 +9,7 @@ import { claimed, resolvesBack, type Resolver } from './crawler.ts';
 import { network, parse } from './net.ts';
 import { clientIp, remote, wantsPage, type DracoRequest, type ProxyMode } from './request.ts';
 import { Blocks, MemoryStore, type DracoEvent, type Store } from './store.ts';
+import { accept, form, isRequest, type ReviewRequest } from './review.ts';
 import { inspect } from './waf.ts';
 
 export type Mode = 'off' | 'log' | 'block';
@@ -47,8 +48,18 @@ export interface DracoOptions {
   resolver?: Resolver;
   /** Every line of evidence, as it is written (send it to your logs, a SIEM or CrowdSec). */
   onEvent?: (event: DracoEvent) => void | Promise<void>;
-  /** The text of the 403 page. */
-  texts?: { title?: string; text?: string; tooMany?: string };
+  /**
+   * "This is a mistake" on the 403 page: the visitor leaves an e-mail and a line, and the request
+   * reaches onRequest (store it, mail it to yourself). Needs a secret of your own (32+ characters,
+   * the same on every server); the form is signed with it. The body must be parsed for it to work
+   * (express.urlencoded(), a Koa body parser; Workers read it themselves).
+   */
+  review?: {
+    secret: string;
+    onRequest?: (request: ReviewRequest) => void | Promise<void>;
+  };
+  /** The texts of the 403, 429 and review pages. */
+  texts?: Partial<typeof TEXTS>;
 }
 
 export const SENSITIVE = [
@@ -57,10 +68,13 @@ export const SENSITIVE = [
 ];
 
 export interface Answer {
-  status: 403 | 429;
-  /** The rule, "blocked", "geo" or "pace": for the evidence, never shown to the visitor. */
+  /** 200 only answers a review request (the thanks page). */
+  status: 200 | 403 | 429;
+  /** The rule, "blocked", "geo", "pace" or "review": for the evidence, never shown to the visitor. */
   why: string;
   retry: number;
+  /** The review form for the 403 page, when reviews are on. */
+  form?: string;
 }
 
 const HITS_TO_BLOCK = 5;
@@ -93,9 +107,38 @@ export class Gatekeeper {
   }
 
   async decide(r: DracoRequest): Promise<Answer | null> {
+    const answer = await this.rules(r);
+    if (answer?.status === 403 && this.reviewing()) {
+      const texts = { ...TEXTS, ...this.options.texts };
+      answer.form = await form(this.options.review!.secret, this.ip(r), answer.why, this.now(), {
+        email: texts.reviewEmail, message: texts.reviewMessage, button: texts.reviewButton,
+      });
+    }
+    return answer;
+  }
+
+  private reviewing(): boolean {
+    return (this.options.review?.secret ?? '').length >= 16;
+  }
+
+  private async rules(r: DracoRequest): Promise<Answer | null> {
     const o = this.options;
     const ip = this.ip(r);
-    if ((o.adminIps ?? []).includes(ip) || this.excepted(r.path)) return null;
+    if (this.excepted(r.path)) return null;
+    if (this.reviewing() && isRequest(r.method, r.form)) {
+      const request = await accept(this.store, o.review!.secret, ip, r.userAgent, r.form ?? {}, this.now());
+      if (request !== null) {
+        await this.log(r, ip, 'review', 'pending', [`review_${request.rule !== '' ? request.rule : 'blocked'}`], request.message, request.email);
+        try {
+          await o.review!.onRequest?.(request);
+        } catch {
+          // The visitor gets the thanks page whatever the owner's code does.
+        }
+      }
+      // The same answer either way, so a script learns nothing.
+      return { status: 200, why: 'review', retry: 0 };
+    }
+    if ((o.adminIps ?? []).includes(ip)) return null;
     const waf = o.waf ?? 'log';
     if (waf !== 'off') {
       if (this.sensitive(r) && (await this.blocks.isBlocked(ip, this.now()))) {
@@ -104,7 +147,7 @@ export class Gatekeeper {
       const country = await this.refusedCountry(r, ip);
       if (country !== '') {
         const blocking = o.geo?.action === 'block';
-        await this.log(r, ip, 'waf:geo', blocking, ['waf_geo'], `${country} ${r.path}`);
+        await this.log(r, ip, 'waf:geo', blocking ? 'bot' : 'doubtful', ['waf_geo'], `${country} ${r.path}`);
         if (blocking) return { status: 403, why: 'geo', retry: 0 };
       }
       const rule = inspect({ path: r.path, query: r.query, params: r.params, userAgent: r.userAgent });
@@ -126,7 +169,7 @@ export class Gatekeeper {
         const block = pace === 'block';
         // One line per address and minute is enough evidence; the rest only counts.
         if (ipHits === ipLimit + 1 || netHits === netLimit + 1) {
-          await this.log(r, ip, `anticopy:${over}`, false, [`anticopy_${over}_${block ? 'block' : 'log'}`], r.path);
+          await this.log(r, ip, `anticopy:${over}`, 'doubtful', [`anticopy_${over}_${block ? 'block' : 'log'}`], r.path);
         }
         if (block) return { status: 429, why: 'pace', retry: Math.max(1, WINDOW - (Math.floor(now) % WINDOW)) };
       }
@@ -176,7 +219,7 @@ export class Gatekeeper {
   }
 
   private async record(r: DracoRequest, ip: string, rule: string, blocking: boolean): Promise<void> {
-    await this.log(r, ip, `waf:${rule}`, blocking, [`waf_${rule}`], r.path + (r.query !== '' ? `?${r.query}` : ''));
+    await this.log(r, ip, `waf:${rule}`, blocking ? 'bot' : 'doubtful', [`waf_${rule}`], r.path + (r.query !== '' ? `?${r.query}` : ''));
     if (!blocking) return;
     const hits = await this.store.bump(`draco:waf:${ip}`, HIT_WINDOW);
     // An address read from a header nobody vouches for is never blocked: it could be anybody's.
@@ -198,17 +241,18 @@ export class Gatekeeper {
     return ok;
   }
 
-  private async log(r: DracoRequest, ip: string, endpoint: string, blocking: boolean, reasons: string[], detail: string): Promise<void> {
+  private async log(r: DracoRequest, ip: string, endpoint: string, verdict: DracoEvent['verdict'], reasons: string[], detail: string, email?: string): Promise<void> {
     const event: DracoEvent = {
       time: Math.floor(this.now()),
       ip,
       remote: remote(r),
       endpoint,
-      verdict: blocking ? 'bot' : 'doubtful',
+      verdict,
       reasons,
       userAgent: r.userAgent.slice(0, 255),
-      detail: detail.slice(0, 200),
+      detail: detail.slice(0, endpoint === 'review' ? 500 : 200),
     };
+    if (email !== undefined) event.email = email;
     this.recent.push(event);
     if (this.recent.length > 200) this.recent.shift();
     try {
@@ -225,12 +269,12 @@ const limit = (value: number | undefined, fallback: number): number => (value !=
 export const list = (value: string | string[] | undefined): string[] => (value === undefined ? [] : parse(value));
 
 /** The 403 page: says nothing about which rule matched; the reference ties it to the evidence. */
-export function page(title: string, text: string): string {
+export function page(title: string, text: string, extraHtml = ''): string {
   const h = (s: string): string => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
   const ref = Array.from(crypto.getRandomValues(new Uint8Array(5)), (b) => b.toString(16).padStart(2, '0')).join('');
   return '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><title>403</title>'
-    + '<style>body{font:16px/1.5 system-ui,sans-serif;background:#f4f5f7;color:#1d2327;display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0;padding:20px;box-sizing:border-box}main{background:#fff;border-radius:12px;padding:32px;max-width:440px;width:100%;box-shadow:0 2px 12px rgba(0,0,0,.08);text-align:center}</style></head><body><main>'
-    + `<h1 style="font-size:20px">${h(title)}</h1><p>${h(text)}</p>`
+    + '<style>body{font:16px/1.5 system-ui,sans-serif;background:#f4f5f7;color:#1d2327;display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0;padding:20px;box-sizing:border-box}main{background:#fff;border-radius:12px;padding:32px;max-width:440px;width:100%;box-shadow:0 2px 12px rgba(0,0,0,.08);text-align:center}form{text-align:left;margin-top:20px}label{display:block;font-size:14px;margin:10px 0 4px}input,textarea{width:100%;box-sizing:border-box;padding:8px;border:1px solid #c3c4c7;border-radius:6px;font:inherit}button{margin-top:12px;padding:9px 16px;border:0;border-radius:6px;background:#2271b1;color:#fff;font:inherit;cursor:pointer}.hp{position:absolute;left:-9999px}</style></head><body><main>'
+    + `<h1 style="font-size:20px">${h(title)}</h1><p>${h(text)}</p>${extraHtml}`
     + `<p style="color:#64748b;font-size:13px">Ref. ${ref}</p></main></body></html>`;
 }
 
@@ -238,4 +282,26 @@ export const TEXTS = {
   title: 'Request blocked',
   text: 'This request was blocked by the site\'s security. If you think this is a mistake, contact the site owner.',
   tooMany: 'Too many pages in a short time. Please wait a moment and try again.',
+  /** Above the review form, instead of "text". */
+  textWithReview: 'This request was blocked by the site\'s security. If you think this is a mistake, tell the site owner what you were doing:',
+  reviewEmail: 'Your e-mail',
+  reviewMessage: 'What were you doing?',
+  reviewButton: 'Ask for a review',
+  reviewSentTitle: 'Request sent',
+  reviewSentText: 'Thank you. The owner of the site will look at it and, if it was a mistake, let you through.',
 };
+
+/** Status, headers and body of an answer, for any framework. */
+export function render(gate: Gatekeeper, answer: Answer): { status: number; headers: Record<string, string>; body: string } {
+  const texts = { ...TEXTS, ...gate.options.texts };
+  if (answer.status === 429) {
+    return {
+      status: 429,
+      headers: { 'Retry-After': String(answer.retry), 'Content-Type': 'text/plain; charset=UTF-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex' },
+      body: texts.tooMany,
+    };
+  }
+  const html = { 'Content-Type': 'text/html; charset=UTF-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow' };
+  if (answer.status === 200) return { status: 200, headers: html, body: page(texts.reviewSentTitle, texts.reviewSentText) };
+  return { status: 403, headers: html, body: answer.form !== undefined ? page(texts.title, texts.textWithReview, answer.form) : page(texts.title, texts.text) };
+}

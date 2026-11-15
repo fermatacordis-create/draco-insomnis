@@ -116,3 +116,41 @@ test('cloudflare worker', async () => {
   for (let i = 0; i < 3; i++) await call(ATTACK);
   assert.ok([...kv.data.keys()].includes('draco:block:198.51.100.30'), 'the block lives in KV');
 });
+
+test('review form through the worker and through express', async () => {
+  const asked: string[] = [];
+  const review = { secret: 'owner-secret-0123456789abcdef', onRequest: (r: { email: string }) => { asked.push(r.email); } };
+  const hidden = (html: string): Record<string, string> => Object.fromEntries([...html.matchAll(/<input type="hidden" name="([a-z_]+)" value="([^"]*)">/g)].map((m) => [m[1]!, m[2]!]));
+  const answer = { draco_email: 'ana@example.org', draco_message: 'I was searching', draco_website: '' };
+
+  const worker = withDraco({ fetch: () => new Response('origin') }, { waf: 'block', review });
+  const call = (path: string, init: RequestInit = {}) => worker.fetch(new Request(`https://example.org${path}`, { ...init, headers: { 'cf-connecting-ip': '198.51.100.40', ...(init.headers as Record<string, string>) } }), {}, {});
+  const page = await (await call(ATTACK)).text();
+  assert.match(page, /Ask for a review/);
+  const sent = await call(ATTACK, { method: 'POST', body: new URLSearchParams({ ...hidden(page), ...answer }).toString(), headers: { 'content-type': 'application/x-www-form-urlencoded' } });
+  assert.equal(sent.status, 200);
+  assert.match(await sent.text(), /Request sent/);
+
+  const mw = draco({ waf: 'block', review });
+  const server = createServer((req, res) => {
+    let raw = '';
+    req.on('data', (c) => { raw += c; });
+    req.on('end', () => {
+      // What express.urlencoded() leaves in req.body.
+      (req as typeof req & { body?: unknown }).body = Object.fromEntries(new URLSearchParams(raw));
+      mw(req as never, res, () => res.end('page'));
+    });
+  });
+  await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+  const url = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+  try {
+    const blocked = await fetch(`${url}${ATTACK}`);
+    assert.equal(blocked.status, 403);
+    const fields = hidden(await blocked.text());
+    const ok = await fetch(`${url}${ATTACK}`, { method: 'POST', body: new URLSearchParams({ ...fields, ...answer }), headers: { 'content-type': 'application/x-www-form-urlencoded' } });
+    assert.equal(ok.status, 200);
+  } finally {
+    server.close();
+  }
+  assert.deepEqual(asked, ['ana@example.org', 'ana@example.org']);
+});
