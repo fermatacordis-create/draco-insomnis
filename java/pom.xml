@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- Builds both modules: mvn -B package (or bin/build-java.sh, which needs only Docker). Each module's
+       pom stands alone, so the pom inside each jar is complete for whoever installs the jar. -->
+  <groupId>io.github.fermatacordis-create</groupId>
+  <artifactId>draco-insomnis-build</artifactId>
+  <version>0.1.31</version>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>draco</module>
+    <module>ktor</module>
+  </modules>
+</project>

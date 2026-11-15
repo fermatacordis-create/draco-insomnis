@@ -212,6 +212,16 @@ block list, country filter, anti-copy pace, security headers, review requests an
 runs the shared vectors (with PHP's byte-wise ASCII classes), and CI runs the built package inside real
 Kestrel apps. `bin/build-dotnet.sh` makes the `.nupkg`. See [dotnet/README.md](dotnet/README.md).
 
+## Java and Kotlin: Spring Boot, Servlet containers and Ktor
+
+`java/` is the same engine for the **JVM** (Java 17 and newer), with no dependencies: a Jakarta Servlet 6
+filter for Spring Boot 3 and 4 (Spring MVC), Tomcat 10.1+, Jetty 12, Undertow and any Jakarta EE 10
+server, with the options bound from `application.properties` or a `web.xml`; and a **Ktor 3** plugin
+for Kotlin. It has the firewall, block list, country filter, anti-copy pace, security headers, review
+requests and the CrowdSec bridge, runs the shared vectors (with PHP's byte-wise ASCII classes), and CI
+runs the built jars inside real Spring Boot (Tomcat) and Ktor (Netty) apps. `bin/build-java.sh` makes
+the two jars. See [java/README.md](java/README.md).
+
 ## Go: Caddy, Traefik and net/http
 
 `go/draco` is the same engine in **Go**, standard library only, and `go/caddy` the Caddy module. With
