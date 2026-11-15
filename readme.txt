@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.29
+Stable tag: 0.1.30
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,11 @@ Only if "Refuse passwords that appear in known data breaches" is switched on, Dr
 Only when an administrator opens an abuse report, Draco asks the public internet registry (RDAP, at https://rdap.org, which forwards to the regional registry: ARIN, RIPE NCC, APNIC, LACNIC or AFRINIC) who looks after the reported address, to find its abuse contact. Only that address is sent. Nothing is e-mailed until the administrator reads the draft and presses Send.
 
 == Changelog ==
+
+= 0.1.30 =
+* Python: Draco for FastAPI, Starlette, Flask and Django (ASGI and WSGI middleware), with no dependencies: firewall, block list, country filter, anti-copy pace, security headers, review requests and CrowdSec, checked against the same shared test cases as PHP and JavaScript and run inside real FastAPI, Flask and Django. Wheel and source archive in the release; on PyPI as draco-insomnis once a maintainer approves it.
+* Static sites: draco-insomnis-static-0.1.30.html, one page that writes, in your browser, the .htaccess (Apache and LiteSpeed), nginx include, Netlify or Vercel headers, or a Cloudflare Worker for a site of plain HTML. It refuses files that should never be public (.git, .env, backups) and known scanners, adds security headers and a Content-Security-Policy. Tested on Apache 2.4, nginx and Hostinger's LiteSpeed, where it also stopped two probes the CDN let through (PHPUnit eval-stdin.php and a web shell name).
+* WordPress: the settings pages use the full width, and the panels of Two-step login share one row.
 
 = 0.1.29 =
 * JavaScript (Node.js and Cloudflare Workers) now does what the PHP editions do:
