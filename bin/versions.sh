@@ -15,14 +15,16 @@ js=$(sed -n 's/^  "version": "\([^"]*\)",$/\1/p' js/package.json | head -1)
 js_lock=$(sed -n 's/^  "version": "\([^"]*\)",$/\1/p' js/package-lock.json | head -1)
 js_const=$(sed -n "s/^export const VERSION = '\([^']*\)';/\1/p" js/src/index.ts)
 py=$(sed -n 's/^version = "\([^"]*\)"$/\1/p' python/pyproject.toml | head -1)
+go_const=$(sed -n 's/^const Version = "\([^"]*\)"$/\1/p' go/draco/gatekeeper.go)
+go_caddy=$(sed -n 's#.*github.com/fermatacordis-create/draco-insomnis/go/draco v\([0-9.]*\)$#\1#p' go/caddy/go.mod)
 py_const=$(sed -n 's/^__version__ = "\([^"]*\)"$/\1/p' python/src/draco_insomnis/__init__.py)
 guard=$(sed -n "s/^define('DRACO_SERVER_GUARD', '\([^']*\)');/\1/p" server/guard.php)
 printf '%s %s\n' wordpress "$wp" wordpress-constant "$wp_const" wordpress-stable-tag "$wp_stable" \
   prestashop "$presta" drupal "$drupal" joomla "$joomla" moodle "$moodle" server "$server" server-guard "$guard" \
-  javascript "$js" javascript-lock "$js_lock" javascript-constant "$js_const" python "$py" python-constant "$py_const"
+  javascript "$js" javascript-lock "$js_lock" javascript-constant "$js_const" python "$py" python-constant "$py_const" go "$go_const" go-caddy-requires "$go_caddy"
 if [ "${1:-}" = "--check" ]; then
   want="${2:-$wp}"
-  for v in "$wp" "$wp_const" "$wp_stable" "$presta" "$drupal" "$joomla" "$moodle" "$server" "$guard" "$js" "$js_lock" "$js_const" "$py" "$py_const"; do
+  for v in "$wp" "$wp_const" "$wp_stable" "$presta" "$drupal" "$joomla" "$moodle" "$server" "$guard" "$js" "$js_lock" "$js_const" "$py" "$py_const" "$go_const" "$go_caddy"; do
     if [ "$v" != "$want" ]; then
       echo "Versions differ: every package must be $want (run bin/set-version.sh $want)" >&2
       exit 1
