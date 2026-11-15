@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.31
+Stable tag: 0.1.32
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,11 @@ Only if "Refuse passwords that appear in known data breaches" is switched on, Dr
 Only when an administrator opens an abuse report, Draco asks the public internet registry (RDAP, at https://rdap.org, which forwards to the regional registry: ARIN, RIPE NCC, APNIC, LACNIC or AFRINIC) who looks after the reported address, to find its abuse contact. Only that address is sent. Nothing is e-mailed until the administrator reads the draft and presses Send.
 
 == Changelog ==
+
+= 0.1.32 =
+* Java and Kotlin: Draco as a Jakarta Servlet filter for Spring Boot 3 and 4, Tomcat, Jetty, Undertow and Jakarta EE servers (settings from application.properties, web.xml or DRACO_INSOMNIS_* variables), and as a Ktor 3 plugin, with no dependencies: firewall, block list, country filter, anti-copy pace, security headers, review requests and CrowdSec. Run inside real Spring Boot (Tomcat) and Ktor (Netty) apps. The two jars are in the release.
+* Rust: Draco as a tower layer for axum and as actix-web middleware, with the same features, run inside real axum and actix-web servers. The crate is in the release.
+* Both match byte-wise like PHP, check the same shared test cases and use the same store keys as every other edition. All packages are in the signed checksums, the build provenance and the SBOM.
 
 = 0.1.31 =
 * Go: Draco as a Caddy module (xcaddy build --with github.com/fermatacordis-create/draco-insomnis/go/caddy@v0.1.31, directive draco_insomnis), a Traefik plugin and net/http middleware, on the standard library only: firewall, block list, country filter, anti-copy pace, security headers, review requests and CrowdSec. Tested inside real Caddy and Traefik 3.6.

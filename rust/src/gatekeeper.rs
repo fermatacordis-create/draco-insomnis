@@ -12,7 +12,7 @@ use std::collections::HashMap;
 use std::hash::{BuildHasher, Hasher};
 use std::sync::{Arc, RwLock};
 
-pub const VERSION: &str = "0.1.31";
+pub const VERSION: &str = "0.1.32";
 
 /// Sensitive path endings, besides any POST.
 pub const SENSITIVE_PATHS: &[&str] = &[
