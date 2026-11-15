@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; form-action 'none'; base-uri 'none'">
+<title>Draco Insomnis for static sites</title>
+<style>
+  :root { --ink:#1d2327; --muted:#5b6470; --line:#dcdfe4; --bg:#f4f5f7; --card:#fff; --accent:#2271b1; --warn:#9a6700; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+  main { max-width: 860px; margin: 0 auto; padding: 32px 20px 64px; }
+  header { display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  h2 { font-size: 18px; margin: 0 0 12px; }
+  .lead { color: var(--muted); margin: 0 0 24px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; margin: 0 0 16px; }
+  label { display:block; margin: 6px 0; }
+  label small, .hint { color: var(--muted); font-size: 14px; display:block; margin-left: 26px; }
+  .hint { margin-left: 0; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 8px 16px; }
+  input[type=text] { width:100%; padding:7px 9px; border:1px solid var(--line); border-radius:6px; font:inherit; font-size:14px; }
+  .csp label { margin: 4px 0 8px; }
+  .warn { color: var(--warn); }
+  .files { display:flex; gap:6px; flex-wrap:wrap; margin-bottom: 8px; }
+  .files button, .actions button, .lang button { border:1px solid var(--line); background:#fff; border-radius:6px; padding:6px 12px; font:inherit; font-size:14px; cursor:pointer; }
+  .files button[aria-pressed=true] { border-color: var(--accent); color: var(--accent); font-weight:600; }
+  .actions { display:flex; gap:8px; margin-top: 10px; }
+  .actions button.primary { background: var(--accent); color:#fff; border-color: var(--accent); }
+  pre { background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px; overflow:auto; font-size:13px; line-height:1.45; max-height: 420px; margin:0; white-space: pre; }
+  ol { padding-left: 20px; margin: 8px 0 0; }
+  .note { font-size:14px; color: var(--muted); }
+  footer { color: var(--muted); font-size: 13px; margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1 data-t="title">Draco Insomnis for static sites</h1>
+    </div>
+    <div class="lang"><button type="button" data-lang="en">English</button> <button type="button" data-lang="es">Español</button></div>
+  </header>
+  <p class="lead" data-t="lead">Choose where your HTML lives and what to switch on; download the file and upload it next to your site. Everything happens in this page: nothing is sent anywhere, and nothing of Draco stays on your server that anyone could open.</p>
+
+  <section>
+    <h2 data-t="what">What it protects, honestly</h2>
+    <p class="note" data-t="honest">A static site has no database and no code on the server, so blocking SQL injection or XSS in the address protects nothing there. What matters is: files that should never be public (.git, .env, backups uploaded by mistake), scanners looking for them, security headers and a Content-Security-Policy for your visitors, and — only with a Cloudflare Worker in front — limiting how fast anyone can copy the whole site.</p>
+  </section>
+
+  <section>
+    <h2 data-t="where">1. Where is your site?</h2>
+    <div id="platforms"></div>
+  </section>
+
+  <section>
+    <h2 data-t="switch">2. What to switch on</h2>
+    <div class="grid">
+      <label><input type="checkbox" id="probes" checked> <span data-t="probes">Refuse secret files</span><small data-t="probes_h">.git, .env, .sql backups, logs, web shells</small></label>
+      <label><input type="checkbox" id="scanners" checked> <span data-t="scanners">Refuse known scanners</span><small data-t="scanners_h">sqlmap, nikto, wpscan, nuclei…</small></label>
+      <label><input type="checkbox" id="headers" checked> <span data-t="headers">Security headers</span><small data-t="headers_h">nosniff, frames, referrer, permissions</small></label>
+      <label><input type="checkbox" id="frameDeny"> <span data-t="frame">Never inside a frame, not even yours</span><small data-t="frame_h">DENY instead of SAMEORIGIN</small></label>
+      <label><input type="checkbox" id="hsts"> <span data-t="hsts">Force HTTPS for 6 months (HSTS)</span><small class="warn" data-t="hsts_h">Only if the whole site works on HTTPS and will keep doing so.</small></label>
+      <label id="paceRow"><input type="checkbox" id="pace" checked> <span data-t="pace">Anti-copy pace limit</span><small data-t="pace_h">Cloudflare only: 120 pages a minute per address</small></label>
+    </div>
+    <h2 style="margin-top:18px" data-t="csp">Content-Security-Policy</h2>
+    <label><input type="radio" name="csp" value="off"> <span data-t="csp_off">Off</span></label>
+    <label><input type="radio" name="csp" value="report" checked> <span data-t="csp_report">Report only (start here: the browser warns in its console, nothing breaks)</span></label>
+    <label><input type="radio" name="csp" value="enforce"> <span data-t="csp_enforce">Enforce (once the console shows no warnings)</span></label>
+    <div class="csp grid" id="cspFields">
+      <label><span data-t="c_scripts">Scripts from</span><input type="text" id="c_scripts" placeholder="https://www.googletagmanager.com"></label>
+      <label><span data-t="c_styles">Styles from</span><input type="text" id="c_styles" placeholder="https://fonts.googleapis.com 'unsafe-inline'"></label>
+      <label><span data-t="c_images">Images from</span><input type="text" id="c_images" placeholder="https:"></label>
+      <label><span data-t="c_fonts">Fonts from</span><input type="text" id="c_fonts" placeholder="https://fonts.gstatic.com"></label>
+      <label><span data-t="c_connect">Connections (fetch, analytics) to</span><input type="text" id="c_connect" placeholder="https://www.google-analytics.com"></label>
+      <label><span data-t="c_frames">Embeds (videos, maps) from</span><input type="text" id="c_frames" placeholder="https://www.youtube.com"></label>
+      <label><span data-t="c_forms">Forms sent to</span><input type="text" id="c_forms" placeholder="https://formspree.io"></label>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-t="files">3. Your files</h2>
+    <div class="files" id="fileTabs"></div>
+    <pre id="output"></pre>
+    <div class="actions">
+      <button type="button" class="primary" id="download" data-t="download">Download</button>
+      <button type="button" id="copy" data-t="copy">Copy</button>
+    </div>
+    <h2 style="margin-top:18px" data-t="how">How to install it</h2>
+    <ol id="steps"></ol>
+  </section>
+
+  <footer data-t="footer">Draco Insomnis is free software (GPL-2.0-or-later). The patterns are the same as in the WordPress plugin and every other edition, and are tested on real Apache and nginx.</footer>
+</main>
+
+<script type="module">
+import * as G from './generator.mjs';
+
+const T = {
+  es: {
+    title: 'Draco Insomnis para webs estáticas',
+    lead: 'Elige dónde está tu HTML y qué quieres activar; descarga el fichero y súbelo junto a tu web. Todo ocurre en esta página: no se envía nada a ningún sitio y en tu servidor no queda nada de Draco que alguien pueda abrir.',
+    what: 'Qué protege, sin adornos',
+    honest: 'Una web estática no tiene base de datos ni código en el servidor, así que bloquear inyecciones SQL o XSS en la dirección no protege nada. Lo que importa es: ficheros que nunca deberían ser públicos (.git, .env, copias subidas por error), los escáneres que los buscan, las cabeceras de seguridad y una Content-Security-Policy para quien te visita, y —solo con un Worker de Cloudflare delante— limitar lo rápido que alguien puede copiar la web entera.',
+    where: '1. ¿Dónde está tu web?', switch: '2. Qué activar',
+    probes: 'Rechazar ficheros secretos', probes_h: '.git, .env, copias .sql, registros, web shells',
+    scanners: 'Rechazar escáneres conocidos', scanners_h: 'sqlmap, nikto, wpscan, nuclei…',
+    headers: 'Cabeceras de seguridad', headers_h: 'nosniff, marcos, referrer, permisos',
+    frame: 'Nunca dentro de un marco, ni en tu propia web', frame_h: 'DENY en vez de SAMEORIGIN',
+    hsts: 'Forzar HTTPS 6 meses (HSTS)', hsts_h: 'Solo si toda la web funciona por HTTPS y seguirá haciéndolo.',
+    pace: 'Límite anticopia', pace_h: 'Solo Cloudflare: 120 páginas por minuto por dirección',
+    csp: 'Content-Security-Policy', csp_off: 'Apagada',
+    csp_report: 'Solo avisar (empieza aquí: el navegador avisa en su consola y no se rompe nada)',
+    csp_enforce: 'Aplicar (cuando la consola ya no muestre avisos)',
+    c_scripts: 'Scripts desde', c_styles: 'Estilos desde', c_images: 'Imágenes desde', c_fonts: 'Fuentes desde',
+    c_connect: 'Conexiones (fetch, analítica) a', c_frames: 'Incrustados (vídeos, mapas) desde', c_forms: 'Formularios enviados a',
+    files: '3. Tus ficheros', download: 'Descargar', copy: 'Copiar', copied: 'Copiado', how: 'Cómo instalarlo',
+    footer: 'Draco Insomnis es software libre (GPL-2.0-or-later). Los patrones son los mismos que en el plugin de WordPress y en todas las ediciones, y se prueban en Apache y nginx reales.',
+    platforms: { apache: 'Apache o LiteSpeed (casi todo el alojamiento compartido: Hostinger, cPanel…)', nginx: 'nginx (tu propio servidor)', netlify: 'Netlify', vercel: 'Vercel', cloudflare: 'Cloudflare Worker (Draco completo, plan gratuito)' },
+    steps: {
+      apache: ['Descarga htaccess.txt (los navegadores no dejan descargar ficheros que empiezan por punto).', 'Súbelo a la carpeta principal de la web (donde está index.html) y cámbiale el nombre a .htaccess, con el punto delante. O crea .htaccess en el gestor de archivos y pega el contenido con «Copiar». Si ya hay uno, pega esto al principio del tuyo.', 'Abre tuweb.com/.env: debe salir «403 Forbidden». La web debe verse igual que antes.'],
+      nginx: ['Descarga draco-insomnis.conf y guárdalo en /etc/nginx/snippets/.', 'En el bloque server { } de tu web añade, antes de cualquier location: include /etc/nginx/snippets/draco-insomnis.conf;', 'sudo nginx -t && sudo systemctl reload nginx'],
+      netlify: ['Descarga _headers.', 'Ponlo en la carpeta que publicas (la de index.html) y despliega.', 'Netlify no permite rechazar peticiones por patrón: este fichero solo pone cabeceras. Para lo demás, pon un Worker de Cloudflare delante.'],
+      vercel: ['Descarga vercel.json.', 'Ponlo en la raíz del proyecto (si ya tienes uno, junta la parte «headers») y despliega.', 'Vercel no permite rechazar peticiones por patrón: este fichero solo pone cabeceras.'],
+      cloudflare: ['Descarga los ficheros y ponlos en una carpeta nueva; mete tu web (index.html y lo demás) en ./public.', 'npm install, y después: npx wrangler kv namespace create DRACO — copia el id en wrangler.toml.', 'npx wrangler deploy. Opcional: npx wrangler secret put DRACO_SECRET (16+ caracteres) para que quien quede bloqueado pueda pedir revisión.'],
+    },
+  },
+  en: {
+    platforms: { apache: 'Apache or LiteSpeed (most shared hosting: Hostinger, cPanel…)', nginx: 'nginx (your own server)', netlify: 'Netlify', vercel: 'Vercel', cloudflare: 'Cloudflare Worker (full Draco, free plan)' },
+    copied: 'Copied',
+    steps: {
+      apache: ['Download htaccess.txt (browsers do not download files whose name starts with a dot).', 'Upload it to the main folder of the site (where index.html is) and rename it to .htaccess, with the dot. Or create .htaccess in the file manager and paste the content with "Copy". If there is one already, paste this at the top of yours.', 'Open yoursite.com/.env: it must say "403 Forbidden". The site must look as before.'],
+      nginx: ['Download draco-insomnis.conf and save it in /etc/nginx/snippets/.', 'In the server { } block of the site add, before any location: include /etc/nginx/snippets/draco-insomnis.conf;', 'sudo nginx -t && sudo systemctl reload nginx'],
+      netlify: ['Download _headers.', 'Put it in the folder you publish (where index.html is) and deploy.', 'Netlify cannot refuse requests by pattern: this file only sets headers. For the rest, put a Cloudflare Worker in front.'],
+      vercel: ['Download vercel.json.', 'Put it at the root of the project (if you have one, merge the "headers" part) and deploy.', 'Vercel cannot refuse requests by pattern: this file only sets headers.'],
+      cloudflare: ['Download the files into a new folder; put your site (index.html and the rest) in ./public.', 'npm install, then: npx wrangler kv namespace create DRACO — copy the id into wrangler.toml.', 'npx wrangler deploy. Optional: npx wrangler secret put DRACO_SECRET (16+ characters) so whoever is blocked can ask for a review.'],
+    },
+  },
+};
+
+const $ = (id) => document.getElementById(id);
+let lang = (navigator.language || 'en').toLowerCase().startsWith('es') ? 'es' : 'en';
+let platform = 'apache';
+let current = '';
+let files = {};
+const english = {};
+document.querySelectorAll('[data-t]').forEach((el) => { english[el.dataset.t] = el.textContent; });
+const t = (key) => (lang === 'es' ? T.es[key] : undefined) ?? T.en[key] ?? english[key] ?? key;
+
+function renderPlatforms() {
+  $('platforms').innerHTML = '';
+  for (const id of Object.keys(G.PLATFORMS)) {
+    const label = document.createElement('label');
+    const input = Object.assign(document.createElement('input'), { type: 'radio', name: 'platform', value: id, checked: id === platform });
+    input.addEventListener('change', () => { platform = id; update(); });
+    label.append(input, ' ', (lang === 'es' ? T.es : T.en).platforms[id]);
+    $('platforms').append(label);
+  }
+}
+
+function options() {
+  const csp = document.querySelector('input[name=csp]:checked').value;
+  const field = (id) => $(id).value;
+  return {
+    probes: $('probes').checked, scanners: $('scanners').checked, headers: $('headers').checked,
+    frame: $('frameDeny').checked ? 'DENY' : 'SAMEORIGIN', hsts: $('hsts').checked, pace: $('pace').checked,
+    csp: csp === 'off' ? null : { enforce: csp === 'enforce', scripts: field('c_scripts'), styles: field('c_styles'), images: field('c_images'),
+      fonts: field('c_fonts'), connect: field('c_connect'), frames: field('c_frames'), forms: field('c_forms') },
+    today: new Date().toISOString().slice(0, 10),
+  };
+}
+
+function update() {
+  $('paceRow').style.display = platform === 'cloudflare' ? '' : 'none';
+  $('cspFields').style.display = document.querySelector('input[name=csp]:checked').value === 'off' ? 'none' : '';
+  files = G.generate(platform, options());
+  if (!(current in files)) current = Object.keys(files)[0];
+  $('fileTabs').innerHTML = '';
+  for (const name of Object.keys(files)) {
+    const b = Object.assign(document.createElement('button'), { type: 'button', textContent: name });
+    b.setAttribute('aria-pressed', String(name === current));
+    b.addEventListener('click', () => { current = name; update(); });
+    $('fileTabs').append(b);
+  }
+  $('output').textContent = files[current];
+  $('steps').innerHTML = '';
+  for (const s of (lang === 'es' ? T.es : T.en).steps[platform]) $('steps').append(Object.assign(document.createElement('li'), { textContent: s }));
+}
+
+function translate() {
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t(el.dataset.t); });
+  document.title = t('title');
+  renderPlatforms();
+  update();
+}
+
+document.querySelectorAll('input').forEach((i) => i.addEventListener('input', update));
+document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => { lang = b.dataset.lang; translate(); }));
+$('download').addEventListener('click', () => {
+  // Browsers refuse to save hidden files: .htaccess comes down as htaccess.txt (the steps say to rename it).
+  const base = current.split('/').pop();
+  const name = base.startsWith('.') ? `${base.slice(1)}.txt` : base;
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([files[current]], { type: 'text/plain' })), download: name });
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});
+$('copy').addEventListener('click', async () => {
+  await navigator.clipboard.writeText(files[current]);
+  $('copy').textContent = t('copied');
+  setTimeout(() => { $('copy').textContent = t('copy'); }, 1500);
+});
+translate();
+</script>
+</body>
+</html>

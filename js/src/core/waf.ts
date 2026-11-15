@@ -19,9 +19,9 @@ export interface WafInput {
 
 export type WafRule = 'scanner' | 'probe' | 'sqli' | 'traversal' | 'code' | 'xss';
 
-const SCANNERS = /\b(sqlmap|nikto|wpscan|nmap|masscan|zgrab|nuclei|acunetix|dirbuster|gobuster|ffuf|feroxbuster|wfuzz|whatweb|openvas|netsparker|jaeles|hydra)\b/i;
+export const SCANNERS = /\b(sqlmap|nikto|wpscan|nmap|masscan|zgrab|nuclei|acunetix|dirbuster|gobuster|ffuf|feroxbuster|wfuzz|whatweb|openvas|netsparker|jaeles|hydra)\b/i;
 
-const PROBES = /(^|\/)(\.env(\.[a-z0-9]+)?$|\.git(\/|$)|\.svn\/|\.hg\/|\.aws\/|\.ssh\/|\.ds_store$|wp-config\.php[^/]+$|wp-config\.(bak|old|txt|orig|save|swp)$|phpinfo\.php$|info\.php$|adminer[\w.-]*\.php$|eval-stdin\.php$|vendor\/phpunit\/|[\w.-]+\.sql(\.gz|\.zip)?$|debug\.log$|server-status$|cgi-bin\/|(wso|c99|r57|alfa[\w-]*|shell|webshell|b374k)\.php$)/i;
+export const PROBES = /(^|\/)(\.env(\.[a-z0-9]+)?$|\.git(\/|$)|\.svn\/|\.hg\/|\.aws\/|\.ssh\/|\.ds_store$|wp-config\.php[^/]+$|wp-config\.(bak|old|txt|orig|save|swp)$|phpinfo\.php$|info\.php$|adminer[\w.-]*\.php$|eval-stdin\.php$|vendor\/phpunit\/|[\w.-]+\.sql(\.gz|\.zip)?$|debug\.log$|server-status$|cgi-bin\/|(wso|c99|r57|alfa[\w-]*|shell|webshell|b374k)\.php$)/i;
 
 const SP = String.raw`(\s|\/\*.*?\*\/|\+)`;
 

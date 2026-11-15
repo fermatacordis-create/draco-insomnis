@@ -444,6 +444,25 @@ jobs:
         # From the installed wheel, not from src/: the package as shipped.
         run: python tests/e2e_frameworks.py
 
+  static:
+    name: Static-site generator on real Apache, nginx and Chromium
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: The generator, and its patterns are the firewall's
+        run: node --experimental-strip-types --test static/test/generator.test.mjs
+      - name: The generated files on Apache 2.4 and nginx
+        run: static/test/servers.sh
+      - name: The page in Chromium
+        run: |
+          html=$(bin/build-static.sh /tmp/static)
+          mkdir -p /tmp/pw && (cd /tmp/pw && npm i --silent playwright && npx playwright install --with-deps chromium >/dev/null)
+          ln -s /tmp/pw/node_modules static/node_modules
+          node static/test/browser.mjs "$html"
+
   sbom:
     name: Every package builds, and the SBOM is valid CycloneDX 1.6
     runs-on: ubuntu-latest
@@ -472,7 +491,7 @@ jobs:
           echo "ghcr.io/x/draco-insomnis@sha256:$(printf ci | sha256sum | cut -d' ' -f1)" > /tmp/release/docker-digest.txt
           php bin/build-sbom.php /tmp/release /tmp/release/sbom.cdx.json
           docker run --rm -v /tmp/release:/w cyclonedx/cyclonedx-cli:0.27.2 validate --input-file /w/sbom.cdx.json --input-version v1_6 --fail-on-errors
-          php -r '$j = json_decode(file_get_contents("/tmp/release/sbom.cdx.json"), true); $n = count(array_filter($j["components"], fn ($c) => $c["type"] === "application")); echo $n, " packages", PHP_EOL; exit($n >= 13 && str_contains(json_encode($j), "pkg:rpm") && str_contains(json_encode($j), "pkg:pypi") ? 0 : 1);'
+          php -r '$j = json_decode(file_get_contents("/tmp/release/sbom.cdx.json"), true); $n = count(array_filter($j["components"], fn ($c) => $c["type"] === "application")); echo $n, " packages", PHP_EOL; exit($n >= 14 && str_contains(json_encode($j), "pkg:rpm") && str_contains(json_encode($j), "pkg:pypi") ? 0 : 1);'
 
   server:
     name: Server edition — ${{ matrix.os }} with ${{ matrix.web }}
