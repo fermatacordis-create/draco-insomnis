@@ -148,3 +148,32 @@ jobs:
           grep " draco-insomnis-js-$version.tgz\$" SHA256SUMS.txt | sha256sum -c -
           # "./": without it npm 12 reads "dir/file.tgz" as a GitHub repository.
           npx -y npm@12.2.2 stage publish "./draco-insomnis-js-$version.tgz" --provenance --access public
+
+  pypi:
+    name: Publish the Python package on PyPI (a maintainer approves it in GitHub)
+    needs: release
+    if: ${{ !cancelled() && (needs.release.result == 'success' || github.event_name == 'workflow_dispatch') }}
+    runs-on: ubuntu-latest
+    # The "pypi" environment waits for a maintainer's approval and only runs for v* tags. Trusted
+    # publishing (OIDC): no PyPI token is stored anywhere; PyPI adds its own attestations.
+    environment:
+      name: pypi
+      url: https://pypi.org/project/draco-insomnis/
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: The Python files of the GitHub release, checked against SHA256SUMS.txt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          case "$TAG" in v[0-9]*.[0-9]*.[0-9]*) ;; *) echo "not a release tag: $TAG"; exit 1;; esac
+          version="${TAG#v}"
+          mkdir dist && cd dist
+          gh release download "$TAG" -R "$GITHUB_REPOSITORY" -p SHA256SUMS.txt -p "draco_insomnis-$version-py3-none-any.whl" -p "draco_insomnis-$version.tar.gz"
+          grep -E " draco_insomnis-$version(-py3-none-any\.whl|\.tar\.gz)\$" SHA256SUMS.txt | sha256sum -c -
+          rm SHA256SUMS.txt
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/
