@@ -46,14 +46,6 @@ jobs:
           sudo apt-get install -y -qq rpm >/dev/null
           bin/build-all.sh release | tee release/files.txt
           (cd release && sha256sum *.zip *.deb *.rpm *.tar.gz *.tgz > SHA256SUMS.txt && cat SHA256SUMS.txt)
-      - name: SBOM (CycloneDX) of every package
-        uses: anchore/sbom-action@v0
-        with:
-          path: release
-          format: cyclonedx-json
-          output-file: release/draco-insomnis-${{ github.ref_name }}.cdx.json
-          upload-artifact: false
-          upload-release-assets: false
       - name: Build provenance (gh attestation verify <file> -R fermatacordis-create/draco-insomnis)
         uses: actions/attest-build-provenance@v2
         with:
@@ -63,11 +55,6 @@ jobs:
             release/*.rpm
             release/*.tar.gz
             release/*.tgz
-      - name: SBOM attestation
-        uses: actions/attest-sbom@v2
-        with:
-          subject-path: release/SHA256SUMS.txt
-          sbom-path: release/draco-insomnis-${{ github.ref_name }}.cdx.json
       - uses: sigstore/cosign-installer@v3
       - name: Sign the checksums (cosign verify-blob, see SECURITY.md)
         run: |
@@ -88,6 +75,17 @@ jobs:
           docker inspect --format '{{index .RepoDigests 0}}' "$image:$version" | tee release/docker-digest.txt
           # The image is signed by digest, keyless, like the files.
           cosign sign --yes "$(cat release/docker-digest.txt)"
+      # After the image: the SBOM lists it by digest. Written by bin/build-sbom.php from the files
+      # really in release/ (Draco ships no third-party code, so a scanner finds almost nothing).
+      - name: SBOM (CycloneDX 1.6) of every package, the image, the shared engines and the outside services
+        run: |
+          php bin/build-sbom.php release "release/draco-insomnis-${GITHUB_REF_NAME}.cdx.json"
+          docker run --rm -v "$PWD/release:/w" cyclonedx/cyclonedx-cli:0.27.2 validate             --input-file "/w/draco-insomnis-${GITHUB_REF_NAME}.cdx.json" --input-version v1_6 --fail-on-errors
+      - name: SBOM attestation
+        uses: actions/attest-sbom@v2
+        with:
+          subject-path: release/SHA256SUMS.txt
+          sbom-path: release/draco-insomnis-${{ github.ref_name }}.cdx.json
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
