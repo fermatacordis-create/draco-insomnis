@@ -186,6 +186,15 @@ a port of `src/Core/WafRules.php`, and both languages run the same cases from
 makes the npm tarball. CI also runs it on Node.js 20 with real Express 5 and Koa. See
 [js/README.md](js/README.md).
 
+## Python
+
+`python/` is the same engine for **Python** 3.9 and newer, with no dependencies: an ASGI middleware
+(FastAPI, Starlette, Django ASGI) and a WSGI one (Flask, Django). It has the firewall, block list,
+country filter (`GeoFile`), anti-copy pace, security headers, review requests and the CrowdSec
+bridge. It runs the same shared cases as PHP and JavaScript (`tests/vectors/waf.json`,
+`review.json`), and CI runs the built wheel inside real FastAPI, Flask and Django.
+`bin/build-python.sh` makes the wheel and the source archive. See [python/README.md](python/README.md).
+
 ## Releasing
 
 Every release carries one package per platform with the same version, built from the same commit

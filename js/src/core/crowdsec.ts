@@ -75,6 +75,8 @@ export class CrowdSec {
 
   private async pull(): Promise<SyncResult> {
     const out: SyncResult = { added: 0, removed: 0, error: '' };
+    // Any sync, also one called by hand, counts as this minute's.
+    await this.store.set('draco:crowdsec:sync', '1', EVERY);
     // The first call asks for everything in force; later ones only for changes.
     const startup = (await this.store.get('draco:crowdsec:started')) === null;
     const url = `${this.options.url.replace(/\/+$/, '')}/v1/decisions/stream?startup=${startup}&scopes=ip,range`;

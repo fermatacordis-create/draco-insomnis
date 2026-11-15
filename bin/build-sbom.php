@@ -67,6 +67,8 @@ $kinds = [
     ['/^draco-insomnis-server_.*_all\.deb$/', 'draco-insomnis-server', 'Server edition for any PHP site (Debian, Ubuntu)', 'PHP 8.0 or newer with PDO SQLite', 'pkg:deb/draco-insomnis-server@%s?arch=all', true],
     ['/^draco-insomnis-server-.*\.noarch\.rpm$/', 'draco-insomnis-server', 'Server edition for any PHP site (RHEL, AlmaLinux, Rocky, Fedora)', 'PHP 8.0 or newer with PDO SQLite', 'pkg:rpm/draco-insomnis-server@%s-1?arch=noarch', true],
     ['/^draco-insomnis-server-.*\.tar\.gz$/', 'draco-insomnis-server-tarball', 'Server edition for any PHP site (install.sh)', 'PHP 8.0 or newer with PDO SQLite', null, true],
+    ['/^draco_insomnis-.*-py3-none-any\.whl$/', 'draco-insomnis', 'Python package (wheel): FastAPI, Starlette, Flask, Django (ASGI and WSGI)', 'Python 3.9 or newer', 'pkg:pypi/draco-insomnis@%s', false],
+    ['/^draco_insomnis-[0-9.]+\.tar\.gz$/', 'draco-insomnis-python-sdist', 'Python package (source)', 'Python 3.9 or newer', 'pkg:pypi/draco-insomnis@%s?ext=tar.gz', false],
     ['/^draco-insomnis-js-.*\.tgz$/', 'draco-insomnis', 'JavaScript package: Node.js (Express, Koa, Strapi, Directus) and Cloudflare Workers', 'Node.js 20 or newer, or Cloudflare Workers', 'pkg:npm/draco-insomnis@%s', false],
 ];
 
@@ -120,7 +122,7 @@ foreach (scandir($dir) ?: [] as $file) {
             'properties' => props(['draco:file' => $file, 'draco:requires' => $requires, 'draco:third-party-code' => 'none']),
         ];
         if (!$hasCore) {
-            $c['properties'][] = ['name' => 'draco:engines', 'value' => 'TypeScript port of src/Core, checked against the same test vectors (tests/vectors)'];
+            $c['properties'][] = ['name' => 'draco:engines', 'value' => (str_contains($what, 'Python') ? 'Python' : 'TypeScript') . ' port of src/Core, checked against the same test vectors (tests/vectors)'];
         }
         $components[] = $c;
         $shipped[] = $ref;
