@@ -1,0 +1,69 @@
+Firewall,ไฟร์วอลล์
+"Anti-copy pace limit",การจำกัดความเร็วกันการคัดลอก
+Off,ปิด
+Block,บล็อก
+"Visitor address",ที่อยู่ของผู้เยี่ยมชม
+"Cloudflare (CF-Connecting-IP)","Cloudflare (CF-Connecting-IP)"
+"Rented-server networks",เครือข่ายเซิร์ฟเวอร์เช่า
+"The registration could not be completed.",ไม่สามารถสมัครให้เสร็จได้
+"Request blocked",คำขอถูกบล็อก
+Where,ที่ไหน
+"Trusted proxies",พร็อกซีที่เชื่อถือได้
+Countries,ประเทศ
+Filter,ตัวกรอง
+"Refuse the countries listed",ปฏิเสธประเทศในรายการ
+"What to do",ทำอะไร
+"Security headers",เฮดเดอร์ความปลอดภัย
+"This password appears in known data breaches, so attackers try it first. Please choose another one.","รหัสผ่านนี้อยู่ในข้อมูลรั่วไหลที่รู้จัก ผู้โจมตีจึงลองเป็นอันดับแรก โปรดเลือกรหัสอื่น"
+"Review requests",คำขอให้ตรวจสอบ
+"Ask for a review",ขอให้ตรวจสอบ
+"Your e-mail",อีเมลของคุณ
+"What were you doing?",คุณกำลังทำอะไรอยู่?
+"Request sent",ส่งคำขอแล้ว
+"Draco Insomnis","Draco Insomnis"
+"The whole shop",ทั้งร้านค้า
+"Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.","เฉพาะเมื่อทั้งร้านค้าทำงานบน HTTPS และจะเป็นเช่นนั้นต่อไป: เบราว์เซอร์จะจำไว้และปฏิเสธ HTTP ธรรมดาจนกว่าจะหมดอายุ"
+"Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.","ขอบคุณ เจ้าของร้านจะตรวจดู และหากเป็นความผิดพลาด จะให้คุณผ่าน"
+"This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:","คำขอนี้ถูกหยุดด้วยเหตุผลด้านความปลอดภัย หากคุณคิดว่าเป็นความผิดพลาด โปรดบอกเจ้าของร้านว่าคุณกำลังทำอะไรอยู่:"
+"Force HTTPS in browsers for 6 months (HSTS)","บังคับ HTTPS ในเบราว์เซอร์ 6 เดือน (HSTS)"
+"Firewall: %1 attacks in 10 minutes","ไฟร์วอลล์: %1 การโจมตีใน 10 นาที"
+"The password must have at least %1 characters.","รหัสผ่านต้องมีอย่างน้อย %1 ตัวอักษร"
+"[%1] Someone asks you to review a firewall block","[%1] มีคนขอให้คุณตรวจสอบการบล็อกของไฟร์วอลล์"
+"A visitor stopped by the firewall asks for a review. To let them through or not: bin/magento draco:reviews","ผู้เยี่ยมชมที่ถูกไฟร์วอลล์หยุดไว้ขอให้ตรวจสอบ จะปล่อยผ่านหรือไม่: bin/magento draco:reviews"
+"Automatic: %1 bot attempts in 24 h","อัตโนมัติ: บอตพยายาม %1 ครั้งใน 24 ชม."
+"Login, sign-up and anything posted","การเข้าสู่ระบบ การสมัคร และทุกสิ่งที่ส่งเข้ามา"
+"No minimum (Magento rules only)","ไม่มีขั้นต่ำ (เฉพาะกฎของ Magento)"
+"%1 characters · recommended","%1 ตัวอักษร · แนะนำ"
+"%1 characters","%1 ตัวอักษร"
+"Only allow the countries listed",อนุญาตเฉพาะประเทศในรายการ
+"The connection address (recommended)","ที่อยู่ของการเชื่อมต่อ (แนะนำ)"
+"Another proxy (X-Forwarded-For)","พร็อกซีอื่น (X-Forwarded-For)"
+"Log only (stop nothing)","บันทึกเท่านั้น (ไม่หยุดอะไรเลย)"
+"Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and the scanners that look for weak spots. The admin panel is never inspected. Start with ""Log only"" for a few days. Emergency exit: 'draco_waf_off' => true in app/etc/env.php. Try it: bin/magento draco:test","หยุดคำขอที่มีลักษณะเป็นการโจมตี (การฉีดเข้าฐานข้อมูล การอ่านไฟล์ของเซิร์ฟเวอร์ การรันโค้ด สคริปต์ในลิงก์) และสแกนเนอร์ที่ค้นหาจุดอ่อน แผงผู้ดูแลไม่ถูกตรวจเลย เริ่มด้วย ""บันทึกเท่านั้น"" สักสองสามวัน ทางออกฉุกเฉิน: 'draco_waf_off' => true ใน app/etc/env.php ลองดู: bin/magento draco:test"
+Mode,โหมด
+"Too many pages a minute from one address or one network get ""429, come back in a minute"". Customers who are logged in and search engines verified by DNS are never limited.","หน้าเว็บที่มากเกินไปต่อนาทีจากที่อยู่เดียวหรือเครือข่ายเดียวจะได้รับ ""429 กลับมาอีกครั้งในหนึ่งนาที"" ลูกค้าที่เข้าสู่ระบบแล้วและเครื่องมือค้นหาที่ยืนยันด้วย DNS จะไม่ถูกจำกัดเลย"
+"Pages a minute per address",จำนวนหน้าต่อนาทีต่อที่อยู่
+"Pages a minute per network",จำนวนหน้าต่อนาทีต่อเครือข่าย
+"Anti-bot shield on customer sign-ups",โล่กันบอตในการสมัครของลูกค้า
+"Adds an invisible trap and a signed page stamp to the ""Create an Account"" form, without captchas. Bots get no account; three bot attempts in one day block the address for a week.","เพิ่มกับดักที่มองไม่เห็นและตราประทับหน้าที่มีลายเซ็นลงในแบบฟอร์ม ""สร้างบัญชี"" โดยไม่ต้องใช้แคปต์ชา บอตจะไม่ได้บัญชี และบอตพยายามสามครั้งในหนึ่งวันจะบล็อกที่อยู่นั้นหนึ่งสัปดาห์"
+"Protect the sign-up form",ป้องกันแบบฟอร์มสมัคร
+"Refuse or allow visitors by country, from a public list (DB-IP Lite, CC BY 4.0) downloaded once a month by cron and looked up locally. Behind Cloudflare its own country header is used.","ปฏิเสธหรืออนุญาตผู้เยี่ยมชมตามประเทศ จากรายการสาธารณะ (DB-IP Lite, CC BY 4.0) ที่ cron ดาวน์โหลดเดือนละครั้งและค้นหาในเครื่อง หลัง Cloudflare จะใช้ส่วนหัวประเทศของ Cloudflare เอง"
+"Two-letter codes separated by commas, such as RU, CN.","รหัสสองตัวอักษรคั่นด้วยจุลภาค เช่น RU, CN"
+"Only change the header when the shop is behind that proxy. A header from any other connection is ignored, so nobody can pose as another address.","เปลี่ยนส่วนหัวเฉพาะเมื่อร้านค้าอยู่หลังพร็อกซีนั้น ส่วนหัวจากการเชื่อมต่ออื่นใดจะถูกละเว้น จึงไม่มีใครปลอมเป็นที่อยู่อื่นได้"
+"Read the visitor address from",อ่านที่อยู่ผู้เยี่ยมชมจาก
+"Addresses or CIDR ranges, separated by commas. Empty: this machine and private networks. Cloudflare's ranges are already known.","ที่อยู่หรือช่วง CIDR คั่นด้วยจุลภาค เว้นว่าง: เครื่องนี้และเครือข่ายส่วนตัว รู้จักช่วงของ Cloudflare อยู่แล้ว"
+"CIDR ranges, one per line, added to the ones Draco knows.","ช่วง CIDR บรรทัดละหนึ่งช่วง เพิ่มจากที่ Draco รู้จัก"
+"Addresses never blocked or limited",ที่อยู่ที่ไม่ถูกบล็อกหรือจำกัดเลย
+"Separated by commas, on top of the last addresses administrators logged in from.","คั่นด้วยจุลภาค นอกเหนือจากที่อยู่ล่าสุดที่ผู้ดูแลเข้าสู่ระบบมา"
+"Paths never inspected",เส้นทางที่ไม่ถูกตรวจเลย
+"Start of the path, one per line, such as webhooks that receive signed payloads.","ส่วนต้นของเส้นทาง บรรทัดละหนึ่งรายการ เช่น webhook ที่รับข้อมูลที่มีลายเซ็น"
+"nosniff, SAMEORIGIN, Referrer-Policy and Permissions-Policy. Draco never replaces a header the shop already sends.","nosniff, SAMEORIGIN, Referrer-Policy และ Permissions-Policy โดย Draco จะไม่แทนที่ส่วนหัวที่ร้านค้าส่งอยู่แล้ว"
+"Send them",ส่ง
+"Customer passwords",รหัสผ่านของลูกค้า
+"Applied when a customer chooses a password: sign-up, account page, reset link and the API. Existing passwords keep working.","ใช้เมื่อลูกค้าเลือกรหัสผ่าน: การสมัคร หน้าบัญชี ลิงก์รีเซ็ต และ API รหัสผ่านที่มีอยู่ยังใช้ได้ตามเดิม"
+"Minimum length",ความยาวขั้นต่ำ
+"Refuse passwords that appear in known data breaches",ปฏิเสธรหัสผ่านที่ปรากฏในข้อมูลรั่วไหลที่รู้จัก
+"Asks Have I Been Pwned with only the first 5 characters of the password's SHA-1: the password never leaves your server. If the service does not answer in 3 seconds, the password is accepted.","ถาม Have I Been Pwned โดยใช้เพียง 5 ตัวอักษรแรกของ SHA-1 ของรหัสผ่าน: รหัสผ่านจะไม่ออกจากเซิร์ฟเวอร์ของคุณเลย หากบริการไม่ตอบภายใน 3 วินาที รหัสผ่านจะถูกยอมรับ"
+"Visitors stopped by the firewall can ask for a review from the block page. You get at most one e-mail an hour; decide with bin/magento draco:reviews.","ผู้เยี่ยมชมที่ถูกไฟร์วอลล์หยุดไว้สามารถขอให้ตรวจสอบได้จากหน้าที่ถูกบล็อก คุณจะได้รับอีเมลไม่เกินชั่วโมงละหนึ่งฉบับ ตัดสินใจด้วย bin/magento draco:reviews"
+"Send them to",ส่งไปที่
+"Empty: the store's general contact e-mail.","เว้นว่าง: อีเมลติดต่อทั่วไปของร้านค้า"

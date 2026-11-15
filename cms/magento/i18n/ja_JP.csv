@@ -1,0 +1,69 @@
+Firewall,ファイアウォール
+"Anti-copy pace limit",コピー対策の速度制限
+Off,オフ
+Block,ブロック
+"Visitor address",訪問者のアドレス
+"Cloudflare (CF-Connecting-IP)",Cloudflare（CF-Connecting-IP）
+"Rented-server networks",レンタルサーバーのネットワーク
+"The registration could not be completed.",登録を完了できませんでした。
+"Request blocked",リクエストがブロックされました
+Where,対象
+"Trusted proxies",信頼するプロキシ
+Countries,国
+Filter,フィルター
+"Refuse the countries listed",リストの国を拒否
+"What to do",動作
+"Security headers",セキュリティヘッダー
+"This password appears in known data breaches, so attackers try it first. Please choose another one.",このパスワードは既知のデータ漏洩に含まれているため、攻撃者が最初に試します。別のパスワードを選んでください。
+"Review requests",確認依頼
+"Ask for a review",確認を依頼する
+"Your e-mail",メールアドレス
+"What were you doing?",何をしていましたか？
+"Request sent",送信しました
+"Draco Insomnis","Draco Insomnis"
+"The whole shop",ショップ全体
+"Only when the whole shop works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.","ショップ全体が HTTPS で動いていて今後もそうである場合だけ: ブラウザがこれを記憶し、期限が切れるまで HTTP を拒否します。"
+"Thank you. The owner of the shop will look at it and, if it was a mistake, let you through.",ありがとうございます。ショップの運営者が確認し、誤りだった場合は通過できるようにします。
+"This request was stopped for security reasons. If you think this is a mistake, tell the owner of the shop what you were doing:",このリクエストはセキュリティ上の理由で止められました。誤りだと思われる場合は、何をしていたかをショップの運営者に伝えてください:
+"Force HTTPS in browsers for 6 months (HSTS)","ブラウザで 6 か月間 HTTPS を強制（HSTS）"
+"Firewall: %1 attacks in 10 minutes","ファイアウォール：10 分間に %1 件の攻撃"
+"The password must have at least %1 characters.","パスワードは %1 文字以上にしてください。"
+"[%1] Someone asks you to review a firewall block","[%1] ファイアウォールのブロックの確認を依頼されています"
+"A visitor stopped by the firewall asks for a review. To let them through or not: bin/magento draco:reviews","ファイアウォールに止められた訪問者が確認を求めています。通すかどうか：bin/magento draco:reviews"
+"Automatic: %1 bot attempts in 24 h","自動：24 時間に %1 回のボットの試行"
+"Login, sign-up and anything posted",ログイン、登録、送信されるすべてのもの
+"No minimum (Magento rules only)","最小なし（Magento のルールのみ）"
+"%1 characters · recommended","%1 文字 · 推奨"
+"%1 characters","%1 文字"
+"Only allow the countries listed",リストの国だけを許可
+"The connection address (recommended)",接続元のアドレス（推奨）
+"Another proxy (X-Forwarded-For)",別のプロキシ（X-Forwarded-For）
+"Log only (stop nothing)",記録のみ（何も止めない）
+"Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and the scanners that look for weak spots. The admin panel is never inspected. Start with ""Log only"" for a few days. Emergency exit: 'draco_waf_off' => true in app/etc/env.php. Try it: bin/magento draco:test","攻撃の形をしたリクエスト（データベースへのインジェクション、サーバーファイルの読み取り、コードの実行、リンク内のスクリプト）と、弱点を探すスキャナーを止めます。管理パネルは検査しません。最初の数日は「記録のみ」で始めてください。緊急時の解除：app/etc/env.php に 'draco_waf_off' => true。試すには：bin/magento draco:test"
+Mode,モード
+"Too many pages a minute from one address or one network get ""429, come back in a minute"". Customers who are logged in and search engines verified by DNS are never limited.","1 つのアドレスや 1 つのネットワークから 1 分間に多すぎるページを要求すると「429、1 分後にもう一度」が返ります。ログイン中の顧客と DNS で確認された検索エンジンは制限しません。"
+"Pages a minute per address","アドレスごとの 1 分あたりのページ数"
+"Pages a minute per network","ネットワークごとの 1 分あたりのページ数"
+"Anti-bot shield on customer sign-ups",顧客登録のボット対策シールド
+"Adds an invisible trap and a signed page stamp to the ""Create an Account"" form, without captchas. Bots get no account; three bot attempts in one day block the address for a week.","「アカウントを作成」フォームに、見えない罠と署名付きのページスタンプを追加します。キャプチャは不要です。ボットはアカウントを作れず、1 日に 3 回ボットの試行があるとそのアドレスを 1 週間ブロックします。"
+"Protect the sign-up form",登録フォームを保護する
+"Refuse or allow visitors by country, from a public list (DB-IP Lite, CC BY 4.0) downloaded once a month by cron and looked up locally. Behind Cloudflare its own country header is used.","国ごとに訪問者を拒否または許可します。公開リスト（DB-IP Lite、CC BY 4.0）を cron が月に 1 回ダウンロードし、ローカルで照会します。Cloudflare の背後では Cloudflare 自身の国ヘッダーを使います。"
+"Two-letter codes separated by commas, such as RU, CN.","カンマ区切りの 2 文字のコード（例：RU, CN）。"
+"Only change the header when the shop is behind that proxy. A header from any other connection is ignored, so nobody can pose as another address.",ショップがそのプロキシの背後にある場合にのみヘッダーを変更してください。ほかの接続から来たヘッダーは無視されるため、誰も別のアドレスになりすませません。
+"Read the visitor address from",訪問者のアドレスの取得元
+"Addresses or CIDR ranges, separated by commas. Empty: this machine and private networks. Cloudflare's ranges are already known.","カンマ区切りのアドレスまたは CIDR 範囲。空欄：このマシンとプライベートネットワーク。Cloudflare の範囲は登録済みです。"
+"CIDR ranges, one per line, added to the ones Draco knows.","1 行に 1 つの CIDR 範囲。Draco が知っている範囲に追加されます。"
+"Addresses never blocked or limited",ブロックも制限もしないアドレス
+"Separated by commas, on top of the last addresses administrators logged in from.",カンマ区切り。管理者が最近ログインしたアドレスに加えて適用されます。
+"Paths never inspected",検査しないパス
+"Start of the path, one per line, such as webhooks that receive signed payloads.","パスの先頭を 1 行に 1 つ。署名付きデータを受け取る Webhook など。"
+"nosniff, SAMEORIGIN, Referrer-Policy and Permissions-Policy. Draco never replaces a header the shop already sends.","nosniff、SAMEORIGIN、Referrer-Policy、Permissions-Policy。ショップがすでに送っているヘッダーを Draco が置き換えることはありません。"
+"Send them",送信する
+"Customer passwords",顧客のパスワード
+"Applied when a customer chooses a password: sign-up, account page, reset link and the API. Existing passwords keep working.",顧客がパスワードを選ぶときに適用されます：登録、アカウントページ、リセットリンク、API。既存のパスワードはそのまま使えます。
+"Minimum length",最小文字数
+"Refuse passwords that appear in known data breaches",既知のデータ漏えいに含まれるパスワードを拒否する
+"Asks Have I Been Pwned with only the first 5 characters of the password's SHA-1: the password never leaves your server. If the service does not answer in 3 seconds, the password is accepted.","パスワードの SHA-1 の最初の 5 文字だけを使って Have I Been Pwned に問い合わせます。パスワードがサーバーの外に出ることはありません。3 秒以内に応答がなければ、パスワードは受け入れられます。"
+"Visitors stopped by the firewall can ask for a review from the block page. You get at most one e-mail an hour; decide with bin/magento draco:reviews.","ファイアウォールに止められた訪問者は、ブロックページから確認を依頼できます。メールは 1 時間に最大 1 通です。判断は bin/magento draco:reviews で行います。"
+"Send them to",送信先
+"Empty: the store's general contact e-mail.",空欄：ストアの一般連絡先メールアドレス。
