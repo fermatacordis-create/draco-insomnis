@@ -117,6 +117,34 @@ export class Blocks {
     return true;
   }
 
+  /** A block until a given moment (seconds), for lists that come with their own duration (CrowdSec). */
+  async addUntil(value: string, until: number, reason: string, automatic: boolean, now = Date.now() / 1000): Promise<boolean> {
+    const ttl = Math.floor(until - now);
+    if (ttl <= 0) return false;
+    const entry: BlockEntry = { value, until: Math.floor(until), reason, automatic };
+    if (value.includes('/')) {
+      if (!validNet(value)) return false;
+      const nets = (await this.nets(now)).filter((n) => n.value !== value);
+      nets.push(entry);
+      await this.store.set('draco:nets', JSON.stringify(nets), 0);
+      return true;
+    }
+    await this.store.set(`draco:block:${value}`, JSON.stringify(entry), ttl);
+    return true;
+  }
+
+  /** The block in force on exactly this address or network, if any. */
+  async entry(value: string, now = Date.now() / 1000): Promise<BlockEntry | null> {
+    if (value.includes('/')) return (await this.nets(now)).find((n) => n.value === value) ?? null;
+    const raw = await this.store.get(`draco:block:${value}`);
+    if (raw === null) return null;
+    try {
+      return JSON.parse(raw) as BlockEntry;
+    } catch {
+      return null;
+    }
+  }
+
   async remove(value: string): Promise<void> {
     if (value.includes('/')) {
       const nets = (await this.nets()).filter((n) => n.value !== value);

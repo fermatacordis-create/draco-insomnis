@@ -10,6 +10,7 @@ import { network, parse } from './net.ts';
 import { clientIp, remote, wantsPage, type DracoRequest, type ProxyMode } from './request.ts';
 import { Blocks, MemoryStore, type DracoEvent, type Store } from './store.ts';
 import { accept, form, isRequest, type ReviewRequest } from './review.ts';
+import { CrowdSec, type CrowdSecOptions } from './crowdsec.ts';
 import { inspect } from './waf.ts';
 
 export type Mode = 'off' | 'log' | 'block';
@@ -63,6 +64,12 @@ export interface DracoOptions {
     secret: string;
     onRequest?: (request: ReviewRequest) => void | Promise<void>;
   };
+  /**
+   * Your own CrowdSec Local API (url + the key from "cscli bouncers add draco"): its bans join
+   * Draco's block list, synced in the background at most once a minute. In Workers, call
+   * gate.crowdsec.sync() from a scheduled handler instead (background work ends with the request).
+   */
+  crowdsec?: CrowdSecOptions;
   /** The texts of the 403, 429 and review pages. */
   texts?: Partial<typeof TEXTS>;
 }
@@ -92,6 +99,8 @@ export class Gatekeeper {
   readonly options: DracoOptions;
   readonly store: Store;
   readonly blocks: Blocks;
+  /** Set when options.crowdsec is. */
+  readonly crowdsec: CrowdSec | null;
   private readonly recent: DracoEvent[] = [];
   private readonly now: () => number;
 
@@ -99,6 +108,9 @@ export class Gatekeeper {
     this.options = options;
     this.store = options.store ?? new MemoryStore(now);
     this.blocks = new Blocks(this.store);
+    this.crowdsec = options.crowdsec?.url && options.crowdsec.apiKey
+      ? new CrowdSec(options.crowdsec, this.store, () => options.adminIps ?? [], now)
+      : null;
     this.now = now;
   }
 
@@ -128,6 +140,8 @@ export class Gatekeeper {
 
   private async rules(r: DracoRequest): Promise<Answer | null> {
     const o = this.options;
+    // Never awaited: no request waits for CrowdSec.
+    if (this.crowdsec !== null) this.crowdsec.maybeSync().catch(() => undefined);
     const ip = this.ip(r);
     if (this.excepted(r.path)) return null;
     if (this.reviewing() && isRequest(r.method, r.form)) {
