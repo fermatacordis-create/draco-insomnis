@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.30
+Stable tag: 0.1.31
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,12 @@ Only if "Refuse passwords that appear in known data breaches" is switched on, Dr
 Only when an administrator opens an abuse report, Draco asks the public internet registry (RDAP, at https://rdap.org, which forwards to the regional registry: ARIN, RIPE NCC, APNIC, LACNIC or AFRINIC) who looks after the reported address, to find its abuse contact. Only that address is sent. Nothing is e-mailed until the administrator reads the draft and presses Send.
 
 == Changelog ==
+
+= 0.1.31 =
+* Go: Draco as a Caddy module (xcaddy build --with github.com/fermatacordis-create/draco-insomnis/go/caddy@v0.1.31, directive draco_insomnis), a Traefik plugin and net/http middleware, on the standard library only: firewall, block list, country filter, anti-copy pace, security headers, review requests and CrowdSec. Tested inside real Caddy and Traefik 3.6.
+* Ruby: Draco as Rack middleware for Rails, Sinatra, Hanami and Roda, with no dependencies, the same features, run inside real Rails and Sinatra on Puma. The gem is in the release.
+* .NET: Draco as ASP.NET Core middleware (minimal APIs, MVC, Razor Pages, Blazor Server; .NET 8 or newer), with no dependencies beyond ASP.NET Core, options from appsettings.json, the same features, run inside real Kestrel apps. The NuGet package is in the release.
+* Every new edition checks the same shared test cases as PHP, matches byte-wise like PHP, and uses the same store keys, so one Redis can serve apps in several languages. All packages are in the signed checksums, the build provenance and the SBOM.
 
 = 0.1.30 =
 * Python: Draco for FastAPI, Starlette, Flask and Django (ASGI and WSGI middleware), with no dependencies: firewall, block list, country filter, anti-copy pace, security headers, review requests and CrowdSec, checked against the same shared test cases as PHP and JavaScript and run inside real FastAPI, Flask and Django. Wheel and source archive in the release; on PyPI as draco-insomnis once a maintainer approves it.
