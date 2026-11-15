@@ -408,6 +408,32 @@ jobs:
           tail -40 "$MAGENTO_DIR"/var/log/exception.log 2>/dev/null || true
           grep -i 'draco' "$MAGENTO_DIR"/var/log/system.log 2>/dev/null | tail -20 || true
 
+  sbom:
+    name: Every package builds, and the SBOM is valid CycloneDX 1.6
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Build every package
+        run: |
+          sudo apt-get install -y -qq rpm >/dev/null
+          bin/build-all.sh /tmp/release
+      - name: SBOM
+        run: |
+          # A made-up digest: the real image is only pushed by the release.
+          echo "ghcr.io/x/draco-insomnis@sha256:$(printf ci | sha256sum | cut -d' ' -f1)" > /tmp/release/docker-digest.txt
+          php bin/build-sbom.php /tmp/release /tmp/release/sbom.cdx.json
+          docker run --rm -v /tmp/release:/w cyclonedx/cyclonedx-cli:0.27.2 validate --input-file /w/sbom.cdx.json --input-version v1_6 --fail-on-errors
+          php -r '$j = json_decode(file_get_contents("/tmp/release/sbom.cdx.json"), true); $n = count(array_filter($j["components"], fn ($c) => $c["type"] === "application")); echo $n, " packages", PHP_EOL; exit($n >= 11 && str_contains(json_encode($j), "pkg:rpm") ? 0 : 1);'
+
   server:
     name: Server edition — ${{ matrix.os }} with ${{ matrix.web }}
     runs-on: ${{ matrix.os }}
