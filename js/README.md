@@ -167,6 +167,35 @@ The body must be parsed: `express.urlencoded()` in Express, a body parser before
 (`reviewEmail`, `reviewMessage`, `reviewButton`, `reviewSentTitle`, `reviewSentText`,
 `textWithReview`).
 
+## CrowdSec
+
+If you run CrowdSec, Draco can enforce its bans and feed it evidence.
+
+**Enforcing its bans.** Create a key with `cscli bouncers add draco` and give Draco your Local API:
+
+```js
+draco({ waf: 'block', crowdsec: { url: 'http://127.0.0.1:8080', apiKey: process.env.CROWDSEC_KEY } });
+```
+
+- Bans on an address or a range join Draco's block list, which works as usual: the address may read
+  the site but not post or log in.
+- The decisions are copied in the background, at most once a minute, so no request waits for
+  CrowdSec. When a decision is deleted or expires in CrowdSec, the block goes too; blocks you set
+  yourself are never touched.
+- Ranges wider than /16 (IPv4) or /32 (IPv6) and the addresses in `adminIps` are never imported.
+- In Workers, background work ends with the request, so call `gate.crowdsec.sync()` from a scheduled
+  handler instead.
+
+**Feeding it evidence.** `crowdsecLine(event)` writes one line in the format read by the parser and
+scenario in [`server/crowdsec`](../server/crowdsec):
+
+```js
+import { appendFileSync } from 'node:fs';
+import { crowdsecLine } from 'draco-insomnis';
+
+draco({ onEvent: (e) => appendFileSync('/var/log/draco/events.log', crowdsecLine(e, 'shop.example') + '\n') });
+```
+
 ## Several servers
 
 The default `MemoryStore` serves a single process. For several processes or servers, give every one
