@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.28
+Stable tag: 0.1.29
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,12 @@ Only if "Refuse passwords that appear in known data breaches" is switched on, Dr
 Only when an administrator opens an abuse report, Draco asks the public internet registry (RDAP, at https://rdap.org, which forwards to the regional registry: ARIN, RIPE NCC, APNIC, LACNIC or AFRINIC) who looks after the reported address, to find its abuse contact. Only that address is sent. Nothing is e-mailed until the administrator reads the draft and presses Send.
 
 == Changelog ==
+
+= 0.1.29 =
+* JavaScript (Node.js and Cloudflare Workers) now does what the PHP editions do:
+  - "This is a mistake": with review: { secret, onRequest }, the 403 page carries the signed review form; the request reaches onRequest. Same signatures, limits and trap as PHP, checked with shared test cases.
+  - The visitor's country without Cloudflare: new GeoFile from draco-insomnis/geo reads the same monthly country list as the PHP editions (DB-IP Lite, CC BY 4.0), locally, and keeps it fresh.
+  - CrowdSec both ways: with crowdsec: { url, apiKey } the bans of your own CrowdSec join the block list in the background, at most once a minute; crowdsecLine() writes evidence lines for the CrowdSec parser in server/crowdsec.
 
 = 0.1.28 =
 * Magento 2.4 and Mage-OS: the module DracoInsomnis_Magento (draco-insomnis-magento-0.1.28.zip, by hand in app/code or with Composer). Firewall, block list, country filter and anti-copy pace limit before the full page cache, for the storefront, the REST API and GraphQL (JSON bodies inspected too); the admin panel is never inspected. Anti-bot shield on "Create an Account", password rules on every customer password (also through the API), security headers, review requests from the block page, and bin/magento draco:status, draco:evidence, draco:block, draco:reviews, draco:test and draco:cleanup. Settings in Stores > Configuration > Advanced > Draco Insomnis; everything starts off. In 25 languages (Magento has no Tamil or Urdu).

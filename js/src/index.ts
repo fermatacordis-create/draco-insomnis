@@ -7,4 +7,4 @@ export { clientIp, urlDecode, type DracoRequest, type ProxyMode } from './core/r
 export { Blocks, MemoryStore, validNet, type BlockEntry, type DracoEvent, type Store } from './core/store.ts';
 export { flatten, inspect, type WafInput, type WafRule } from './core/waf.ts';
 export type { Resolver } from './core/crawler.ts';
-export const VERSION = '0.1.28';
+export const VERSION = '0.1.29';
