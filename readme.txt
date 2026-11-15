@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.27
+Stable tag: 0.1.28
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,10 @@ Only if "Refuse passwords that appear in known data breaches" is switched on, Dr
 Only when an administrator opens an abuse report, Draco asks the public internet registry (RDAP, at https://rdap.org, which forwards to the regional registry: ARIN, RIPE NCC, APNIC, LACNIC or AFRINIC) who looks after the reported address, to find its abuse contact. Only that address is sent. Nothing is e-mailed until the administrator reads the draft and presses Send.
 
 == Changelog ==
+
+= 0.1.28 =
+* Magento 2.4 and Mage-OS: the module DracoInsomnis_Magento (draco-insomnis-magento-0.1.28.zip, by hand in app/code or with Composer). Firewall, block list, country filter and anti-copy pace limit before the full page cache, for the storefront, the REST API and GraphQL (JSON bodies inspected too); the admin panel is never inspected. Anti-bot shield on "Create an Account", password rules on every customer password (also through the API), security headers, review requests from the block page, and bin/magento draco:status, draco:evidence, draco:block, draco:reviews, draco:test and draco:cleanup. Settings in Stores > Configuration > Advanced > Draco Insomnis; everything starts off. In 25 languages (Magento has no Tamil or Urdu).
+* A full SBOM (CycloneDX 1.6) with every release: every package with its SHA-256 and SHA-512 and package URL, the shared engines file by file, the Docker image by digest and its base, the country data, and every outside service Draco can talk to, when and what it sends. Validated against the schema and attested by GitHub.
 
 = 0.1.27 =
 * Accounts that can change the site (WordPress, off by default, under Two-step login). Administrators, editors and shop managers only work once the owner approved them: an account created by an attack, by a vulnerable plugin or straight in the database cannot log in, through the login form, cookies, application passwords or XML-RPC. If the site e-mail, its address, the default role or open registration change without an approved administrator, every privileged account is paused and the owner gets a one-time link (24 hours) at the e-mail kept when the lock was switched on. Emergency exit for whoever has the server: define('DRACO_LOCK_OFF', true); in wp-config.php. Not on multisite yet.
