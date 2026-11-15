@@ -67,11 +67,14 @@ export interface DracoEvent {
   remote: string;
   /** "waf:sqli", "waf:geo", "anticopy:ip"… */
   endpoint: string;
-  verdict: 'bot' | 'doubtful';
+  /** "pending": a review request waiting for the owner. */
+  verdict: 'bot' | 'doubtful' | 'pending';
   reasons: string[];
   userAgent: string;
-  /** Path and query, or country and path. */
+  /** Path and query, country and path, or the review request's message. */
   detail: string;
+  /** Review requests: the e-mail the visitor left. */
+  email?: string;
 }
 
 export interface BlockEntry {

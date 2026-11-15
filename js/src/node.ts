@@ -4,7 +4,7 @@
  */
 import { promises as dns } from 'node:dns';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { TEXTS, page, type Answer, type Gatekeeper } from './core/gatekeeper.ts';
+import { render, type Answer, type Gatekeeper } from './core/gatekeeper.ts';
 import { CLOUDFLARE, contains } from './core/net.ts';
 import { remote, urlDecode, type DracoRequest } from './core/request.ts';
 import { flatten } from './core/waf.ts';
@@ -47,6 +47,7 @@ export function fromNode(req: IncomingMessage, url: string, query?: unknown, bod
     accept: header(req, 'accept'),
     ajax: header(req, 'x-requested-with').toLowerCase() === 'xmlhttprequest',
   };
+  if (body !== undefined && body !== null && typeof body === 'object' && !(body instanceof Uint8Array)) r.form = textFields(body);
   // Cloudflare's country header, only when the connection really comes from Cloudflare.
   if (contains(CLOUDFLARE, remote(r))) r.country = header(req, 'cf-ipcountry');
   return r;
@@ -54,21 +55,16 @@ export function fromNode(req: IncomingMessage, url: string, query?: unknown, bod
 
 export const https = (req: IncomingMessage): boolean => (req.socket as { encrypted?: boolean } | undefined)?.encrypted === true;
 
+/** The string fields of a parsed body (the review form only needs those). */
+export function textFields(body: object): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(body)) if (typeof v === 'string') out[k] = v.slice(0, 4000);
+  return out;
+}
+
 /** The answer as status, headers and body, for any framework. */
 export function reply(gate: Gatekeeper, answer: Answer): { status: number; headers: Record<string, string>; body: string } {
-  const texts = { ...TEXTS, ...gate.options.texts };
-  if (answer.status === 429) {
-    return {
-      status: 429,
-      headers: { 'Retry-After': String(answer.retry), 'Content-Type': 'text/plain; charset=UTF-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex' },
-      body: texts.tooMany,
-    };
-  }
-  return {
-    status: 403,
-    headers: { 'Content-Type': 'text/html; charset=UTF-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow' },
-    body: page(texts.title, texts.text),
-  };
+  return render(gate, answer);
 }
 
 /** Sends the answer on a plain node:http response. */

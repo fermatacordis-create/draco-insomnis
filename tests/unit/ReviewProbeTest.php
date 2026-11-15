@@ -22,6 +22,20 @@ final class ReviewProbeTest extends TestCase
         return new Request('POST', '/', '', [], [], self::UA, self::UA, $ip);
     }
 
+    /** tests/vectors/review.json is shared with the JavaScript port: both must give the same values. */
+    public function test_the_shared_signature_vectors(): void
+    {
+        $v = json_decode((string) file_get_contents(dirname(__DIR__) . '/vectors/review.json'), true, 512, JSON_THROW_ON_ERROR);
+        $host = new MemoryHost();
+        $this->assertSame($host->secret(), $v['secret']);
+        foreach ($v['cases'] as $c) {
+            $f = (new Review($host))->signedFields($c['ip'], $c['rule'], $c['ts']);
+            $this->assertSame($c['sealed'], $f['draco_rule'], $c['ip']);
+            $this->assertSame($c['sig'], $f['draco_sig'], $c['ip']);
+            $this->assertSame($c['opened'], Review::open($v['secret'], $c['ip'], (string) $c['ts'], $c['sealed']), $c['ip']);
+        }
+    }
+
     public function test_the_block_page_form_is_signed_and_has_a_trap(): void
     {
         $host = new MemoryHost();

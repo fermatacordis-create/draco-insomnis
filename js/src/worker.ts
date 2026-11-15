@@ -10,7 +10,7 @@
  * In Workers the connecting address IS the visitor (CF-Connecting-IP is set by Cloudflare itself)
  * and request.cf.country gives the country without any database.
  */
-import { Gatekeeper, TEXTS, page, type Answer, type DracoOptions } from './core/gatekeeper.ts';
+import { Gatekeeper, render, type Answer, type DracoOptions } from './core/gatekeeper.ts';
 import { urlDecode, type DracoRequest } from './core/request.ts';
 import type { Store } from './core/store.ts';
 import { flatten } from './core/waf.ts';
@@ -55,19 +55,28 @@ export async function fromFetch(request: Request): Promise<DracoRequest> {
   const url = new URL(request.url);
   const rawQuery = url.search.replace(/^\?/, '');
   const params = flatten(Object.fromEntries(url.searchParams));
+  let form: Record<string, string> | undefined;
   const type = (request.headers.get('content-type') ?? '').toLowerCase();
   const length = Number(request.headers.get('content-length') ?? '0');
   if (request.body !== null && length <= 65536 && (type.includes('json') || type.includes('x-www-form-urlencoded'))) {
     try {
       const text = await request.clone().text();
-      if (type.includes('json')) params.push(...flatten(JSON.parse(text) as unknown));
-      else params.push(...flatten(Object.fromEntries(new URLSearchParams(text))));
+      if (type.includes('json')) {
+        const body = JSON.parse(text) as unknown;
+        params.push(...flatten(body));
+        if (body !== null && typeof body === 'object' && !Array.isArray(body)) {
+          form = Object.fromEntries(Object.entries(body).filter((e): e is [string, string] => typeof e[1] === 'string'));
+        }
+      } else {
+        form = Object.fromEntries(new URLSearchParams(text));
+        params.push(...flatten(form));
+      }
     } catch {
       // Unreadable body: the URL is still inspected.
     }
   }
   const cf = (request as Request & { cf?: { country?: string } }).cf;
-  return {
+  const out: DracoRequest = {
     method: request.method.toUpperCase(),
     path: urlDecode(url.pathname),
     query: urlDecode(rawQuery, true),
@@ -78,20 +87,13 @@ export async function fromFetch(request: Request): Promise<DracoRequest> {
     accept: request.headers.get('accept') ?? '',
     ajax: (request.headers.get('x-requested-with') ?? '').toLowerCase() === 'xmlhttprequest',
   };
+  if (form !== undefined) out.form = form;
+  return out;
 }
 
 export function response(gate: Gatekeeper, answer: Answer): Response {
-  const texts = { ...TEXTS, ...gate.options.texts };
-  if (answer.status === 429) {
-    return new Response(texts.tooMany, {
-      status: 429,
-      headers: { 'Retry-After': String(answer.retry), 'Content-Type': 'text/plain; charset=UTF-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex' },
-    });
-  }
-  return new Response(page(texts.title, texts.text), {
-    status: 403,
-    headers: { 'Content-Type': 'text/html; charset=UTF-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow' },
-  });
+  const out = render(gate, answer);
+  return new Response(out.body, { status: out.status, headers: out.headers });
 }
 
 /** Wraps a Worker: Draco answers first, the Worker only sees what Draco lets through. */
