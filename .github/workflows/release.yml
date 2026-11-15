@@ -49,7 +49,7 @@ jobs:
           sudo apt-get install -y -qq rpm >/dev/null
           pip install --quiet build
           bin/build-all.sh release | tee release/files.txt
-          (cd release && sha256sum *.zip *.deb *.rpm *.tar.gz *.tgz *.whl *.html *.gem > SHA256SUMS.txt && cat SHA256SUMS.txt)
+          (cd release && sha256sum *.zip *.deb *.rpm *.tar.gz *.tgz *.whl *.html *.gem *.nupkg > SHA256SUMS.txt && cat SHA256SUMS.txt)
       - name: Build provenance (gh attestation verify <file> -R fermatacordis-create/draco-insomnis)
         uses: actions/attest-build-provenance@v2
         with:
@@ -62,6 +62,7 @@ jobs:
             release/*.whl
             release/*.html
             release/*.gem
+            release/*.nupkg
       - uses: sigstore/cosign-installer@v3
       - name: Sign the checksums (cosign verify-blob, see SECURITY.md)
         run: |
@@ -119,6 +120,7 @@ jobs:
             echo "| Static sites (plain HTML): .htaccess, nginx, Netlify, Vercel or a Cloudflare Worker | \`draco-insomnis-static-$version.html\` (open it in a browser; nothing is sent anywhere) |"
             echo "| Go: Caddy module, Traefik plugin, net/http middleware | \`xcaddy build --with github.com/fermatacordis-create/draco-insomnis/go/caddy@v$version\` (Go modules tagged \`go/draco/v$version\` and \`go/caddy/v$version\`) |"
             echo "| Ruby: Rails, Sinatra, Hanami, Roda (Rack) | \`draco-insomnis-$version.gem\` (\`gem install ./draco-insomnis-$version.gem\`) |"
+            echo "| .NET: ASP.NET Core (minimal APIs, MVC, Razor Pages, Blazor Server) | \`DracoInsomnis.$version.nupkg\` (\`dotnet add package DracoInsomnis -v $version -s <folder>\`) |"
             echo "| Node.js: Express, Koa, Strapi, Directus; Cloudflare Workers | \`draco-insomnis-js-$version.tgz\` (also \`npm install draco-insomnis@$version\`, once approved on npm) |"
             echo
             echo "Checksums in \`SHA256SUMS.txt\`, signed with Sigstore (\`SHA256SUMS.txt.sigstore.json\`). Every file has a GitHub build provenance attestation and the release has a CycloneDX SBOM. How to verify: SECURITY.md."
@@ -127,7 +129,7 @@ jobs:
           # Go modules in sub-folders are versioned by tags that carry the folder: go/draco/vX, go/caddy/vX.
           git tag "go/draco/$GITHUB_REF_NAME" "$GITHUB_SHA" && git tag "go/caddy/$GITHUB_REF_NAME" "$GITHUB_SHA"
           git push origin "go/draco/$GITHUB_REF_NAME" "go/caddy/$GITHUB_REF_NAME"
-          gh release create "$GITHUB_REF_NAME" release/*.zip release/*.deb release/*.rpm release/*.tar.gz release/*.tgz release/*.whl release/*.html release/*.gem release/SHA256SUMS.txt release/SHA256SUMS.txt.sigstore.json release/*.cdx.json \
+          gh release create "$GITHUB_REF_NAME" release/*.zip release/*.deb release/*.rpm release/*.tar.gz release/*.tgz release/*.whl release/*.html release/*.gem release/*.nupkg release/SHA256SUMS.txt release/SHA256SUMS.txt.sigstore.json release/*.cdx.json \
             --title "Draco Insomnis $version" --notes-file release/notes.md
 
   npm:

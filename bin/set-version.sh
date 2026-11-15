@@ -25,6 +25,8 @@ sed -i "0,/^version = \"[^\"]*\"/s//version = \"$v\"/" python/pyproject.toml
 sed -i "s#\(github.com/fermatacordis-create/draco-insomnis/go/draco v\)[0-9.]*#\1$v#" go/caddy/go.mod
 sed -i "s/^const Version = \"[^\"]*\"/const Version = \"$v\"/" go/draco/gatekeeper.go
 sed -i "s/^  VERSION = '[^']*'/  VERSION = '$v'/" ruby/lib/draco_insomnis/version.rb
+sed -i "s#<Version>[^<]*</Version>#<Version>$v</Version>#" dotnet/DracoInsomnis/DracoInsomnis.csproj
+sed -i "s/public const string Version = \"[^\"]*\";/public const string Version = \"$v\";/" dotnet/DracoInsomnis/Gatekeeper.cs
 sed -i "s/^__version__ = \"[^\"]*\"/__version__ = \"$v\"/" python/src/draco_insomnis/__init__.py
 
 moodle=cms/moodle/local_dracoinsomnis/version.php

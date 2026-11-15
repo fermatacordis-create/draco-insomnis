@@ -13,3 +13,5 @@ server/docker/build/
 /python/src/*.egg-info/
 __pycache__/
 /static/node_modules
+/dotnet/**/bin/
+/dotnet/**/obj/
