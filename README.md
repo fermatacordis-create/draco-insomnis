@@ -4,10 +4,34 @@
 
 Author: **Soledad Sánchez Mohamed**.
 
-Open-source security for WordPress, made by [Notorius Vision](https://notoriusvision.com) — the team
-behind [OPNV Systems](https://opnv.systems) and OPNV SOLΞ.
+Open-source security for websites and web apps, made by [Notorius Vision](https://notoriusvision.com)
+— the team behind [OPNV Systems](https://opnv.systems) and OPNV SOLΞ.
 
-Version 0.1:
+## Editions
+
+The same rules in every edition, checked against the same shared test cases (`tests/vectors`).
+Every package is in the [latest release](https://github.com/fermatacordis-create/draco-insomnis/releases/latest),
+with signed checksums, build provenance and an SBOM (see [SECURITY.md](SECURITY.md)).
+
+| Platform | Package | More |
+| --- | --- | --- |
+| WordPress 6.5+ | plugin (`.zip`) | everything below |
+| PrestaShop 8–9, Drupal 10.3–11, Joomla 5–6, Moodle 4.5–5.x | module or plugin (`.zip`) | anti-bot shield, firewall, anti-copy |
+| Magento 2.4 and Mage-OS | Composer package | [Magento and Mage-OS](#magento-and-mage-os) |
+| Laravel 11–13 | Composer package | [Laravel](#laravel) |
+| Any PHP site on Linux (MediaWiki, TYPO3, phpBB, Nextcloud…) | `.deb`, `.rpm`, `.tar.gz`, Docker image | [Server edition](#server-edition) |
+| Node.js (Express, Koa, Strapi, Directus) and Cloudflare Workers | npm package | [JavaScript](#javascript) |
+| Python (FastAPI, Starlette, Flask, Django) | PyPI package | [Python](#python) |
+| Go: Caddy, Traefik, net/http | Go module | [Go](#go-caddy-traefik-and-nethttp) |
+| Ruby (Rails, Sinatra, Hanami, Roda) | gem | [Ruby](#ruby) |
+| .NET (ASP.NET Core) | NuGet package | [.NET](#net-aspnet-core) |
+| Java and Kotlin (Spring Boot, Tomcat, Jetty, Ktor) | two jars | [Java and Kotlin](#java-and-kotlin-spring-boot-servlet-containers-and-ktor) |
+| Rust (axum, actix-web) | crate | [Rust](#rust-axum-and-actix-web) |
+| Static sites (.htaccess, nginx, Netlify, Vercel, Cloudflare) | rules generator (one HTML page) | [Static sites](#static-sites) |
+
+## WordPress and the PHP CMSs
+
+On WordPress it has:
 
 - **Anti-bot shield** — stops fake sign-ups without captchas: scores every public registration, feeds
   bots a fake success and keeps evidence for abuse reports.
