@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds every package (WordPress, PrestaShop, Drupal, Joomla, Moodle, Laravel, Magento, Server, JavaScript) from the same commit
+# Builds every package (WordPress, PrestaShop, Drupal, Joomla, Moodle, Laravel, Magento, Server, JavaScript, Python) from the same commit
 # and the same src/Core, after checking that they all carry the same version. The Laravel and
 # Magento packages take the WordPress version at build time.
 # Usage: bin/build-all.sh [output-dir]   (default: ./dist)
@@ -16,3 +16,4 @@ bin/build-laravel.sh "$out"
 bin/build-magento.sh "$out"
 bin/build-server.sh "$out"
 bin/build-js.sh "$out"
+bin/build-python.sh "$out"

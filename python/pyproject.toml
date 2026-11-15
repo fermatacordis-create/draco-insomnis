@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "draco-insomnis"
+version = "0.1.29"
+description = "Firewall, anti-copy pace, country filter, review requests and CrowdSec for Python web apps (ASGI: FastAPI, Starlette; WSGI: Flask, Django). No dependencies."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "GPL-2.0-or-later"
+authors = [{ name = "Notorius Vision" }]
+keywords = ["security", "firewall", "waf", "rate-limit", "bots", "fastapi", "django", "flask", "asgi", "wsgi", "crowdsec"]
+classifiers = [
+    "Framework :: Django",
+    "Framework :: FastAPI",
+    "Framework :: Flask",
+    "Programming Language :: Python :: 3",
+    "Topic :: Internet :: WWW/HTTP :: WSGI :: Middleware",
+    "Topic :: Security",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/fermatacordis-create/draco-insomnis"
+Source = "https://github.com/fermatacordis-create/draco-insomnis/tree/main/python"
+Issues = "https://github.com/fermatacordis-create/draco-insomnis/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]

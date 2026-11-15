@@ -9,3 +9,6 @@ server/docker/build/
 /js/node_modules/
 /js/dist/
 /js/LICENSE
+/python/build/
+/python/src/*.egg-info/
+__pycache__/
