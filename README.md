@@ -222,6 +222,14 @@ requests and the CrowdSec bridge, runs the shared vectors (with PHP's byte-wise 
 runs the built jars inside real Spring Boot (Tomcat) and Ktor (Netty) apps. `bin/build-java.sh` makes
 the two jars. See [java/README.md](java/README.md).
 
+## Rust: axum and actix-web
+
+`rust/` is the same engine in **Rust**, as a tower Layer for axum (and any tower or hyper stack) and
+as actix-web middleware. It has the firewall, block list, country filter, anti-copy pace, security
+headers, review requests and the CrowdSec bridge, runs the shared vectors (byte-wise with ASCII
+classes, like PHP), and CI runs the packaged crate inside real axum and actix-web servers.
+`bin/build-rust.sh` makes the `.crate`. See [rust/README.md](rust/README.md).
+
 ## Go: Caddy, Traefik and net/http
 
 `go/draco` is the same engine in **Go**, standard library only, and `go/caddy` the Caddy module. With

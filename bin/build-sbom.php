@@ -74,6 +74,7 @@ $kinds = [
     ['/^DracoInsomnis\.[0-9.]+\.nupkg$/', 'DracoInsomnis', 'NuGet package: ASP.NET Core middleware (minimal APIs, MVC, Razor Pages, Blazor Server)', '.NET 8 or newer', 'pkg:nuget/DracoInsomnis@%s', false],
     ['/^draco-insomnis-[0-9.]+\.jar$/', 'draco-insomnis', 'Java library: Jakarta Servlet filter for Spring Boot, Tomcat, Jetty, Undertow and any Servlet 6 container', 'Java 17 or newer; Servlet 6 (Jakarta EE 10) or newer', 'pkg:maven/io.github.fermatacordis-create/draco-insomnis@%s', false],
     ['/^draco-insomnis-ktor-[0-9.]+\.jar$/', 'draco-insomnis-ktor', 'Kotlin library: Ktor 3 plugin (needs the draco-insomnis jar)', 'Java 17 or newer, Ktor 3', 'pkg:maven/io.github.fermatacordis-create/draco-insomnis-ktor@%s', false],
+    ['/^draco-insomnis-[0-9.]+\.crate$/', 'draco-insomnis', 'Rust crate: tower layer for axum and actix-web middleware', 'Rust 1.85 or newer', 'pkg:cargo/draco-insomnis@%s', false],
     ['/^draco-insomnis-js-.*\.tgz$/', 'draco-insomnis', 'JavaScript package: Node.js (Express, Koa, Strapi, Directus) and Cloudflare Workers', 'Node.js 20 or newer, or Cloudflare Workers', 'pkg:npm/draco-insomnis@%s', false],
 ];
 
@@ -129,7 +130,7 @@ foreach (scandir($dir) ?: [] as $file) {
         if (!$hasCore) {
             $c['properties'][] = ['name' => 'draco:engines', 'value' => str_contains($what, 'Static')
                 ? 'The probe and scanner patterns of src/Core, written as web server rules; tested on Apache 2.4 and nginx against tests/vectors'
-                : (str_contains($what, 'Python') ? 'Python' : (str_contains($what, 'Ruby') ? 'Ruby' : (str_contains($what, 'NuGet') ? 'C#' : (str_contains($what, 'Ktor') ? 'Kotlin plugin over the Java' : (str_contains($what, 'Java') ? 'Java' : 'TypeScript'))))) . ' port of src/Core, checked against the same test vectors (tests/vectors)'];
+                : (str_contains($what, 'Python') ? 'Python' : (str_contains($what, 'Ruby') ? 'Ruby' : (str_contains($what, 'NuGet') ? 'C#' : (str_contains($what, 'Ktor') ? 'Kotlin plugin over the Java' : (str_contains($what, 'Java') ? 'Java' : (str_contains($what, 'Rust') ? 'Rust' : 'TypeScript')))))) . ' port of src/Core, checked against the same test vectors (tests/vectors)'];
         }
         $components[] = $c;
         $shipped[] = $ref;

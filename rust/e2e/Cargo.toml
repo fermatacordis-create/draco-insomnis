@@ -1,0 +1,15 @@
+[package]
+name = "draco-e2e"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+# The crate in real axum and actix-web servers, from the packaged .crate as a user gets it.
+# run.sh unpacks the crate into .draco/ first.
+[dependencies]
+draco-insomnis = { path = ".draco", features = ["axum", "actix"] }
+axum = "0.8"
+actix-web = "4"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net"] }
+
+[workspace]

@@ -1,0 +1,51 @@
+[package]
+name = "draco-insomnis"
+version = "0.1.31"
+edition = "2021"
+rust-version = "1.85"
+license = "GPL-2.0-or-later"
+description = "Firewall, anti-copy pace and country rules for Rust web apps: tower/axum layer and actix-web middleware."
+repository = "https://github.com/fermatacordis-create/draco-insomnis"
+readme = "README.md"
+keywords = ["firewall", "waf", "security", "axum", "actix"]
+categories = ["web-programming::http-server"]
+include = ["src/**", "Cargo.toml", "README.md", "LICENSE"]
+
+[features]
+default = ["dns", "fetch"]
+# Proves search engines through the reverse DNS (otherwise they are paced like anyone).
+dns = ["dep:dns-lookup"]
+# Downloads the country list and talks to CrowdSec (ureq, rustls).
+fetch = ["dep:ureq"]
+# A tower Layer for any tower/hyper stack.
+tower = ["dep:tower-layer", "dep:tower-service", "dep:http", "dep:http-body", "dep:http-body-util", "dep:bytes"]
+# The tower Layer, also reading axum's ConnectInfo for the visitor's address.
+axum = ["tower", "dep:axum"]
+# actix-web middleware.
+actix = ["dep:actix-web", "dep:actix-http", "dep:futures-util"]
+
+[dependencies]
+regex = "1.10"
+sha2 = "0.10"
+hmac = "0.12"
+dns-lookup = { version = "2", optional = true }
+ureq = { version = "3", optional = true }
+tower-layer = { version = "0.3", optional = true }
+tower-service = { version = "0.3", optional = true }
+http = { version = "1", optional = true }
+http-body = { version = "1", optional = true }
+http-body-util = { version = "0.1", optional = true }
+bytes = { version = "1", optional = true }
+axum = { version = "0.8", optional = true, default-features = false, features = ["tokio"] }
+actix-web = { version = "4", optional = true, default-features = false }
+actix-http = { version = "3", optional = true, default-features = false }
+futures-util = { version = "0.3", optional = true, default-features = false }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net"] }
+axum = "0.8"
+actix-web = "4"
+tower = { version = "0.5", features = ["util"] }
+
+[package.metadata.docs.rs]
+all-features = true
