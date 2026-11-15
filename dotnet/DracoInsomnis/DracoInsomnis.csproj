@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>CS1591</NoWarn>
+    <PackageId>DracoInsomnis</PackageId>
+    <Version>0.1.30</Version>
+    <Authors>Notorius Vision</Authors>
+    <Description>The Draco Insomnis firewall as ASP.NET Core middleware: firewall signatures, block list, anti-copy pace, country filter, review requests and CrowdSec, with the same signatures as the WordPress, CMS, JavaScript, Python, Go and Ruby editions. No dependencies beyond ASP.NET Core.</Description>
+    <PackageLicenseExpression>GPL-2.0-or-later</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/fermatacordis-create/draco-insomnis</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/fermatacordis-create/draco-insomnis</RepositoryUrl>
+    <PackageTags>security;firewall;waf;rate-limit;aspnetcore;middleware;crowdsec</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <None Include="../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- The middleware in real Kestrel apps, from the built package, as a user installs it:
+       dotnet run -p:DracoVersion=X.Y.Z (with the .nupkg folder as a package source). -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DracoInsomnis" Version="$(DracoVersion)" />
+  </ItemGroup>
+
+</Project>

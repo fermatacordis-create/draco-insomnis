@@ -203,6 +203,15 @@ security headers, review requests and the CrowdSec bridge, runs the shared vecto
 built gem inside real Rails and Sinatra on Puma. `bin/build-ruby.sh` makes the gem. See
 [ruby/README.md](ruby/README.md).
 
+## .NET: ASP.NET Core
+
+`dotnet/` is the same engine for **.NET** 8 and newer, with no dependencies beyond ASP.NET Core, as
+middleware: `builder.Services.AddDracoInsomnis(...)` and `app.UseDracoInsomnis()` for minimal APIs, MVC,
+Razor Pages and Blazor Server, with the options bound from `appsettings.json`. It has the firewall,
+block list, country filter, anti-copy pace, security headers, review requests and the CrowdSec bridge,
+runs the shared vectors (with PHP's byte-wise ASCII classes), and CI runs the built package inside real
+Kestrel apps. `bin/build-dotnet.sh` makes the `.nupkg`. See [dotnet/README.md](dotnet/README.md).
+
 ## Go: Caddy, Traefik and net/http
 
 `go/draco` is the same engine in **Go**, standard library only, and `go/caddy` the Caddy module. With

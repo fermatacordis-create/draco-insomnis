@@ -525,6 +525,36 @@ jobs:
         # From the installed gem: test/e2e_frameworks.rb requires it from lib/ only as a fallback.
         run: ruby test/e2e_frameworks.rb
 
+  dotnet:
+    name: .NET — engine, shared vectors and the middleware in a test host
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+      - name: Engine and middleware (warnings are errors)
+        working-directory: dotnet/DracoInsomnis.Tests
+        run: dotnet test --nologo
+
+  dotnet-frameworks:
+    name: .NET in real Kestrel apps (minimal API and MVC), from the package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Build the package and install it like a user would
+        run: |
+          pkg=$(bin/build-dotnet.sh /tmp/nupkg)
+          version=$(basename "$pkg" .nupkg); version=${version#DracoInsomnis.}
+          cd dotnet/e2e
+          dotnet restore -p:DracoVersion="$version" --source /tmp/nupkg --source https://api.nuget.org/v3/index.json
+          dotnet run --no-restore -p:DracoVersion="$version"
+
   sbom:
     name: Every package builds, and the SBOM is valid CycloneDX 1.6
     runs-on: ubuntu-latest
@@ -553,7 +583,7 @@ jobs:
           echo "ghcr.io/x/draco-insomnis@sha256:$(printf ci | sha256sum | cut -d' ' -f1)" > /tmp/release/docker-digest.txt
           php bin/build-sbom.php /tmp/release /tmp/release/sbom.cdx.json
           docker run --rm -v /tmp/release:/w cyclonedx/cyclonedx-cli:0.27.2 validate --input-file /w/sbom.cdx.json --input-version v1_6 --fail-on-errors
-          php -r '$j = json_decode(file_get_contents("/tmp/release/sbom.cdx.json"), true); $n = count(array_filter($j["components"], fn ($c) => $c["type"] === "application")); echo $n, " packages", PHP_EOL; exit($n >= 15 && str_contains(json_encode($j), "pkg:rpm") && str_contains(json_encode($j), "pkg:pypi") ? 0 : 1);'
+          php -r '$j = json_decode(file_get_contents("/tmp/release/sbom.cdx.json"), true); $n = count(array_filter($j["components"], fn ($c) => $c["type"] === "application")); echo $n, " packages", PHP_EOL; exit($n >= 16 && str_contains(json_encode($j), "pkg:rpm") && str_contains(json_encode($j), "pkg:pypi") && str_contains(json_encode($j), "pkg:nuget") ? 0 : 1);'
 
   server:
     name: Server edition — ${{ matrix.os }} with ${{ matrix.web }}
