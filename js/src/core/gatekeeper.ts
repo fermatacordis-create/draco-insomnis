@@ -40,6 +40,11 @@ export interface DracoOptions {
     action?: 'log' | 'block';
     /** "sensitive" (default) or the whole "site". */
     scope?: 'sensitive' | 'site';
+    /**
+     * Where the country comes from when the platform does not say it (Cloudflare does): in Node.js,
+     * new GeoFile(path) from 'draco-insomnis/geo'.
+     */
+    lookup?: { country(ip: string): string | null | Promise<string | null> };
   };
   /** Security headers (nosniff, SAMEORIGIN, referrer and permissions policy) and HSTS on HTTPS. */
   headers?: boolean;
@@ -208,7 +213,14 @@ export class Gatekeeper {
     const list = (geo?.countries ?? []).map((c) => c.trim().toUpperCase()).filter((c) => /^[A-Z]{2}$/.test(c));
     if (mode === 'off' || list.length === 0) return '';
     if (geo?.scope !== 'site' && !this.sensitive(r)) return '';
-    const country = (r.country ?? '').toUpperCase();
+    let country = (r.country ?? '').toUpperCase();
+    if (!/^[A-Z]{2}$/.test(country) && geo?.lookup !== undefined) {
+      try {
+        country = ((await geo.lookup.country(ip)) ?? '').toUpperCase();
+      } catch {
+        country = '';
+      }
+    }
     // Unknown, Tor ("T1") or anonymous ("XX"): not refused for its country.
     if (!/^[A-Z]{2}$/.test(country) || country === 'XX' || country === 'T1') return '';
     const listed = list.includes(country);

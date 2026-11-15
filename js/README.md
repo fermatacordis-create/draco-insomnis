@@ -20,9 +20,10 @@ Draco checks requests in this order:
 
 1. **Blocked addresses** can still read the site. They cannot post anything or open sensitive pages
    (login, sign-up and admin).
-2. **Countries**. This step only runs where the platform already knows the visitor's country:
-   Cloudflare's `request.cf.country` in Workers, or `CF-Connecting-IP`/`CF-IPCountry` when the request
-   really comes from Cloudflare. By default it applies to sensitive requests only.
+2. **Countries**. Behind Cloudflare the country comes from Cloudflare (`request.cf.country` in
+   Workers, `CF-IPCountry` when the request really comes from Cloudflare). In Node.js without
+   Cloudflare, give it the country list (see [Countries without Cloudflare](#countries-without-cloudflare)).
+   By default it applies to sensitive requests only.
 3. **Firewall signatures** look for SQL injection, path traversal, code injection, XSS in the URL,
    known scanners and probes for files like `.env` or `.git`. They read the path, the query and the
    parsed body, including nested JSON, and also check values that were URL-encoded twice.
@@ -118,6 +119,24 @@ In Workers the visitor's address is the one Cloudflare sets, and the country com
 `KVStore` keeps blocks and verified crawlers in KV. Counters stay in the isolate's memory: KV has no
 atomic increment, and each isolate counts on its own. Without a store, everything stays in memory.
 Form and JSON bodies up to 64 KB are read from a copy of the request.
+
+## Countries without Cloudflare
+
+In Node.js, `GeoFile` reads the same country list as the PHP editions: DB-IP "IP to Country Lite"
+(CC BY 4.0), built monthly by this project. The lookup is local and sends nothing anywhere.
+
+```js
+import { GeoFile } from 'draco-insomnis/geo';
+
+const lookup = new GeoFile('/var/lib/myapp/draco-geo.bin');
+app.use(draco({ waf: 'block', geo: { mode: 'block', countries: ['XX'], action: 'log', lookup } }));
+```
+
+- **Download:** the file (about 9 MB) is fetched on start when it is missing or older than 35 days,
+  then checked once a day. It only replaces the old file when the published SHA-256 matches. Pass
+  `{ update: false }` to manage the file yourself.
+- **Lookup:** a binary search over the file, about 20 small reads per address.
+- **No country:** private, reserved and unknown addresses have none, so they are never filtered.
 
 ## "This is a mistake": review requests
 
