@@ -195,6 +195,24 @@ bridge. It runs the same shared cases as PHP and JavaScript (`tests/vectors/waf.
 `review.json`), and CI runs the built wheel inside real FastAPI, Flask and Django.
 `bin/build-python.sh` makes the wheel and the source archive. See [python/README.md](python/README.md).
 
+## Static sites
+
+Plain HTML has no code on the server to run Draco, so `static/` is a **generator**: one HTML page
+(`draco-insomnis-static-X.Y.Z.html` in every release, made by `bin/build-static.sh`) that you open in
+a browser. You choose where the site lives and what to switch on, and it writes the file for that
+place: `.htaccess` (Apache and LiteSpeed, most shared hosting), an nginx include, Netlify `_headers`,
+`vercel.json`, or a Cloudflare Worker project that puts the whole of Draco in front of the HTML.
+Nothing is sent anywhere and nothing of Draco stays on the server.
+
+On a static site there is no database to inject into, so the generator does not pretend to block SQL
+injection. It refuses files that should never be public (`.git`, `.env`, backups uploaded by
+mistake) and known scanners, adds security headers and a Content-Security-Policy (report-only first),
+and — with the Worker — the anti-copy pace limit and review requests. The patterns are those of
+`js/src/core/waf.ts` (a test checks they stay equal). CI serves a site that really holds those files
+with the generated `.htaccess` on Apache 2.4 and the generated include on nginx: every probe and
+scanner of `tests/vectors/waf.json` gets 403, ordinary pages 200. It also runs the page in Chromium.
+Netlify and Vercel cannot refuse requests by pattern, so there it only sets headers.
+
 ## Releasing
 
 Every release carries one package per platform with the same version, built from the same commit

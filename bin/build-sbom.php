@@ -69,6 +69,7 @@ $kinds = [
     ['/^draco-insomnis-server-.*\.tar\.gz$/', 'draco-insomnis-server-tarball', 'Server edition for any PHP site (install.sh)', 'PHP 8.0 or newer with PDO SQLite', null, true],
     ['/^draco_insomnis-.*-py3-none-any\.whl$/', 'draco-insomnis', 'Python package (wheel): FastAPI, Starlette, Flask, Django (ASGI and WSGI)', 'Python 3.9 or newer', 'pkg:pypi/draco-insomnis@%s', false],
     ['/^draco_insomnis-[0-9.]+\.tar\.gz$/', 'draco-insomnis-python-sdist', 'Python package (source)', 'Python 3.9 or newer', 'pkg:pypi/draco-insomnis@%s?ext=tar.gz', false],
+    ['/^draco-insomnis-static-.*\.html$/', 'draco-insomnis-static', 'Static-site generator: one HTML page that writes .htaccess, nginx, Netlify, Vercel or Cloudflare Worker files in the browser', 'Any web browser', null, false],
     ['/^draco-insomnis-js-.*\.tgz$/', 'draco-insomnis', 'JavaScript package: Node.js (Express, Koa, Strapi, Directus) and Cloudflare Workers', 'Node.js 20 or newer, or Cloudflare Workers', 'pkg:npm/draco-insomnis@%s', false],
 ];
 
@@ -122,7 +123,9 @@ foreach (scandir($dir) ?: [] as $file) {
             'properties' => props(['draco:file' => $file, 'draco:requires' => $requires, 'draco:third-party-code' => 'none']),
         ];
         if (!$hasCore) {
-            $c['properties'][] = ['name' => 'draco:engines', 'value' => (str_contains($what, 'Python') ? 'Python' : 'TypeScript') . ' port of src/Core, checked against the same test vectors (tests/vectors)'];
+            $c['properties'][] = ['name' => 'draco:engines', 'value' => str_contains($what, 'Static')
+                ? 'The probe and scanner patterns of src/Core, written as web server rules; tested on Apache 2.4 and nginx against tests/vectors'
+                : (str_contains($what, 'Python') ? 'Python' : 'TypeScript') . ' port of src/Core, checked against the same test vectors (tests/vectors)'];
         }
         $components[] = $c;
         $shipped[] = $ref;

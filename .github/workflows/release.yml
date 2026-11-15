@@ -49,7 +49,7 @@ jobs:
           sudo apt-get install -y -qq rpm >/dev/null
           pip install --quiet build
           bin/build-all.sh release | tee release/files.txt
-          (cd release && sha256sum *.zip *.deb *.rpm *.tar.gz *.tgz *.whl > SHA256SUMS.txt && cat SHA256SUMS.txt)
+          (cd release && sha256sum *.zip *.deb *.rpm *.tar.gz *.tgz *.whl *.html > SHA256SUMS.txt && cat SHA256SUMS.txt)
       - name: Build provenance (gh attestation verify <file> -R fermatacordis-create/draco-insomnis)
         uses: actions/attest-build-provenance@v2
         with:
@@ -60,6 +60,7 @@ jobs:
             release/*.tar.gz
             release/*.tgz
             release/*.whl
+            release/*.html
       - uses: sigstore/cosign-installer@v3
       - name: Sign the checksums (cosign verify-blob, see SECURITY.md)
         run: |
@@ -114,12 +115,13 @@ jobs:
             echo "| Any PHP container (Docker add-on) | \`ghcr.io/fermatacordis-create/draco-insomnis:$version\` |"
             echo "| Any PHP site on another Linux (install.sh) | \`draco-insomnis-server-$version.tar.gz\` |"
             echo "| Python: FastAPI, Starlette, Flask, Django (ASGI and WSGI) | \`draco_insomnis-$version-py3-none-any.whl\`, \`draco_insomnis-$version.tar.gz\` (\`pip install ./draco_insomnis-$version-py3-none-any.whl\`) |"
+            echo "| Static sites (plain HTML): .htaccess, nginx, Netlify, Vercel or a Cloudflare Worker | \`draco-insomnis-static-$version.html\` (open it in a browser; nothing is sent anywhere) |"
             echo "| Node.js: Express, Koa, Strapi, Directus; Cloudflare Workers | \`draco-insomnis-js-$version.tgz\` (also \`npm install draco-insomnis@$version\`, once approved on npm) |"
             echo
             echo "Checksums in \`SHA256SUMS.txt\`, signed with Sigstore (\`SHA256SUMS.txt.sigstore.json\`). Every file has a GitHub build provenance attestation and the release has a CycloneDX SBOM. How to verify: SECURITY.md."
             if [ -n "$notes" ]; then echo; echo "## Changes"; echo; echo "$notes"; fi
           } > release/notes.md
-          gh release create "$GITHUB_REF_NAME" release/*.zip release/*.deb release/*.rpm release/*.tar.gz release/*.tgz release/*.whl release/SHA256SUMS.txt release/SHA256SUMS.txt.sigstore.json release/*.cdx.json \
+          gh release create "$GITHUB_REF_NAME" release/*.zip release/*.deb release/*.rpm release/*.tar.gz release/*.tgz release/*.whl release/*.html release/SHA256SUMS.txt release/SHA256SUMS.txt.sigstore.json release/*.cdx.json \
             --title "Draco Insomnis $version" --notes-file release/notes.md
 
   npm:

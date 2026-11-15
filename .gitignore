@@ -12,3 +12,4 @@ server/docker/build/
 /python/build/
 /python/src/*.egg-info/
 __pycache__/
+/static/node_modules
