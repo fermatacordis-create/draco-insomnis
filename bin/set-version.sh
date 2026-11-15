@@ -28,6 +28,10 @@ sed -i "s/^  VERSION = '[^']*'/  VERSION = '$v'/" ruby/lib/draco_insomnis/versio
 sed -i "s#<Version>[^<]*</Version>#<Version>$v</Version>#" dotnet/DracoInsomnis/DracoInsomnis.csproj
 sed -i "s/public const string Version = \"[^\"]*\";/public const string Version = \"$v\";/" dotnet/DracoInsomnis/Gatekeeper.cs
 sed -i "s/^__version__ = \"[^\"]*\"/__version__ = \"$v\"/" python/src/draco_insomnis/__init__.py
+# JVM: the first <version> of each pom is the project's own; the e2e apps ask for the same version.
+sed -i "0,/^  <version>[^<]*<\/version>/s//  <version>$v<\/version>/" java/pom.xml java/draco/pom.xml java/ktor/pom.xml
+sed -i "s#<draco.version>[^<]*</draco.version>#<draco.version>$v</draco.version>#" java/e2e/spring/pom.xml java/e2e/ktor/pom.xml
+sed -i "s/public static final String VERSION = \"[^\"]*\";/public static final String VERSION = \"$v\";/" java/draco/src/main/java/dracoinsomnis/Gatekeeper.java
 
 moodle=cms/moodle/local_dracoinsomnis/version.php
 sed -i "s/^\(\$plugin->release = '\)[^']*'/\1$v'/" "$moodle"

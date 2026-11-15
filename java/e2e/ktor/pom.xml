@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- The plugin in a real Ktor app on Netty, from the built jars as a user installs them:
+       mvn install:install-file -Dfile=draco-insomnis-X.jar (and -ktor-X.jar), then
+       mvn -Ddraco.version=X compile exec:java -->
+  <groupId>e2e</groupId>
+  <artifactId>draco-ktor-e2e</artifactId>
+  <version>1</version>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <draco.version>0.1.31</draco.version>
+    <kotlin.version>2.4.21</kotlin.version>
+    <ktor.version>3.6.1</ktor.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.github.fermatacordis-create</groupId>
+      <artifactId>draco-insomnis-ktor</artifactId>
+      <version>${draco.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.ktor</groupId>
+      <artifactId>ktor-server-netty-jvm</artifactId>
+      <version>${ktor.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src/main/kotlin</sourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-maven-plugin</artifactId>
+        <version>${kotlin.version}</version>
+        <configuration>
+          <jvmTarget>17</jvmTarget>
+        </configuration>
+        <executions>
+          <execution>
+            <id>compile</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.7.0</version>
+        <configuration>
+          <mainClass>e2e.KtorE2eKt</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

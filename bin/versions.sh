@@ -20,14 +20,19 @@ go_caddy=$(sed -n 's#.*github.com/fermatacordis-create/draco-insomnis/go/draco v
 rb=$(sed -n "s/^  VERSION = '\([^']*\)'$/\1/p" ruby/lib/draco_insomnis/version.rb)
 net=$(sed -n 's#.*<Version>\([^<]*\)</Version>.*#\1#p' dotnet/DracoInsomnis/DracoInsomnis.csproj)
 net_const=$(sed -n 's/.*public const string Version = "\([^"]*\)";/\1/p' dotnet/DracoInsomnis/Gatekeeper.cs)
+java=$(sed -n 's#^  <version>\(.*\)</version>#\1#p' java/draco/pom.xml | head -1)
+java_ktor=$(sed -n 's#^  <version>\(.*\)</version>#\1#p' java/ktor/pom.xml | head -1)
+java_build=$(sed -n 's#^  <version>\(.*\)</version>#\1#p' java/pom.xml | head -1)
+java_const=$(sed -n 's/.*public static final String VERSION = "\([^"]*\)";/\1/p' java/draco/src/main/java/dracoinsomnis/Gatekeeper.java)
 py_const=$(sed -n 's/^__version__ = "\([^"]*\)"$/\1/p' python/src/draco_insomnis/__init__.py)
 guard=$(sed -n "s/^define('DRACO_SERVER_GUARD', '\([^']*\)');/\1/p" server/guard.php)
 printf '%s %s\n' wordpress "$wp" wordpress-constant "$wp_const" wordpress-stable-tag "$wp_stable" \
   prestashop "$presta" drupal "$drupal" joomla "$joomla" moodle "$moodle" server "$server" server-guard "$guard" \
-  javascript "$js" javascript-lock "$js_lock" javascript-constant "$js_const" python "$py" python-constant "$py_const" go "$go_const" go-caddy-requires "$go_caddy" ruby "$rb" dotnet "$net" dotnet-constant "$net_const"
+  javascript "$js" javascript-lock "$js_lock" javascript-constant "$js_const" python "$py" python-constant "$py_const" go "$go_const" go-caddy-requires "$go_caddy" ruby "$rb" dotnet "$net" dotnet-constant "$net_const" \
+  java "$java" java-ktor "$java_ktor" java-build "$java_build" java-constant "$java_const"
 if [ "${1:-}" = "--check" ]; then
   want="${2:-$wp}"
-  for v in "$wp" "$wp_const" "$wp_stable" "$presta" "$drupal" "$joomla" "$moodle" "$server" "$guard" "$js" "$js_lock" "$js_const" "$py" "$py_const" "$go_const" "$go_caddy" "$rb" "$net" "$net_const"; do
+  for v in "$wp" "$wp_const" "$wp_stable" "$presta" "$drupal" "$joomla" "$moodle" "$server" "$guard" "$js" "$js_lock" "$js_const" "$py" "$py_const" "$go_const" "$go_caddy" "$rb" "$net" "$net_const" "$java" "$java_ktor" "$java_build" "$java_const"; do
     if [ "$v" != "$want" ]; then
       echo "Versions differ: every package must be $want (run bin/set-version.sh $want)" >&2
       exit 1
