@@ -492,6 +492,39 @@ jobs:
       - name: Draco in front of an app, in both proxies
         run: go/test/proxies.sh
 
+  ruby:
+    name: Ruby ${{ matrix.ruby }} — engine and shared vectors
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ['3.1', '3.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Engine (no dependencies)
+        working-directory: ruby
+        run: ruby -w -Ilib -e 'Dir["test/test_*.rb"].each { |f| require_relative f }'
+
+  ruby-frameworks:
+    name: Ruby in real Rails and Sinatra (Puma)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+      - name: Build the gem and install it like a user would
+        run: |
+          gem install --no-document rails sinatra puma
+          gem install --no-document "$(bin/build-ruby.sh /tmp/gem)"
+      - name: The middleware inside the frameworks
+        working-directory: ruby
+        # From the installed gem: test/e2e_frameworks.rb requires it from lib/ only as a fallback.
+        run: ruby test/e2e_frameworks.rb
+
   sbom:
     name: Every package builds, and the SBOM is valid CycloneDX 1.6
     runs-on: ubuntu-latest
@@ -520,7 +553,7 @@ jobs:
           echo "ghcr.io/x/draco-insomnis@sha256:$(printf ci | sha256sum | cut -d' ' -f1)" > /tmp/release/docker-digest.txt
           php bin/build-sbom.php /tmp/release /tmp/release/sbom.cdx.json
           docker run --rm -v /tmp/release:/w cyclonedx/cyclonedx-cli:0.27.2 validate --input-file /w/sbom.cdx.json --input-version v1_6 --fail-on-errors
-          php -r '$j = json_decode(file_get_contents("/tmp/release/sbom.cdx.json"), true); $n = count(array_filter($j["components"], fn ($c) => $c["type"] === "application")); echo $n, " packages", PHP_EOL; exit($n >= 14 && str_contains(json_encode($j), "pkg:rpm") && str_contains(json_encode($j), "pkg:pypi") ? 0 : 1);'
+          php -r '$j = json_decode(file_get_contents("/tmp/release/sbom.cdx.json"), true); $n = count(array_filter($j["components"], fn ($c) => $c["type"] === "application")); echo $n, " packages", PHP_EOL; exit($n >= 15 && str_contains(json_encode($j), "pkg:rpm") && str_contains(json_encode($j), "pkg:pypi") ? 0 : 1);'
 
   server:
     name: Server edition — ${{ matrix.os }} with ${{ matrix.web }}

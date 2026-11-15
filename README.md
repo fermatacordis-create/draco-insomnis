@@ -195,6 +195,14 @@ bridge. It runs the same shared cases as PHP and JavaScript (`tests/vectors/waf.
 `review.json`), and CI runs the built wheel inside real FastAPI, Flask and Django.
 `bin/build-python.sh` makes the wheel and the source archive. See [python/README.md](python/README.md).
 
+## Ruby
+
+`ruby/` is the same engine for **Ruby** 3.1 and newer, with no dependencies, as Rack middleware:
+Rails, Sinatra, Hanami and Roda. It has the firewall, block list, country filter, anti-copy pace,
+security headers, review requests and the CrowdSec bridge, runs the shared vectors, and CI runs the
+built gem inside real Rails and Sinatra on Puma. `bin/build-ruby.sh` makes the gem. See
+[ruby/README.md](ruby/README.md).
+
 ## Go: Caddy, Traefik and net/http
 
 `go/draco` is the same engine in **Go**, standard library only, and `go/caddy` the Caddy module. With
