@@ -463,6 +463,35 @@ jobs:
           ln -s /tmp/pw/node_modules static/node_modules
           node static/test/browser.mjs "$html"
 
+  go:
+    name: Go — engine (shared vectors, race detector) and the Caddy module
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+          cache: false
+      - name: Engine
+        working-directory: go/draco
+        run: |
+          test -z "$(gofmt -l .)" || { gofmt -l .; exit 1; }
+          go vet ./...
+          go test -race -count=1 ./...
+      - name: Caddy module
+        working-directory: go/caddy
+        run: |
+          test -z "$(gofmt -l .)" || { gofmt -l .; exit 1; }
+          go vet ./...
+
+  go-proxies:
+    name: Go in real Caddy (xcaddy) and Traefik v3 (plugin run by Yaegi)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Draco in front of an app, in both proxies
+        run: go/test/proxies.sh
+
   sbom:
     name: Every package builds, and the SBOM is valid CycloneDX 1.6
     runs-on: ubuntu-latest

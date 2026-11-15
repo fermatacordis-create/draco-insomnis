@@ -195,6 +195,16 @@ bridge. It runs the same shared cases as PHP and JavaScript (`tests/vectors/waf.
 `review.json`), and CI runs the built wheel inside real FastAPI, Flask and Django.
 `bin/build-python.sh` makes the wheel and the source archive. See [python/README.md](python/README.md).
 
+## Go: Caddy, Traefik and net/http
+
+`go/draco` is the same engine in **Go**, standard library only, and `go/caddy` the Caddy module. With
+them Draco runs in the proxy in front of an app in **any language**: as a Caddy directive
+(`draco_insomnis`, built with `xcaddy`), as a Traefik v3 plugin (run by Yaegi), or as `net/http`
+middleware. It has the firewall, block list, country filter, anti-copy pace, security headers,
+review requests and the CrowdSec bridge, runs the shared vectors, and CI runs it inside a real Caddy
+and a real Traefik in front of an app. Releases tag the modules `go/draco/vX.Y.Z` and
+`go/caddy/vX.Y.Z`. See [go/README.md](go/README.md).
+
 ## Static sites
 
 Plain HTML has no code on the server to run Draco, so `static/` is a **generator**: one HTML page

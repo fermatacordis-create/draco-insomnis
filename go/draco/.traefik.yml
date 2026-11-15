@@ -1,0 +1,8 @@
+displayName: Draco Insomnis
+type: middleware
+import: github.com/fermatacordis-create/draco-insomnis/go/draco
+summary: Firewall, block list, anti-copy pace, country filter, review requests and CrowdSec in front of any app, with the same signatures as the Draco plugins for WordPress, other CMSs, Node.js and Python.
+testData:
+  waf: block
+  pace: block
+  headers: true
