@@ -53,7 +53,7 @@ Only the latest released version receives security fixes.
 ## WordPress identity (CoSign, MFA, recovery)
 
 On WordPress, privileged login may use second-administrator co-sign, e-mail MFA and multi-slot
-recovery. The internal canary certification of that model (`0.1.32-ui16`, reproducible certification pending) and the operational policy (Admin A/B,
+recovery. The certification of that model (`0.1.32-ui16`, reproducible at commit `9893697` with its CI run) and the operational policy (Admin A/B,
 recovery maintenance **R-08**, MFA continuity **R-09**, planned Health Checks / SSDD) are in
 [`docs/identity/`](docs/identity/).
 

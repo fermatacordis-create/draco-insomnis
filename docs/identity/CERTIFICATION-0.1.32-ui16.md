@@ -1,4 +1,4 @@
-# Internal Canary Certification — Draco Insomnis 0.1.32-ui16
+# Certification — Draco Insomnis 0.1.32-ui16 (identity layer)
 
 | Field | Value |
 | --- | --- |
@@ -6,13 +6,21 @@
 | Canary | `0.1.32-ui16` |
 | Environment | sant-francesc |
 | Scope | WordPress identity layer (Recovery, CoSign, MFA, Trusted Device, audit) |
-| Status | **INTERNAL CANARY CERTIFICATION** |
-| Commit | Pending: to be filled in with the commit merged into `main` |
-| CI | Pending: to be filled in with the green CI run of that commit |
+| Status | **CERTIFIED — reproducible** (canary checks plus CI) |
+| Commit | [`9893697`](https://github.com/fermatacordis-create/draco-insomnis/commit/989369777dbd4f2aa04b95b0f1d9f4e8ed970a08) (`989369777dbd4f2aa04b95b0f1d9f4e8ed970a08`), merge of #65 into `main` |
+| CI | [run 43939337306](https://github.com/fermatacordis-create/draco-insomnis/actions/runs/43939337306): green, including the integration tests on WordPress 6.5 and latest and the WordPress.org Plugin Check |
 
-This report records what was checked on the canary. It becomes a **reproducible certification** once
-the identity changes are merged with a green CI and the commit and CI run above are filled in; until
-then it must not be read as a release certification.
+Anyone can check what was certified: that commit, and the CI run that tested it.
+
+### What the reproducible run found
+
+On a clean WordPress, the CI exposed problems the canary site had hidden (it had MFA on when the plugin
+loaded). They were fixed before the merge; the product's behaviour did not change:
+
+- three CoSign tests were wrong: two only passed with MFA already on, and one used a helper that
+  does not exist in that kind of test; a fourth checked the whole file instead of the CoSign gate;
+- the WordPress.org Plugin Check asked for the user agent to be sanitized everywhere CoSign and MFA
+  read it, and for a translators comment.
 
 ## Executive summary
 
@@ -190,15 +198,15 @@ SMTP transport, Firewall, Gatekeeper, and all non-WordPress runtimes (Go, Node, 
 
 | Area | Status |
 | --- | --- |
-| Recovery multi-slot | PASS (canary) |
-| Administrator CoSign | PASS (canary) |
-| Auth correlation | PASS (canary) |
-| Failure correlation | PASS (canary) |
-| Session safety | PASS (canary) |
-| Trusted Device model | PASS (canary) |
+| Recovery multi-slot | PASS (canary + CI) |
+| Administrator CoSign | PASS (canary + CI) |
+| Auth correlation | PASS (canary + CI) |
+| Failure correlation | PASS (canary + CI) |
+| Session safety | PASS (canary + CI) |
+| Trusted Device model | PASS (canary + CI) |
 | Architecture boundaries | PRESERVED |
 
-**Canary 0.1.32-ui16: PASS (internal). Reproducible certification: pending commit and CI.**
+**0.1.32-ui16 identity layer: PASS, reproducible at commit `9893697` with a green CI.**
 
 Operational hardening for Admin A / Admin B (including **R-08** recovery maintenance with verification on
 demand, **R-09** MFA continuity, provider diversity by MX, and planned **C-06** / SSDD health evidence) is documented in
