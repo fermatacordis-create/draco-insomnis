@@ -24,7 +24,7 @@ final class Store
     private const MIN_PREFIX = ['4' => 16, '6' => 32];
     /** @var array<string, list<string>> Ranges and allowed addresses in force, read once per request. */
     private static array $values = [];
-    private const SCHEMA = '3';
+    private const SCHEMA = '4';
     private const SCHEMA_OPTION = 'draco_schema';
     /** One flood must not fill the database: past this, attempts from that IP in the hour are only counted. */
     private const MAX_ROWS_PER_IP_HOUR = 30;
@@ -135,7 +135,7 @@ final class Store
             created_at datetime NOT NULL,
             until_at datetime NOT NULL,
             PRIMARY KEY  (id),
-            KEY lookup (kind, value, until_at)
+            KEY lookup (kind,value(150),until_at)
         ) $charset;");
         dbDelta('CREATE TABLE ' . self::counters() . " (
             k varchar(190) NOT NULL,
@@ -157,6 +157,12 @@ final class Store
             KEY status_created (status, created_at),
             KEY ip_created (ip, created_at)
         ) $charset;");
+        // Recorded only when every table really exists, so a failed creation is tried again.
+        foreach ([self::events(), self::blocks(), self::counters(), self::reviews()] as $table) {
+            if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($table))) !== $table) {
+                return;
+            }
+        }
         update_option(self::SCHEMA_OPTION, self::SCHEMA);
     }
 
@@ -177,9 +183,22 @@ final class Store
             'score' => min(65535, max(0, $result['score'])),
             'verdict' => $result['verdict'],
             'reasons' => substr(implode(',', $result['reasons']), 0, 190),
-            'user_agent' => substr($userAgent, 0, 255),
-            'fields' => (string) wp_json_encode($fields),
+            'user_agent' => self::clean($userAgent, 255),
+            'fields' => (string) wp_json_encode(array_map(static fn ($v): string => self::clean((string) $v, 1000), $fields)),
         ]);
+    }
+
+    /**
+     * What is stored as evidence: valid UTF-8, no control characters, bounded length. Not
+     * sanitize_text_field(): it would strip the very tags and %-sequences that show the attack. Every
+     * screen escapes it on output.
+     */
+    public static function clean(string $value, int $max): string
+    {
+        $value = wp_check_invalid_utf8($value, true);
+        $value = (string) preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $value);
+
+        return mb_substr($value, 0, $max);
     }
 
     public static function botAttemptsSince(string $ip, int $seconds): int

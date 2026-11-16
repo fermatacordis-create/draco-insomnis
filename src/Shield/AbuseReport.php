@@ -75,11 +75,20 @@ final class AbuseReport
 
             return;
         }
-        $contact = Abuse::contact($ip, [self::class, 'fetch']);
+        // The registry is only asked when the owner presses the button: it sends this address to rdap.org.
+        $lookup = isset($_GET['lookup']) && sanitize_key(wp_unslash((string) $_GET['lookup'])) === '1';
+        $contact = $lookup
+            ? Abuse::contact($ip, [self::class, 'fetch'])
+            : ['email' => '', 'network' => '', 'range' => '', 'registry' => '', 'error' => ''];
         $draft = Abuse::draft($ip, $rows, home_url('/'), $contact);
         $refusal = Abuse::refusal($ip, self::sent(), time());
 
         Brand::card('email-alt', $ip, $contact['network'] !== '' ? $contact['network'] . ($contact['range'] !== '' ? ' · ' . $contact['range'] : '') . ($contact['registry'] !== '' ? ' · ' . $contact['registry'] : '') : '', $refusal === '' ? '' : Brand::pill(__('Not now', 'draco-insomnis'), 'warn'));
+        if (!$lookup) {
+            $find = wp_nonce_url(admin_url('admin.php?page=' . Admin::SLUG . '&report=' . rawurlencode($ip) . '&lookup=1'), self::VIEW);
+            echo '<p><a class="button" href="' . esc_url($find) . '">' . esc_html__('Find the abuse contact (sends this IP address to rdap.org)', 'draco-insomnis') . '</a> '
+                . '<span class="description">' . esc_html__('Or write the address yourself below.', 'draco-insomnis') . '</span></p>';
+        }
         if ($contact['error'] !== '') {
             /* translators: %s: why the registry gave no abuse contact */
             Brand::notice('warning', sprintf(__('The registry gave no abuse contact (%s). Write the address yourself if you know it.', 'draco-insomnis'), $contact['error']));

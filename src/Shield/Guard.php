@@ -87,9 +87,8 @@ final class Guard
             return;
         }
         self::engine()->slowDown();
-        // The theme's own success text, so the script believes it worked and moves on.
-        $domain = defined('RH_TEXT_DOMAIN') ? (string) constant('RH_TEXT_DOMAIN') : 'framework';
-        wp_send_json(['success' => true, 'message' => esc_html__('Registration is complete. Check your email for details!', $domain)]); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain,WordPress.WP.I18n.TextDomainMismatch
+        // The same words as the theme's success text, so the script believes it worked and moves on.
+        wp_send_json(['success' => true, 'message' => esc_html__('Registration is complete. Check your email for details!', 'draco-insomnis')]);
     }
 
     /** @param \WP_Error $errors */

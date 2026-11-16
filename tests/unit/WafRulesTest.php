@@ -66,6 +66,20 @@ final class WafRulesTest extends TestCase
     public function testFlatten(): void
     {
         self::assertSame(['a', '1', 'b', 'c', '2'], WafRules::flatten(['a' => 1, 'b' => ['c' => 2]]));
-        self::assertCount(3, WafRules::flatten(range(1, 10), 3));
+        // Past the limit, values are not dropped: they are joined into one more string.
+        self::assertSame(['1', '2', '3', "4\n5\n6\n7\n8\n9\n10"], WafRules::flatten(range(1, 10), 3));
+    }
+
+    public function testPaddingAndNestingCannotHideAnAttack(): void
+    {
+        $attack = "' OR '1'='1";
+        $padded = array_fill(0, 250, 'harmless');
+        $padded[] = $attack;
+        self::assertSame('sqli', WafRules::inspect(['params' => WafRules::flatten($padded)]), 'value 251 of a padded form');
+        $deep = ['a' => ['b' => ['c' => ['d' => ['e' => ['f' => ['g' => $attack]]]]]]];
+        self::assertSame('sqli', WafRules::inspect(['params' => WafRules::flatten($deep)]), 'nested 7 levels deep');
+        self::assertNull(WafRules::inspect(['params' => WafRules::flatten(array_fill(0, 500, 'harmless text'))]));
+        $big = WafRules::flatten(array_fill(0, 5000, str_repeat('x', 200)));
+        self::assertLessThanOrEqual(WafRules::REST_MAX, strlen((string) end($big)));
     }
 }

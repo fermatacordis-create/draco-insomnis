@@ -116,15 +116,63 @@ Only bots wait, for at most three seconds, and at most ten slow answers per minu
 
 For suspicious attempts only: date, address, browser name, username, e-mail, requested role and referring page. Never passwords. Everything is deleted after 90 days, and all of it is removed when the plugin is deleted.
 
-== Third-party data ==
+== External services ==
 
-The country filter uses IP geolocation by DB-IP (https://db-ip.com), "IP to Country Lite", licensed under Creative Commons Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/). It is downloaded from this plugin's GitHub releases only while the filter is on.
+Draco works on the site itself. It contacts an outside service only for the features below, all of them off by default or started by an administrator, and always through the WordPress HTTP API.
 
-== Third-party service ==
+= Country list (GitHub) =
 
-Only if "Refuse passwords that appear in known data breaches" is switched on, Draco asks Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com) with the first 5 characters of the SHA-1 of a password being chosen or used to log in. The password itself and its full hash are never sent. Terms: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy: https://haveibeenpwned.com/Privacy
+What and why: the country filter needs a list of which country each IP address belongs to. Draco downloads it from this plugin's GitHub releases (https://github.com/fermatacordis-create/draco-insomnis/releases) together with its SHA-256 checksum, and looks addresses up in that local copy.
 
-Only when an administrator opens an abuse report, Draco asks the public internet registry (RDAP, at https://rdap.org, which forwards to the regional registry: ARIN, RIPE NCC, APNIC, LACNIC or AFRINIC) who looks after the reported address, to find its abuse contact. Only that address is sent. Nothing is e-mailed until the administrator reads the draft and presses Send.
+When: only while the country filter is switched on, when the list is missing or older than 35 days.
+
+Data sent: nothing but an ordinary download request (the server's IP address and WordPress's usual user agent, which includes the site's address). No visitor data is sent.
+
+Service: GitHub, Inc. Terms of service: https://docs.github.com/en/site-policy/github-terms/github-terms-of-service · Privacy statement: https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement
+
+Data licence: "IP to Country Lite" by DB-IP (https://db-ip.com), Creative Commons Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/).
+
+= Breached passwords (Have I Been Pwned) =
+
+What and why: to refuse passwords that appear in known data breaches.
+
+When: only if "Refuse passwords that appear in known data breaches" is switched on, when a password is chosen (profile, password reset, WooCommerce sign-up) and when someone logs in.
+
+Data sent: the first 5 characters of the SHA-1 hash of that password (k-anonymity). The password itself and its full hash are never sent.
+
+Service: Pwned Passwords, by Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com). Terms of use: https://haveibeenpwned.com/TermsOfUse · Acceptable use: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy policy: https://haveibeenpwned.com/Privacy
+
+= Abuse contact (rdap.org) =
+
+What and why: to find the abuse contact of the network that owns an attacking address, for an abuse report.
+
+When: only when an administrator, on an abuse report, presses "Find the abuse contact (sends this IP address to rdap.org)". Otherwise the administrator writes the address by hand. Nothing is e-mailed until the administrator reads the draft and presses Send.
+
+Data sent: the reported IP address only. rdap.org forwards the question to the regional internet registry that looks after it (ARIN, RIPE NCC, APNIC, LACNIC or AFRINIC).
+
+Service: rdap.org, a public RDAP redirector. It publishes no separate terms or privacy policy; its documentation, including its privacy considerations ("Individual queries are not logged"), is at https://about.rdap.org/
+
+= Malicious links (URLhaus, by abuse.ch) =
+
+What and why: to check the links in comments and contact forms against URLhaus, the list of malware distribution sites.
+
+When: only if the administrator adds their own abuse.ch key to wp-config.php, confirms that the site is non-profit or has a Spamhaus subscription, and switches it on. The list is then downloaded twice a day. Not available when Draco is bundled in another product.
+
+Data sent: the administrator's key, to download the list. Nothing visitors write is sent: links are looked up in the local copy.
+
+Free use only for non-profit websites; for commercial use, a Spamhaus subscription (https://www.spamhaus.com/data-access/abusech-api/).
+
+Service: abuse.ch, with Spamhaus Technology Limited. Terms of use: https://abuse.ch/terms-of-use/ · Privacy policy: https://abuse.ch/privacy-policy/
+
+= Site mail (SMTP) =
+
+What and why: so the site's e-mail is delivered through a real mailbox.
+
+When: only if the administrator sets up Site mail and it passes a test.
+
+Data sent: the e-mails the site sends (recipients, subject and content) go to the mail server the administrator chooses, usually their hosting or mail provider. The provider list only fills in the server name and port; Draco sends nothing to those providers by itself.
+
+Service: the provider chosen by the administrator, under that provider's own terms and privacy policy.
 
 == Changelog ==
 

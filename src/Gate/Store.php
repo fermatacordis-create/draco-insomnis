@@ -51,6 +51,10 @@ final class Store
             KEY status_created (status, created_at),
             KEY email (email)
         ) " . $wpdb->get_charset_collate() . ';');
+        // Recorded only when the table really exists, so a failed creation is tried again.
+        if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like(self::table()))) !== self::table()) {
+            return;
+        }
         update_option(self::SCHEMA_OPTION, self::SCHEMA);
     }
 
