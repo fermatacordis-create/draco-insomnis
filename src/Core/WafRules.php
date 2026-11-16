@@ -112,27 +112,68 @@ final class WafRules
         return false;
     }
 
-    /** Flattens nested request values into strings, at most $limit of them. @param array<mixed> $values @return list<string> */
+    /** The joined rest of a request (values past the limit or nested deeper than 5 levels) is cut here. */
+    public const REST_MAX = 262144;
+
+    /**
+     * Flattens nested request values into strings: the first $limit one by one, and everything else
+     * (values past the limit, or nested deeper than 5 levels) joined into one more string, so padding a
+     * form with harmless fields, or nesting, cannot hide an attack from the signatures.
+     *
+     * @param array<mixed> $values
+     * @return list<string>
+     */
     public static function flatten(array $values, int $limit = 200): array
     {
         $out = [];
-        $walk = static function ($value, int $depth) use (&$walk, &$out, $limit): void {
-            if (count($out) >= $limit) {
+        $rest = '';
+        $walk = static function ($value, int $depth) use (&$walk, &$out, &$rest, $limit): void {
+            if (strlen($rest) >= self::REST_MAX) {
                 return;
             }
-            if (is_array($value) && $depth < 5) {
+            $items = [];
+            if (is_array($value)) {
+                if ($depth >= 64) {
+                    return;
+                }
                 foreach ($value as $key => $item) {
                     if (is_string($key) && $key !== '') {
-                        $out[] = $key;
+                        $items[] = $key;
                     }
-                    $walk($item, $depth + 1);
+                    if (is_array($item)) {
+                        foreach ($items as $one) {
+                            self::keep($one, $depth, $limit, $out, $rest);
+                        }
+                        $items = [];
+                        $walk($item, $depth + 1);
+                    } elseif (is_scalar($item)) {
+                        $items[] = (string) $item;
+                    }
                 }
             } elseif (is_scalar($value)) {
-                $out[] = (string) $value;
+                $items[] = (string) $value;
+            }
+            foreach ($items as $one) {
+                self::keep($one, $depth, $limit, $out, $rest);
             }
         };
         $walk($values, 0);
+        if ($rest !== '') {
+            $out[] = substr($rest, 0, self::REST_MAX);
+        }
 
-        return array_slice($out, 0, $limit);
+        return $out;
+    }
+
+    /**
+     * @param list<string> $out
+     */
+    private static function keep(string $one, int $depth, int $limit, array &$out, string &$rest): void
+    {
+        if ($depth < 5 && count($out) < $limit) {
+            $out[] = $one;
+        } else {
+            $rest .= ($rest === '' ? '' : "\n") . $one;
+        }
     }
 }
