@@ -163,6 +163,9 @@ final class CoSignTest extends TestCase
     public function test_trusted_device_skips_only_mfa(): void
     {
         // Trust Device ≠ Trusted Login: Cosign @99 never consults TrustedDevice.
+        // MFA registers its filter only when it is on (setUp switches it off).
+        update_option(Mfa::OPTION_ENABLED, 'yes');
+        Mfa::boot();
         $this->assertSame(99, has_filter('wp_authenticate_user', [CoSign::class, 'afterPrimaryPassword']));
         $this->assertSame(100, has_filter('wp_authenticate_user', [Mfa::class, 'afterPassword']));
         $src = (string) file_get_contents((new \ReflectionClass(CoSign::class))->getFileName());
@@ -244,13 +247,16 @@ final class CoSignTest extends TestCase
     public function test_login_requires_cosign_when_enabled_without_creating_session(): void
     {
         $result = wp_authenticate($this->adminA->user_login, 'not-the-password');
-        $this->assertWPError($result);
+        $this->assertInstanceOf(\WP_Error::class, $result);
         $this->assertFalse(CoSign::satisfiedFor($this->adminA->ID));
         $this->assertNoSession();
     }
 
     public function test_filter_priority_order(): void
     {
+        // MFA registers its filter only when it is on (setUp switches it off).
+        update_option(Mfa::OPTION_ENABLED, 'yes');
+        Mfa::boot();
         $this->assertSame(99, has_filter('wp_authenticate_user', [CoSign::class, 'afterPrimaryPassword']));
         $this->assertSame(100, has_filter('wp_authenticate_user', [Mfa::class, 'afterPassword']));
     }
