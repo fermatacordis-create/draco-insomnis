@@ -38,6 +38,7 @@ final class Plugin
         MailAdmin::register();
         Transport::register();
         Gate::boot();
+        \DracoInsomnis\Gate\LinkCheck::register();
         LoginAdmin::register();
         FirewallAdmin::register();
         \DracoInsomnis\Firewall\GeoFilter::register();

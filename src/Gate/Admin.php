@@ -77,9 +77,67 @@ final class Admin
         } elseif ($do === 'unblock') {
             Blocks::unblock(Input::postInt('id'));
             $result = 'unblocked';
+        } elseif ($do === 'urlhaus' && LinkCheck::available()) {
+            $confirmed = !empty($_POST['urlhaus_confirm']);
+            $wanted = !empty($_POST['urlhaus']);
+            update_option(LinkCheck::OPTION_CONFIRMED, $confirmed ? 'yes' : 'no');
+            if ($wanted && !LinkCheck::hasKey()) {
+                $wanted = false;
+                $result = 'urlhaus_key';
+            } elseif ($wanted && !$confirmed) {
+                $wanted = false;
+                $result = 'urlhaus_confirm';
+            }
+            update_option(LinkCheck::OPTION_ENABLED, $wanted ? 'yes' : 'no');
+            if ($wanted) {
+                $result = LinkCheck::update() === '' ? 'urlhaus_on' : 'urlhaus_failed';
+            } else {
+                wp_clear_scheduled_hook(LinkCheck::HOOK_UPDATE);
+            }
+        } elseif ($do === 'urlhaus_update' && LinkCheck::active()) {
+            $result = LinkCheck::update() === '' ? 'urlhaus_updated' : 'urlhaus_failed';
         }
         wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=' . $result));
         exit;
+    }
+
+    /** Malicious links (URLhaus): off by default; the owner's own key; non-profit use only for free. */
+    private static function urlhausCard(): void
+    {
+        $on = LinkCheck::active();
+        $state = LinkCheck::state();
+        Brand::card('shield', __('Malicious links (URLhaus)', 'draco-insomnis'), __('Links in comments and contact forms are checked against URLhaus, the list of malware sites kept by abuse.ch. The list is downloaded twice a day with your own key and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.', 'draco-insomnis'), Brand::pill(Brand::stateLabel($on ? 'on' : 'off'), $on ? 'on' : 'off'));
+        echo '<div class="notice notice-warning inline" style="margin:0 0 12px"><p><strong>' . esc_html__('Free use only for non-profit websites; for commercial use, a Spamhaus subscription.', 'draco-insomnis') . '</strong> '
+            . esc_html__('That is what the abuse.ch terms of use say for URLhaus.', 'draco-insomnis') . ' '
+            . '<a href="' . esc_url(LinkCheck::TERMS) . '" target="_blank" rel="noopener">' . esc_html__('Terms of use', 'draco-insomnis') . '</a> · '
+            . '<a href="' . esc_url(LinkCheck::SPAMHAUS) . '" target="_blank" rel="noopener">' . esc_html__('Spamhaus subscription', 'draco-insomnis') . '</a></p></div>';
+        if (!LinkCheck::hasKey()) {
+            echo '<p>' . esc_html__('To use it, create a free account at auth.abuse.ch, copy your Auth-Key and add this line to wp-config.php. The key stays there: it is never saved in the database or shown on any screen.', 'draco-insomnis') . '</p>';
+            echo '<p><code>define( \'' . esc_html(LinkCheck::KEY_CONSTANT) . '\', \'' . esc_html__('your-key', 'draco-insomnis') . '\' );</code></p>';
+        } else {
+            echo '<p>' . esc_html__('Key found in wp-config.php.', 'draco-insomnis') . ' ';
+            if ($state['updated'] > 0) {
+                /* translators: 1: date and time, 2: number of entries */
+                echo esc_html(sprintf(__('Last download: %1$s, %2$d entries.', 'draco-insomnis'), wp_date('Y-m-d H:i', $state['updated']), $state['count']));
+            }
+            if ($state['error'] !== '') {
+                /* translators: %s: short reason */
+                echo ' <strong>' . esc_html(sprintf(__('Last attempt failed: %s.', 'draco-insomnis'), $state['error'])) . '</strong>';
+            }
+            echo '</p>';
+        }
+        echo self::open('urlhaus'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        Brand::toggle('urlhaus_confirm', get_option(LinkCheck::OPTION_CONFIRMED, 'no') === 'yes', __('I confirm this website is non-profit, or has a Spamhaus subscription', 'draco-insomnis'));
+        Brand::toggle('urlhaus', get_option(LinkCheck::OPTION_ENABLED, 'no') === 'yes', __('Check links in comments and contact forms', 'draco-insomnis'));
+        echo '<p style="margin-top:12px">';
+        submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
+        echo '</p></form>';
+        if ($on) {
+            echo self::open('urlhaus_update'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            submit_button(__('Download the list now', 'draco-insomnis'), 'secondary', 'submit', false);
+            echo '</form>';
+        }
+        Brand::cardEnd();
     }
 
     private static function open(string $do): string
@@ -104,6 +162,16 @@ final class Admin
             Brand::notice('success', __('Recent submissions cleared. Blocked addresses stay on the block list.', 'draco-insomnis'));
         } elseif ($result === 'unblocked') {
             Brand::notice('success', __('Address unblocked.', 'draco-insomnis'));
+        } elseif ($result === 'urlhaus_key') {
+            Brand::notice('error', __('Malicious links were not switched on: add your abuse.ch key to wp-config.php first.', 'draco-insomnis'));
+        } elseif ($result === 'urlhaus_confirm') {
+            Brand::notice('error', __('Malicious links were not switched on: confirm first that the site is non-profit or has a Spamhaus subscription.', 'draco-insomnis'));
+        } elseif ($result === 'urlhaus_on' || $result === 'urlhaus_updated') {
+            /* translators: %d: number of entries in the list */
+            Brand::notice('success', sprintf(__('URLhaus list downloaded: %d entries.', 'draco-insomnis'), LinkCheck::state()['count']));
+        } elseif ($result === 'urlhaus_failed') {
+            /* translators: %s: short reason, such as "HTTP 403" */
+            Brand::notice('error', sprintf(__('The URLhaus list could not be downloaded (%s). Links are not checked until it is.', 'draco-insomnis'), LinkCheck::state()['error']));
         } elseif ($result === 'ok') {
             Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
         }
@@ -136,6 +204,9 @@ final class Admin
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
         echo '</p></form>';
         Brand::cardEnd();
+        if (LinkCheck::available()) {
+            self::urlhausCard();
+        }
 
         $labels = ['pending' => [__('Waiting for confirmation', 'draco-insomnis'), 'warn'], 'verified' => [__('Confirmed', 'draco-insomnis'), 'on'], 'expired' => [__('Expired without confirmation', 'draco-insomnis'), 'off']];
         $kinds = ['user' => [__('Account', 'draco-insomnis'), 'admin-users'], 'comment' => [__('Comment', 'draco-insomnis'), 'admin-comments'], 'form' => [__('Message', 'draco-insomnis'), 'email']];
