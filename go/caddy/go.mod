@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/caddyserver/caddy/v2 v2.11.9
-	github.com/fermatacordis-create/draco-insomnis/go/draco v0.1.32
+	github.com/fermatacordis-create/draco-insomnis/go/draco v0.1.33
 	go.uber.org/zap v1.28.0
 )
 
