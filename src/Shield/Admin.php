@@ -250,7 +250,7 @@ final class Admin
             $until = (string) $b['until_at'] === Store::FOREVER ? __('Forever', 'draco-insomnis') : (string) $b['until_at'];
             echo '<tr><td>' . wp_kses_post(Brand::pill($labels[(string) $b['kind']] ?? (string) $b['kind'], 'bad')) . '</td><td><span class="draco-code">' . esc_html((string) $b['value']) . '</span></td><td>' . esc_html($until) . '</td><td>' . esc_html((string) $b['reason']) . '</td><td>'
                 . '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '" style="display:inline">'
-                . wp_nonce_field($nonceAction, '_wpnonce', true, false)
+                . wp_nonce_field($nonceAction, '_wpnonce', true, false) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_nonce_field() escapes its own output.
                 . '<input type="hidden" name="action" value="' . esc_attr($postAction) . '"><input type="hidden" name="do" value="unblock">'
                 . '<input type="hidden" name="id" value="' . (int) $b['id'] . '"><button class="button-link">' . esc_html__('Unblock', 'draco-insomnis') . '</button></form></td></tr>';
         }

@@ -161,6 +161,6 @@ final class Store
     public static function clear(): void
     {
         global $wpdb;
-        $wpdb->query('DELETE FROM ' . self::table()); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name from self::table()
+        $wpdb->query($wpdb->prepare('DELETE FROM %i', self::table()));
     }
 }
