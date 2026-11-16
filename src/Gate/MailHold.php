@@ -113,7 +113,7 @@ final class MailHold
             }
         }
 
-        return self::firstEmail($_POST, 0); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+        return self::firstEmail(wp_unslash($_POST), 0); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- only reads which address sent the form
     }
 
     /** @param array<mixed> $values */
@@ -121,7 +121,7 @@ final class MailHold
     {
         foreach ($values as $value) {
             if (is_string($value) && strlen($value) < 190 && is_email(trim($value))) {
-                return strtolower(trim($value));
+                return strtolower(sanitize_email(trim($value)));
             }
             if (is_array($value) && $depth < 4) {
                 $found = self::firstEmail($value, $depth + 1);
@@ -163,42 +163,50 @@ final class MailHold
         ];
     }
 
-    /** @param array<string, mixed> $row */
+    /** Attachments never forwarded: code and executables. */
+    private const CODE_FILES = '/\.(php\d?|phtml|phar|pht|exe|com|bat|cmd|scr|msi|js|jar|vbs|ps1|sh|cgi|pl|py)$/i';
+
+    /**
+     * Delivers a confirmed submission. Attachments go into the message from memory (PHPMailer's
+     * addStringAttachment while this mail is sent): nothing is written to disk.
+     *
+     * @param array<string, mixed> $row
+     */
     public static function release(array $row): void
     {
         $mails = json_decode((string) $row['payload'], true);
         self::$releasing = true;
-        $dir = '';
         try {
             foreach (is_array($mails) ? $mails : [] as $mail) {
-                $paths = [];
+                $attach = [];
                 foreach ((array) ($mail['files'] ?? []) as $file) {
-                    $dir = $dir !== '' ? $dir : self::tempDir();
-                    $path = $dir . '/' . sanitize_file_name((string) $file['name']);
-                    file_put_contents($path, (string) base64_decode((string) $file['data'])); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
-                    $paths[] = $path;
+                    $name = sanitize_file_name((string) ($file['name'] ?? ''));
+                    $data = (string) base64_decode((string) ($file['data'] ?? ''), true);
+                    if ($name !== '' && $data !== '' && preg_match(self::CODE_FILES, $name) !== 1) {
+                        $attach[] = [$name, $data];
+                    }
                 }
+                $add = static function ($phpmailer) use ($attach): void {
+                    foreach ($attach as [$name, $data]) {
+                        $phpmailer->addStringAttachment($data, $name);
+                    }
+                };
                 $message = (string) ($mail['message'] ?? '');
                 if (!self::isToSender($mail, (string) $row['email'])) {
                     $message .= self::footer($mail, (int) $row['id']);
                 }
-                wp_mail($mail['to'] ?? '', (string) ($mail['subject'] ?? ''), $message, $mail['headers'] ?? [], $paths);
-                array_map('unlink', array_filter($paths, 'is_file'));
+                if ($attach !== []) {
+                    add_action('phpmailer_init', $add);
+                }
+                try {
+                    wp_mail($mail['to'] ?? '', (string) ($mail['subject'] ?? ''), $message, $mail['headers'] ?? []);
+                } finally {
+                    remove_action('phpmailer_init', $add);
+                }
             }
         } finally {
             self::$releasing = false;
-            if ($dir !== '') {
-                @rmdir($dir); // phpcs:ignore WordPress.PHP.NoSilencedErrors,WordPress.WP.AlternativeFunctions.file_system_operations_rmdir
-            }
         }
-    }
-
-    private static function tempDir(): string
-    {
-        $dir = get_temp_dir() . 'draco-gate-' . wp_generate_password(16, false);
-        wp_mkdir_p($dir);
-
-        return $dir;
     }
 
     /** @param array<string, mixed> $mail */
@@ -243,6 +251,17 @@ final class MailHold
         return self::$held ? '<p>' . esc_html(self::notice()) . '</p>' : (string) $message;
     }
 
+    private static int $bufferLevel = 0;
+
+    /** Closes the buffer opened by watchOutput(), and only when it is still the innermost one. */
+    public static function closeOutput(): void
+    {
+        if (self::$bufferLevel > 0 && ob_get_level() === self::$bufferLevel) {
+            ob_end_flush();
+        }
+        self::$bufferLevel = 0;
+    }
+
     /** Divi, RealHomes and Elementor have no filter for their success text, so it is replaced in the response. */
     public static function watchOutput(): void
     {
@@ -251,6 +270,9 @@ final class MailHold
         }
         if (in_array(self::context(), ['divi', 'realhomes', 'elementor'], true) || RegistrationHold::isAjaxRegistration()) {
             ob_start([self::class, 'rewriteOutput']);
+            self::$bufferLevel = ob_get_level();
+            // Closed explicitly at the end of the request (their AJAX handlers end with die()).
+            add_action('shutdown', [self::class, 'closeOutput'], 0);
         }
     }
 

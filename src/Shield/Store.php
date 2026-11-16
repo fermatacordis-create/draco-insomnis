@@ -183,9 +183,22 @@ final class Store
             'score' => min(65535, max(0, $result['score'])),
             'verdict' => $result['verdict'],
             'reasons' => substr(implode(',', $result['reasons']), 0, 190),
-            'user_agent' => substr($userAgent, 0, 255),
-            'fields' => (string) wp_json_encode($fields),
+            'user_agent' => self::clean($userAgent, 255),
+            'fields' => (string) wp_json_encode(array_map(static fn ($v): string => self::clean((string) $v, 1000), $fields)),
         ]);
+    }
+
+    /**
+     * What is stored as evidence: valid UTF-8, no control characters, bounded length. Not
+     * sanitize_text_field(): it would strip the very tags and %-sequences that show the attack. Every
+     * screen escapes it on output.
+     */
+    public static function clean(string $value, int $max): string
+    {
+        $value = wp_check_invalid_utf8($value, true);
+        $value = (string) preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $value);
+
+        return mb_substr($value, 0, $max);
     }
 
     public static function botAttemptsSince(string $ip, int $seconds): int

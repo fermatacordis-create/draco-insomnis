@@ -137,7 +137,7 @@ final class Waf
      */
     private static function answerTest(): bool
     {
-        $token = isset($_SERVER[self::TEST_HEADER]) ? (string) $_SERVER[self::TEST_HEADER] : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- compared with hash_equals only
+        $token = isset($_SERVER[self::TEST_HEADER]) ? sanitize_text_field(wp_unslash((string) $_SERVER[self::TEST_HEADER])) : '';
         if ($token === '') {
             return false;
         }
