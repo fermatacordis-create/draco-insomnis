@@ -63,6 +63,9 @@ final class ParityCoreTest extends TestCase
         $this->assertSame([], SecurityHeaders::wanted($this->host, true));
         $this->host->settings['headers'] = '1';
         $this->assertSame('nosniff', SecurityHeaders::wanted($this->host, false)['X-Content-Type-Options']);
+        $this->assertStringContainsString('microphone=()', SecurityHeaders::wanted($this->host, false)['Permissions-Policy']);
+        $this->host->settings['headers_mic'] = '1';
+        $this->assertStringContainsString('microphone=(self)', SecurityHeaders::wanted($this->host, false)['Permissions-Policy']);
         $this->host->settings['hsts'] = '1';
         $this->assertArrayNotHasKey('Strict-Transport-Security', SecurityHeaders::wanted($this->host, false));
         $this->assertSame('max-age=15552000', SecurityHeaders::wanted($this->host, true)['Strict-Transport-Security']);

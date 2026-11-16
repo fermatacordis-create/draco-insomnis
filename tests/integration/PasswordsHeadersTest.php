@@ -88,9 +88,20 @@ final class PasswordsHeadersTest extends TestCase
         $this->assertSame([], Headers::wanted(true));
         update_option(Headers::OPTION_SAFE, 'yes');
         $this->assertSame('nosniff', Headers::wanted(false)['X-Content-Type-Options']);
+        $this->assertStringContainsString('microphone=()', Headers::wanted(false)['Permissions-Policy']);
         $this->assertArrayNotHasKey('Strict-Transport-Security', Headers::wanted(true));
         update_option(Headers::OPTION_HSTS, 'yes');
         $this->assertArrayNotHasKey('Strict-Transport-Security', Headers::wanted(false), 'never over plain HTTP');
         $this->assertSame('max-age=15552000', Headers::wanted(true)['Strict-Transport-Security']);
+    }
+
+    public function test_headers_mic_allows_same_origin_only(): void
+    {
+        update_option(Headers::OPTION_SAFE, 'yes');
+        $this->assertStringContainsString('microphone=()', Headers::permissionsPolicy());
+        update_option(Headers::OPTION_MIC, 'yes');
+        $this->assertStringContainsString('microphone=(self)', Headers::permissionsPolicy());
+        $this->assertStringContainsString('camera=()', Headers::wanted(true)['Permissions-Policy']);
+        $this->assertStringNotContainsString('microphone=()', Headers::wanted(true)['Permissions-Policy']);
     }
 }

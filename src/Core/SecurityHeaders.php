@@ -16,11 +16,14 @@ final class SecurityHeaders
     {
         $out = [];
         if (in_array($host->setting('headers'), ['1', 'yes', 'true', 'on'], true)) {
+            $mic = in_array($host->setting('headers_mic'), ['1', 'yes', 'true', 'on'], true)
+                ? 'microphone=(self)'
+                : 'microphone=()';
             $out = [
                 'X-Content-Type-Options' => 'nosniff',
                 'X-Frame-Options' => 'SAMEORIGIN',
                 'Referrer-Policy' => 'strict-origin-when-cross-origin',
-                'Permissions-Policy' => 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+                'Permissions-Policy' => 'camera=(), ' . $mic . ', geolocation=(), interest-cohort=()',
             ];
         }
         if ($https && in_array($host->setting('hsts'), ['1', 'yes', 'true', 'on'], true)) {
