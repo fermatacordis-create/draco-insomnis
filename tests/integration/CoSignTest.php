@@ -168,8 +168,12 @@ final class CoSignTest extends TestCase
         Mfa::boot();
         $this->assertSame(99, has_filter('wp_authenticate_user', [CoSign::class, 'afterPrimaryPassword']));
         $this->assertSame(100, has_filter('wp_authenticate_user', [Mfa::class, 'afterPassword']));
-        $src = (string) file_get_contents((new \ReflectionClass(CoSign::class))->getFileName());
-        $this->assertStringNotContainsString('TrustedDevice::isValid', $src);
+        // The gate that demands CoSign (afterPrimaryPassword) never looks at trusted devices; they are
+        // only consulted after CoSign succeeded, to decide whether the MFA code is still needed.
+        $m = new \ReflectionMethod(CoSign::class, 'afterPrimaryPassword');
+        $lines = file((string) $m->getFileName());
+        $gate = implode('', array_slice($lines, $m->getStartLine() - 1, $m->getEndLine() - $m->getStartLine() + 1));
+        $this->assertStringNotContainsString('TrustedDevice', $gate);
 
         update_option(Mfa::OPTION_ENABLED, 'yes');
         update_option(Mfa::OPTION_TRUST, 'yes');
