@@ -28,18 +28,18 @@ final class Challenge
         return hash_hmac('sha256', $code, wp_salt('auth'));
     }
 
-    /** @return array{id: string, user_id: int, hash: string, expires_at: int, attempts: int} */
-    public static function create(int $userId, string $code): array
+    /** @return array{id: string, user_id: int, hash: string, expires_at: int, attempts: int, auth_id: string} */
+    public static function create(int $userId, string $code, string $authId = ''): array
     {
         self::forgetUser($userId);
-        $row = ['id' => bin2hex(random_bytes(16)), 'user_id' => $userId, 'hash' => self::hash($code), 'expires_at' => time() + self::TTL, 'attempts' => 0];
+        $row = ['id' => bin2hex(random_bytes(16)), 'user_id' => $userId, 'hash' => self::hash($code), 'expires_at' => time() + self::TTL, 'attempts' => 0, 'auth_id' => $authId];
         set_transient(self::KEY . $row['id'], $row, self::TTL);
         set_transient(self::USER . $userId, $row['id'], self::TTL);
 
         return $row;
     }
 
-    /** @return array{id: string, user_id: int, hash: string, expires_at: int, attempts: int}|null */
+    /** @return array{id: string, user_id: int, hash: string, expires_at: int, attempts: int, auth_id: string}|null */
     public static function get(string $id): ?array
     {
         if (preg_match('/^[a-f0-9]{32}$/', $id) !== 1) {
@@ -50,7 +50,7 @@ final class Challenge
             return null;
         }
 
-        return ['id' => $id, 'user_id' => (int) $row['user_id'], 'hash' => (string) $row['hash'], 'expires_at' => (int) $row['expires_at'], 'attempts' => (int) $row['attempts']];
+        return ['id' => $id, 'user_id' => (int) $row['user_id'], 'hash' => (string) $row['hash'], 'expires_at' => (int) $row['expires_at'], 'attempts' => (int) $row['attempts'], 'auth_id' => (string) ($row['auth_id'] ?? '')];
     }
 
     /** Counts a try and says whether this code is right. Past MAX_ATTEMPTS the code is gone. */

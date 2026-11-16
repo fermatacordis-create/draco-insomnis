@@ -203,6 +203,7 @@ final class LoginTest extends TestCase
         global $wpdb;
         $wpdb->delete(\DracoInsomnis\Shield\Store::counters(), ['k' => 'draco_mfa_switch_' . $admin->ID]);
         update_user_meta($admin->ID, Recovery::META, 'backup@example.net');
+        $this->assertSame(['backup@example.net'], Recovery::emails($admin->ID), 'legacy migrates');
         $this->assertSame($admin->user_email, Recovery::destination($admin));
         $this->assertTrue(Recovery::useRecovery($admin->ID));
         $this->assertSame('backup@example.net', Recovery::destination($admin));
@@ -211,6 +212,21 @@ final class LoginTest extends TestCase
         $this->assertFalse(Recovery::useRecovery($admin->ID));
         Recovery::onCodeAccepted($admin->ID);
         $this->assertSame($admin->user_email, Recovery::destination($admin));
+    }
+
+    public function test_recovery_supports_up_to_three_slots_via_list_meta(): void
+    {
+        $admin = $this->user('administrator');
+        update_user_meta($admin->ID, Recovery::META_LIST, [
+            'one@example.net',
+            'two@example.net',
+            'three@example.net',
+            'four@example.net',
+        ]);
+        $this->assertCount(3, Recovery::emails($admin->ID));
+        $this->assertSame('one@example.net', Recovery::email($admin->ID));
+        $this->assertTrue(Recovery::useRecovery($admin->ID, 1));
+        $this->assertSame('two@example.net', Recovery::destination($admin));
     }
 
     public function test_the_login_code_mail(): void

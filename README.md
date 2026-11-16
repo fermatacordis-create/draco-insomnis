@@ -39,8 +39,9 @@ On WordPress it has:
   with the password encrypted.
 - **Forms and sign-ups** — holds contact messages, comments and new accounts until the sender
   confirms from their e-mail.
-- **Two-step login** — a 6-digit code by e-mail after the right password, with trusted devices and a
-  recovery e-mail (a second mailbox, like the PUK of a phone).
+- **Two-step login** — a 6-digit code by e-mail after the right password, optional second-administrator
+  co-sign (session always of A), trusted devices (code only — never co-sign), and up to three recovery
+  e-mails. Identity stays on WordPress; see `docs/identity/`.
 - **Anti-copy** — closes the bulk JSON door (/wp-json/wp/v2/) to anonymous visitors with an allow
   list, and limits pages per minute per address and network; verified search engines are never limited.
 - **Firewall** — precise attack signatures and scanner probes, log-only mode first, hidden user list,

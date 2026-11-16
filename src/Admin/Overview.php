@@ -6,6 +6,7 @@ namespace DracoInsomnis\Admin;
 
 use DracoInsomnis\Firewall\Waf;
 use DracoInsomnis\Gate\Gate;
+use DracoInsomnis\Login\CoSign;
 use DracoInsomnis\Login\Mfa;
 use DracoInsomnis\Login\Recovery;
 use DracoInsomnis\Mail\Settings;
@@ -52,7 +53,7 @@ final class Overview
             ],
             'draco-insomnis-login' => [
                 Mfa::active() ? self::who() : __('Only the password is asked for.', 'draco-insomnis'),
-                get_option(Mfa::OPTION_TRUST, 'yes') === 'yes' ? __('Trusted devices: 7 days without a code.', 'draco-insomnis') : __('A code at every login.', 'draco-insomnis'),
+                get_option(Mfa::OPTION_TRUST, 'yes') === 'yes' ? __('Trusted devices skip only the verification code. Administrator co-sign approval remains mandatory.', 'draco-insomnis') : __('A code at every login.', 'draco-insomnis'),
             ],
             'draco-insomnis-firewall' => [
                 Waf::active() ? (Waf::blocking() ? __('Stopping attacks.', 'draco-insomnis') : __('Recording attacks without stopping them.', 'draco-insomnis')) : __('No request is inspected.', 'draco-insomnis'),
@@ -87,15 +88,29 @@ final class Overview
         }
         echo '</div>';
 
+        $user = wp_get_current_user();
+        $recoveryOk = Recovery::emails((int) $user->ID) !== [];
+        $cosignOk = CoSign::active();
+        $trustOk = get_option(Mfa::OPTION_TRUST, 'yes') === 'yes';
+        $twoStepOn = Mfa::active() || $cosignOk;
+        Brand::card('lock', __('Two-step login', 'draco-insomnis'), '', Brand::pill($twoStepOn ? __('On', 'draco-insomnis') : __('Off', 'draco-insomnis'), $twoStepOn ? 'on' : 'off'));
+        echo '<ul class="draco-todo">';
+        echo '<li><span class="dashicons dashicons-' . ($recoveryOk ? 'yes-alt is-ok' : 'warning is-warn') . '" aria-hidden="true"></span><span>' . esc_html__('Recovery e-mails configured', 'draco-insomnis') . '</span></li>';
+        echo '<li><span class="dashicons dashicons-' . ($cosignOk ? 'yes-alt is-ok' : 'minus') . '" aria-hidden="true"></span><span>' . esc_html__('Second administrator approval', 'draco-insomnis') . '</span></li>';
+        echo '<li><span class="dashicons dashicons-' . ($trustOk ? 'yes-alt is-ok' : 'minus') . '" aria-hidden="true"></span><span>' . esc_html__('Trusted devices', 'draco-insomnis') . '</span></li>';
+        echo '</ul>';
+        echo '<p class="description">' . esc_html__('Trusted devices skip only the verification code. Administrator co-sign approval remains mandatory.', 'draco-insomnis') . '</p>';
+        echo '</div><div class="draco-card__foot"><a href="' . esc_url(admin_url('admin.php?page=draco-insomnis-login')) . '">' . esc_html__('Open', 'draco-insomnis') . ' →</a>';
+        Brand::cardEnd();
+
         Brand::card('yes-alt', __('Checklist', 'draco-insomnis'), __('What makes the biggest difference, in order.', 'draco-insomnis'));
         echo '<ul class="draco-todo">';
-        $user = wp_get_current_user();
         self::todo(Settings::active() || Transport::otherSender() !== '', __('Site mail goes out through a real mailbox', 'draco-insomnis'), 'draco-insomnis-mail');
         self::todo(get_option(Plugin::OPTION_SHIELD, 'no') === 'yes', __('The anti-bot shield protects sign-ups', 'draco-insomnis'), 'draco-insomnis-shield');
         self::todo(get_option(Gate::OPTION_ENABLED, 'no') === 'yes', __('Forms and sign-ups are confirmed by e-mail', 'draco-insomnis'), 'draco-insomnis-forms');
         self::todo(Mfa::active(), __('Administrators log in with a code by e-mail', 'draco-insomnis'), 'draco-insomnis-login');
         if (Mfa::active()) {
-            self::todo(Recovery::email((int) $user->ID) !== '', __('You have a recovery e-mail', 'draco-insomnis'), 'users.php?page=' . Recovery::SLUG);
+            self::todo(Recovery::emails((int) $user->ID) !== [], __('You have a recovery e-mail', 'draco-insomnis'), 'users.php?page=' . Recovery::SLUG);
         }
         self::todo(Waf::active() && Waf::blocking(), Waf::active() ? __('The firewall blocks attacks (switch it from "Log only" once you have looked at what it records)', 'draco-insomnis') : __('The firewall is on', 'draco-insomnis'), 'draco-insomnis-firewall');
         echo '</ul>';

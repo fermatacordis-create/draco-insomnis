@@ -260,10 +260,11 @@ final class Brand
      * Radio buttons drawn as cards.
      *
      * @param array<string, array{0: string, 1?: string, 2?: string}> $options value => [title, explanation, dashicon]
+     * @param string $class Extra class (e.g. draco-modes--stack).
      */
-    public static function modes(string $name, string $current, array $options): void
+    public static function modes(string $name, string $current, array $options, string $class = ''): void
     {
-        echo '<div class="draco-modes" role="radiogroup">';
+        echo '<div class="draco-modes' . ($class !== '' ? ' ' . esc_attr($class) : '') . '" role="radiogroup">';
         foreach ($options as $value => $o) {
             echo '<label class="draco-mode"><input type="radio" name="' . esc_attr($name) . '" value="' . esc_attr((string) $value) . '" ' . checked($current, (string) $value, false) . '>'
                 . '<span><strong>' . (isset($o[2]) ? '<span class="dashicons dashicons-' . esc_attr($o[2]) . '" aria-hidden="true"></span>' : '') . esc_html($o[0]) . '</strong>'
