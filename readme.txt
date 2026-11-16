@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.32
+Stable tag: 0.1.33
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,15 @@ Only if "Refuse passwords that appear in known data breaches" is switched on, Dr
 Only when an administrator opens an abuse report, Draco asks the public internet registry (RDAP, at https://rdap.org, which forwards to the regional registry: ARIN, RIPE NCC, APNIC, LACNIC or AFRINIC) who looks after the reported address, to find its abuse contact. Only that address is sent. Nothing is e-mailed until the administrator reads the draft and presses Send.
 
 == Changelog ==
+
+= 0.1.33 =
+* WordPress — co-signature by a second administrator (optional, under Two-step login): after the right password, another administrator approves the login before the e-mail code. The session is always the first administrator's; the second one never gets a session. Service accounts and application passwords cannot co-sign, and every approval is one-shot and expires.
+* WordPress — up to three recovery e-mails per account (the old single address moves over by itself), and one auth_id that links the co-signature, the code and the session in the evidence. A trusted device skips only the e-mail code, never the co-signature.
+* WordPress — Site mail: choose the provider by country, with presets built from each provider's own help pages. Forms and Site mail can clear their recent lists and unblock addresses from the same screen.
+* WordPress — optional microphone=(self) in the security headers, only for the site's own voice commands of OPNV-WP (off by default; embeds still cannot use the microphone).
+* Amharic and Uzbek in every CMS: 29 languages.
+* "Made in Menorca." in the footer of every Draco screen.
+* docs/identity/: the policy for administrator identities, the design of the health checks (verification on demand, with a code) and the certification of the identity layer, tied to its commit and CI run.
 
 = 0.1.32 =
 * Java and Kotlin: Draco as a Jakarta Servlet filter for Spring Boot 3 and 4, Tomcat, Jetty, Undertow and Jakarta EE servers (settings from application.properties, web.xml or DRACO_INSOMNIS_* variables), and as a Ktor 3 plugin, with no dependencies: firewall, block list, country filter, anti-copy pace, security headers, review requests and CrowdSec. Run inside real Spring Boot (Tomcat) and Ktor (Netty) apps. The two jars are in the release.
