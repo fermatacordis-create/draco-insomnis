@@ -158,6 +158,8 @@ final class LinkCheck
         return array_values(array_unique($out));
     }
 
+    // phpcs:disable WordPress.WP.AlternativeFunctions -- random-access reads (fseek) of a read-only index: WP_Filesystem has no seek.
+
     /** The first listed link in a text, or ''. */
     public static function listed(string $text): string
     {
@@ -209,6 +211,8 @@ final class LinkCheck
 
         return false;
     }
+
+    // phpcs:enable WordPress.WP.AlternativeFunctions
 
     /**
      * The sorted index from an export (CSV or one URL per line): the first http(s) field of each line.
@@ -272,8 +276,9 @@ final class LinkCheck
         }
         $part = $file . '.part';
         // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- index next to the uploads
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename -- atomic replace, so a lookup never reads half an index.
         if (@file_put_contents($part, $built['index']) === false || !@rename($part, $file)) {
-            @unlink($part);
+            wp_delete_file($part);
 
             return self::fail('folder');
         }
@@ -296,7 +301,7 @@ final class LinkCheck
             $out = $z->numFiles > 0 ? (string) $z->getFromIndex(0) : '';
             $z->close();
         }
-        @unlink($tmp);
+        wp_delete_file($tmp);
 
         return $out;
     }
