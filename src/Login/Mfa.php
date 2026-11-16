@@ -161,7 +161,7 @@ final class Mfa
             return;
         }
         $ip = Guard::clientIp();
-        $ua = isset($_SERVER['HTTP_USER_AGENT']) ? (string) $_SERVER['HTTP_USER_AGENT'] : '';
+        $ua = Input::server('HTTP_USER_AGENT');
         Store::ensureTables();
         Store::log($ip, $ip, 'login:cosign_failure', ['score' => 0, 'verdict' => 'bot', 'reasons' => ['MFA_FAILED_AFTER_COSIGN']], substr($ua, 0, 255), [
             'auth_id' => CoSign::authIdFor($userId),

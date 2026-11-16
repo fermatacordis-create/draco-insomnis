@@ -85,7 +85,7 @@ final class CoSign
     {
         $token = bin2hex(random_bytes(16));
         $ip = Guard::clientIp();
-        $ua = isset($_SERVER['HTTP_USER_AGENT']) ? (string) $_SERVER['HTTP_USER_AGENT'] : '';
+        $ua = Input::server('HTTP_USER_AGENT');
         set_transient(self::KEY . $token, [
             'primary_user_id' => (int) $primary->ID,
             'auth_id' => self::newAuthId(),
@@ -168,8 +168,8 @@ final class CoSign
             exit;
         }
         $primary = $row !== null ? get_userdata($row['primary_user_id']) : null;
-        /* translators: %s: primary account login */
         $message = $primary instanceof \WP_User
+            /* translators: %s: primary account login */
             ? sprintf(__('A second administrator must co-sign before %s can finish logging in.', 'draco-insomnis'), $primary->user_login)
             : '';
         login_header(__('Administrator co-signature', 'draco-insomnis'), $message !== '' ? '<p class="message">' . esc_html($message) . '</p>' : '', $errors);
@@ -195,7 +195,7 @@ final class CoSign
     private static function verify(string $token, array $row, string $login, string $password): string
     {
         $authId = (string) ($row['auth_id'] ?? '');
-        $ua = isset($_SERVER['HTTP_USER_AGENT']) ? (string) $_SERVER['HTTP_USER_AGENT'] : '';
+        $ua = Input::server('HTTP_USER_AGENT');
         if ($row['ip'] !== Guard::clientIp() || !hash_equals($row['ua_hash'], self::uaHash($ua))) {
             self::auditFailure('SYSTEM_ERROR', $row['primary_user_id'], null, $authId);
             self::destroy($token);
@@ -341,7 +341,7 @@ final class CoSign
     public static function auditEndpoint(string $endpoint, \WP_User $primary, array $fields): void
     {
         $ip = Guard::clientIp();
-        $ua = isset($_SERVER['HTTP_USER_AGENT']) ? (string) $_SERVER['HTTP_USER_AGENT'] : '';
+        $ua = Input::server('HTTP_USER_AGENT');
         Store::ensureTables();
         $fields['username'] = $primary->user_login;
         $fields['email'] = (string) $primary->user_email;
@@ -351,7 +351,7 @@ final class CoSign
     private static function auditSuccess(\WP_User $primary, \WP_User $cosigner, bool $mfaRequired, bool $mfaCompleted, string $authId): void
     {
         $ip = Guard::clientIp();
-        $ua = isset($_SERVER['HTTP_USER_AGENT']) ? (string) $_SERVER['HTTP_USER_AGENT'] : '';
+        $ua = Input::server('HTTP_USER_AGENT');
         Store::ensureTables();
         Store::log($ip, $ip, 'login:cosign_success', ['score' => 0, 'verdict' => 'human', 'reasons' => ['cosign_ok']], substr($ua, 0, 255), [
             'auth_id' => $authId,
@@ -371,7 +371,7 @@ final class CoSign
     private static function auditFailure(string $reason, int $primaryId, ?\WP_User $cosigner = null, string $authId = ''): void
     {
         $ip = Guard::clientIp();
-        $ua = isset($_SERVER['HTTP_USER_AGENT']) ? (string) $_SERVER['HTTP_USER_AGENT'] : '';
+        $ua = Input::server('HTTP_USER_AGENT');
         Store::ensureTables();
         Store::log($ip, $ip, 'login:cosign_failure', ['score' => 0, 'verdict' => 'bot', 'reasons' => [$reason]], substr($ua, 0, 255), [
             'auth_id' => $authId,
