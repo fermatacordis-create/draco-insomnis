@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — am (generated from i18n/am.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: am\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. ያለ captcha የሐሰት ምዝገባዎችን ያቆማል፣ የመተግበሪያ Firewall እና የቅጂ መከላከያ ፍጥነት ገደብ አለው። ክፍት ምንጭ።"
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "ያለ captcha የሐሰት ምዝገባዎችን ያቆማል፡ Bots መለያ አያገኙም፣ እያንዳንዱ አጠራጣሪ ሙከራ ደግሞ ለ90 ቀናት እንደ ማስረጃ ለአላግባብ መጠቀም ሪፖርት ይቀመጣል። ወደ አጥቂው ምንም ነገር በጭራሽ አይላክም።"
+
+msgid "Protect user sign-ups"
+msgstr "የተጠቃሚ ምዝገባዎችን ጠብቅ"
+
+msgid "Firewall"
+msgstr "Firewall"
+
+msgid "Anti-copy pace limit"
+msgstr "የቅጂ መከላከያ ፍጥነት ገደብ"
+
+msgid "Off"
+msgstr "ጠፍቷል"
+
+msgid "Log only: record what it would stop"
+msgstr "Log ብቻ፡ የሚያቁመውን ይመዝግቡ"
+
+msgid "Block"
+msgstr "እገድ"
+
+msgid "Pages per minute, per address"
+msgstr "በደቂቃ ገጾች፣ በአድራሻ"
+
+msgid "Pages per minute, per network"
+msgstr "በደቂቃ ገጾች፣ በአውታረ መረብ"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "ለIPv4 /24 አውታረ መረብ ወይም ለIPv6 /64፡ Scraper በአጎራባች አድራሻዎች መካከል ሲቀያየር የሚያገኘው።"
+
+msgid "Visitor address"
+msgstr "የጎብኝ አድራሻ"
+
+msgid "Connection address (recommended)"
+msgstr "የግንኙነት አድራሻ (የሚመከር)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "ሌላ Proxy (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "የተከራዩ-Server አውታረ መረቦች"
+
+msgid "The registration could not be completed."
+msgstr "ምዝገባው ሊጠናቀቅ አልቻለም።"
+
+msgid "Request blocked"
+msgstr "ጥያቄ ታግዷል"
+
+msgid "Address unblocked."
+msgstr "አድራሻ ከእገዳ ወጥቷል።"
+
+msgid "Unblock"
+msgstr "እገዳ አንሳ"
+
+msgid "Nothing blocked right now."
+msgstr "አሁን ምንም የታገደ የለም።"
+
+msgid "Last suspicious attempts"
+msgstr "የመጨረሻዎቹ አጠራጣሪ ሙከራዎች"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "ለ90 ቀናት ይቀመጣል። Passwords በጭራሽ አይቀመጡም። የአንድ አድራሻ CSV ያደረገውን ሁሉ ይይዛል፣ ለአውታረ መረብ አቅራቢው የአላግባብ መጠቀም ሪፖርት ለማያያዝ ዝግጁ ሆኖ።"
+
+msgid "Nothing yet."
+msgstr "እስካሁን ምንም የለም።"
+
+msgid "Address or e-mail"
+msgstr "አድራሻ ወይም Email"
+
+msgid "Reason"
+msgstr "ምክንያት"
+
+msgid "Until (UTC)"
+msgstr "እስከ (UTC)"
+
+msgid "Date (UTC)"
+msgstr "ቀን (UTC)"
+
+msgid "Address"
+msgstr "አድራሻ"
+
+msgid "Where"
+msgstr "የት"
+
+msgid "Verdict"
+msgstr "ውሳኔ"
+
+msgid "Signs"
+msgstr "ምልክቶች"
+
+msgid "Data"
+msgstr "መረጃ"
+
+msgid "Trusted proxies"
+msgstr "የታመኑ Proxies"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "የጎብኝውን አድራሻ በHeader ሊያዘጋጁ የሚችሉት ከእነዚህ አድራሻዎች የሚመጡ ግንኙነቶች ብቻ ናቸው። በአንድ መስመር አንድ አድራሻ ወይም ክልል። ባዶ ከሆነ፡ ይህ Server እና የግል አውታረ መረቦች። የCloudflare የራሱ ክልሎች አስቀድመው ይታወቃሉ።"
+
+msgid "Countries"
+msgstr "ሀገሮች"
+
+msgid "Filter"
+msgstr "ማጣሪያ"
+
+msgid "Refuse the countries listed"
+msgstr "የተዘረዘሩትን ሀገሮች እምቢ በል"
+
+msgid "Only the countries listed"
+msgstr "የተዘረዘሩት ሀገሮች ብቻ"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "መግባት፣ መመዝገብ እና ቅጾች (የሚመከር)"
+
+msgid "The whole site"
+msgstr "ሙሉ ጣቢያው"
+
+msgid "What to do"
+msgstr "ምን ማድረግ"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "ሀገሮች (የሁለት ፊደል ኮዶች፣ ለምሳሌ ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "የሀገሮች ዝርዝር ወርዷል።"
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "ሙሉ ጣቢያው በHTTPS ሲሰራ እና መስራቱን ሲቀጥል ብቻ፡ Browsers ያስታውሱታል እና እስኪያልቅ ድረስ ግልጽ HTTP አይቀበሉም።"
+
+msgid "Minimum password length"
+msgstr "Password ዝቅተኛ ርዝመት"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "በመረጃ ጥሰቶች የተገኙ Passwordsን እምቢ በል"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "Have I Been Pwned ን በk-anonymity ይጠይቃል፡ ከጣቢያው የሚወጣው Passwordu SHA-1 5 ቁምፊዎች ብቻ ነው፣ Passwordu በጭራሽ አይወጣም። አገልግሎቱ በ3 ሰከንድ ውስጥ ካልመለሰ፣ Passwordu ይቀበላል።"
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "ይህ Password በሚታወቁ የመረጃ ጥሰቶች ውስጥ ይታያል፣ ስለዚህ አጥቂዎች መጀመሪያ ይሞክሩታል። እባክዎ ሌላ ይምረጡ።"
+
+msgid "Block an address or range"
+msgstr "አድራሻ ወይም ክልል እገድ"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP ወይም ክልል (ለምሳሌ 203.0.113.0/24)"
+
+msgid "For"
+msgstr "ለ"
+
+msgid "7 days"
+msgstr "7 ቀናት"
+
+msgid "15 days"
+msgstr "15 ቀናት"
+
+msgid "30 days"
+msgstr "30 ቀናት"
+
+msgid "90 days"
+msgstr "90 ቀናት"
+
+msgid "Forever"
+msgstr "ለዘላለም"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "ምንም አልታገደም፡ እሴቱ ትክክል አይደለም፣ የአስተዳዳሪ ነው፣ ወይም የራስዎ አድራሻ ነው።"
+
+msgid "E-mail"
+msgstr "Email"
+
+msgid "Message"
+msgstr "መልእክት"
+
+msgid "Done."
+msgstr "ተጠናቋል።"
+
+msgid "It could not be done for that address."
+msgstr "ለዚያ አድራሻ ሊደረግ አልቻለም።"
+
+msgid "No requests."
+msgstr "ምንም ጥያቄዎች የሉም።"
+
+msgid "Review requests"
+msgstr "የግምገማ ጥያቄዎች"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "Firewallu ያቆማቸው ሰዎች ከእገዳ ገጹ ሊጠይቁ ይችላሉ። ስህተት ከሆነ ለተወሰነ ጊዜ ያሳልፏቸው። Draco በጭራሽ አይጽፍላቸውም፡ ከፈልጉ ከራስዎ መልእክት ይመልሱ።"
+
+msgid "Let through 24 hours"
+msgstr "ለ24 ሰዓታት አሳልፍ"
+
+msgid "Let through"
+msgstr "አሳልፍ"
+
+msgid "Attacker: blocked"
+msgstr "አጥቂ፡ ታግዷል"
+
+msgid "Attacker"
+msgstr "አጥቂ"
+
+msgid "Ask for a review"
+msgstr "ግምገማ ጠይቅ"
+
+msgid "Denied"
+msgstr "ተከልክሏል"
+
+msgid "Deny"
+msgstr "ክልክል"
+
+msgid "Your e-mail"
+msgstr "Emailዎ"
+
+msgid "What were you doing?"
+msgstr "ምን እያደረጉ ነበር?"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "አመሰግናለሁ። የጣቢያው ባለቤት ይመረምረዋል እና ስህተት ከሆነ ያሳልፍዎታል።"
+
+msgid "Request sent"
+msgstr "ጥያቄ ተልኳል"
+
+msgid "Firewall: last 7 days"
+msgstr "Firewall፡ የመጨረሻዎቹ 7 ቀናት"
+
+msgid "Test the firewall"
+msgstr "Firewalluን ሞክር"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "ይሰራል፡ Database injection ታውቆ ታግዷል (403)።"
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "ወደ ጣቢያው ምንም ጉዳት የሌለው፣ የጥቃት ቅርጽ ያለው ጥያቄ ይልካል እና ምን እንደተፈጠረ ይነግርዎታል። አይመዘገብም።"
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "የሙከራ ጥቃቱ አልታወቀም። እባክዎ ለDraco Insomnis ሪፖርት ያድርጉ።"
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "Firewallu ጠፍቷል፡ ያብሩት እና ያስቀምጡ፣ ከዚያም እንደገና ይሞክሩ።"
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "ሙከራው ከአገልጋዩ ራሱ ወደ ጣቢያው መድረስ አልቻለም (አንዳንድ አስተናጋጆች አይፈቅዱም)። Firewallu አሁንም ሊሰራ ይችላል፡ የመጨረሻዎቹን ሙከራዎች ይመልከቱ።"
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "በጭራሽ አስተዳዳሪ ወይም የራስዎ አድራሻ አይደለም። ክልሎች ከ/16 (IPv4) ወይም /32 (IPv6) አይበልጡም።"
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "የDraco Insomnis Firewallን ዝለል"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "\"Connection address\" ን ይተዉት፣ ጣቢያው ከProxy ጀርባ ካልሆነ በስተቀር፡ Header በማንም ሊፈጠር ይችላል።"
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "ይሰራል፡ Database injection ታውቋል። በ\"Log only\" ውስጥ ይጻፋል ግን አይቆምም፤ ሲዘጋጁ ወደ \"Block\" ይቀይሩ።"
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "ይህ ጥያቄ ለደህንነት ሲባል ተገትቷል። ስህተት እንደሆነ ካሰቡ፣ ምን እያደረጉ እንደነበሩ ለጣቢያው ባለቤት ይንገሩት፡"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "በአንድ መስመር አንድ ክልል (CIDR)፣ ከModuleu አስቀድሞ ከሚያውቃቸው ጋር ይጨምራል። በዚህ ዝርዝር ውስጥ መሆን ነጥቦችን ብቻ ይጨምራል፡ በራሱ ማንንም Bot አያደርግም።"
+
+msgid "The password must have at least @count characters."
+msgstr "Passwordu ቢያንስ @count ቁምፊዎች ሊኖሩት ይገባል።"
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] አንድ ሰው የFirewall እገዳ እንዲገመግሙ ይጠይቅዎታል"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "በFirewallu የተገታ ጎብኝ ግምገማ ይጠይቃል። እንዲያልፍ ወይም እንዳያልፍ ለመወሰን Draco Insomnis ን ይክፈቱ፡"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "Firewall፡ @count ጥቃቶች በ10 ደቂቃዎች"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "ራስ-ሰር፡ @count የBot ሙከራዎች በ24 ሰዓት"
+
+msgid "Review: @email"
+msgstr "ግምገማ፡ @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "ሙከራው ወደ Drupal ከመድረሱ በፊት፣ በአስተናጋጁ የራሱ Firewall ተገትቷል። ጥሩ ነው፡ ሁለት ሽፋኖች።"
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "አድራሻዎ Moduleu እንደሚያየው፡ %ip (የግንኙነት አድራሻ፡ %remote)። ጣቢያው ከCloudflare ወይም ከሌላ Proxy ጀርባ ከሆነ እና እነዚህ ከእውነተኛ አድራሻዎ የሚለዩ ከሆነ፣ በ\"Visitor address\" ውስጥ የሚዛመደውን አማራጭ ይምረጡ።"
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "Headeru ችላ ይባላል፡ ይህ ግንኙነት (%remote) ከCloudflare ወይም ከታመነ Proxy የመጣ አይደለም። Proxyዎ በኢንተርኔት ላይ ከሆነ፣ አድራሻዎቹን በ\"Trusted proxies\" ውስጥ ይጨምሩ።"
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "ወደ ህዝባዊ የምዝገባ ቅጽ የማይታይ ወጥመድ እና የተፈረመ የገጽ ማህተም ይጨምራል። Bots መለያ አያገኙም፤ በአንድ ቀን ሦስት የBot ሙከራዎች አድራሻውን ለአንድ ሳምንት ያግዳሉ።"
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "የጥቃት ቅርጽ ያላቸው ጥያቄዎች (Database injection፣ የServer Filesን ማንበብ፣ code ማስኬድ፣ በአገናኞች ውስጥ Scripts) እና እንደ sqlmap ወይም Nikto ያሉ Scannersን ያቆማል። በ\"Log only\" ይጀምሩ እና ከጥቂት ቀናት በኋላ ወደ \"Block\" ይሂዱ። አምስት ጥቃቶች በ10 ደቂቃዎች ውስጥ አድራሻውን ለአንድ ሳምንት ያግዳሉ፤ የታገዱ አድራሻዎች ጣቢያውን ማንበብ መቀጠል ይችላሉ፣ ግን መለጠፍ ወይም መግባት አይችሉም። \"Bypass the Draco Insomnis firewall\" ፈቃድ ያላቸው ተጠቃሚዎች በጭራሽ አይመረመሩም። የአደጋ ጊዜ መውጫ፡ $settings['draco_waf_off'] = TRUE; በsettings.php ውስጥ።"
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "አንድ ሰው ከሚያነበው በላይ ገጾችን በደቂቃ የሚጠይቅ \"429 Too many requests\" ያገኛል፣ ደቂቃው እስኪያልቅ ድረስ። የገቡ ተጠቃሚዎች፣ የራስዎ አድራሻዎች እና በDNS የተረጋገጡ የፍለጋ ሞተሮች (Google, Bing, Apple, Yandex) በጭራሽ አይገደቡም።"
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "ብዙዎቹ ጎብኝዎችዎ ከብዙ ሀገሮች ሊመጡ ይችላሉ፣ አጥቂ ደግሞ በVPN ሀገር ይቀይራል። መግቢያ፣ ምዝገባ እና ቅጾችን ብቻ ያጣሩ፣ እና በ\"Log only\" ይጀምሩ። አስተዳዳሪዎች፣ ያሳለፏቸው ሰዎች እና የፍለጋ ሞተሮች በጭራሽ አይጣሩም።"
+
+msgid "Log only"
+msgstr "Log ብቻ"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "የሀገሮች ዝርዝር፡ እስካሁን አልወረደም (ማጣሪያውን ሲያበሩ ይወርዳል)።"
+
+msgid "Country list of @date."
+msgstr "የ@date የሀገሮች ዝርዝር።"
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "የIP Geolocation በ<a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0)። በራስዎ Server ላይ ይፈለጋል፡ ምንም አድራሻ ወደምንም ቦታ አይላክም።"
+
+msgid "Send security headers on public pages"
+msgstr "በህዝባዊ ገጾች ላይ የደህንነት Headersን ላክ"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "የFile አይነቶችን አለመጠቆም፣ በሌሎች ጣቢያዎች አለመቀረፅ፣ ያነሰ የማጣቀሻ መረጃ፣ ለተካተተ ይዘት ካሜራ፣ ማይክሮፎን ወይም ቦታ የለም። አገልጋዩ አስቀድሞ የሚልከውን በጭራሽ አይተካም።"
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "ለ6 ወራት በBrowsers ውስጥ HTTPS አስገድድ (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "ከ8 እስከ 64 ቁምፊዎች፤ 0 = ዝቅተኛ ገደብ የለም። መለያ ሲፈጠር ወይም Password ሲቀየር ይተገበራል።"
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "የሀገሮች ዝርዝሩ ሊወርድ አልቻለም። እስኪኖር ድረስ ማጣሪያው ምንም አያደርግም፤ ቆይተው እንደገና ይሞክሩ።"
+
+msgid "Blocked: @value"
+msgstr "ታግዷል፡ @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "@total ጥቃቶች ታይተዋል፣ @blocked ታግደዋል።"
+
+msgid "What"
+msgstr "ምን"
+
+msgid "Busiest addresses"
+msgstr "በጣም ንቁ አድራሻዎች"
+
+msgid "Blocked addresses (@count)"
+msgstr "የታገዱ አድራሻዎች (@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "ለምዝገባዎች የፀረ-Bot ጋሻ፣ Firewall እና የቅጂ መከላከያ ገደቦች።"
+
+msgid "Administer Draco Insomnis"
+msgstr "Draco Insomnis ን ያስተዳድሩ"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "ቅንብሮቹን ይቀይሩ፣ ማስረጃዎቹን ይመልከቱ እና አድራሻዎችን ከእገዳ ያውጡ።"
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "የእነዚህ ተጠቃሚዎች ጥያቄዎች በጭራሽ አይመረመሩም። በይዘታቸው ውስጥ code ወይም SQL ለሚጽፉ አርታኢዎች ይስጡት።"
+

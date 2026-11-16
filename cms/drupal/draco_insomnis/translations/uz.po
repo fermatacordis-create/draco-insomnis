@@ -1,0 +1,370 @@
+# Draco Insomnis for Drupal — uz (generated from i18n/uz.json)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: uz\n"
+
+msgid "Ab insomni custodita dracone. Stops fake sign-ups without captchas, application firewall and anti-copy pace limit. Open source."
+msgstr "Ab insomni custodita dracone. Soxta roʻyxatdan oʻtishlarni captchasiz, ilova firewalli va nusxa koʻchirishga qarshi tezlik cheklovi bilan toʻxtatadi. Ochiq kodli."
+
+msgid "Stops fake sign-ups without captchas: bots get no account, and every suspicious attempt is kept for 90 days as evidence for an abuse report. Nothing is ever sent back to the attacker."
+msgstr "Soxta roʻyxatdan oʻtishlarni captchasiz toʻxtatadi: botlar hisob ocholmaydi, har bir shubhali urinish esa suiisteʻmol haqida xabar berish uchun dalil sifatida 90 kun saqlanadi. Hujumchiga hech narsa qaytarib yuborilmaydi."
+
+msgid "Protect user sign-ups"
+msgstr "Foydalanuvchilar roʻyxatdan oʻtishini himoya qilish"
+
+msgid "Firewall"
+msgstr "Firewall"
+
+msgid "Anti-copy pace limit"
+msgstr "Nusxa koʻchirishga qarshi tezlik cheklovi"
+
+msgid "Off"
+msgstr "Oʻchiq"
+
+msgid "Log only: record what it would stop"
+msgstr "Log only: toʻxtatadigan narsani yozib boradi"
+
+msgid "Block"
+msgstr "Bloklash"
+
+msgid "Pages per minute, per address"
+msgstr "Bir daqiqada sahifalar, har bir manzil uchun"
+
+msgid "Pages per minute, per network"
+msgstr "Bir daqiqada sahifalar, har bir tarmoq uchun"
+
+msgid "A /24 network for IPv4 or a /64 for IPv6: what a scraper gets when it rotates addresses next to each other."
+msgstr "IPv4 uchun /24 tarmoq yoki IPv6 uchun /64: scraper yonma-yon manzillarni almashtirib ishlatganda oladigan narsa."
+
+msgid "Visitor address"
+msgstr "Tashrif buyuruvchi manzili"
+
+msgid "Connection address (recommended)"
+msgstr "Ulanish manzili (tavsiya etiladi)"
+
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+msgid "Other proxy (X-Forwarded-For)"
+msgstr "Boshqa proxy (X-Forwarded-For)"
+
+msgid "Rented-server networks"
+msgstr "Ijaraga olingan serverlar tarmoqlari"
+
+msgid "The registration could not be completed."
+msgstr "Roʻyxatdan oʻtishni yakunlab boʻlmadi."
+
+msgid "Request blocked"
+msgstr "Soʻrov bloklandi"
+
+msgid "Address unblocked."
+msgstr "Manzil blokdan chiqarildi."
+
+msgid "Unblock"
+msgstr "Blokdan chiqarish"
+
+msgid "Nothing blocked right now."
+msgstr "Hozircha hech narsa bloklanmagan."
+
+msgid "Last suspicious attempts"
+msgstr "Soʻnggi shubhali urinishlar"
+
+msgid "Kept for 90 days. Never passwords. The CSV of an address holds everything it did, ready to attach to an abuse report to its network provider."
+msgstr "90 kun saqlanadi. Hech qachon passwordlar saqlanmaydi. Manzilning CSV faylida u qilgan hamma narsa bor, tarmoq provayderiga suiisteʻmol haqida xabar berishga ilova qilishga tayyor."
+
+msgid "Nothing yet."
+msgstr "Hali hech narsa yoʻq."
+
+msgid "Address or e-mail"
+msgstr "Manzil yoki email"
+
+msgid "Reason"
+msgstr "Sabab"
+
+msgid "Until (UTC)"
+msgstr "Qachongacha (UTC)"
+
+msgid "Date (UTC)"
+msgstr "Sana (UTC)"
+
+msgid "Address"
+msgstr "Manzil"
+
+msgid "Where"
+msgstr "Qayerda"
+
+msgid "Verdict"
+msgstr "Xulosa"
+
+msgid "Signs"
+msgstr "Belgilar"
+
+msgid "Data"
+msgstr "Maʻlumotlar"
+
+msgid "Trusted proxies"
+msgstr "Ishonchli proxy-serverlar"
+
+msgid "Only connections from these addresses may set the visitor address through a header. One address or range per line. Empty: this server and private networks. Cloudflare's own ranges are already known."
+msgstr "Faqat shu manzillardan kelgan ulanishlar header orqali tashrif buyuruvchi manzilini belgilashi mumkin. Har bir qatorda bitta manzil yoki diapazon. Boʻsh boʻlsa: shu server va shaxsiy tarmoqlar. Cloudflare ning oʻz diapazonlari allaqachon maʻlum."
+
+msgid "Countries"
+msgstr "Mamlakatlar"
+
+msgid "Filter"
+msgstr "Filtr"
+
+msgid "Refuse the countries listed"
+msgstr "Roʻyxatdagi mamlakatlarni rad etish"
+
+msgid "Only the countries listed"
+msgstr "Faqat roʻyxatdagi mamlakatlar"
+
+msgid "Logging in, signing up and forms (recommended)"
+msgstr "Kirish, roʻyxatdan oʻtish va shakllar (tavsiya etiladi)"
+
+msgid "The whole site"
+msgstr "Butun sayt"
+
+msgid "What to do"
+msgstr "Nima qilish kerak"
+
+msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
+msgstr "Mamlakatlar (ikki harfli kodlar, masalan, ES, FR, DE)"
+
+msgid "Country list downloaded."
+msgstr "Mamlakatlar roʻyxati yuklab olindi."
+
+msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
+msgstr "Faqat butun sayt HTTPS da ishlaganda va shunday ishlashda davom etganda: browserlar buni eslab qoladi va muddati tugaguncha oddiy HTTP ni rad etadi."
+
+msgid "Minimum password length"
+msgstr "Passwordning minimal uzunligi"
+
+msgid "Refuse passwords found in data breaches"
+msgstr "Maʻlumotlar sizib chiqishida topilgan passwordlarni rad etish"
+
+msgid "Asks Have I Been Pwned with k-anonymity: only 5 characters of the password’s SHA-1 leave the site, never the password. If the service does not answer in 3 seconds, the password is accepted."
+msgstr "Have I Been Pwned xizmatiga k-anonimlik bilan soʻrov yuboradi: saytdan passwordning SHA-1 dagi faqat 5 ta belgisi chiqadi, passwordning oʻzi hech qachon chiqmaydi. Xizmat 3 soniyada javob bermasa, password qabul qilinadi."
+
+msgid "This password appears in known data breaches, so attackers try it first. Please choose another one."
+msgstr "Bu password maʻlumotlar sizib chiqishi maʻlum boʻlgan holatlarda uchraydi, shuning uchun hujumchilar uni birinchi sinaydi. Iltimos, boshqasini tanlang."
+
+msgid "Block an address or range"
+msgstr "Manzil yoki diapazonni bloklash"
+
+msgid "IP or range (e.g. 203.0.113.0/24)"
+msgstr "IP yoki diapazon (masalan, 203.0.113.0/24)"
+
+msgid "For"
+msgstr "Muddat"
+
+msgid "7 days"
+msgstr "7 kun"
+
+msgid "15 days"
+msgstr "15 kun"
+
+msgid "30 days"
+msgstr "30 kun"
+
+msgid "90 days"
+msgstr "90 kun"
+
+msgid "Forever"
+msgstr "Abadiy"
+
+msgid "Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address."
+msgstr "Hech narsa bloklanmadi: qiymat notoʻgʻri, administratorga tegishli yoki oʻz manzilingiz."
+
+msgid "E-mail"
+msgstr "Email"
+
+msgid "Message"
+msgstr "Xabar"
+
+msgid "Done."
+msgstr "Bajarildi."
+
+msgid "It could not be done for that address."
+msgstr "Bu manzil uchun buni qilib boʻlmadi."
+
+msgid "No requests."
+msgstr "Soʻrovlar yoʻq."
+
+msgid "Review requests"
+msgstr "Koʻrib chiqish soʻrovlari"
+
+msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
+msgstr "Firewall toʻxtatgan odamlar blok sahifasidan soʻrashi mumkin. Agar xato boʻlsa, ularni bir muddat oʻtkazing. Draco ularga hech qachon yozmaydi: xohlasangiz, oʻz mailingizdan javob bering."
+
+msgid "Let through 24 hours"
+msgstr "24 soatga oʻtkazish"
+
+msgid "Let through"
+msgstr "Oʻtkazish"
+
+msgid "Attacker: blocked"
+msgstr "Hujumchi: bloklangan"
+
+msgid "Attacker"
+msgstr "Hujumchi"
+
+msgid "Ask for a review"
+msgstr "Koʻrib chiqishni soʻrash"
+
+msgid "Denied"
+msgstr "Rad etildi"
+
+msgid "Deny"
+msgstr "Rad etish"
+
+msgid "Your e-mail"
+msgstr "Emailingiz"
+
+msgid "What were you doing?"
+msgstr "Nima qilayotgan edingiz?"
+
+msgid "Thank you. The owner of the site will look at it and, if it was a mistake, let you through."
+msgstr "Rahmat. Sayt egasi buni koʻrib chiqadi va agar xato boʻlsa, sizni oʻtkazadi."
+
+msgid "Request sent"
+msgstr "Soʻrov yuborildi"
+
+msgid "Firewall: last 7 days"
+msgstr "Firewall: soʻnggi 7 kun"
+
+msgid "Test the firewall"
+msgstr "Firewallni sinash"
+
+msgid "Works: a database injection was recognised and blocked (403)."
+msgstr "Ishlaydi: maʻlumotlar bazasiga inyeksiya tanildi va bloklandi (403)."
+
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgstr "Saytga zararsiz, hujumga oʻxshash soʻrov yuboradi va nima boʻlganini aytadi. U logga yozilmaydi."
+
+msgid "The test attack was not recognised. Please report it to Draco Insomnis."
+msgstr "Sinov hujumi tanilmadi. Iltimos, bu haqda Draco Insomnisga xabar bering."
+
+msgid "The firewall is off: switch it on and save, then test again."
+msgstr "Firewall oʻchiq: uni yoqing va saqlang, keyin yana sinang."
+
+msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at the last attempts."
+msgstr "Sinov serverning oʻzidan saytga yeta olmadi (baʻzi hostinglar bunga ruxsat bermaydi). Firewall baribir ishlashi mumkin: soʻnggi urinishlarga qarang."
+
+msgid "Never an administrator, nor your own address. Ranges no wider than /16 (IPv4) or /32 (IPv6)."
+msgstr "Hech qachon administratorni yoki oʻz manzilingizni emas. Diapazonlar /16 (IPv4) yoki /32 (IPv6) dan keng boʻlmasligi kerak."
+
+msgid "Bypass the Draco Insomnis firewall"
+msgstr "Draco Insomnis firewallni chetlab oʻtish"
+
+msgid "Draco Insomnis"
+msgstr "Draco Insomnis"
+
+msgid "Leave \"Connection address\" unless the site is behind a proxy: a header can be forged by anyone."
+msgstr "Sayt proxy ortida boʻlmasa, «Connection address» ni qoldiring: headerni har kim soxtalashtirishi mumkin."
+
+msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
+msgstr "Ishlaydi: maʻlumotlar bazasiga inyeksiya tanildi. «Log only» rejimida u yozib boriladi, lekin toʻxtatilmaydi; tayyor boʻlganingizda «Bloklash» ga oʻting."
+
+msgid "This request was stopped for security reasons. If you think this is a mistake, tell the owner of the site what you were doing:"
+msgstr "Bu soʻrov xavfsizlik sababli toʻxtatildi. Agar xato deb oʻylasangiz, sayt egasiga nima qilayotganingizni ayting:"
+
+msgid "One range per line (CIDR), added to the ones the module already knows. Being on this list only adds points: on its own it never makes anyone a bot."
+msgstr "Har bir qatorda bitta diapazon (CIDR), module allaqachon biladiganlarga qoʻshiladi. Bu roʻyxatda boʻlish faqat ball qoʻshadi: oʻz-oʻzidan hech kimni botga aylantirmaydi."
+
+msgid "The password must have at least @count characters."
+msgstr "Password kamida @count ta belgidan iborat boʻlishi kerak."
+
+msgid "[@site] Someone asks you to review a firewall block"
+msgstr "[@site] Kimdir firewall blokini koʻrib chiqishingizni soʻraydi"
+
+msgid "A visitor stopped by the firewall asks for a review. Open Draco Insomnis to let them through or not:"
+msgstr "Firewall toʻxtatgan tashrif buyuruvchi koʻrib chiqishni soʻraydi. Uni oʻtkazish yoki oʻtkazmaslik uchun Draco Insomnisni oching:"
+
+msgid "Firewall: @count attacks in 10 minutes"
+msgstr "Firewall: 10 daqiqada @count ta hujum"
+
+msgid "Automatic: @count bot attempts in 24 h"
+msgstr "Avtomatik: 24 soatda @count ta bot urinishi"
+
+msgid "Review: @email"
+msgstr "Koʻrib chiqish: @email"
+
+msgid "The test was stopped before it reached Drupal, by the hosting's own firewall. Good: two layers."
+msgstr "Sinov Drupal ga yetmasdan, hostingning oʻz firewall tomonidan toʻxtatildi. Yaxshi: ikki qatlam."
+
+msgid "Your address as the module sees it: %ip (connection address: %remote). If the site is behind Cloudflare or another proxy and these differ from your real address, choose the matching option in \"Visitor address\"."
+msgstr "Module koʻrayotgan manzilingiz: %ip (ulanish manzili: %remote). Agar sayt Cloudflare yoki boshqa proxy ortida boʻlsa va bular haqiqiy manzilingizdan farq qilsa, «Visitor address» boʻlimida mos variantni tanlang."
+
+msgid "The header is ignored: this connection (%remote) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses in \"Trusted proxies\"."
+msgstr "Header eʻtiborga olinmaydi: bu ulanish (%remote) Cloudflare dan yoki ishonchli proxydan kelmagan. Agar proxyingiz internetda boʻlsa, uning manzillarini «Trusted proxies» ga qoʻshing."
+
+msgid "Adds an invisible trap and a signed page stamp to the public sign-up form. Bots get no account; three bot attempts in a day block the address for a week."
+msgstr "Ommaviy roʻyxatdan oʻtish shakliga koʻrinmas tuzoq va imzolangan sahifa muhrini qoʻshadi. Botlar hisob ocholmaydi; bir kunda uchta bot urinishi manzilni bir haftaga bloklaydi."
+
+msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and scanners such as sqlmap or Nikto. Start with \"Log only\" and move to \"Block\" after a few days. Five attacks in 10 minutes block the address for a week; blocked addresses can still read the site, but not post or log in. Users with the \"Bypass the Draco Insomnis firewall\" permission are never inspected. Emergency exit: $settings['draco_waf_off'] = TRUE; in settings.php."
+msgstr "Hujum shaklidagi soʻrovlarni (maʻlumotlar bazasiga inyeksiya, server fayllarini oʻqish, kod ishga tushirish, havolalardagi skriptlar) va sqlmap yoki Nikto kabi skanerlarni toʻxtatadi. «Log only» bilan boshlang va bir necha kundan keyin «Bloklash» ga oʻting. 10 daqiqada beshta hujum manzilni bir haftaga bloklaydi; bloklangan manzillar saytni oʻqishda davom etishi mumkin, lekin hech narsa yubora olmaydi va kira olmaydi. «Draco Insomnis firewallni chetlab oʻtish» ruxsatiga ega foydalanuvchilar hech qachon tekshirilmaydi. Favqulodda chiqish: $settings['draco_waf_off'] = TRUE; settings.php faylida."
+
+msgid "More pages per minute than a person reads get \"429 Too many requests\" until the minute ends. Logged-in users, your own addresses and search engines verified by DNS (Google, Bing, Apple, Yandex) are never limited."
+msgstr "Bir daqiqada odam oʻqiy oladiganidan koʻp sahifa soʻraganlarga daqiqa tugaguncha «429 Too many requests» beriladi. Kirgan foydalanuvchilar, oʻz manzillaringiz va DNS orqali tasdiqlangan qidiruv tizimlari (Google, Bing, Apple, Yandex) hech qachon cheklanmaydi."
+
+msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
+msgstr "Tashrif buyuruvchilaringiz koʻp mamlakatlardan kelishi mumkin, hujumchi esa VPN bilan mamlakatni oʻzgartiradi. Faqat kirish, roʻyxatdan oʻtish va shakllarni filtrlang va «Log only» bilan boshlang. Administratorlar, oʻtkazgan odamlaringiz va qidiruv tizimlari hech qachon filtrlanmaydi."
+
+msgid "Log only"
+msgstr "Log only"
+
+msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
+msgstr "Mamlakatlar roʻyxati: hali yuklab olinmagan (filtrni yoqqaningizda yuklab olinadi)."
+
+msgid "Country list of @date."
+msgstr "@date dagi mamlakatlar roʻyxati."
+
+msgid "IP geolocation by <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
+msgstr "IP geolokatsiya: <a href=\"https://db-ip.com\" target=\"_blank\" rel=\"noopener\">DB-IP</a> (CC BY 4.0). Oʻz serveringizda aniqlanadi: hech qanday manzil hech qayerga yuborilmaydi."
+
+msgid "Send security headers on public pages"
+msgstr "Ommaviy sahifalarda xavfsizlik headerlarini yuborish"
+
+msgid "No sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content. Never one the server already sends."
+msgstr "Fayl turlarini aniqlash yoʻq, boshqa saytlar tomonidan ramkaga olish yoʻq, kamroq yoʻnaltiruvchi maʻlumot, joylashtirilgan kontent uchun kamera, mikrofon yoki joylashuv yoʻq. Server allaqachon yuboradigan header hech qachon yuborilmaydi."
+
+msgid "Force HTTPS in browsers for 6 months (HSTS)"
+msgstr "Browserlarda 6 oy davomida HTTPS ni majburiy qilish (HSTS)"
+
+msgid "From 8 to 64 characters; 0 = no minimum. Applied when an account is created or a password is changed."
+msgstr "8 dan 64 gacha belgi; 0 = minimal cheklov yoʻq. Hisob yaratilganda yoki password oʻzgartirilganda qoʻllanadi."
+
+msgid "The country list could not be downloaded. The filter does nothing until it is there; try again later."
+msgstr "Mamlakatlar roʻyxatini yuklab olib boʻlmadi. Roʻyxat boʻlmaguncha filtr hech narsa qilmaydi; keyinroq yana urinib koʻring."
+
+msgid "Blocked: @value"
+msgstr "Bloklangan: @value"
+
+msgid "@total attacks seen, @blocked blocked."
+msgstr "@total ta hujum aniqlandi, @blocked tasi bloklandi."
+
+msgid "What"
+msgstr "Nima"
+
+msgid "Busiest addresses"
+msgstr "Eng faol manzillar"
+
+msgid "Blocked addresses (@count)"
+msgstr "Bloklangan manzillar (@count)"
+
+msgid "Anti-bot shield for sign-ups, firewall and anti-copy limits."
+msgstr "Roʻyxatdan oʻtishlar uchun botlarga qarshi qalqon, firewall va nusxa koʻchirishga qarshi cheklovlar."
+
+msgid "Administer Draco Insomnis"
+msgstr "Draco Insomnisni boshqarish"
+
+msgid "Change the settings, see the evidence and unblock addresses."
+msgstr "Sozlamalarni oʻzgartirish, dalillarni koʻrish va manzillarni blokdan chiqarish."
+
+msgid "Requests of these users are never inspected. Give it to editors who write code or SQL in their content."
+msgstr "Bu foydalanuvchilarning soʻrovlari hech qachon tekshirilmaydi. Buni kontentida kod yoki SQL yozadigan muharrirlarga bering."
+

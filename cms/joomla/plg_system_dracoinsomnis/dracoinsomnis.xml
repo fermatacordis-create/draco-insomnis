@@ -19,6 +19,8 @@
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_dracoinsomnis.ini</language>
 		<language tag="en-GB">language/en-GB/plg_system_dracoinsomnis.sys.ini</language>
+		<language tag="am-ET">language/am-ET/plg_system_dracoinsomnis.ini</language>
+		<language tag="am-ET">language/am-ET/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="ar-AA">language/ar-AA/plg_system_dracoinsomnis.ini</language>
 		<language tag="ar-AA">language/ar-AA/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="bn-BD">language/bn-BD/plg_system_dracoinsomnis.ini</language>
@@ -69,6 +71,8 @@
 		<language tag="uk-UA">language/uk-UA/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="ur-PK">language/ur-PK/plg_system_dracoinsomnis.ini</language>
 		<language tag="ur-PK">language/ur-PK/plg_system_dracoinsomnis.sys.ini</language>
+		<language tag="uz-UZ">language/uz-UZ/plg_system_dracoinsomnis.ini</language>
+		<language tag="uz-UZ">language/uz-UZ/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="vi-VN">language/vi-VN/plg_system_dracoinsomnis.ini</language>
 		<language tag="vi-VN">language/vi-VN/plg_system_dracoinsomnis.sys.ini</language>
 		<language tag="zh-CN">language/zh-CN/plg_system_dracoinsomnis.ini</language>
