@@ -300,7 +300,7 @@ Also review on: device change, operator change, account reset, security incident
 
 ## 9. Certification and recommended controls
 
-### Mandatory (internal canary certification 0.1.32-ui16; reproducible certification pending)
+### Mandatory (certified with 0.1.32-ui16, reproducible at commit `9893697`)
 
 | ID | Control | Evidence |
 | --- | --- | --- |
@@ -325,7 +325,7 @@ in [TRUST-HEALTH.md](TRUST-HEALTH.md) and are not required for ui16 certificatio
 
 ## 10. Closing statement
 
-The internal canary certification of CoSign in **0.1.32-ui16** verifies identity separation, `auth_id` traceability,
+The certification of CoSign in **0.1.32-ui16** verifies identity separation, `auth_id` traceability,
 absence of partial sessions, and consistent MFA / Recovery behaviour.
 
 Keeping an approval identity (Admin B) with near-zero public surface — ideally a dedicated mailbox —

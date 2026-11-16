@@ -175,7 +175,7 @@ final class Brand
 
     public static function close(): void
     {
-        echo '<p class="draco-foot">Draco Insomnis ' . esc_html(DRACO_INSOMNIS_VERSION) . ' · <a href="' . esc_url(self::URL_CODE) . '" target="_blank" rel="noopener">' . esc_html__('Open source (GPL)', 'draco-insomnis') . '</a></p></div>';
+        echo '<p class="draco-foot">Draco Insomnis ' . esc_html(DRACO_INSOMNIS_VERSION) . ' · Made in Menorca. · <a href="' . esc_url(self::URL_CODE) . '" target="_blank" rel="noopener">' . esc_html__('Open source (GPL)', 'draco-insomnis') . '</a></p></div>';
     }
 
     public static function header(string $title): void
