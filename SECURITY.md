@@ -50,6 +50,16 @@ gh attestation verify SHA256SUMS.txt -R fermatacordis-create/draco-insomnis --pr
 
 Only the latest released version receives security fixes.
 
+## WordPress identity (CoSign, MFA, recovery)
+
+On WordPress, privileged login may use second-administrator co-sign, e-mail MFA and multi-slot
+recovery. The internal canary certification of that model (`0.1.32-ui16`, reproducible certification pending) and the operational policy (Admin A/B,
+recovery maintenance **R-08**, MFA continuity **R-09**, planned Health Checks / SSDD) are in
+[`docs/identity/`](docs/identity/).
+
+Invariant: **Trust Device ≠ Trusted Login** — a trusted device skips only the MFA code, never
+CoSign or password validation. Prefer evidence (“verified N days ago”) over unused recovery accounts.
+
 ## Scope
 
 The plugin only defends the site it runs on. It never sends anything to an attacker's machine,

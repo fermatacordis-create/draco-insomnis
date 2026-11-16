@@ -56,6 +56,7 @@ final class Admin
         $who = sanitize_key((string) ($_POST['who'] ?? 'admins'));
         update_option(Mfa::OPTION_WHO, in_array($who, ['admins', 'editors', 'all'], true) ? $who : 'admins');
         update_option(Mfa::OPTION_TRUST, empty($_POST['trust']) ? 'no' : 'yes');
+        update_option(CoSign::OPTION_ENABLED, empty($_POST['cosign']) ? 'no' : 'yes');
         if (empty($_POST['trust'])) {
             TrustedDevice::revokeAll(get_current_user_id());
         }
@@ -113,7 +114,7 @@ final class Admin
             $owner = AccountLock::ownerEmail();
             /* translators: %s: e-mail address */
             echo '<p>' . esc_html(sprintf(__('Confirmations go to %s.', 'draco-insomnis'), $owner !== '' ? $owner : '—')) . '</p>';
-            echo '<table class="widefat striped"><thead><tr><th>' . esc_html__('Account', 'draco-insomnis') . '</th><th>' . esc_html__('Role', 'draco-insomnis') . '</th><th>' . esc_html__('State', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
+            echo '<div class="draco-table-wrap"><table class="widefat striped"><thead><tr><th>' . esc_html__('Account', 'draco-insomnis') . '</th><th>' . esc_html__('Role', 'draco-insomnis') . '</th><th>' . esc_html__('State', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
             foreach (get_users(['number' => 200, 'orderby' => 'ID']) as $user) {
                 if (!$user instanceof \WP_User || !AccountLock::privileged($user)) {
                     continue;
@@ -128,7 +129,7 @@ final class Admin
                 }
                 echo '</td></tr>';
             }
-            echo '</tbody></table>';
+            echo '</tbody></table></div>';
         }
         echo '<p class="description">' . esc_html__('Accounts created from the command line (WP-CLI) also wait for approval. Locked out? Add define(\'DRACO_LOCK_OFF\', true); to wp-config.php, log in, fix it and remove the line.', 'draco-insomnis') . '</p>';
         Brand::cardEnd();
@@ -153,6 +154,10 @@ final class Admin
         if (defined('DRACO_MFA_OFF') && DRACO_MFA_OFF) {
             Brand::notice('warning', __('DRACO_MFA_OFF is set in wp-config.php: no codes are asked for. Remove that line once you are back in.', 'draco-insomnis'));
         }
+        if (defined('DRACO_COSIGN_OFF') && DRACO_COSIGN_OFF) {
+            Brand::notice('warning', __('DRACO_COSIGN_OFF is set in wp-config.php: a second administrator is not required to co-sign. Remove that line once you are back in.', 'draco-insomnis'));
+        }
+        $cosignOn = CoSign::active();
         echo '<div class="draco-grid">';
         Brand::card('lock', __('Settings', 'draco-insomnis'), '', Brand::pill(Brand::stateLabel($on ? 'on' : 'off'), $on ? 'on' : 'off'));
         echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
@@ -164,9 +169,14 @@ final class Admin
             'admins' => [__('Administrators', 'draco-insomnis'), '', 'admin-network'],
             'editors' => [__('Anyone who can write or edit content', 'draco-insomnis'), '', 'edit'],
             'all' => [__('Every user', 'draco-insomnis'), '', 'groups'],
-        ]);
+        ], 'draco-modes--stack');
         /* translators: %d: days */
-        Brand::toggle('trust', get_option(Mfa::OPTION_TRUST, 'yes') === 'yes', sprintf(__('Offer "Trust this device for %d days"', 'draco-insomnis'), TrustedDevice::DAYS));
+        Brand::toggle('trust', get_option(Mfa::OPTION_TRUST, 'yes') === 'yes', sprintf(__('Offer "Trust this device for %d days"', 'draco-insomnis'), TrustedDevice::DAYS), __('Trusted devices skip only the verification code. A second administrator approval is still required when CoSign is enabled.', 'draco-insomnis'));
+        Brand::toggle('cosign', get_option(CoSign::OPTION_ENABLED, 'no') === 'yes', __('Administrator co-sign', 'draco-insomnis'), __('A second administrator must approve this sign-in. The session belongs only to the first account.', 'draco-insomnis'));
+        if ($cosignOn) {
+            echo '<p class="description">' . esc_html__('Service accounts cannot be used for co-sign approval.', 'draco-insomnis') . '</p>';
+            echo '<p class="description">' . esc_html__('Trust Device is not a trusted login: passwords A and B and co-sign stay mandatory; only the e-mail code may be skipped. Prefer a quiet approval account (Admin B) with its own mailbox, unused on the public site.', 'draco-insomnis') . '</p>';
+        }
         echo '<p style="margin-top:12px">';
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
         echo '</p></form>';

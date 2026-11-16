@@ -6,7 +6,20 @@ namespace DracoInsomnis\Login;
 
 defined('ABSPATH') || exit;
 
-/** "Trust this device for 7 days": a random cookie whose hash is kept on the user, five devices at most. */
+/**
+ * "Trust this device for 7 days": a random cookie whose hash is kept on the user, five devices at most.
+ *
+ * Trust Device ≠ Trusted Login.
+ *
+ * Trusted devices suppress only the MFA verification code challenge.
+ * CoSign remains mandatory. They never bypass Account Lock or password validation.
+ *
+ * Required for a session when CoSign is on:
+ * - Password A (primary)
+ * - Password B (human co-signer)
+ * - CoSign approval
+ * Only the MFA code may be omitted on a trusted device.
+ */
 final class TrustedDevice
 {
     public const COOKIE = 'draco_trusted';

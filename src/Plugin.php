@@ -45,6 +45,7 @@ final class Plugin
         \DracoInsomnis\Login\Passwords::register();
         AntiCopyAdmin::register();
         Mfa::boot();
+        \DracoInsomnis\Login\CoSign::boot();
         \DracoInsomnis\Login\AccountLock::boot();
         add_action(self::HOOK_CLEANUP, [Store::class, 'cleanup']);
         add_action('admin_init', [self::class, 'rememberAdminIp']);

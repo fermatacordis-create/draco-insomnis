@@ -37,7 +37,7 @@ final class Mfa
         if (!self::active()) {
             return;
         }
-        add_filter('wp_authenticate_user', [self::class, 'afterPassword'], 99, 2);
+        add_filter('wp_authenticate_user', [self::class, 'afterPassword'], 100, 2);
         add_action('login_form_' . self::ACTION, [self::class, 'page']);
         add_action('login_init', [self::class, 'refuseBlockedIp']);
         add_action('wp_login_failed', [self::class, 'recordFailure']);
@@ -99,7 +99,16 @@ final class Mfa
         if (!self::requiredFor($user) || !is_email((string) $user->user_email)) {
             return $user;
         }
+        // CoSign must complete first when enabled; never send a code without it.
+        if (CoSign::active() && CoSign::requiredFor($user) && !CoSign::satisfiedFor((int) $user->ID)) {
+            return $user; // CoSign @99 already redirected, or require a fresh login.
+        }
+        // Trusted device skips the e-mail code only — never administrator co-signature.
         if (get_option(self::OPTION_TRUST, 'yes') === 'yes' && TrustedDevice::isValid((int) $user->ID)) {
+            if (CoSign::satisfiedFor((int) $user->ID)) {
+                CoSign::markMfaCompleted((int) $user->ID, true);
+            }
+
             return $user;
         }
         // Login boxes that post by AJAX or REST cannot show the code step.
@@ -107,23 +116,59 @@ final class Mfa
             /* translators: %s: login page URL */
             return new \WP_Error('draco_mfa_page', sprintf(__('This account needs a code sent by e-mail. Log in from %s to receive it.', 'draco-insomnis'), wp_login_url()));
         }
+        $to = isset($_REQUEST['redirect_to']) && is_string($_REQUEST['redirect_to']) ? esc_url_raw(wp_unslash($_REQUEST['redirect_to'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification -- only remembered, validated on use
+        Challenge::setRedirect((int) $user->ID, $to);
+        self::beginChallenge($user, CoSign::authIdFor((int) $user->ID));
+    }
+
+    /**
+     * Starts the e-mail code step for $user and exits. Used after password and after co-sign.
+     *
+     * @param string $authId Shared correlation id from CoSign (empty when CoSign was not used).
+     */
+    public static function beginChallenge(\WP_User $user, string $authId = ''): void
+    {
+        if ($authId === '') {
+            $authId = CoSign::authIdFor((int) $user->ID);
+        }
         $code = Challenge::newCode();
-        $challenge = Challenge::create((int) $user->ID, $code);
+        $challenge = Challenge::create((int) $user->ID, $code, $authId);
         $sent = self::send($user, $code, Recovery::destination($user));
-        // The main mailbox not answering is exactly what the recovery address is for.
         if (!$sent && Recovery::useRecovery((int) $user->ID)) {
             $sent = self::send($user, $code, Recovery::destination($user));
         }
         if (!$sent) {
             Challenge::forgetUser((int) $user->ID);
-
-            return new \WP_Error('draco_mfa_mail', __('The login code could not be sent by e-mail. If you own this site and are locked out, add define(\'DRACO_MFA_OFF\', true); to wp-config.php.', 'draco-insomnis'));
+            CoSign::clearSatisfied((int) $user->ID);
+            self::auditMfaAfterCosignFail((int) $user->ID);
+            wp_die(esc_html__('The login code could not be sent by e-mail. If you own this site and are locked out, add define(\'DRACO_MFA_OFF\', true); to wp-config.php.', 'draco-insomnis'), esc_html__('Login code', 'draco-insomnis'), ['response' => 403]);
+        }
+        if ($authId !== '') {
+            CoSign::auditEndpoint('login:mfa', $user, [
+                'auth_id' => $authId,
+                'user_id' => (int) $user->ID,
+                'timestamp' => time(),
+            ]);
         }
         self::setCookie($challenge['id'], time() + Challenge::TTL);
-        $to = isset($_REQUEST['redirect_to']) && is_string($_REQUEST['redirect_to']) ? esc_url_raw(wp_unslash($_REQUEST['redirect_to'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification -- only remembered, validated on use
-        Challenge::setRedirect((int) $user->ID, $to);
         wp_safe_redirect(add_query_arg('action', self::ACTION, wp_login_url()));
         exit;
+    }
+
+    private static function auditMfaAfterCosignFail(int $userId, string $reason = 'SYSTEM_ERROR'): void
+    {
+        if (!CoSign::active()) {
+            return;
+        }
+        $ip = Guard::clientIp();
+        $ua = Input::server('HTTP_USER_AGENT');
+        Store::ensureTables();
+        Store::log($ip, $ip, 'login:cosign_failure', ['score' => 0, 'verdict' => 'bot', 'reasons' => ['MFA_FAILED_AFTER_COSIGN']], substr($ua, 0, 255), [
+            'auth_id' => CoSign::authIdFor($userId),
+            'primary_user_id' => $userId,
+            'reason' => $reason,
+            'timestamp' => time(),
+        ]);
     }
 
     /** $purpose 'login' for the login step, 'recovery' to confirm a recovery address. */
@@ -184,9 +229,16 @@ final class Mfa
                 $result = Challenge::check($row['id'], $code);
                 if ($result === 'ok') {
                     Recovery::onCodeAccepted($row['user_id']);
-                    self::finish($row['user_id'], !empty($_POST['trust']), !empty($_POST['remember']));
+                    self::finish($row['user_id'], !empty($_POST['trust']), !empty($_POST['remember']), (string) ($row['auth_id'] ?? ''));
                 }
                 self::recordFailure();
+                if ($result === 'locked' || $result === 'wrong') {
+                    self::auditMfaAfterCosignFail($row['user_id'], 'MFA_FAILED_AFTER_COSIGN');
+                    if ($result === 'locked') {
+                        CoSign::clearSatisfied($row['user_id']);
+                        Challenge::forgetUser($row['user_id']);
+                    }
+                }
                 $errors->add($result, $result === 'locked' ? __('Too many attempts. Log in again.', 'draco-insomnis') : __('Wrong code.', 'draco-insomnis'));
                 $row = $result === 'locked' ? null : $row;
             }
@@ -214,7 +266,7 @@ final class Mfa
             echo '<form action="' . $action . '" method="post" style="margin-top:8px;padding:0 24px;background:none;box-shadow:none;border:0">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             wp_nonce_field(self::ACTION);
             echo '<button type="submit" name="resend" value="1" class="button-link">' . esc_html__('Send the code again', 'draco-insomnis') . '</button>';
-            if ($user instanceof \WP_User && Recovery::email((int) $user->ID) !== '' && Recovery::destination($user) !== Recovery::email((int) $user->ID)) {
+            if ($user instanceof \WP_User && Recovery::emails((int) $user->ID) !== [] && !in_array(Recovery::destination($user), Recovery::emails((int) $user->ID), true)) {
                 echo '<br><button type="submit" name="recovery" value="1" class="button-link" style="margin-top:8px">' . esc_html__('I cannot reach this mailbox: use my recovery e-mail', 'draco-insomnis') . '</button>';
             }
             echo '</form>';
@@ -224,11 +276,27 @@ final class Mfa
         exit;
     }
 
-    private static function finish(int $userId, bool $trust, bool $remember): void
+    private static function finish(int $userId, bool $trust, bool $remember, string $authId = ''): void
     {
         self::setCookie('', time() - YEAR_IN_SECONDS);
         if ($trust && get_option(self::OPTION_TRUST, 'yes') === 'yes') {
             TrustedDevice::issue($userId);
+        }
+        if ($authId === '') {
+            $authId = CoSign::authIdFor($userId);
+        }
+        // login:session immediately before the WordPress cookie (auth_id links Cosign → MFA → session).
+        if (CoSign::satisfiedFor($userId)) {
+            CoSign::markMfaCompleted($userId, true);
+        } elseif ($authId !== '') {
+            $user = get_userdata($userId);
+            if ($user instanceof \WP_User) {
+                CoSign::auditEndpoint('login:session', $user, [
+                    'auth_id' => $authId,
+                    'user_id' => $userId,
+                    'timestamp' => time(),
+                ]);
+            }
         }
         wp_set_current_user($userId);
         wp_set_auth_cookie($userId, $remember, is_ssl());
