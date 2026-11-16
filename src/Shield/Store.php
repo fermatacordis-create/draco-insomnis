@@ -24,7 +24,7 @@ final class Store
     private const MIN_PREFIX = ['4' => 16, '6' => 32];
     /** @var array<string, list<string>> Ranges and allowed addresses in force, read once per request. */
     private static array $values = [];
-    private const SCHEMA = '3';
+    private const SCHEMA = '4';
     private const SCHEMA_OPTION = 'draco_schema';
     /** One flood must not fill the database: past this, attempts from that IP in the hour are only counted. */
     private const MAX_ROWS_PER_IP_HOUR = 30;
@@ -135,7 +135,7 @@ final class Store
             created_at datetime NOT NULL,
             until_at datetime NOT NULL,
             PRIMARY KEY  (id),
-            KEY lookup (kind, value, until_at)
+            KEY lookup (kind,value(150),until_at)
         ) $charset;");
         dbDelta('CREATE TABLE ' . self::counters() . " (
             k varchar(190) NOT NULL,
@@ -157,6 +157,12 @@ final class Store
             KEY status_created (status, created_at),
             KEY ip_created (ip, created_at)
         ) $charset;");
+        // Recorded only when every table really exists, so a failed creation is tried again.
+        foreach ([self::events(), self::blocks(), self::counters(), self::reviews()] as $table) {
+            if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($table))) !== $table) {
+                return;
+            }
+        }
         update_option(self::SCHEMA_OPTION, self::SCHEMA);
     }
 
