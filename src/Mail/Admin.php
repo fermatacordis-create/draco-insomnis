@@ -6,6 +6,7 @@ namespace DracoInsomnis\Mail;
 
 use DracoInsomnis\Input;
 use DracoInsomnis\Admin\Brand;
+use DracoInsomnis\Shield\Store as Blocks;
 
 defined('ABSPATH') || exit;
 
@@ -30,39 +31,6 @@ final class Admin
             return; // Brand::menuNested() registers it inside the host plugin's menu.
         }
         add_submenu_page(Brand::PARENT, $title, $title, 'manage_options', self::SLUG, [self::class, 'render']);
-    }
-
-    /**
-     * host => [name, encryption, port, user help, password help, group]
-     *
-     * @return array<string, array{string, string, int, string, string, string}>
-     */
-    private static function providers(): array
-    {
-        $box = __('The full address of the mailbox, with @ and domain. Not your WordPress username.', 'draco-insomnis');
-        $pass = __('The password of that mailbox, not the one for WordPress or your hosting. If you do not remember it, change it in your hosting or domain panel, in the e-mail section.', 'draco-insomnis');
-        $app = __('An app password, created in the security settings of your account. Not your normal password.', 'draco-insomnis');
-        $full = __('Your full address.', 'draco-insomnis');
-
-        return [
-            'smtp.hostinger.com' => ['Hostinger', 'ssl', 465, $box, $pass, 'domain'],
-            'smtp.ionos.es' => ['IONOS', 'ssl', 465, $box, $pass, 'domain'],
-            'ssl0.ovh.net' => ['OVHcloud', 'ssl', 465, $box, $pass, 'domain'],
-            'smtp.serviciodecorreo.es' => ['Arsys', 'ssl', 465, $box, $pass, 'domain'],
-            'smtpout.secureserver.net' => ['GoDaddy', 'ssl', 465, $box, $pass, 'domain'],
-            'smtp.zoho.eu' => ['Zoho Mail', 'ssl', 465, $box, __('The mailbox password, or an app password if you use two-step verification.', 'draco-insomnis'), 'domain'],
-            'smtp.office365.com' => ['Microsoft 365', 'tls', 587, $box, __('The mailbox password or an app password. SMTP sending must be allowed in Microsoft 365.', 'draco-insomnis'), 'domain'],
-            'smtp.gmail.com' => ['Google Workspace / Gmail', 'ssl', 465, __('The full address of the Google account.', 'draco-insomnis'), $app, 'domain'],
-            'smtp-relay.brevo.com' => ['Brevo', 'tls', 587, __('The SMTP login shown in your Brevo account.', 'draco-insomnis'), __('The Brevo SMTP key, not your account password.', 'draco-insomnis'), 'relay'],
-            'smtp.mailgun.org' => ['Mailgun', 'tls', 587, __('The SMTP user of your domain in Mailgun.', 'draco-insomnis'), __('The SMTP password of that user.', 'draco-insomnis'), 'relay'],
-            'smtp.sendgrid.net' => ['SendGrid', 'tls', 587, __('Type literally: apikey', 'draco-insomnis'), __('Your SendGrid API key.', 'draco-insomnis'), 'relay'],
-            'smtp.postmarkapp.com' => ['Postmark', 'tls', 587, __('The Postmark Server API Token.', 'draco-insomnis'), __('The same Server API Token.', 'draco-insomnis'), 'relay'],
-            'in-v3.mailjet.com' => ['Mailjet', 'tls', 587, __('Your Mailjet API key.', 'draco-insomnis'), __('Your Mailjet secret key.', 'draco-insomnis'), 'relay'],
-            'email-smtp.eu-west-1.amazonaws.com' => ['Amazon SES (Ireland)', 'tls', 587, __('The SMTP user created in Amazon SES.', 'draco-insomnis'), __('The Amazon SES SMTP password, not your AWS password.', 'draco-insomnis'), 'relay'], // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- an SMTP host name; nothing is loaded from it.
-            'smtp-mail.outlook.com' => ['Outlook.com / Hotmail', 'tls', 587, $full, $app, 'personal'],
-            'smtp.mail.yahoo.com' => ['Yahoo Mail', 'ssl', 465, $full, $app, 'personal'],
-            'smtp.mail.me.com' => ['iCloud Mail', 'tls', 587, $full, $app, 'personal'],
-        ];
     }
 
     public static function save(): void
@@ -93,6 +61,19 @@ final class Admin
             // Modules that need mail to reach people (login codes) switch themselves off here.
             do_action('draco_insomnis_mail_forgotten');
             $result = 'forgotten';
+        } elseif ($do === 'purge_log') {
+            Log::clear();
+            $result = 'purged';
+        } elseif ($do === 'block') {
+            $email = sanitize_email(wp_unslash((string) ($_POST['email'] ?? '')));
+            $days = Input::postInt('days', 30);
+            /* translators: %s: e-mail address */
+            $reason = sprintf(__('From recent messages (%s)', 'draco-insomnis'), $email);
+            $result = ($email !== '' && Blocks::block('email', $email, $days, $reason)) ? 'blocked' : 'block_refused';
+            $to = $email;
+        } elseif ($do === 'unblock') {
+            Blocks::unblock(Input::postInt('id'));
+            $result = 'unblocked';
         }
         wp_safe_redirect(add_query_arg(['page' => self::SLUG, 'result' => $result, 'to' => rawurlencode($to)], admin_url('admin.php')));
         exit;
@@ -183,6 +164,7 @@ final class Admin
         echo '</div>';
 
         self::logTable();
+        \DracoInsomnis\Shield\Admin::renderSharedBlocksCard(self::ACTION, self::ACTION, ['email']);
         self::script($domain);
         Brand::close();
     }
@@ -190,9 +172,8 @@ final class Admin
     /** @param array<string, mixed> $s */
     private static function fields(array $s, string $domain): void
     {
-        $providers = self::providers();
         $example = 'info@' . $domain;
-        $known = $providers[(string) $s['host']] ?? null;
+        $known = Providers::byHost((string) $s['host']);
         $userHelp = __('Usually the full address of the mailbox. Not your WordPress username.', 'draco-insomnis');
         $passHelp = __('The password of that mailbox, not the one for WordPress or your hosting.', 'draco-insomnis');
         $row = static function (string $id, string $label, string $control, string $help): void {
@@ -200,25 +181,57 @@ final class Admin
                 . '<p class="description" id="' . esc_attr($id) . '-help">' . esc_html($help) . '</p></td></tr>';
         };
 
-        $groups = ['domain' => __('Mail on your own domain (recommended)', 'draco-insomnis'), 'relay' => __('Sending services', 'draco-insomnis'), 'personal' => __('Personal mail (not recommended)', 'draco-insomnis')];
-        $options = '<option value="">' . esc_html__('Choose your provider…', 'draco-insomnis') . '</option>';
-        foreach ($groups as $group => $label) {
-            $options .= '<optgroup label="' . esc_attr($label) . '">';
-            foreach ($providers as $host => $p) {
-                if ($p[5] === $group) {
-                    $options .= '<option value="' . esc_attr($host) . '" data-secure="' . esc_attr($p[1]) . '" data-port="' . (int) $p[2]
-                        . '" data-user="' . esc_attr($p[3]) . '" data-pass="' . esc_attr($p[4]) . '"' . selected((string) $s['host'], $host, false) . '>' . esc_html($p[0]) . '</option>';
-                }
-            }
-            $options .= '</optgroup>';
+        $regions = Providers::regions();
+        $regionOpts = '<option value="">' . esc_html__('Country or Global…', 'draco-insomnis') . '</option>';
+        foreach ($regions as $code => $label) {
+            $sel = $known && $known['region'] === $code ? ' selected' : '';
+            $regionOpts .= '<option value="' . esc_attr($code) . '"' . $sel . '>' . esc_html($label) . '</option>';
         }
+
+        $catalog = [];
+        foreach (Providers::all() as $p) {
+            $catalog[] = [
+                'id' => $p['id'],
+                'label' => $p['label'],
+                'region' => $p['region'],
+                'host' => Providers::resolveHost($p, $domain),
+                'host_kind' => $p['host_kind'],
+                'host_pattern' => $p['host'],
+                'secure' => $p['secure'],
+                'port' => $p['port'],
+                'user' => $p['user'],
+                'pass' => $p['pass'],
+                'group' => $p['group'],
+                'trust' => $p['trust'],
+                'note' => $p['note'],
+                'alt' => $p['alt'] ?? '',
+            ];
+        }
+        $json = wp_json_encode($catalog, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+
+        $providerSelect = '<select id="draco-mail-provider" disabled><option value="">' . esc_html__('Choose your provider…', 'draco-insomnis') . '</option></select>';
+        $cascade = '<div class="draco-mail-cascade" data-domain="' . esc_attr($domain) . '">'
+            . '<div class="draco-mail-cascade__picks">'
+            . '<label class="draco-mail-cascade__label" for="draco-mail-region">' . esc_html__('Country or Global', 'draco-insomnis') . '</label>'
+            . '<select id="draco-mail-region">' . $regionOpts . '</select>'
+            . '<label class="draco-mail-cascade__label" for="draco-mail-provider">' . esc_html__('Provider', 'draco-insomnis') . '</label>'
+            . $providerSelect
+            . '</div>'
+            . '<aside id="draco-mail-note" class="draco-mail-note" hidden>'
+            . '<strong id="draco-mail-note-title"></strong>'
+            . '<dl id="draco-mail-note-params" class="draco-mail-note__params"></dl>'
+            . '<div id="draco-mail-note-body" class="draco-mail-note__body"></div>'
+            . '</aside>'
+            . '</div>'
+            . '<script type="application/json" id="draco-mail-providers-json">' . $json . '</script>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON_HEX_* encoded
+
         /* translators: 1: site domain, 2: site domain */
-        $row('draco-mail-provider', __('Where is your mailbox?', 'draco-insomnis'), '<select id="draco-mail-provider">' . $options . '</select>', sprintf(__('Preferably a mailbox on the domain of this site, @%1$s. This fills in server, encryption and port. If your provider is not listed, the server is usually mail.%2$s: type it by hand and confirm it with them.', 'draco-insomnis'), $domain, $domain));
-        $row('draco-mail-host', __('Outgoing server (SMTP)', 'draco-insomnis'), '<input id="draco-mail-host" name="host" class="regular-text" required placeholder="smtp.example.com" value="' . esc_attr((string) $s['host']) . '">', __('The address of the server that sends the mail. Your provider gives it to you.', 'draco-insomnis'));
+        $row('draco-mail-region', __('Where is your mailbox?', 'draco-insomnis'), $cascade, sprintf(__('Preferably a mailbox on the domain of this site, @%1$s. Country → provider fills SMTP server, encryption and port automatically (shown in the note and editable below). If yours is missing, type the server by hand (often mail.%2$s) and confirm it with them.', 'draco-insomnis'), $domain, $domain));
+        $row('draco-mail-host', __('Outgoing server (SMTP)', 'draco-insomnis'), '<input id="draco-mail-host" name="host" class="regular-text" required placeholder="smtp.example.com" value="' . esc_attr((string) $s['host']) . '">', __('Filled when you choose a provider. You can still edit it. Your provider gives it to you.', 'draco-insomnis'));
         $row('draco-mail-secure', __('Encryption and port', 'draco-insomnis'), '<select id="draco-mail-secure" name="secure"><option value="ssl"' . selected($s['secure'], 'ssl', false) . '>SSL (465)</option><option value="tls"' . selected($s['secure'], 'tls', false) . '>STARTTLS (587)</option></select> '
-            . '<label>' . esc_html__('Port', 'draco-insomnis') . ' <input id="draco-mail-port" type="number" name="port" class="small-text" min="1" max="65535" value="' . (int) $s['port'] . '"></label>', __('Use what your provider says. If it does not connect, try the other option.', 'draco-insomnis'));
-        $row('draco-mail-user', __('Username', 'draco-insomnis'), '<input id="draco-mail-user" name="user" class="regular-text" autocomplete="off" required placeholder="' . esc_attr($example) . '" value="' . esc_attr((string) $s['user']) . '">', $known[3] ?? $userHelp);
-        $row('draco-mail-pass', __('Password', 'draco-insomnis'), '<input id="draco-mail-pass" type="password" name="password" class="regular-text" autocomplete="new-password" placeholder="' . esc_attr($s['pass'] !== '' ? __('Saved. Leave empty to keep it', 'draco-insomnis') : '') . '">', ($known[4] ?? $passHelp) . ' ' . __('It is stored encrypted.', 'draco-insomnis'));
+            . '<label>' . esc_html__('Port', 'draco-insomnis') . ' <input id="draco-mail-port" type="number" name="port" class="small-text" min="1" max="65535" value="' . (int) $s['port'] . '"></label>', __('Filled with the provider preset. Some providers use other values — check the note and change them here if needed.', 'draco-insomnis'));
+        $row('draco-mail-user', __('Username', 'draco-insomnis'), '<input id="draco-mail-user" name="user" class="regular-text" autocomplete="off" required placeholder="' . esc_attr($example) . '" value="' . esc_attr((string) $s['user']) . '">', $known['user'] ?? $userHelp);
+        $row('draco-mail-pass', __('Password', 'draco-insomnis'), '<input id="draco-mail-pass" type="password" name="password" class="regular-text" autocomplete="new-password" placeholder="' . esc_attr($s['pass'] !== '' ? __('Saved. Leave empty to keep it', 'draco-insomnis') : '') . '">', ($known['pass'] ?? $passHelp) . ' ' . __('It is stored encrypted.', 'draco-insomnis'));
         $row('draco-mail-from', __('Sender address (optional)', 'draco-insomnis'), '<input id="draco-mail-from" type="email" name="from" class="regular-text" placeholder="' . esc_attr($example) . '" value="' . esc_attr((string) $s['from']) . '">', __('The address people see. Empty uses the username above, which is normal. If you fill it in, it must be a mailbox or authorised alias on the domain of this site.', 'draco-insomnis'));
         echo '<tr><th></th><td><div id="draco-mail-domain-warning" class="notice notice-error inline" style="margin:0" hidden><p></p></div></td></tr>';
         $row('draco-mail-name', __('Sender name (optional)', 'draco-insomnis'), '<input id="draco-mail-name" name="from_name" class="regular-text" placeholder="' . esc_attr((string) get_bloginfo('name')) . '" value="' . esc_attr((string) $s['from_name']) . '">', __('The name people see. Empty keeps whatever each plugin sets, usually "WordPress".', 'draco-insomnis'));
@@ -231,25 +244,140 @@ final class Admin
     {
         $text = wp_json_encode([
             'domain' => $domain,
+            'choose' => __('Choose your provider…', 'draco-insomnis'),
             'notAddress' => __('The username is not an e-mail address: type an address on this domain in "Sender address".', 'draco-insomnis'),
             /* translators: %s: site domain */
             'otherDomain' => sprintf(__('This sender is not from the domain of this site. Use an @%s address or messages may be rejected.', 'draco-insomnis'), $domain),
+            'noteTemplate' => __('Template host', 'draco-insomnis'),
+            'noteWarn' => __('Check before you trust this preset', 'draco-insomnis'),
+            'noteOk' => __('Connection preset', 'draco-insomnis'),
+            'smtp' => __('Outgoing server (SMTP)', 'draco-insomnis'),
+            'encryption' => __('Encryption', 'draco-insomnis'),
+            'port' => __('Port', 'draco-insomnis'),
+            'askHost' => __('Fill this from your hosting panel (assigned per account).', 'draco-insomnis'),
+            'fillsFields' => __('Choosing a provider fills SMTP server, encryption and port below automatically. You can still edit them.', 'draco-insomnis'),
+            'ssl' => 'SSL/TLS',
+            'tls' => 'STARTTLS',
         ]);
         $js = '(function () {' . "\n" . '            var t = ' . $text . ';' . "\n" . <<<'JS'
             var $ = function (id) { return document.getElementById(id); };
-            var provider = $('draco-mail-provider'), secure = $('draco-mail-secure'), port = $('draco-mail-port');
-            if (!provider) { return; }
+            var region = $('draco-mail-region'), provider = $('draco-mail-provider');
+            var secure = $('draco-mail-secure'), port = $('draco-mail-port');
+            var note = $('draco-mail-note'), noteTitle = $('draco-mail-note-title');
+            var noteBody = $('draco-mail-note-body'), noteParams = $('draco-mail-note-params');
+            var raw = $('draco-mail-providers-json');
+            if (!region || !provider || !raw) { return; }
+            var catalog = [];
+            try { catalog = JSON.parse(raw.textContent || '[]'); } catch (e) { catalog = []; }
             var userHelp = $('draco-mail-user-help').textContent, passHelp = $('draco-mail-pass-help').textContent;
+            var byId = {};
+            catalog.forEach(function (p) { byId[p.id] = p; });
+
+            function fillProviders(code, selectedId) {
+                provider.innerHTML = '';
+                var ph = document.createElement('option');
+                ph.value = '';
+                ph.textContent = t.choose;
+                provider.appendChild(ph);
+                if (!code) {
+                    provider.disabled = true;
+                    hideNote();
+                    return;
+                }
+                provider.disabled = false;
+                catalog.filter(function (p) { return p.region === code; }).forEach(function (p) {
+                    var o = document.createElement('option');
+                    o.value = p.id;
+                    o.textContent = p.label;
+                    if (selectedId && selectedId === p.id) { o.selected = true; }
+                    provider.appendChild(o);
+                });
+            }
+
+            function hideNote() {
+                note.hidden = true;
+                noteTitle.textContent = '';
+                noteBody.innerHTML = '';
+                noteParams.innerHTML = '';
+                note.className = 'draco-mail-note';
+            }
+
+            function row(dt, dd) {
+                var d1 = document.createElement('dt');
+                d1.textContent = dt;
+                var d2 = document.createElement('dd');
+                d2.textContent = dd;
+                noteParams.appendChild(d1);
+                noteParams.appendChild(d2);
+            }
+
+            function para(text, className) {
+                if (!text) { return; }
+                var el = document.createElement('p');
+                if (className) { el.className = className; }
+                el.textContent = text;
+                noteBody.appendChild(el);
+            }
+
+            function showNote(p) {
+                if (!p) { hideNote(); return; }
+                var title = t.noteOk;
+                var cls = 'draco-mail-note';
+                if (p.trust === 'template') { title = t.noteTemplate; cls += ' is-template'; }
+                else if (p.trust === 'warn') { title = t.noteWarn; cls += ' is-warn'; }
+                note.className = cls;
+                noteTitle.textContent = title;
+                noteParams.innerHTML = '';
+                noteBody.innerHTML = '';
+                var hostLabel = p.host || (p.host_pattern || t.askHost);
+                if (p.host_kind === 'ask' && !p.host) { hostLabel = t.askHost; }
+                row(t.smtp, hostLabel);
+                row(t.encryption, p.secure === 'tls' ? t.tls : t.ssl);
+                row(t.port, String(p.port));
+                para(t.fillsFields, 'draco-mail-note__auto');
+                para(p.note || '');
+                para(p.alt || '', 'draco-mail-note__alt');
+                note.hidden = false;
+            }
+
+            function applyProvider(id) {
+                var p = byId[id];
+                if (!p) {
+                    hideNote();
+                    $('draco-mail-user-help').textContent = userHelp;
+                    $('draco-mail-pass-help').textContent = passHelp;
+                    return;
+                }
+                $('draco-mail-user-help').textContent = p.user || userHelp;
+                $('draco-mail-pass-help').textContent = p.pass || passHelp;
+                if (p.host) { $('draco-mail-host').value = p.host; }
+                else if (p.host_kind === 'ask') { $('draco-mail-host').value = ''; $('draco-mail-host').focus(); }
+                secure.value = p.secure;
+                port.value = p.port;
+                showNote(p);
+            }
+
+            region.addEventListener('change', function () {
+                fillProviders(region.value, '');
+                hideNote();
+            });
             provider.addEventListener('change', function () {
-                var o = provider.options[provider.selectedIndex];
-                $('draco-mail-user-help').textContent = o.dataset.user || userHelp;
-                $('draco-mail-pass-help').textContent = o.dataset.pass || passHelp;
-                if (!provider.value) { return; }
-                $('draco-mail-host').value = provider.value;
-                secure.value = o.dataset.secure;
-                port.value = o.dataset.port;
+                if (!provider.value) { hideNote(); return; }
+                applyProvider(provider.value);
             });
             secure.addEventListener('change', function () { port.value = secure.value === 'ssl' ? 465 : 587; });
+
+            // Restore cascade from saved host when possible.
+            var savedHost = ($('draco-mail-host').value || '').toLowerCase();
+            if (savedHost) {
+                var match = catalog.find(function (p) { return p.host && p.host.toLowerCase() === savedHost; });
+                if (match) {
+                    region.value = match.region;
+                    fillProviders(match.region, match.id);
+                    applyProvider(match.id);
+                }
+            }
+
             var box = $('draco-mail-domain-warning');
             var check = function () {
                 var sender = ($('draco-mail-from').value.trim() || $('draco-mail-user').value.trim()).toLowerCase();
@@ -276,6 +404,11 @@ final class Admin
             'forgotten' => ['warning', __('Connection forgotten. The site sends with PHP mail() again. The alert addresses were kept.', 'draco-insomnis')],
             /* translators: %s: e-mail address */
             'test_ok' => ['success', sprintf(__('Test sent to %s. The server accepted it: check that it arrived, also in spam.', 'draco-insomnis'), $to)],
+            'purged' => ['success', __('Recent messages cleared.', 'draco-insomnis')],
+            /* translators: %s: e-mail address */
+            'blocked' => ['success', sprintf(__('%s is blocked. Messages and sign-ups from that address are held or refused.', 'draco-insomnis'), $to)],
+            'unblocked' => ['success', __('Address unblocked.', 'draco-insomnis')],
+            'block_refused' => ['error', __('Nothing was blocked: the address is not valid, belongs to an administrator, or is your own.', 'draco-insomnis')],
             'invalid' => ['error', __('Missing data. Check server, username, password, sender and recipient.', 'draco-insomnis')],
             'cipher' => ['error', __('Not saved: the password could not be encrypted (OpenSSL is missing on the server).', 'draco-insomnis')],
             'untested' => ['error', __('A successful test with this connection is needed first.', 'draco-insomnis')],
@@ -295,18 +428,48 @@ final class Admin
     private static function logTable(): void
     {
         $labels = ['smtp' => 'SMTP', 'php' => 'PHP mail()', 'other' => __('Another plugin', 'draco-insomnis')];
-        Brand::card('list-view', __('Recent messages', 'draco-insomnis'), __('"Accepted" means the server took it, not that it reached the inbox. With PHP mail(), not even that. Message bodies are never stored.', 'draco-insomnis'), '', 'info', 'draco-card--flush');
-        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>' . esc_html__('Via', 'draco-insomnis') . '</th><th>' . esc_html__('To', 'draco-insomnis') . '</th><th>' . esc_html__('Subject', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th></tr></thead><tbody>';
+
+        $blockEmail = sanitize_email(Input::get('block'));
+        if ($blockEmail !== '') {
+            Brand::card('dismiss', __('Block this address?', 'draco-insomnis'), $blockEmail, '', 'bad');
+            self::open('block');
+            echo '<input type="hidden" name="email" value="' . esc_attr($blockEmail) . '">';
+            echo '<div class="draco-inline"><select name="days" aria-label="' . esc_attr__('For', 'draco-insomnis') . '">';
+            foreach (Blocks::BLOCK_DAYS as $days) {
+                echo '<option value="' . (int) $days . '"' . selected($days, 30, false) . '>' . esc_html(Blocks::daysLabel($days)) . '</option>';
+            }
+            echo '</select> ';
+            submit_button(__('Block', 'draco-insomnis'), 'primary', 'submit', false);
+            echo ' <a class="button button-link" href="' . esc_url(admin_url('admin.php?page=' . self::SLUG)) . '">' . esc_html__('Cancel', 'draco-insomnis') . '</a></div></form>';
+            Brand::cardEnd();
+        }
+
+        Brand::card('list-view', __('Recent messages', 'draco-insomnis'), __('"Accepted" means the server took it, not that it reached the inbox. With PHP mail(), not even that. Message bodies are never stored. You can clear the list, or block an address that confirmed a form or sign-up.', 'draco-insomnis'), '', 'info', 'draco-card--flush');
         $rows = Log::rows();
+        if ($rows !== []) {
+            self::open('purge_log');
+            echo '<p class="draco-toolbar">';
+            submit_button(__('Clear list', 'draco-insomnis'), 'secondary', 'submit', false, [
+                'onclick' => "return confirm('" . esc_js(__('Clear all recent messages from this list? This cannot be undone.', 'draco-insomnis')) . "');",
+            ]);
+            echo '</p></form>';
+        }
+
+        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>' . esc_html__('Via', 'draco-insomnis') . '</th><th>' . esc_html__('To', 'draco-insomnis') . '</th><th>' . esc_html__('Subject', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
         foreach ($rows as $row) {
             /* translators: %s: error message */
             $state = !empty($row['ok']) ? Brand::pill(__('Accepted', 'draco-insomnis'), 'on') : Brand::pill(sprintf(__('Error: %s', 'draco-insomnis'), (string) ($row['error'] ?? '')), 'bad');
             $via = (string) ($row['transport'] ?? '');
+            $toRaw = (string) ($row['to'] ?? '');
+            $first = strtolower(trim(explode(',', $toRaw)[0] ?? ''));
+            $block = is_email($first)
+                ? '<a href="' . esc_url(admin_url('admin.php?page=' . self::SLUG . '&block=' . rawurlencode($first))) . '">' . esc_html__('Block', 'draco-insomnis') . '</a>'
+                : '';
             echo '<tr><td>' . esc_html(gmdate('Y-m-d H:i:s', (int) ($row['at'] ?? 0))) . '</td><td>' . wp_kses_post(Brand::pill($labels[$via] ?? '', $via === 'smtp' ? 'info' : 'off')) . '</td><td>'
-                . esc_html((string) ($row['to'] ?? '')) . '</td><td>' . esc_html((string) ($row['subject'] ?? '')) . '</td><td>' . wp_kses_post($state) . '</td></tr>';
+                . esc_html($toRaw) . '</td><td>' . esc_html((string) ($row['subject'] ?? '')) . '</td><td>' . wp_kses_post($state) . '</td><td>' . $block . '</td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $block built with esc_url/esc_html
         }
         if ($rows === []) {
-            Brand::emptyRow(5, __('Nothing yet.', 'draco-insomnis'), 'email');
+            Brand::emptyRow(6, __('Nothing yet.', 'draco-insomnis'), 'email');
         }
         echo '</tbody></table></div>';
         Brand::cardEnd();

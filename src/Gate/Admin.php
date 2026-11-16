@@ -71,6 +71,12 @@ final class Admin
                 $done = (!empty($_POST['ip']) && Blocks::block('ip', (string) $row['ip'], $days, $reason)) || $done;
             }
             $result = $done ? 'ok' : 'refused';
+        } elseif ($do === 'purge') {
+            Store::clear();
+            $result = 'purged';
+        } elseif ($do === 'unblock') {
+            Blocks::unblock(Input::postInt('id'));
+            $result = 'unblocked';
         }
         wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=' . $result));
         exit;
@@ -94,6 +100,10 @@ final class Admin
             Brand::notice('error', Gate::blocker());
         } elseif ($result === 'refused') {
             Brand::notice('error', __('Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address.', 'draco-insomnis'));
+        } elseif ($result === 'purged') {
+            Brand::notice('success', __('Recent submissions cleared. Blocked addresses stay on the block list.', 'draco-insomnis'));
+        } elseif ($result === 'unblocked') {
+            Brand::notice('success', __('Address unblocked.', 'draco-insomnis'));
         } elseif ($result === 'ok') {
             Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
         }
@@ -129,17 +139,22 @@ final class Admin
 
         $labels = ['pending' => [__('Waiting for confirmation', 'draco-insomnis'), 'warn'], 'verified' => [__('Confirmed', 'draco-insomnis'), 'on'], 'expired' => [__('Expired without confirmation', 'draco-insomnis'), 'off']];
         $kinds = ['user' => [__('Account', 'draco-insomnis'), 'admin-users'], 'comment' => [__('Comment', 'draco-insomnis'), 'admin-comments'], 'form' => [__('Message', 'draco-insomnis'), 'email']];
-        Brand::card('list-view', __('Recent submissions', 'draco-insomnis'), __('Each submission is kept for 90 days, confirmed or not. "Block" works on any row: confirming only proves the mailbox exists, not that it can be trusted. "Deliver now" lets a real submission through without waiting.', 'draco-insomnis'), '', 'info', 'draco-card--flush');
-        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>' . esc_html__('Type', 'draco-insomnis') . '</th><th>' . esc_html__('Where', 'draco-insomnis') . '</th><th>' . esc_html__('E-mail', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('Status', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
+        Brand::card('list-view', __('Recent submissions', 'draco-insomnis'), __('Each submission is kept for 90 days, confirmed or not. "Block" works on any row — including after they confirm from their e-mail: confirming only proves the mailbox exists, not that it can be trusted. "Deliver now" lets a real submission through without waiting.', 'draco-insomnis'), '', 'info', 'draco-card--flush');
         $rows = get_option('draco_gate_schema') ? Store::recent() : [];
+        if ($rows !== []) {
+            echo self::open('purge'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<p class="draco-toolbar"><button type="submit" class="button" onclick="return confirm(\'' . esc_js(__('Clear all recent submissions from this list? Blocked addresses stay on the block list. This cannot be undone.', 'draco-insomnis')) . '\')">' . esc_html__('Clear list', 'draco-insomnis') . '</button></p></form>';
+        }
+        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>' . esc_html__('Type', 'draco-insomnis') . '</th><th>' . esc_html__('Where', 'draco-insomnis') . '</th><th>' . esc_html__('E-mail', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('Status', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
         foreach ($rows as $r) {
             $link = admin_url('admin.php?page=' . self::SLUG . '&block=' . (int) $r['id']);
             $kind = $kinds[(string) $r['kind']] ?? [(string) $r['kind'], 'marker'];
             $status = $labels[(string) $r['status']] ?? [(string) $r['status'], 'off'];
+            $blockLabel = $r['status'] === 'verified' ? __('Block confirmed sender', 'draco-insomnis') : __('Block', 'draco-insomnis');
             echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td><span class="dashicons dashicons-' . esc_attr($kind[1]) . '" aria-hidden="true" style="color:#64748b"></span> ' . esc_html($kind[0]) . '</td><td>' . esc_html((string) $r['context']) . '</td><td>' . esc_html((string) $r['email']) . '</td><td><span class="draco-code">' . esc_html((string) $r['ip']) . '</span></td><td>'
-                . wp_kses_post(Brand::pill($status[0], $status[1])) . '</td><td><a href="' . esc_url($link) . '">' . esc_html__('Block', 'draco-insomnis') . '</a>';
+                . wp_kses_post(Brand::pill($status[0], $status[1])) . '</td><td><a class="button button-small" href="' . esc_url($link) . '">' . esc_html($blockLabel) . '</a>';
             if ($r['status'] === 'pending') {
-                echo ' · ' . self::open('release') . '<input type="hidden" name="id" value="' . (int) $r['id'] . '"><button class="button-link">' . esc_html__('Deliver now', 'draco-insomnis') . '</button></form>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo ' ' . self::open('release') . '<input type="hidden" name="id" value="' . (int) $r['id'] . '"><button class="button button-small">' . esc_html__('Deliver now', 'draco-insomnis') . '</button></form>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             }
             echo '</td></tr>';
         }
@@ -148,6 +163,7 @@ final class Admin
         }
         echo '</tbody></table></div>';
         Brand::cardEnd();
+        \DracoInsomnis\Shield\Admin::renderSharedBlocksCard(self::ACTION, self::ACTION, ['email', 'ip']);
         Brand::close();
     }
 }
