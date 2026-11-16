@@ -17,6 +17,7 @@ declare(strict_types=1);
 $root = dirname(__DIR__);
 const LANGS = [
     // key      Joomla   Moodle   PrestaShop Drupal    Laravel  WordPress
+    'am'    => ['am-ET', 'am',    'am-ET',  'am',      'am',    'am'],
     'ar'    => ['ar-AA', 'ar',    'ar-SA',  'ar',      'ar',    'ar'],
     'bn'    => ['bn-BD', 'bn',    'bn-BD',  'bn',      'bn',    'bn_BD'],
     'ca'    => ['ca-ES', 'ca',    'ca-ES',  'ca',      'ca',    'ca'],
@@ -42,6 +43,7 @@ const LANGS = [
     'tr'    => ['tr-TR', 'tr',    'tr-TR',  'tr',      'tr',    'tr_TR'],
     'uk'    => ['uk-UA', 'uk',    'uk-UA',  'uk',      'uk',    'uk'],
     'ur'    => ['ur-PK', 'ur',    'ur-PK',  'ur',      'ur',    'ur'],
+    'uz'    => ['uz-UZ', 'uz',    'uz-UZ',  'uz',      'uz',    'uz_UZ'],
     'vi'    => ['vi-VN', 'vi',    'vi-VN',  'vi',      'vi',    'vi'],
     'zh_CN' => ['zh-CN', 'zh_cn', 'zh-CN',  'zh-hans', 'zh_CN', 'zh_CN'],
 ];
@@ -51,13 +53,14 @@ const LANGS = [
  * every locale Magento offers for it. Magento offers no Tamil and no Urdu locale.
  */
 const MAGENTO = [
-    'ar' => ['ar_DZ', 'ar_EG', 'ar_KW', 'ar_MA', 'ar_SA'], 'bn' => ['bn_BD'], 'ca' => ['ca_ES'],
+    'am' => ['am_ET'], 'ar' => ['ar_DZ', 'ar_EG', 'ar_KW', 'ar_MA', 'ar_SA'], 'bn' => ['bn_BD'], 'ca' => ['ca_ES'],
     'de' => ['de_AT', 'de_CH', 'de_DE', 'de_LU'],
     'es' => ['es_AR', 'es_BO', 'es_CL', 'es_CO', 'es_CR', 'es_ES', 'es_MX', 'es_PA', 'es_PE', 'es_US', 'es_VE'],
     'fa' => ['fa_IR'], 'fr' => ['fr_BE', 'fr_CA', 'fr_CH', 'fr_FR', 'fr_LU'], 'hi' => ['hi_IN'], 'id' => ['id_ID'],
     'it' => ['it_CH', 'it_IT'], 'ja' => ['ja_JP'], 'ko' => ['ko_KR'], 'ms' => ['ms_Latn_MY', 'ms_MY'], 'nl' => ['nl_BE', 'nl_NL'],
     'pl' => ['pl_PL'], 'pt_BR' => ['pt_BR'], 'pt_PT' => ['pt_PT'], 'ru' => ['ru_RU'], 'sw' => ['sw_KE'], 'ta' => [],
-    'th' => ['th_TH'], 'tl' => ['fil_PH'], 'tr' => ['tr_TR'], 'uk' => ['uk_UA'], 'ur' => [], 'vi' => ['vi_VN'], 'zh_CN' => ['zh_Hans_CN'],
+    'th' => ['th_TH'], 'tl' => ['fil_PH'], 'tr' => ['tr_TR'], 'uk' => ['uk_UA'], 'ur' => [], 'uz' => ['uz_UZ'],
+    'vi' => ['vi_VN'], 'zh_CN' => ['zh_Hans_CN'],
 ];
 
 function catalogue(string $root): array
