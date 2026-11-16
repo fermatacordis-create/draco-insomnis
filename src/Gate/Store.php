@@ -156,4 +156,11 @@ final class Store
         ));
         $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE created_at < %s", self::table(), gmdate('Y-m-d H:i:s', time() - self::KEEP_DAYS * 86400)));
     }
+
+    /** Empties the submissions list. Active blocks are kept in the shield table. */
+    public static function clear(): void
+    {
+        global $wpdb;
+        $wpdb->query('DELETE FROM ' . self::table()); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name from self::table()
+    }
 }

@@ -222,4 +222,43 @@ final class Admin
     {
         return $v !== '' && str_contains("=+-@\t\r", $v[0]) ? "'" . $v : $v;
     }
+
+    /**
+     * Compact “Active blocks” card for Forms / Mail. Unblock posts to $postAction with do=unblock.
+     *
+     * @param list<string> $kinds
+     */
+    public static function renderSharedBlocksCard(string $postAction, string $nonceAction, array $kinds = ['email', 'ip']): void
+    {
+        $blocks = array_values(array_filter(
+            Store::activeBlocks(),
+            static fn (array $b): bool => in_array((string) $b['kind'], $kinds, true)
+        ));
+        /* translators: %d: number of active blocks */
+        $count = sprintf(__('Active: %d', 'draco-insomnis'), count($blocks));
+        Brand::card(
+            'lock',
+            __('Active blocks', 'draco-insomnis'),
+            __('Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.', 'draco-insomnis'),
+            Brand::pill($count, $blocks === [] ? 'off' : 'bad'),
+            '',
+            'draco-card--flush'
+        );
+        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Type', 'draco-insomnis') . '</th><th>' . esc_html__('Value', 'draco-insomnis') . '</th><th>' . esc_html__('Until (UTC)', 'draco-insomnis') . '</th><th>' . esc_html__('Reason', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
+        $labels = ['ip' => 'IP', 'net' => __('Range', 'draco-insomnis'), 'email' => __('E-mail', 'draco-insomnis')];
+        foreach ($blocks as $b) {
+            $until = (string) $b['until_at'] === Store::FOREVER ? __('Forever', 'draco-insomnis') : (string) $b['until_at'];
+            echo '<tr><td>' . wp_kses_post(Brand::pill($labels[(string) $b['kind']] ?? (string) $b['kind'], 'bad')) . '</td><td><span class="draco-code">' . esc_html((string) $b['value']) . '</span></td><td>' . esc_html($until) . '</td><td>' . esc_html((string) $b['reason']) . '</td><td>'
+                . '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '" style="display:inline">'
+                . wp_nonce_field($nonceAction, '_wpnonce', true, false)
+                . '<input type="hidden" name="action" value="' . esc_attr($postAction) . '"><input type="hidden" name="do" value="unblock">'
+                . '<input type="hidden" name="id" value="' . (int) $b['id'] . '"><button class="button-link">' . esc_html__('Unblock', 'draco-insomnis') . '</button></form></td></tr>';
+        }
+        if ($blocks === []) {
+            Brand::emptyRow(5, __('None.', 'draco-insomnis'));
+        }
+        echo '</tbody></table></div>';
+        echo '<p class="draco-toolbar" style="padding-top:10px;padding-bottom:16px"><a href="' . esc_url(admin_url('admin.php?page=' . self::SLUG)) . '">' . esc_html__('Full block list in Anti-bot shield →', 'draco-insomnis') . '</a></p>';
+        Brand::cardEnd();
+    }
 }

@@ -34,4 +34,10 @@ final class Log
 
         return is_array($rows) ? array_values($rows) : [];
     }
+
+    /** Empties the list. Message bodies were never stored. */
+    public static function clear(): void
+    {
+        delete_option(self::OPTION);
+    }
 }
