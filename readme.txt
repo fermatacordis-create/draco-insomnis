@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.33
+Stable tag: 0.1.34
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -175,6 +175,12 @@ Data sent: the e-mails the site sends (recipients, subject and content) go to th
 Service: the provider chosen by the administrator, under that provider's own terms and privacy policy.
 
 == Changelog ==
+
+= 0.1.34 =
+* WordPress — changes asked by the WordPress.org plugin review: one "External services" section in this readme (what each service is, when it is called, what is sent, terms and privacy links); rdap.org is only asked when the administrator presses "Find the abuse contact"; mail held for verification no longer writes attachments to disk; inputs read from the request are sanitised; the output buffer is closed; tables are only marked as created once they exist.
+* WordPress — optional URLhaus check (abuse.ch) for links in comments and forms, off by default, with the owner's own key. Free use only for non-profit websites; for commercial use, a Spamhaus subscription.
+* Firewall — values past the per-request limit or nested too deep are no longer skipped: they are joined and scanned.
+* The WordPress ZIP no longer carries the engine files only the other CMS editions use.
 
 = 0.1.33 =
 * WordPress — co-signature by a second administrator (optional, under Two-step login): after the right password, another administrator approves the login before the e-mail code. The session is always the first administrator's; the second one never gets a session. Service accounts and application passwords cannot co-sign, and every approval is one-shot and expires.

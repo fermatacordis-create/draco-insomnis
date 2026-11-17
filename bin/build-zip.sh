@@ -24,6 +24,8 @@ name="draco-insomnis-wordpress-$version.zip"
 if [ "${WPORG:-}" = "1" ]; then
   rm -rf "$tmp/draco-insomnis/languages"
   php -r '$f = $argv[1]; $s = file_get_contents($f); $s = preg_replace("/add_action\(\x27plugins_loaded\x27, static function \(\): void \{\n.*?load_plugin_textdomain\(.*?\n\}, 0\);\n/s", "", $s, 1, $n); if ($n !== 1) { fwrite(STDERR, "load_plugin_textdomain block not found\n"); exit(1); } file_put_contents($f, $s);' "$tmp/draco-insomnis/draco-insomnis.php"
+  # Without languages/ the "Domain Path" header would point to a folder that is not there.
+  php -r '$f = $argv[1]; $s = file_get_contents($f); $s = preg_replace("/^ \* Domain Path:.*\n/m", "", $s, 1, $n); if ($n !== 1) { fwrite(STDERR, "Domain Path header not found\n"); exit(1); } file_put_contents($f, $s);' "$tmp/draco-insomnis/draco-insomnis.php"
   php -l "$tmp/draco-insomnis/draco-insomnis.php" >/dev/null
   name="draco-insomnis-wordpress-org-$version.zip"
 fi
