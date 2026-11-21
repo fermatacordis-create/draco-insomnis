@@ -38,6 +38,27 @@ spl_autoload_register(static function (string $class): void {
     }
 });
 
+// Declared inside if (): an unconditional top-level function is defined when the file is compiled,
+// before the early return above, and a second copy of Draco (standalone + bundled) would be fatal.
+if (!function_exists('draco_insomnis_form_fields')) {
+    /** For a form Draco does not build: the hidden stamp and trap to print inside it ('' while the shield is off). */
+    function draco_insomnis_form_fields(): string
+    {
+        return \DracoInsomnis\Shield\Guard::formFields();
+    }
+}
+
+if (!function_exists('draco_insomnis_form_check')) {
+    /**
+     * For the same form, when it is sent: false when the shield judges it a bot. $email is the sender's
+     * address, $form a short name of the form (it shows in the shield's log).
+     */
+    function draco_insomnis_form_check(string $email = '', string $form = 'form'): bool
+    {
+        return \DracoInsomnis\Shield\Guard::formCheck($email, $form);
+    }
+}
+
 register_activation_hook(__FILE__, [\DracoInsomnis\Plugin::class, 'activate']);
 register_deactivation_hook(__FILE__, [\DracoInsomnis\Plugin::class, 'deactivate']);
 add_action('plugins_loaded', static function (): void {
