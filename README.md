@@ -328,6 +328,8 @@ bin/ci-http-smoke.sh                     # 403 pages, confirmation link, sign-up
 | `draco_insomnis_verdict` | filter | Change the shield's verdict: `($result, $endpoint, $fields, $ip)`; `$result` has `score`, `verdict` (`clean`, `doubtful`, `bot`) and `reasons`. |
 | `draco_insomnis_hosting_nets` | filter | The list of data-centre networks (CIDR) that count as a weak bot sign. |
 | `draco_insomnis_form_context` | filter | Name a form the gate does not recognise, so its mail waits for confirmation (`''` leaves it alone). |
+| `draco_insomnis_form_held` | filter | `apply_filters('draco_insomnis_form_held', false)` from such a form, after its `wp_mail()`: `true` when the mail waits for the sender to confirm (a blocked sender gets `true` too), so the form can say "check your e-mail". |
+| `draco_insomnis_form_released` | action | `($context, $headers, $id)`: the sender confirmed and the held mail was delivered. `$headers` are the mail's header lines, so the form can find its own record (for example by an `X-…` header it added). |
 | `draco_insomnis_skip_user` | filter | Return `true` to let a new account through without confirming its e-mail. |
 | `draco_insomnis_skip_comment` | filter | Return `true` to let a comment through without confirming its e-mail. |
 | `draco_insomnis_mfa_required` | filter | `($required, $user)`: whether this user needs the login code. |
@@ -336,6 +338,13 @@ bin/ci-http-smoke.sh                     # 403 pages, confirmation link, sign-up
 | `draco_insomnis_crawler_verified` | filter | `(null, $ip, $crawler)`: return `true`/`false` to decide a crawler check yourself (tests, a local list); `null` runs the DNS check. |
 | `draco_insomnis_menu_parent` | filter | Only for a copy bundled inside another plugin (`DRACO_INSOMNIS_BUNDLED`): the menu slug Draco hangs from, as one entry. The standalone plugin ignores it and keeps its own menu. |
 | `draco_insomnis_mail_forgotten` | action | Fired when the SMTP connection is deleted; Draco switches the login code off here, since codes might not arrive. |
+
+Functions for a form Draco does not build (both do nothing while the anti-bot shield is off):
+
+- `draco_insomnis_form_fields(): string`: the hidden stamp and trap inputs, to print inside the form.
+- `draco_insomnis_form_check(string $email = '', string $form = 'form'): bool`: on submission, `false` when the shield judges it a bot (the attempt is logged as `form_{$form}`). Answer a bot as if it had worked.
+
+Check `function_exists('draco_insomnis_form_fields')` first: older versions do not have them.
 
 `wp-config.php` switches for emergencies: `define('DRACO_MFA_OFF', true);` and `define('DRACO_WAF_OFF', true);`.
 
