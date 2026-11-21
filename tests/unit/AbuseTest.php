@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use DracoInsomnis\Core\Abuse;
+use DracoInsomnis\Core\AbuseLookup;
 use PHPUnit\Framework\TestCase;
 
 require_once dirname(__DIR__, 2) . '/src/Core/Abuse.php';
+require_once dirname(__DIR__, 2) . '/src/Core/AbuseLookup.php';
 
 final class AbuseTest extends TestCase
 {
@@ -36,7 +38,11 @@ final class AbuseTest extends TestCase
 
     public function test_a_registry_answer_without_contacts(): void
     {
-        $this->assertFalse(method_exists(Abuse::class, 'contact'), 'Draco never asks a registry by itself');
+        $this->assertFalse(method_exists(Abuse::class, 'contact'), 'the shared engine asks no registry');
+        $this->assertSame('not a public address', AbuseLookup::contact('10.1.2.3', static fn () => self::RIPE)['error']);
+        $this->assertSame('the registry did not answer', AbuseLookup::contact('198.51.100.7', static fn () => null)['error']);
+        $c = AbuseLookup::contact('198.51.100.7', static fn (string $url) => $url === AbuseLookup::RDAP . '198.51.100.7' ? self::RIPE : null);
+        $this->assertSame('abuse@example-hosting.net', $c['email']);
         $this->assertSame('no abuse contact in the registry', Abuse::parse(['name' => 'X', 'entities' => []])['error']);
     }
 

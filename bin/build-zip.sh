@@ -19,7 +19,7 @@ mkdir "$tmp/draco-insomnis"
 cp -r draco-insomnis.php uninstall.php readme.txt LICENSE src languages assets "$tmp/draco-insomnis/"
 # Engine parts only the other CMS editions use (they download with their own HTTP code); WordPress
 # has its own versions on its HTTP API.
-rm -f "$tmp/draco-insomnis/src/Core/GeoUpdate.php" "$tmp/draco-insomnis/src/Core/Passwords.php" "$tmp/draco-insomnis/src/Core/TestProbe.php"
+rm -f "$tmp/draco-insomnis/src/Core/GeoUpdate.php" "$tmp/draco-insomnis/src/Core/Passwords.php" "$tmp/draco-insomnis/src/Core/TestProbe.php" "$tmp/draco-insomnis/src/Core/AbuseLookup.php"
 name="draco-insomnis-wordpress-$version.zip"
 if [ "${WPORG:-}" = "1" ]; then
   rm -rf "$tmp/draco-insomnis/languages"
