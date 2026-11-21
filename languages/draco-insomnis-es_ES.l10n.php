@@ -658,7 +658,7 @@ return array (
     'I confirm this website is non-profit, or has a Spamhaus subscription' => 'Confirmo que esta web no tiene ánimo de lucro, o que tiene suscripción de Spamhaus',
     'Check links in comments and contact forms' => 'Comprobar los enlaces de los comentarios y de los formularios de contacto',
     'Download the list now' => 'Descargar la lista ahora',
-    'Find the abuse contact (sends this IP address to rdap.org)' => 'Buscar el contacto de abuso (envía esta dirección IP a rdap.org)',
+    'Write the abuse address of the network that owns this IP address. Your hosting provider or the regional internet registry of the address can tell you which one it is.' => 'Escribe la dirección de abuso de la red a la que pertenece esta dirección IP. Tu proveedor de alojamiento o el registro regional de internet de la dirección pueden decirte cuál es.',
     'Or write the address yourself below.' => 'O escribe tú la dirección abajo.',
   ),
 );

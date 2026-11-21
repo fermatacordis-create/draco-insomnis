@@ -162,12 +162,12 @@ final class CoSignTest extends TestCase
 
     public function test_trusted_device_skips_only_mfa(): void
     {
-        // Trust Device ≠ Trusted Login: Cosign @99 never consults TrustedDevice.
+        // Trust Device ≠ Trusted Login: Cosign never consults TrustedDevice.
         // MFA registers its filter only when it is on (setUp switches it off).
         update_option(Mfa::OPTION_ENABLED, 'yes');
         Mfa::boot();
-        $this->assertSame(99, has_filter('wp_authenticate_user', [CoSign::class, 'afterPrimaryPassword']));
-        $this->assertSame(100, has_filter('wp_authenticate_user', [Mfa::class, 'afterPassword']));
+        $this->assertSame(CoSign::PRIORITY, has_filter('authenticate', [CoSign::class, 'atAuthenticate']));
+        $this->assertSame(Mfa::PRIORITY, has_filter('authenticate', [Mfa::class, 'atAuthenticate']));
         // The gate that demands CoSign (afterPrimaryPassword) never looks at trusted devices; they are
         // only consulted after CoSign succeeded, to decide whether the MFA code is still needed.
         $m = new \ReflectionMethod(CoSign::class, 'afterPrimaryPassword');
@@ -261,7 +261,57 @@ final class CoSignTest extends TestCase
         // MFA registers its filter only when it is on (setUp switches it off).
         update_option(Mfa::OPTION_ENABLED, 'yes');
         Mfa::boot();
-        $this->assertSame(99, has_filter('wp_authenticate_user', [CoSign::class, 'afterPrimaryPassword']));
-        $this->assertSame(100, has_filter('wp_authenticate_user', [Mfa::class, 'afterPassword']));
+        $this->assertSame(CoSign::PRIORITY, has_filter('authenticate', [CoSign::class, 'atAuthenticate']));
+        $this->assertSame(Mfa::PRIORITY, has_filter('authenticate', [Mfa::class, 'atAuthenticate']));
+    }
+
+    public function test_both_steps_run_after_every_other_authenticate_filter(): void
+    {
+        update_option(Mfa::OPTION_ENABLED, 'yes');
+        Mfa::boot();
+        $this->assertLessThan(Mfa::PRIORITY, CoSign::PRIORITY, 'co-signature before the e-mail code');
+        $this->assertGreaterThan(30, CoSign::PRIORITY, 'after WordPress core and lockout plugins');
+        $this->assertFalse(has_filter('wp_authenticate_user', [CoSign::class, 'afterPrimaryPassword']));
+        $this->assertFalse(has_filter('wp_authenticate_user', [Mfa::class, 'afterPassword']));
+        // An error from an earlier filter (a lockout plugin, Draco's own firewall) is passed on untouched.
+        $error = new \WP_Error('locked', 'locked');
+        $this->assertSame($error, CoSign::atAuthenticate($error, $this->adminA->user_login, 'Long-Pass-123!'));
+        $this->assertSame($error, Mfa::atAuthenticate($error, $this->adminA->user_login, 'Long-Pass-123!'));
+        $this->assertNull(CoSign::atAuthenticate(null, '', ''));
+    }
+
+    public function test_a_cosignature_belongs_to_one_login_attempt_not_to_the_account(): void
+    {
+        $c = $this->challenge();
+        $this->assertSame('ok', $this->verify($c['token'], $c, $this->adminB->user_login, 'Long-Pass-123!'));
+        $this->assertTrue(CoSign::satisfiedFor($this->adminA->ID), 'the browser that was co-signed');
+        $grant = new \ReflectionProperty(CoSign::class, 'grant');
+        $grant->setAccessible(true);
+        $own = (string) $grant->getValue();
+        $this->assertMatchesRegularExpression('/^[a-f0-9]{32}$/', $own);
+
+        // Another login of the same account, with the right password, from another browser.
+        $grant->setValue(null, '');
+        unset($_COOKIE['draco_cosign_grant']);
+        $this->assertFalse(CoSign::satisfiedFor($this->adminA->ID), 'no grant, no co-signature');
+        $this->assertSame('', CoSign::authIdFor($this->adminA->ID));
+        $_COOKIE['draco_cosign_grant'] = str_repeat('a', 32);
+        $this->assertFalse(CoSign::satisfiedFor($this->adminA->ID), 'a guessed grant does not count');
+        CoSign::markMfaCompleted($this->adminA->ID, true);
+        $this->assertSame([], Store::recentWhere('login:session'), 'no session event for the other browser');
+
+        // The same grant from another address does not count either.
+        $_COOKIE['draco_cosign_grant'] = $own;
+        $this->assertTrue(CoSign::satisfiedFor($this->adminA->ID), 'the cookie of the co-signed browser');
+        $ip = $_SERVER['REMOTE_ADDR'] ?? null;
+        $_SERVER['REMOTE_ADDR'] = '203.0.113.99';
+        $this->assertFalse(CoSign::satisfiedFor($this->adminA->ID), 'grant copied to another address');
+        if ($ip === null) {
+            unset($_SERVER['REMOTE_ADDR']);
+        } else {
+            $_SERVER['REMOTE_ADDR'] = $ip;
+        }
+        unset($_COOKIE['draco_cosign_grant']);
+        CoSign::clearSatisfied($this->adminA->ID);
     }
 }

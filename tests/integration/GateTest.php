@@ -190,4 +190,29 @@ final class GateTest extends TestCase
         $json = MailHold::rewriteOutput((string) wp_json_encode(['success' => true, 'data' => ['message' => 'Sent']]));
         $this->assertSame(MailHold::notice(), json_decode($json, true)['data']['message']);
     }
+
+    public function test_the_response_buffer_is_always_closed_even_under_a_buffer_left_open(): void
+    {
+        $level = new \ReflectionProperty(MailHold::class, 'bufferLevel');
+        $level->setAccessible(true);
+        $before = ob_get_level();
+
+        ob_start([MailHold::class, 'rewriteOutput']);
+        $level->setValue(null, ob_get_level());
+        ob_start(); // another component opens a buffer on top and never closes it
+        echo 'inner';
+        MailHold::closeOutput();
+        $this->assertSame($before, ob_get_level(), 'both buffers closed, none left behind');
+        $this->assertSame(0, $level->getValue());
+
+        // Someone else already closed Draco's buffer: nothing else is touched.
+        ob_start([MailHold::class, 'rewriteOutput']);
+        $level->setValue(null, ob_get_level());
+        ob_end_clean();
+        ob_start();
+        MailHold::closeOutput();
+        $this->assertSame($before + 1, ob_get_level(), 'a foreign buffer is not closed');
+        ob_end_clean();
+        $this->expectOutputString('inner');
+    }
 }

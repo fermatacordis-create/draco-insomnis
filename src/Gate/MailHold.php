@@ -253,13 +253,34 @@ final class MailHold
 
     private static int $bufferLevel = 0;
 
-    /** Closes the buffer opened by watchOutput(), and only when it is still the innermost one. */
+    /**
+     * Closes the buffer opened by watchOutput(), always. A buffer that another component opened on
+     * top of it and left open is flushed first (its output is kept, in order), so Draco's buffer
+     * never stays active after this point. If someone else already closed Draco's buffer, nothing
+     * else is touched.
+     */
     public static function closeOutput(): void
     {
-        if (self::$bufferLevel > 0 && ob_get_level() === self::$bufferLevel) {
-            ob_end_flush();
-        }
+        $level = self::$bufferLevel;
         self::$bufferLevel = 0;
+        if ($level <= 0 || !self::isOurBuffer($level)) {
+            return;
+        }
+        while (ob_get_level() > $level) {
+            if (!ob_end_flush()) {
+                return; // A buffer that cannot be removed: leave the stack as PHP has it.
+            }
+        }
+        ob_end_flush();
+    }
+
+    /** True when the buffer at $level (1-based) is still the one watchOutput() opened. */
+    private static function isOurBuffer(int $level): bool
+    {
+        $stack = ob_get_status(true);
+        $name = is_array($stack[$level - 1] ?? null) ? (string) ($stack[$level - 1]['name'] ?? '') : '';
+
+        return $name === self::class . '::rewriteOutput';
     }
 
     /** Divi, RealHomes and Elementor have no filter for their success text, so it is replaced in the response. */

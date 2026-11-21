@@ -18,7 +18,7 @@ final class AbuseTest extends TestCase
 
     public function test_ripe_abuse_contact_and_range(): void
     {
-        $c = Abuse::contact('198.51.100.7', static fn (string $url) => str_ends_with($url, '198.51.100.7') ? self::RIPE : null);
+        $c = Abuse::parse(json_decode(self::RIPE, true));
         $this->assertSame('abuse@example-hosting.net', $c['email']);
         $this->assertSame('198.51.100.0/24', $c['range']);
         $this->assertSame('whois.ripe.net', $c['registry']);
@@ -34,10 +34,9 @@ final class AbuseTest extends TestCase
         $this->assertSame('203.0.113.0 - 203.0.113.255', $c['range']);
     }
 
-    public function test_private_addresses_and_silent_registries(): void
+    public function test_a_registry_answer_without_contacts(): void
     {
-        $this->assertSame('not a public address', Abuse::contact('10.1.2.3', static fn () => self::RIPE)['error']);
-        $this->assertSame('the registry did not answer', Abuse::contact('198.51.100.7', static fn () => null)['error']);
+        $this->assertFalse(method_exists(Abuse::class, 'contact'), 'Draco never asks a registry by itself');
         $this->assertSame('no abuse contact in the registry', Abuse::parse(['name' => 'X', 'entities' => []])['error']);
     }
 
