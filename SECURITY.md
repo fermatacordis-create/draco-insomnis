@@ -39,7 +39,7 @@ third-party code, so instead of a scanner's near-empty list it records:
 - the shared engines (`src/Core`) file by file, and which packages carry them;
 - the Docker add-on by digest, and its base image;
 - the country data (DB-IP Lite, CC BY 4.0), which is downloaded at run time and is in no package;
-- every outside service Draco can talk to (Have I Been Pwned, URLhaus, the country list, your own
+- every outside service Draco can talk to (Have I Been Pwned, URLhaus, rdap.org in the server edition, the country list, your own
   CrowdSec): when, and exactly what it sends. None is used until the site's owner switches it on.
 
 ```
