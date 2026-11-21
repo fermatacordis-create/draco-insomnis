@@ -18,7 +18,7 @@
 
   <properties>
     <java.version>17</java.version>
-    <draco.version>0.1.34</draco.version>
+    <draco.version>0.1.35</draco.version>
   </properties>
 
   <dependencies>

@@ -191,7 +191,7 @@ $services = [
         'Only with "refuse breached passwords" on, when someone chooses a password. k-anonymity: the password never leaves the server. 3-second timeout; if there is no answer, the password is accepted.',
         [['flow' => 'outbound', 'classification' => 'first 5 hexadecimal characters of the SHA-1 of the new password']]],
     ['rdap', 'rdap.org', 'RDAP bootstrap (forwards to ARIN, RIPE NCC, APNIC, LACNIC or AFRINIC)', ['https://rdap.org/ip/'], false,
-        'Only when an administrator opens "Report" for an address, to find the abuse contact of its network. The report itself is sent by the site\'s own mail, after a person reads it.',
+        'Server edition only (draco report), when the person running it asks for a report, to find the abuse contact of the network. The WordPress plugin does not carry this lookup: there the administrator writes the address.',
         [['flow' => 'outbound', 'classification' => 'the IP address being reported']]],
     ['geo', 'GitHub (this project\'s releases)', 'Country list download', ["$gh/releases/download/geo/draco-geo.bin"], false,
         'Only with the country filter on: once a month at most.',

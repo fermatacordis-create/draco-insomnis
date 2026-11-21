@@ -410,7 +410,8 @@ jobs:
 
   python:
     name: Python ${{ matrix.python }} — engine and shared vectors
-    runs-on: ubuntu-latest
+    # ubuntu-latest (26.04) has no Python 3.9 in setup-python any more; 22.04 still does.
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DracoInsomnis\Server;
 
 use DracoInsomnis\Core\Abuse;
+use DracoInsomnis\Core\AbuseLookup;
 use DracoInsomnis\Core\Geo;
 use DracoInsomnis\Core\GeoUpdate;
 use DracoInsomnis\Core\Summary;
@@ -468,7 +469,7 @@ final class Cli
 
             return is_string($b) && (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200 ? $b : null;
         };
-        $contact = Abuse::contact($ip, $fetch);
+        $contact = AbuseLookup::contact($ip, $fetch);
         $site = (string) ($rows[0]['host'] ?? '') !== '' ? 'https://' . $rows[0]['host'] . '/' : gethostname();
         $draft = Abuse::draft($ip, $rows, (string) $site, $contact);
         $to = (string) ($this->opt['to'] ?? $contact['email']);

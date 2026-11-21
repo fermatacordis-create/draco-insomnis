@@ -7,10 +7,10 @@ namespace DracoInsomnis\Core;
 // phpcs:disable WordPress.WP.AlternativeFunctions -- this engine also runs outside WordPress; WordPress passes its own fetcher (wp_remote_get).
 
 /**
- * Abuse reports to the network that owns an attacking address. Never automatic: Draco finds the
- * abuse contact in the public registry (RDAP, through rdap.org, which forwards to the right RIR),
- * writes a factual draft with the evidence, and a person reads, edits and sends it. Limits: a daily
- * cap per site and one report per address every 30 days.
+ * Abuse reports to the network that owns an attacking address. Never automatic: Draco writes a
+ * factual draft with the evidence, and a person types the abuse contact, reads, edits and sends it.
+ * Draco contacts no registry: parse() only reads an RDAP answer a host chooses to hand it.
+ * Limits: a daily cap per site and one report per address every 30 days.
  *
  * Nothing is ever sent to the attacker, and a report only asks the network to look at its host:
  * most attacking machines are compromised, their owners are victims too.
@@ -18,35 +18,9 @@ namespace DracoInsomnis\Core;
 final class Abuse
 {
     public const ENDPOINT = 'abuse_report';
-    public const RDAP = 'https://rdap.org/ip/';
     public const DAILY_CAP = 5;
     public const SAME_IP_DAYS = 30;
     public const MAX_ROWS = 50;
-
-    /**
-     * The abuse contact of an address.
-     *
-     * @param callable(string): ?string $fetch Gets a URL (following redirects), returns the body or null.
-     * @return array{email: string, network: string, range: string, registry: string, error: string}
-     */
-    public static function contact(string $ip, callable $fetch): array
-    {
-        $out = ['email' => '', 'network' => '', 'range' => '', 'registry' => '', 'error' => ''];
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
-            $out['error'] = 'not a public address';
-
-            return $out;
-        }
-        $body = $fetch(self::RDAP . $ip);
-        $data = is_string($body) ? json_decode($body, true) : null;
-        if (!is_array($data)) {
-            $out['error'] = 'the registry did not answer';
-
-            return $out;
-        }
-
-        return self::parse($data) + $out;
-    }
 
     /** @param array<string, mixed> $data RDAP "ip network" object @return array{email: string, network: string, range: string, registry: string, error: string} */
     public static function parse(array $data): array

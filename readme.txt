@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.34
+Stable tag: 0.1.35
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,16 +142,6 @@ Data sent: the first 5 characters of the SHA-1 hash of that password (k-anonymit
 
 Service: Pwned Passwords, by Have I Been Pwned (https://haveibeenpwned.com/Passwords, API at https://api.pwnedpasswords.com). Terms of use: https://haveibeenpwned.com/TermsOfUse · Acceptable use: https://haveibeenpwned.com/API/v3#AcceptableUse · Privacy policy: https://haveibeenpwned.com/Privacy
 
-= Abuse contact (rdap.org) =
-
-What and why: to find the abuse contact of the network that owns an attacking address, for an abuse report.
-
-When: only when an administrator, on an abuse report, presses "Find the abuse contact (sends this IP address to rdap.org)". Otherwise the administrator writes the address by hand. Nothing is e-mailed until the administrator reads the draft and presses Send.
-
-Data sent: the reported IP address only. rdap.org forwards the question to the regional internet registry that looks after it (ARIN, RIPE NCC, APNIC, LACNIC or AFRINIC).
-
-Service: rdap.org, a public RDAP redirector. It publishes no separate terms or privacy policy; its documentation, including its privacy considerations ("Individual queries are not logged"), is at https://about.rdap.org/
-
 = Malicious links (URLhaus, by abuse.ch) =
 
 What and why: to check the links in comments and contact forms against URLhaus, the list of malware distribution sites.
@@ -170,11 +160,20 @@ What and why: so the site's e-mail is delivered through a real mailbox.
 
 When: only if the administrator sets up Site mail and it passes a test.
 
-Data sent: the e-mails the site sends (recipients, subject and content) go to the mail server the administrator chooses, usually their hosting or mail provider. The provider list only fills in the server name and port; Draco sends nothing to those providers by itself.
+Data sent: the e-mails the site sends (recipients, subject and content) and the SMTP user name and password the administrator saved go to the one mail server the administrator chooses, usually their hosting or mail provider, over SMTP with TLS.
 
-Service: the provider chosen by the administrator, under that provider's own terms and privacy policy.
+The settings screen offers a list of common providers (for example Amazon SES, Google Workspace, Microsoft 365, Brevo or the administrator's hosting company). Choosing one only fills in the server name and port in the form: the list is part of the plugin, nothing is downloaded, Draco calls no provider API and connects to no server in the list unless the administrator saves it as their own mail server.
+
+Service: the mail provider the administrator has an account with, under the terms and privacy policy the administrator accepted with that provider. Draco has no agreement with any of them.
 
 == Changelog ==
+
+= 0.1.35 =
+* Login — a second administrator's co-signature now belongs to the one login attempt that was co-signed (a secret cookie of that browser, bound to its address and browser), not to the account: another login with the same password must be co-signed on its own.
+* Login — the co-signature and the e-mail code run after every other login check (WordPress core, lockout and security plugins, Draco's firewall), on WordPress's authenticate filter, and the session is opened with WordPress's own functions and the wp_login action.
+* Forms — the response buffer used to replace the success text of Divi, RealHomes and Elementor is always closed at the end of the request, also when another component left a buffer open on top of it.
+* Abuse reports — Draco no longer looks up the abuse contact on rdap.org: the administrator writes the address. The abuse report screen contacts no outside service.
+* Readme — "Site mail (SMTP)" explains that the provider list only fills in the form and that Draco calls no provider by itself.
 
 = 0.1.34 =
 * WordPress — changes asked by the WordPress.org plugin review: one "External services" section in this readme (what each service is, when it is called, what is sent, terms and privacy links); rdap.org is only asked when the administrator presses "Find the abuse contact"; mail held for verification no longer writes attachments to disk; inputs read from the request are sanitised; the output buffer is closed; tables are only marked as created once they exist.

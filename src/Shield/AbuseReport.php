@@ -11,8 +11,9 @@ use DracoInsomnis\Core\Review;
 defined('ABSPATH') || exit;
 
 /**
- * Abuse reports, always reviewed by a person: Draco finds the network's abuse contact (RDAP) and
- * writes a draft with the evidence; the administrator reads, edits and sends it. At most
+ * Abuse reports, always reviewed by a person: Draco writes a draft with the evidence; the
+ * administrator types the network's abuse contact, reads, edits and sends it. Draco asks no outside
+ * registry for the contact. At most
  * Abuse::DAILY_CAP a day and one per address every 30 days. Every report sent is kept as a row of
  * evidence (endpoint "abuse_report").
  */
@@ -50,14 +51,6 @@ final class AbuseReport
         return array_map(static fn (array $r): array => ['created_at' => (string) $r['created_at'], 'ip' => (string) $r['ip']], Store::recentWhere(Abuse::ENDPOINT, 200));
     }
 
-    /** RDAP over WordPress's HTTP API (rdap.org forwards to the right regional registry). */
-    public static function fetch(string $url): ?string
-    {
-        $r = wp_remote_get($url, ['timeout' => 15, 'redirection' => 5, 'user-agent' => 'Draco-Insomnis', 'headers' => ['Accept' => 'application/rdap+json']]);
-
-        return !is_wp_error($r) && (int) wp_remote_retrieve_response_code($r) === 200 ? (string) wp_remote_retrieve_body($r) : null;
-    }
-
     public static function render(): void
     {
         if (!current_user_can('manage_options')) {
@@ -75,24 +68,13 @@ final class AbuseReport
 
             return;
         }
-        // The registry is only asked when the owner presses the button: it sends this address to rdap.org.
-        $lookup = isset($_GET['lookup']) && sanitize_key(wp_unslash((string) $_GET['lookup'])) === '1';
-        $contact = $lookup
-            ? Abuse::contact($ip, [self::class, 'fetch'])
-            : ['email' => '', 'network' => '', 'range' => '', 'registry' => '', 'error' => ''];
+        // No registry is asked from here: the administrator writes the abuse address themselves.
+        $contact = ['email' => '', 'network' => '', 'range' => '', 'registry' => '', 'error' => ''];
         $draft = Abuse::draft($ip, $rows, home_url('/'), $contact);
         $refusal = Abuse::refusal($ip, self::sent(), time());
 
-        Brand::card('email-alt', $ip, $contact['network'] !== '' ? $contact['network'] . ($contact['range'] !== '' ? ' · ' . $contact['range'] : '') . ($contact['registry'] !== '' ? ' · ' . $contact['registry'] : '') : '', $refusal === '' ? '' : Brand::pill(__('Not now', 'draco-insomnis'), 'warn'));
-        if (!$lookup) {
-            $find = wp_nonce_url(admin_url('admin.php?page=' . Admin::SLUG . '&report=' . rawurlencode($ip) . '&lookup=1'), self::VIEW);
-            echo '<p><a class="button" href="' . esc_url($find) . '">' . esc_html__('Find the abuse contact (sends this IP address to rdap.org)', 'draco-insomnis') . '</a> '
-                . '<span class="description">' . esc_html__('Or write the address yourself below.', 'draco-insomnis') . '</span></p>';
-        }
-        if ($contact['error'] !== '') {
-            /* translators: %s: why the registry gave no abuse contact */
-            Brand::notice('warning', sprintf(__('The registry gave no abuse contact (%s). Write the address yourself if you know it.', 'draco-insomnis'), $contact['error']));
-        }
+        Brand::card('email-alt', $ip, '', $refusal === '' ? '' : Brand::pill(__('Not now', 'draco-insomnis'), 'warn'));
+        echo '<p class="description">' . esc_html__('Write the abuse address of the network that owns this IP address. Your hosting provider or the regional internet registry of the address can tell you which one it is.', 'draco-insomnis') . '</p>';
         if ($refusal !== '') {
             /* translators: %s: why no more reports can be sent now */
             Brand::notice('warning', sprintf(__('Not sent now: %s.', 'draco-insomnis'), $refusal));

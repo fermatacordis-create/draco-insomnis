@@ -29,6 +29,23 @@ final class Mfa
     private const FAILS = 8;
     private const FAIL_WINDOW = 300;
     private const BLOCK_SECONDS = 900;
+    /** Last of all authenticate filters, right after the co-signature (CoSign::PRIORITY). */
+    public const PRIORITY = PHP_INT_MAX;
+
+    /**
+     * WordPress's own login, after every other check (core, lockout and security plugins): the code
+     * step is added only for a user WordPress has already accepted. The session is opened later with
+     * WordPress's own functions and the wp_login action, as wp_signon() does.
+     *
+     * @param \WP_User|\WP_Error|null $user
+     * @param string $username
+     * @param string $password
+     * @return \WP_User|\WP_Error|null
+     */
+    public static function atAuthenticate($user, $username, $password)
+    {
+        return $user instanceof \WP_User ? self::afterPassword($user, (string) $password) : $user;
+    }
 
     public static function boot(): void
     {
@@ -37,7 +54,7 @@ final class Mfa
         if (!self::active()) {
             return;
         }
-        add_filter('wp_authenticate_user', [self::class, 'afterPassword'], 100, 2);
+        add_filter('authenticate', [self::class, 'atAuthenticate'], self::PRIORITY, 3);
         add_action('login_form_' . self::ACTION, [self::class, 'page']);
         add_action('login_init', [self::class, 'refuseBlockedIp']);
         add_action('wp_login_failed', [self::class, 'recordFailure']);

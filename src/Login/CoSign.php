@@ -31,14 +31,34 @@ final class CoSign
     private const FAILS = 5;
     private const FAIL_WINDOW = 900;
     private const NEUTRAL = 'draco_cosign_fail';
+    private const GRANT_COOKIE = 'draco_cosign_grant';
+    /** Runs after every other authenticate filter (WordPress core, lockout and security plugins). */
+    public const PRIORITY = PHP_INT_MAX - 1;
+
+    /** The co-signature granted in this request (the cookie only arrives with the next one). */
+    private static string $grant = '';
 
     public static function boot(): void
     {
         if (!self::active()) {
             return;
         }
-        add_filter('wp_authenticate_user', [self::class, 'afterPrimaryPassword'], 99, 2);
+        add_filter('authenticate', [self::class, 'atAuthenticate'], self::PRIORITY, 3);
         add_action('login_form_' . self::ACTION, [self::class, 'page']);
+    }
+
+    /**
+     * WordPress's own login, after all other checks: only a WP_User that WordPress and every other
+     * plugin accepted gets here. Draco adds a step; it never logs anyone in by itself.
+     *
+     * @param \WP_User|\WP_Error|null $user
+     * @param string $username
+     * @param string $password
+     * @return \WP_User|\WP_Error|null
+     */
+    public static function atAuthenticate($user, $username, $password)
+    {
+        return $user instanceof \WP_User ? self::afterPrimaryPassword($user, (string) $password) : $user;
     }
 
     public static function active(): bool
@@ -253,39 +273,66 @@ final class CoSign
 
             return 'bad';
         }
-        // Mark satisfied for this request chain so MFA / trust can proceed without looping.
+        // Satisfied for this login attempt only: the grant is a secret held by this browser (cookie),
+        // bound to its IP and user agent. Another login with the same password, elsewhere, does not
+        // see it and must be co-signed on its own.
+        $grant = bin2hex(random_bytes(16));
         set_transient(self::KEY . 'ok_' . (int) $primary->ID, [
             'cosigner_id' => (int) $cosigner->ID,
             'auth_id' => $authId,
-        ], 120);
+            'grant' => self::grantHash($grant),
+            'ip' => Guard::clientIp(),
+            'ua_hash' => self::uaHash($ua),
+        ], Challenge::TTL);
+        self::$grant = $grant;
+        self::setGrantCookie($grant, time() + Challenge::TTL);
         $mfaRequired = Mfa::active() && Mfa::requiredFor($primary);
         self::auditSuccess($primary, $cosigner, $mfaRequired, false, $authId);
 
         return 'ok';
     }
 
-    public static function satisfiedFor(int $primaryId): bool
+    /**
+     * The co-signature of $primaryId, only for the browser that went through it.
+     *
+     * @return array{cosigner_id: int, auth_id: string}|null
+     */
+    private static function grantRow(int $primaryId): ?array
     {
         $row = get_transient(self::KEY . 'ok_' . $primaryId);
+        if (!is_array($row) || (int) ($row['cosigner_id'] ?? 0) <= 0 || !is_string($row['grant'] ?? null)) {
+            return null;
+        }
+        $presented = self::$grant !== '' ? self::$grant : (isset($_COOKIE[self::GRANT_COOKIE]) ? sanitize_key(wp_unslash((string) $_COOKIE[self::GRANT_COOKIE])) : '');
+        if (preg_match('/^[a-f0-9]{32}$/', $presented) !== 1 || !hash_equals((string) $row['grant'], self::grantHash($presented))) {
+            return null;
+        }
+        if ((string) ($row['ip'] ?? '') !== Guard::clientIp() || !hash_equals((string) ($row['ua_hash'] ?? ''), self::uaHash(Input::server('HTTP_USER_AGENT')))) {
+            return null;
+        }
 
-        return is_array($row) ? (int) ($row['cosigner_id'] ?? 0) > 0 : (int) $row > 0;
+        return ['cosigner_id' => (int) $row['cosigner_id'], 'auth_id' => (string) ($row['auth_id'] ?? '')];
+    }
+
+    public static function satisfiedFor(int $primaryId): bool
+    {
+        return self::grantRow($primaryId) !== null;
     }
 
     /** auth_id for the in-flight co-sign → MFA → session chain, or ''. */
     public static function authIdFor(int $primaryId): string
     {
-        $row = get_transient(self::KEY . 'ok_' . $primaryId);
-        if (is_array($row)) {
-            return (string) ($row['auth_id'] ?? '');
-        }
+        $row = self::grantRow($primaryId);
 
-        return '';
+        return $row !== null ? $row['auth_id'] : '';
     }
 
-    /** Called when MFA completes so the one-shot flag cannot be reused. */
+    /** Called when MFA completes or fails so the one-shot grant cannot be reused. */
     public static function clearSatisfied(int $primaryId): void
     {
         delete_transient(self::KEY . 'ok_' . $primaryId);
+        self::$grant = '';
+        self::setGrantCookie('', time() - YEAR_IN_SECONDS);
     }
 
     /**
@@ -294,12 +341,12 @@ final class CoSign
      */
     public static function markMfaCompleted(int $primaryId, ?bool $mfaCompleted = null): void
     {
-        $row = get_transient(self::KEY . 'ok_' . $primaryId);
-        $cosignerId = is_array($row) ? (int) ($row['cosigner_id'] ?? 0) : (int) $row;
-        $authId = is_array($row) ? (string) ($row['auth_id'] ?? '') : '';
-        if ($cosignerId <= 0) {
+        $row = self::grantRow($primaryId);
+        if ($row === null) {
             return;
         }
+        $cosignerId = $row['cosigner_id'];
+        $authId = $row['auth_id'];
         $primary = get_userdata($primaryId);
         if ($primary instanceof \WP_User) {
             $mfaRequired = Mfa::active() && Mfa::requiredFor($primary);
@@ -424,6 +471,18 @@ final class CoSign
     private static function uaHash(string $ua): string
     {
         return hash_hmac('sha256', $ua, wp_salt('auth'));
+    }
+
+    private static function grantHash(string $grant): string
+    {
+        return hash_hmac('sha256', 'grant|' . $grant, wp_salt('auth'));
+    }
+
+    private static function setGrantCookie(string $value, int $expires): void
+    {
+        if (!headers_sent()) {
+            setcookie(self::GRANT_COOKIE, $value, ['expires' => $expires, 'path' => COOKIEPATH ?: '/', 'domain' => COOKIE_DOMAIN ?: '', 'secure' => is_ssl(), 'httponly' => true, 'samesite' => 'Strict']);
+        }
     }
 
     private static function setCookie(string $value, int $expires): void
