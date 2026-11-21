@@ -12,7 +12,7 @@ declare(strict_types=1);
 if (PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg' || defined('DRACO_SERVER_GUARD')) {
     return;
 }
-define('DRACO_SERVER_GUARD', '0.1.34');
+define('DRACO_SERVER_GUARD', '0.1.35');
 
 (static function (): void {
     try {
