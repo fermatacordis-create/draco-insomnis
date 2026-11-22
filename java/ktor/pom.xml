@@ -6,7 +6,7 @@
   <!-- The Ktor plugin (Kotlin). It needs the engine jar and Ktor's own DoubleReceive. -->
   <groupId>io.github.fermatacordis-create</groupId>
   <artifactId>draco-insomnis-ktor</artifactId>
-  <version>0.1.35</version>
+  <version>0.1.36</version>
   <name>Draco Insomnis for Ktor</name>
   <description>Draco Insomnis as a Ktor 3 plugin, for Kotlin web apps.</description>
   <url>https://github.com/fermatacordis-create/draco-insomnis</url>

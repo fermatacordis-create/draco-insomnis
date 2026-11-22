@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 /** Decides, in the same order as every edition: block list, country, signatures, pace. */
 public final class Gatekeeper {
-    public static final String VERSION = "0.1.35";
+    public static final String VERSION = "0.1.36";
 
     /** Sensitive path endings, besides any POST. */
     public static final List<String> SENSITIVE_PATHS = List.of(
