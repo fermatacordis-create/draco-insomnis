@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.35
+Stable tag: 0.1.36
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -167,6 +167,10 @@ The settings screen offers a list of common providers (for example Amazon SES, G
 Service: the mail provider the administrator has an account with, under the terms and privacy policy the administrator accepted with that provider. Draco has no agreement with any of them.
 
 == Changelog ==
+
+= 0.1.36 =
+* Forms — forms that Draco does not build can use its shield: draco_insomnis_form_fields() prints the hidden stamp and trap fields, and draco_insomnis_form_check() returns false when the shield judges the sender a bot. Callers check function_exists() first, as older versions do not have them.
+* Forms — new filter draco_insomnis_form_held: after its wp_mail(), such a form learns whether the message waits for the sender to confirm, so it can say "check your e-mail". New action draco_insomnis_form_released, with the context, the mail's header lines and the id, when the sender confirmed and the held mail was delivered.
 
 = 0.1.35 =
 * Login — a second administrator's co-signature now belongs to the one login attempt that was co-signed (a secret cookie of that browser, bound to its address and browser), not to the account: another login with the same password must be co-signed on its own.
