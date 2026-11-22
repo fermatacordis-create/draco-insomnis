@@ -70,6 +70,28 @@ final class ShieldTest extends TestCase
         $this->assertStringNotContainsString('never-stored', serialize($rows), 'passwords are never kept');
     }
 
+    public function test_forms_draco_does_not_build_get_the_stamp_and_trap_and_are_judged(): void
+    {
+        delete_option(Plugin::OPTION_SHIELD);
+        $this->assertSame('', draco_insomnis_form_fields(), 'nothing while the shield is off');
+        $this->asBot();
+        $this->assertTrue(draco_insomnis_form_check('bot@spam.example', 'other'), 'and nothing is judged');
+
+        update_option(Plugin::OPTION_SHIELD, 'yes');
+        $html = draco_insomnis_form_fields();
+        $this->assertStringContainsString('name="' . Guard::stampField() . '"', $html);
+        $this->assertStringContainsString('name="' . Guard::trapField() . '"', $html);
+        $this->assertFalse(draco_insomnis_form_check('bot@spam.example', 'other'));
+        $rows = Store::recent();
+        $this->assertCount(1, $rows);
+        $this->assertSame('form_other', $rows[0]['endpoint']);
+
+        $_POST = [];
+        $this->asPerson();
+        $this->assertTrue(draco_insomnis_form_check('maria@example.org', 'other'));
+        $this->assertCount(1, Store::recent(), 'a person leaves no trace');
+    }
+
     public function test_a_person_signs_up_normally_and_leaves_no_trace(): void
     {
         $this->asPerson();

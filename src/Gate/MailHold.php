@@ -29,6 +29,8 @@ final class MailHold
     {
         add_filter('pre_wp_mail', [self::class, 'intercept'], 10, 2);
         add_filter('wpcf7_feedback_response', [self::class, 'cf7Response'], 10, 2);
+        // For forms Draco does not know (named with draco_insomnis_form_context): was the mail held?
+        add_filter('draco_insomnis_form_held', [self::class, 'heldFilter']);
         add_filter('wpforms_frontend_confirmation_message', [self::class, 'plainNotice'], 99);
         // WPForms can send from a later background task, where the form request is gone.
         add_filter('wpforms_tasks_entry_emails_trigger_send_same_process', '__return_true');
@@ -73,6 +75,17 @@ final class MailHold
         Store::appendMail(self::$submission, self::pack($atts));
 
         return true;
+    }
+
+    /**
+     * True when this request's form mail waits for its sender to confirm. A blocked sender gets true
+     * as well, so the form shows them the same "check your e-mail" answer as everyone else.
+     *
+     * @param mixed $held
+     */
+    public static function heldFilter($held = false): bool
+    {
+        return (bool) $held || self::$held;
     }
 
     public static function context(): string
@@ -207,6 +220,17 @@ final class MailHold
         } finally {
             self::$releasing = false;
         }
+        // Tells the form that sent it that the sender confirmed (it finds its own record by a header).
+        $headers = [];
+        foreach (is_array($mails) ? $mails : [] as $mail) {
+            $h = $mail['headers'] ?? [];
+            foreach (is_array($h) ? $h : explode("\n", str_replace("\r\n", "\n", (string) $h)) as $line) {
+                if (trim((string) $line) !== '') {
+                    $headers[] = trim((string) $line);
+                }
+            }
+        }
+        do_action('draco_insomnis_form_released', (string) ($row['context'] ?? ''), $headers, (int) $row['id']);
     }
 
     /** @param array<string, mixed> $mail */

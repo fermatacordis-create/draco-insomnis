@@ -56,6 +56,40 @@ final class Guard
         echo self::engine()->fieldsHtml(time()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from constants and escaped attribute values
     }
 
+    /**
+     * The hidden stamp and trap for a form Draco does not build (draco_insomnis_form_fields()).
+     * Empty while the anti-bot shield is off, so the form keeps only its own protection.
+     */
+    public static function formFields(): string
+    {
+        return self::shieldOn() ? self::engine()->fieldsHtml(time()) : '';
+    }
+
+    /**
+     * Judges a submission of such a form (draco_insomnis_form_check()): false for a bot, which also
+     * waits a few seconds, like the sign-up forms. True while the shield is off or for logged-in people.
+     */
+    public static function formCheck(string $email = '', string $form = 'form'): bool
+    {
+        if (!self::shieldOn() || is_user_logged_in()) {
+            return true;
+        }
+        $name = sanitize_key($form);
+        $endpoint = substr('form_' . ($name !== '' ? $name : 'form'), 0, 40);
+        $result = self::judge($endpoint, ['username' => '', 'email' => $email, 'role' => ''], null);
+        if ($result['verdict'] !== 'bot') {
+            return true;
+        }
+        self::engine()->slowDown();
+
+        return false;
+    }
+
+    private static function shieldOn(): bool
+    {
+        return get_option(\DracoInsomnis\Plugin::OPTION_SHIELD, 'no') === 'yes';
+    }
+
     /** RealHomes builds its modal outside WordPress hooks, so the same inputs are added from the page. */
     public static function footerScript(): void
     {

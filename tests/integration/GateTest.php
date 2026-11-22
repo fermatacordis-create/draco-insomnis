@@ -155,6 +155,38 @@ final class GateTest extends TestCase
         $this->assertNull(Store::find((int) $row['id'])['payload'], 'the message is not kept once delivered');
     }
 
+    public function test_a_form_draco_does_not_know_hears_that_its_mail_was_held_and_when_it_is_confirmed(): void
+    {
+        $context = static fn (string $c): string => isset($_POST['other_form']) ? 'other' : $c;
+        add_filter('draco_insomnis_form_context', $context);
+        $released = [];
+        $listen = static function (string $ctx, array $headers, int $id) use (&$released): void {
+            $released[] = [$ctx, $headers, $id];
+        };
+        add_action('draco_insomnis_form_released', $listen, 10, 3);
+        try {
+            $this->assertFalse(apply_filters('draco_insomnis_form_held', false), 'nothing held before any mail');
+            $_SERVER['REQUEST_METHOD'] = 'POST';
+            $_POST = ['other_form' => 'p1:b1', 'email' => 'ana@example.org'];
+            $this->assertTrue(wp_mail('owner@example.org', 'New message', 'Hola', ['Reply-To: ana@example.org', 'X-Other-Message: 42']));
+            $this->assertTrue(apply_filters('draco_insomnis_form_held', false));
+            $this->assertSame([], $this->mailsTo('owner@example.org'));
+            $token = $this->tokenIn($this->mailsTo('ana@example.org')[0]);
+            $this->assertSame('other', Store::findPending($token)['context']);
+
+            $_POST = [];
+            $_SERVER['REQUEST_METHOD'] = 'GET';
+            $this->assertTrue($this->confirm($token));
+            $this->assertCount(1, $this->mailsTo('owner@example.org'));
+            $this->assertCount(1, $released);
+            $this->assertSame('other', $released[0][0]);
+            $this->assertContains('X-Other-Message: 42', $released[0][1]);
+        } finally {
+            remove_filter('draco_insomnis_form_context', $context);
+            remove_action('draco_insomnis_form_released', $listen, 10);
+        }
+    }
+
     public function test_a_blocked_sender_is_told_the_same_and_nothing_is_sent(): void
     {
         Blocks::block('email', 'spam@example.org', 7, 'manual');
@@ -162,6 +194,7 @@ final class GateTest extends TestCase
         $this->assertTrue(wp_mail('owner@example.org', 'New message', 'Buy now'));
         $this->assertSame([], $this->mails);
         $this->assertSame([], Store::recent());
+        $this->assertTrue(apply_filters('draco_insomnis_form_held', false), 'the form shows the same "check your e-mail"');
     }
 
     public function test_mail_that_is_not_a_public_form_is_untouched(): void
