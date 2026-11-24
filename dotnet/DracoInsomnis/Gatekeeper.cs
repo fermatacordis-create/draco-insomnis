@@ -98,7 +98,7 @@ internal sealed class SystemResolver : IResolver
 /// <summary>Decides, in the same order as every edition: block list → country → signatures → pace.</summary>
 public sealed class Gatekeeper
 {
-    public const string Version = "0.1.36";
+    public const string Version = "0.1.37";
 
     /// <summary>Sensitive path endings, besides any POST.</summary>
     public static readonly string[] SensitivePaths =

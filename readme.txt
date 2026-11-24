@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.36
+Stable tag: 0.1.37
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -167,6 +167,10 @@ The settings screen offers a list of common providers (for example Amazon SES, G
 Service: the mail provider the administrator has an account with, under the terms and privacy policy the administrator accepted with that provider. Draco has no agreement with any of them.
 
 == Changelog ==
+
+= 0.1.37 =
+* Translations — every screen added since 0.1.27 (co-signature, trusted devices, recovery e-mails, malicious links, mail provider notes, block list) is now translated in all 39 languages. The Latin American Spanish translations had fallen behind and now match Spanish (Spain).
+* Mail — the countries in the provider list are written in English in the code, so each language can translate them on translate.wordpress.org.
 
 = 0.1.36 =
 * Forms — forms that Draco does not build can use its shield: draco_insomnis_form_fields() prints the hidden stamp and trap fields, and draco_insomnis_form_check() returns false when the shield judges the sender a bot. Callers check function_exists() first, as older versions do not have them.

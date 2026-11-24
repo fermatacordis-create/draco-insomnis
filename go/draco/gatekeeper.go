@@ -57,7 +57,7 @@ type CrowdSecConfig struct {
 }
 
 // Version is the Draco Insomnis release this engine belongs to.
-const Version = "0.1.36"
+const Version = "0.1.37"
 
 // Sensitive path endings, besides any POST.
 var Sensitive = []string{
