@@ -675,5 +675,12 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'Geblokkeerde adressen blijven hier tot je ze deblokkeert of ze verlopen. De lijst hierboven wissen verwijdert ze niet. Formulieren en aanmeldingen van een geblokkeerd adres krijgen hetzelfde ‘bijna klaar’-antwoord als iedereen, dus ze merken het niet.',
     'Full block list in Anti-bot shield →' => 'Volledige blokkeerlijst in Anti-botschild →',
     'Registration is complete. Check your email for details!' => 'Registratie voltooid. Controleer je e-mail.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'Eén voor één: typ een adres, ontvang de code en bevestig die voordat je verdergaat met het volgende.',
+    'Confirm the previous one first.' => 'Bevestig eerst het vorige.',
+    'Verified' => 'Geverifieerd',
+    'Free' => 'Vrij',
+    'PHP %s gets security updates' => 'PHP %s krijgt beveiligingsupdates',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s krijgt alleen nog tot %2$s beveiligingsupdates van php.net: kies een nieuwere versie in je hostingpaneel',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s krijgt sinds %2$s geen beveiligingsupdates meer van php.net: kies een nieuwere versie in je hostingpaneel',
   ),
 );

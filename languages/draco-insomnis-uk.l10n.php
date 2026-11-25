@@ -675,5 +675,12 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'Заблоковані адреси лишаються тут, доки ви їх не розблокуєте або не мине термін. Очищення списку вище їх не видаляє. Форми й реєстрації із заблокованої адреси отримують ту саму відповідь «майже готово», що й усі, тож вони не можуть цього помітити.',
     'Full block list in Anti-bot shield →' => 'Повний список блокувань — у розділі «Щит від ботів» →',
     'Registration is complete. Check your email for details!' => 'Реєстрацію завершено. Перевірте свою пошту.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'По одній: введіть адресу, отримайте код і підтвердьте його, перш ніж переходити до наступної.',
+    'Confirm the previous one first.' => 'Спершу підтвердьте попередню.',
+    'Verified' => 'Підтверджено',
+    'Free' => 'Вільно',
+    'PHP %s gets security updates' => 'PHP %s отримує оновлення безпеки',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s отримує оновлення безпеки від php.net лише до %2$s: виберіть новішу версію в панелі хостингу',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s не отримує оновлень безпеки від php.net з %2$s: виберіть новішу версію в панелі хостингу',
   ),
 );

@@ -675,5 +675,12 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'Engellenen adresler, siz engeli kaldırana veya süreleri dolana kadar burada kalır. Yukarıdaki listeyi temizlemek onları kaldırmaz. Engellenen bir adresten gelen formlar ve kayıtlar herkesle aynı “neredeyse bitti” yanıtını alır, bu yüzden fark edemezler.',
     'Full block list in Anti-bot shield →' => 'Tam engel listesi Bot kalkanı’nda →',
     'Registration is complete. Check your email for details!' => 'Kayıt tamamlandı. Lütfen e-postanızı kontrol edin.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'Birer birer: bir adres yazın, kodunu alın ve sonrakine geçmeden önce onaylayın.',
+    'Confirm the previous one first.' => 'Önce öncekini onaylayın.',
+    'Verified' => 'Doğrulandı',
+    'Free' => 'Boş',
+    'PHP %s gets security updates' => 'PHP %s güvenlik güncellemeleri alıyor',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s, php.net’ten yalnızca %2$s tarihine kadar güvenlik güncellemesi alır: barındırma panelinizden daha yeni bir sürüm seçin',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s, %2$s tarihinden beri php.net’ten güvenlik güncellemesi almıyor: barındırma panelinizden daha yeni bir sürüm seçin',
   ),
 );

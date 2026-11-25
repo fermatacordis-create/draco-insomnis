@@ -200,6 +200,29 @@
 .draco-step { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--d-accent); color: #fff; font-size: 12px; font-weight: 700; margin-right: 6px; vertical-align: 1px; }
 .draco-step.is-done { background: var(--d-ok); }
 
+/* Recovery e-mails: always three slots — number, address, state, buttons */
+.draco-slots { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto auto; column-gap: 14px; list-style: none; margin: 14px 0 0; padding: 0; border: 1px solid var(--d-line); border-radius: 11px; }
+.draco-slot { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; row-gap: 10px; align-items: center; margin: 0; padding: 12px 14px; }
+.draco-slot + .draco-slot { border-top: 1px solid var(--d-line); }
+.draco-slot.is-waiting { background: #fffbeb; }
+.draco-slot__num { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--d-ok); color: #fff; font-size: 13px; font-weight: 700; }
+.draco-slot.is-free .draco-slot__num { background: #f1f5f9; color: #475569; }
+.draco-slot.is-waiting .draco-slot__num { background: var(--d-warn-soft); color: var(--d-warn); }
+.draco-slot__who { min-width: 0; overflow-wrap: anywhere; }
+.draco-slot__who strong { color: var(--d-ink); font-weight: 600; }
+.draco-slot__who small { display: block; color: var(--d-muted); font-size: 12.5px; }
+.draco-slot__who .draco-inline, .draco-slot__actions .draco-inline { align-items: center; }
+.draco-slot__who input[type=email], .draco-slot__actions input[type=email] { width: 280px; max-width: 100%; }
+.draco-slot__actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; justify-content: flex-end; }
+.draco-slot__actions summary { list-style: none; }
+.draco-slot__actions summary::-webkit-details-marker { display: none; }
+/* An open «Replace» takes its own line under the address; «Remove» comes back on closing it. */
+.draco-slot__actions details[open] + form { display: none; }
+.draco-slot:has(details[open]) .draco-slot__actions { grid-column: 2 / -1; justify-content: flex-start; }
+.draco-slot__actions details[open] .draco-inline { margin-top: 8px; }
+.draco-slot__code { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: flex-end; }
+.draco-slot__code input[type=text] { width: 140px; }
+
 /* Tables */
 .draco .draco-table { border: 0; box-shadow: none; border-top: 1px solid var(--d-line); }
 .draco .draco-table thead th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--d-muted); font-weight: 600; background: var(--d-soft); padding: 10px 12px; }
@@ -250,4 +273,7 @@
   .draco-hero__credits { text-align: left; }
   .draco-card__head { padding: 14px 14px 0; }
   .draco-card__body { padding: 12px 14px 16px; }
+  .draco-slots { grid-template-columns: 42px minmax(0, 1fr); }
+  .draco-slot__state, .draco-slot__actions { grid-column: 2; justify-content: flex-start; }
+  .draco-slot__who input[type=email], .draco-slot__actions input[type=email] { width: 100%; }
 }

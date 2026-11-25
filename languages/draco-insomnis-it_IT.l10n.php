@@ -675,5 +675,12 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'Gli indirizzi bloccati restano qui finché non li sblocchi o scadono. Svuotare l’elenco sopra non li rimuove. Moduli e registrazioni da un indirizzo bloccato ricevono la stessa risposta «quasi fatto» di tutti, quindi non se ne accorgono.',
     'Full block list in Anti-bot shield →' => 'Elenco completo dei blocchi in Scudo anti-bot →',
     'Registration is complete. Check your email for details!' => 'Registrazione completata. Controlla la tua email.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'Una alla volta: scrivi un indirizzo, ricevi il suo codice e confermalo prima di passare al successivo.',
+    'Confirm the previous one first.' => 'Conferma prima quello precedente.',
+    'Verified' => 'Verificato',
+    'Free' => 'Libero',
+    'PHP %s gets security updates' => 'PHP %s riceve aggiornamenti di sicurezza',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s riceve aggiornamenti di sicurezza da php.net solo fino al %2$s: scegli una versione più recente nel pannello del tuo hosting',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s non riceve aggiornamenti di sicurezza da php.net dal %2$s: scegli una versione più recente nel pannello del tuo hosting',
   ),
 );

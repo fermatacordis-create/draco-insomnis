@@ -675,5 +675,12 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'نشانی‌های مسدود تا وقتی آن‌ها را آزاد نکنید یا منقضی نشوند اینجا می‌مانند. پاک کردن فهرست بالا آن‌ها را حذف نمی‌کند. فرم‌ها و ثبت‌نام‌های یک نشانی مسدود همان پاسخ «تقریباً تمام شد» را می‌گیرند که همه می‌گیرند، پس متوجه نمی‌شوند.',
     'Full block list in Anti-bot shield →' => 'فهرست کامل مسدودی در سپر ضدربات ←',
     'Registration is complete. Check your email for details!' => 'ثبت‌نام کامل شد. لطفاً ایمیل خود را بررسی کنید.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'یکی‌یکی: نشانی را بنویسید، کدش را بگیرید و پیش از رفتن به بعدی تأییدش کنید.',
+    'Confirm the previous one first.' => 'ابتدا قبلی را تأیید کنید.',
+    'Verified' => 'تأییدشده',
+    'Free' => 'خالی',
+    'PHP %s gets security updates' => 'PHP %s به‌روزرسانی امنیتی دریافت می‌کند',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s فقط تا %2$s از php.net به‌روزرسانی امنیتی می‌گیرد: در پنل میزبانی نسخهٔ جدیدتری انتخاب کنید',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s از %2$s دیگر از php.net به‌روزرسانی امنیتی نمی‌گیرد: در پنل میزبانی نسخهٔ جدیدتری انتخاب کنید',
   ),
 );

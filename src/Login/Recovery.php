@@ -79,6 +79,14 @@ final class Recovery
         return $emails[0] ?? '';
     }
 
+    /** The light of the tab: 'on' with every slot verified, 'log' (amber) with some, 'off' with none. */
+    public static function state(int $userId): string
+    {
+        $n = count(self::emails($userId));
+
+        return $n === 0 ? 'off' : ($n < self::MAX_SLOTS ? 'log' : 'on');
+    }
+
     /** @param list<string> $emails */
     private static function persist(int $userId, array $emails): void
     {
@@ -145,7 +153,12 @@ final class Recovery
 
     private static function mustHave(\WP_User $user): bool
     {
-        return $user->ID !== 0 && Mfa::active() && Mfa::requiredFor($user) && self::emails((int) $user->ID) === [];
+        return self::needsCode($user) && self::emails((int) $user->ID) === [];
+    }
+
+    private static function needsCode(\WP_User $user): bool
+    {
+        return $user->ID !== 0 && Mfa::active() && Mfa::requiredFor($user);
     }
 
     public static function enforce(): void
@@ -283,7 +296,7 @@ final class Recovery
         if (!isset($emails[$slot])) {
             return 'invalid';
         }
-        if (count($emails) === 1 && self::mustHave($user)) {
+        if (count($emails) === 1 && self::needsCode($user)) {
             return 'last';
         }
         $code = Challenge::newCode();
@@ -324,6 +337,11 @@ final class Recovery
             return 'bad';
         }
         $emails = self::emails($id);
+        if (count($emails) === 1 && self::needsCode($user)) { // the login code was switched on meanwhile
+            delete_user_meta($id, self::META_PENDING);
+
+            return 'last';
+        }
         $slot = (int) ($pending['slot'] ?? -1);
         $removed = $emails[$slot] ?? '';
         if (isset($emails[$slot])) {
@@ -430,8 +448,8 @@ final class Recovery
         $pending = get_user_meta($id, self::META_PENDING, true);
         $pending = is_array($pending) && time() - (int) ($pending['at'] ?? 0) <= self::PENDING_TTL ? $pending : null;
         $result = sanitize_key((string) ($_GET['result'] ?? '')); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $open = static function (string $do): void {
-            echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
+        $open = static function (string $do, string $class = ''): void {
+            echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '"' . ($class !== '' ? ' class="' . esc_attr($class) . '"' : '') . '>';
             wp_nonce_field(self::ACTION);
             echo '<input type="hidden" name="action" value="' . esc_attr(self::ACTION) . '"><input type="hidden" name="do" value="' . esc_attr($do) . '">';
         };
@@ -459,63 +477,68 @@ final class Recovery
             Brand::notice('warning', __('Your account needs a login code. Add a recovery e-mail before going on: it is your way back in if your main mailbox fails or is stolen.', 'draco-insomnis'));
         }
 
-        echo '<div class="draco-grid">';
+        $count = count($emails);
+        $tones = ['on' => 'on', 'log' => 'warn', 'off' => 'warn'];
+        $state = self::state($id);
+        $pill = $count === 0 ? __('Missing', 'draco-insomnis') : ($state === 'on' ? Brand::stateLabel('on') : $count . '/' . self::MAX_SLOTS);
         /* translators: %d: number of recovery slots in use */
-        Brand::card('sos', __('Recovery e-mails', 'draco-insomnis'), sprintf(__('Slots in use: %d of 3', 'draco-insomnis'), count($emails)), $emails !== [] ? Brand::pill(Brand::stateLabel('on'), 'on') : Brand::pill(__('Missing', 'draco-insomnis'), 'warn'), $emails !== [] ? '' : 'warn');
-
-        if ($pending !== null && ($pending['op'] ?? 'set') === 'remove') {
-            $open('remove_confirm');
-            /* translators: %s: masked e-mail */
-            echo '<div class="draco-field"><label for="draco-code-rm">' . esc_html(sprintf(__('Code sent to %s', 'draco-insomnis'), Mfa::mask((string) $pending['email']))) . '</label><input id="draco-code-rm" type="text" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="one-time-code" class="regular-text"></div>';
-            submit_button(__('Remove', 'draco-insomnis'), 'primary', 'submit', false);
-            echo '</form>';
-            $open('cancel');
-            submit_button(__('Cancel', 'draco-insomnis'), 'link', 'submit', false);
-            echo '</form>';
-        } elseif ($pending !== null) {
-            $open('confirm');
-            /* translators: %s: masked e-mail */
-            echo '<div class="draco-field"><label for="draco-code-new">' . esc_html(sprintf(__('Code sent to %s', 'draco-insomnis'), Mfa::mask((string) $pending['email']))) . '</label><input id="draco-code-new" type="text" name="code_new" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="one-time-code" class="regular-text"></div>';
-            if ((string) ($pending['old'] ?? '') !== '') {
-                $oldAddr = isset($pending['replaces']) && isset($emails[(int) $pending['replaces']]) ? $emails[(int) $pending['replaces']] : ($emails[0] ?? '');
-                /* translators: %s: masked e-mail */
-                echo '<div class="draco-field"><label for="draco-code-old">' . esc_html(sprintf(__('Code sent to your current recovery e-mail %s', 'draco-insomnis'), Mfa::mask($oldAddr))) . '</label><input id="draco-code-old" type="text" name="code_old" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required class="regular-text"></div>';
-            }
-            submit_button(__('Confirm', 'draco-insomnis'), 'primary', 'submit', false);
-            echo '</form>';
-            $open('cancel');
-            submit_button(__('Cancel', 'draco-insomnis'), 'link', 'submit', false);
-            echo '</form>';
-        } else {
-            if ($emails !== []) {
-                echo '<ul class="draco-list" style="margin-bottom:14px">';
-                foreach ($emails as $i => $addr) {
-                    echo '<li><span class="dashicons dashicons-email" aria-hidden="true"></span><strong>' . esc_html(Mfa::mask($addr)) . '</strong>';
-                    if ($i === 0) {
-                        echo ' · ' . esc_html__('Primary recovery', 'draco-insomnis');
-                    }
-                    echo '<span style="float:right">';
-                    $open('request');
-                    echo '<input type="hidden" name="slot" value="' . (int) $i . '"><input type="email" name="email" required placeholder="' . esc_attr__('Replace with…', 'draco-insomnis') . '" class="regular-text" style="max-width:180px"> ';
-                    submit_button(__('Replace', 'draco-insomnis'), 'small', 'submit', false);
-                    echo '</form> ';
-                    $open('remove');
-                    echo '<input type="hidden" name="slot" value="' . (int) $i . '">';
-                    submit_button(__('Remove', 'draco-insomnis'), 'small', 'submit', false);
-                    echo '</form></span></li>';
-                }
-                echo '</ul>';
-            } else {
-                echo '<p>' . esc_html__('You have no recovery e-mail yet.', 'draco-insomnis') . '</p>';
-            }
-            if (count($emails) < self::MAX_SLOTS) {
-                $open('request');
-                echo '<input type="hidden" name="slot" value="-1">';
-                echo '<div class="draco-field"><label for="draco-rec-email">' . esc_html__('Add recovery e-mail', 'draco-insomnis') . '</label><input id="draco-rec-email" type="email" name="email" required class="large-text" placeholder="you@gmail.com"></div>';
-                submit_button(__('Send code', 'draco-insomnis'), 'primary', 'submit', false);
-                echo '</form>';
-            }
+        Brand::card('sos', __('Recovery e-mails', 'draco-insomnis'), sprintf(__('Slots in use: %d of 3', 'draco-insomnis'), $count), Brand::pill($pill, $tones[$state]), $count === 0 ? 'warn' : '');
+        if ($count < self::MAX_SLOTS || $pending !== null) {
+            echo '<p class="draco-callout is-warn"><span class="dashicons dashicons-info" aria-hidden="true"></span><span>' . esc_html__('One at a time: type an address, get its code and confirm it before going on to the next one.', 'draco-insomnis') . '</span></p>';
         }
+        // The slot whose code is awaited: the one being replaced or removed, else the first free one.
+        $waiting = -1;
+        if ($pending !== null) {
+            $waiting = ($pending['op'] ?? 'set') === 'remove' ? (int) ($pending['slot'] ?? -1) : (int) ($pending['replaces'] ?? $count);
+        }
+        echo '<ol class="draco-slots">';
+        for ($i = 0; $i < self::MAX_SLOTS; $i++) {
+            $addr = $emails[$i] ?? '';
+            echo '<li class="draco-slot' . ($addr === '' ? ' is-free' : '') . ($i === $waiting ? ' is-waiting' : '') . '">';
+            echo '<span class="draco-slot__num" aria-hidden="true">' . (int) ($i + 1) . '</span>';
+            echo '<div class="draco-slot__who">';
+            if ($addr !== '') {
+                echo '<strong>' . esc_html(Mfa::mask($addr)) . '</strong>';
+                if ($i === 0) {
+                    echo '<small>' . esc_html__('Primary recovery', 'draco-insomnis') . '</small>';
+                }
+            } elseif ($i === $waiting && $pending !== null) {
+                echo '<strong>' . esc_html(Mfa::mask((string) $pending['email'])) . '</strong>';
+            } elseif ($pending === null && $i === $count) {
+                $open('request', 'draco-inline');
+                echo '<input type="hidden" name="slot" value="-1"><label class="screen-reader-text" for="draco-rec-email">' . esc_html__('Add recovery e-mail', 'draco-insomnis') . '</label>';
+                echo '<input id="draco-rec-email" type="email" name="email" required placeholder="you@gmail.com" autocomplete="email">';
+                submit_button(__('Send code', 'draco-insomnis'), 'primary', 'submit', false, ['id' => 'draco-rec-send']);
+                echo '</form>';
+            } else {
+                echo '<small>' . esc_html__('Confirm the previous one first.', 'draco-insomnis') . '</small>';
+            }
+            echo '</div>';
+            if ($i === $waiting) {
+                $slotPill = Brand::pill(__('Waiting for confirmation', 'draco-insomnis'), 'warn');
+            } else {
+                $slotPill = $addr !== '' ? Brand::pill(__('Verified', 'draco-insomnis'), 'on') : Brand::pill(__('Free', 'draco-insomnis'));
+            }
+            echo '<div class="draco-slot__state">' . wp_kses_post($slotPill) . '</div>';
+            // While a code is awaited the other slots stay in view, without buttons.
+            if ($addr !== '' && $pending === null) {
+                echo '<div class="draco-slot__actions"><details><summary class="button button-small">' . esc_html__('Replace', 'draco-insomnis') . '</summary>';
+                $open('request', 'draco-inline');
+                echo '<input type="hidden" name="slot" value="' . (int) $i . '"><label class="screen-reader-text" for="draco-rep-' . (int) $i . '">' . esc_html__('Replace with…', 'draco-insomnis') . '</label>';
+                echo '<input id="draco-rep-' . (int) $i . '" type="email" name="email" required placeholder="' . esc_attr__('Replace with…', 'draco-insomnis') . '">';
+                submit_button(__('Send code', 'draco-insomnis'), 'primary', 'submit', false, ['id' => 'draco-rep-send-' . $i]);
+                echo '</form></details>';
+                $open('remove');
+                echo '<input type="hidden" name="slot" value="' . (int) $i . '">';
+                submit_button(__('Remove', 'draco-insomnis'), 'small', 'submit', false, ['id' => 'draco-rm-' . $i]);
+                echo '</form></div>';
+            }
+            if ($i === $waiting && $pending !== null) {
+                self::pendingForm($pending, $emails, $open);
+            }
+            echo '</li>';
+        }
+        echo '</ol>';
         Brand::cardEnd();
 
         Brand::card('lightbulb', __('Good to know', 'draco-insomnis'), '', '', 'info');
@@ -530,7 +553,33 @@ final class Recovery
         }
         echo '</ul>';
         Brand::cardEnd();
-        echo '</div>';
         Brand::close();
+    }
+
+    /**
+     * The codes of the change under way, inside its own slot.
+     *
+     * @param array<string, mixed> $pending
+     * @param list<string> $emails
+     */
+    private static function pendingForm(array $pending, array $emails, callable $open): void
+    {
+        $remove = ($pending['op'] ?? 'set') === 'remove';
+        $code = static function (string $id, string $name, string $label): void {
+            echo '<div class="draco-field"><label for="' . esc_attr($id) . '">' . esc_html($label) . '</label><input id="' . esc_attr($id) . '" type="text" name="' . esc_attr($name) . '" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required' . ($name === 'code_old' ? '' : ' autocomplete="one-time-code"') . '></div>';
+        };
+        echo '<div class="draco-slot__code">';
+        $open($remove ? 'remove_confirm' : 'confirm', 'draco-inline');
+        /* translators: %s: masked e-mail */
+        $code($remove ? 'draco-code-rm' : 'draco-code-new', $remove ? 'code' : 'code_new', sprintf(__('Code sent to %s', 'draco-insomnis'), Mfa::mask((string) $pending['email'])));
+        if (!$remove && (string) ($pending['old'] ?? '') !== '') {
+            /* translators: %s: masked e-mail */
+            $code('draco-code-old', 'code_old', sprintf(__('Code sent to your current recovery e-mail %s', 'draco-insomnis'), Mfa::mask($emails[(int) ($pending['replaces'] ?? 0)] ?? '')));
+        }
+        submit_button($remove ? __('Remove', 'draco-insomnis') : __('Confirm', 'draco-insomnis'), 'primary', 'submit', false, ['id' => 'draco-rec-confirm']);
+        echo '</form>';
+        $open('cancel');
+        submit_button(__('Cancel', 'draco-insomnis'), 'link', 'submit', false, ['id' => 'draco-rec-cancel']);
+        echo '</form></div>';
     }
 }

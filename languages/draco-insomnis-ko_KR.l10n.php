@@ -675,5 +675,12 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => '차단한 주소는 차단을 해제하거나 만료될 때까지 여기에 남습니다. 위 목록을 지워도 삭제되지 않습니다. 차단된 주소에서 온 양식과 가입은 다른 사람과 똑같은 "거의 완료" 응답을 받으므로 눈치챌 수 없습니다.',
     'Full block list in Anti-bot shield →' => '전체 차단 목록은 봇 차단 방패에서 →',
     'Registration is complete. Check your email for details!' => '가입이 완료되었습니다. 이메일을 확인하세요.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => '하나씩 진행하세요. 주소를 입력하고 받은 코드를 확인한 뒤 다음으로 넘어가세요.',
+    'Confirm the previous one first.' => '먼저 이전 주소를 확인하세요.',
+    'Verified' => '확인됨',
+    'Free' => '비어 있음',
+    'PHP %s gets security updates' => 'PHP %s은(는) 보안 업데이트를 받습니다',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s은(는) php.net의 보안 업데이트를 %2$s까지만 받습니다. 호스팅 관리판에서 더 새로운 버전을 선택하세요',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s은(는) %2$s 이후 php.net의 보안 업데이트를 받지 않습니다. 호스팅 관리판에서 더 새로운 버전을 선택하세요',
   ),
 );

@@ -675,5 +675,12 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'ブロックしたアドレスは、解除するか期限が切れるまでここに残ります。上の一覧を消去しても削除されません。ブロック中のアドレスからのフォームや登録には、ほかの人と同じ「もうすぐ完了」という応答が返るため、相手は気づけません。',
     'Full block list in Anti-bot shield →' => 'ブロックリストの全体はボット対策シールドへ →',
     'Registration is complete. Check your email for details!' => '登録が完了しました。メールを確認してください。',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => '1件ずつ登録します。アドレスを入力し、届いたコードを確認してから次に進んでください。',
+    'Confirm the previous one first.' => '先に前のアドレスを確認してください。',
+    'Verified' => '確認済み',
+    'Free' => '空き',
+    'PHP %s gets security updates' => 'PHP %s はセキュリティ更新の対象です',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s への php.net のセキュリティ更新は %2$s までです。ホスティングの管理画面で新しいバージョンを選んでください',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s への php.net のセキュリティ更新は %2$s で終了しました。ホスティングの管理画面で新しいバージョンを選んでください',
   ),
 );

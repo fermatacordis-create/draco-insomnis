@@ -675,5 +675,12 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'ब्लॉक किए गए पते यहाँ तब तक रहते हैं जब तक आप उन्हें अनब्लॉक न करें या उनकी अवधि समाप्त न हो। ऊपर की सूची साफ़ करने से वे नहीं हटते। ब्लॉक पते से आने वाले फ़ॉर्म और पंजीकरण को सबकी तरह "लगभग हो गया" उत्तर मिलता है, इसलिए वे पता नहीं लगा सकते।',
     'Full block list in Anti-bot shield →' => 'पूरी ब्लॉक सूची बॉट-रोधी ढाल में →',
     'Registration is complete. Check your email for details!' => 'पंजीकरण पूरा हुआ। कृपया अपना ईमेल देखें।',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'एक-एक करके: पता लिखें, उसका कोड पाएँ और अगले पर जाने से पहले उसकी पुष्टि करें।',
+    'Confirm the previous one first.' => 'पहले पिछले की पुष्टि करें।',
+    'Verified' => 'सत्यापित',
+    'Free' => 'खाली',
+    'PHP %s gets security updates' => 'PHP %s को सुरक्षा अपडेट मिल रहे हैं',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s को php.net से सुरक्षा अपडेट केवल %2$s तक मिलेंगे: अपने होस्टिंग पैनल में नया संस्करण चुनें',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s को %2$s से php.net के सुरक्षा अपडेट नहीं मिल रहे: अपने होस्टिंग पैनल में नया संस्करण चुनें',
   ),
 );

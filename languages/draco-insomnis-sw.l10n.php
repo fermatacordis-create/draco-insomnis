@@ -675,5 +675,12 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'Anwani zilizozuiwa hubaki hapa hadi uziondolee kizuizi au muda wake uishe. Kufuta orodha iliyo juu hakuziondoi. Fomu na usajili kutoka kwenye anwani iliyozuiwa hupata jibu lilelile la "karibu imekamilika" kama kila mtu, kwa hivyo hawawezi kujua.',
     'Full block list in Anti-bot shield →' => 'Orodha kamili ya kuzuia kwenye Ngao dhidi ya roboti →',
     'Registration is complete. Check your email for details!' => 'Usajili umekamilika. Tafadhali angalia barua pepe yako.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'Moja baada ya nyingine: andika anwani, pokea msimbo wake na uuthibitishe kabla ya kwenda kwenye inayofuata.',
+    'Confirm the previous one first.' => 'Thibitisha kwanza iliyotangulia.',
+    'Verified' => 'Imethibitishwa',
+    'Free' => 'Wazi',
+    'PHP %s gets security updates' => 'PHP %s hupokea masasisho ya usalama',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s itapokea masasisho ya usalama kutoka php.net hadi %2$s pekee: chagua toleo jipya zaidi kwenye paneli ya upangishaji',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s haijapokea masasisho ya usalama kutoka php.net tangu %2$s: chagua toleo jipya zaidi kwenye paneli ya upangishaji',
   ),
 );
