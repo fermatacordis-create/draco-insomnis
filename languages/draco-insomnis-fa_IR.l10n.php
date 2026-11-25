@@ -679,5 +679,8 @@ return array (
     'Confirm the previous one first.' => 'ابتدا قبلی را تأیید کنید.',
     'Verified' => 'تأییدشده',
     'Free' => 'خالی',
+    'PHP %s gets security updates' => 'PHP %s به‌روزرسانی امنیتی دریافت می‌کند',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s فقط تا %2$s از php.net به‌روزرسانی امنیتی می‌گیرد: در پنل میزبانی نسخهٔ جدیدتری انتخاب کنید',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s از %2$s دیگر از php.net به‌روزرسانی امنیتی نمی‌گیرد: در پنل میزبانی نسخهٔ جدیدتری انتخاب کنید',
   ),
 );

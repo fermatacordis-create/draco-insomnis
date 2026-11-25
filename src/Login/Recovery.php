@@ -153,7 +153,12 @@ final class Recovery
 
     private static function mustHave(\WP_User $user): bool
     {
-        return $user->ID !== 0 && Mfa::active() && Mfa::requiredFor($user) && self::emails((int) $user->ID) === [];
+        return self::needsCode($user) && self::emails((int) $user->ID) === [];
+    }
+
+    private static function needsCode(\WP_User $user): bool
+    {
+        return $user->ID !== 0 && Mfa::active() && Mfa::requiredFor($user);
     }
 
     public static function enforce(): void
@@ -291,7 +296,7 @@ final class Recovery
         if (!isset($emails[$slot])) {
             return 'invalid';
         }
-        if (count($emails) === 1 && self::mustHave($user)) {
+        if (count($emails) === 1 && self::needsCode($user)) {
             return 'last';
         }
         $code = Challenge::newCode();
@@ -332,6 +337,11 @@ final class Recovery
             return 'bad';
         }
         $emails = self::emails($id);
+        if (count($emails) === 1 && self::needsCode($user)) { // the login code was switched on meanwhile
+            delete_user_meta($id, self::META_PENDING);
+
+            return 'last';
+        }
         $slot = (int) ($pending['slot'] ?? -1);
         $removed = $emails[$slot] ?? '';
         if (isset($emails[$slot])) {

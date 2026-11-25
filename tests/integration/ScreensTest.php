@@ -57,6 +57,17 @@ final class ScreensTest extends TestCase
         $this->assertSame(substr_count($html, '<form'), substr_count($html, '</form>'), 'every form is closed');
     }
 
+    public function test_php_support(): void
+    {
+        $at = static fn (string $d): int => (int) strtotime($d . ' UTC');
+        $this->assertSame('ended', Overview::phpState('8.1', $at('2026-01-01 00:00')));
+        $this->assertSame('ending', Overview::phpState('8.1', $at('2025-12-31 23:59')), 'the last day still counts');
+        $this->assertSame('ending', Overview::phpState('8.2', $at('2026-11-25 12:00')));
+        $this->assertSame('ok', Overview::phpState('8.2', $at('2026-06-01 12:00')));
+        $this->assertSame('ok', Overview::phpState('8.5', $at('2026-11-25 12:00')));
+        $this->assertSame('ok', Overview::phpState('9.0', $at('2040-01-01 12:00')), 'newer than the list');
+    }
+
     public function test_tabs_show_each_module_state(): void
     {
         update_option('draco_waf_enabled', 'yes');

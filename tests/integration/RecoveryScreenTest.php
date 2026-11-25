@@ -38,6 +38,38 @@ final class RecoveryScreenTest extends TestCase
         return $m[1];
     }
 
+    private function call(string $method, mixed ...$args): string
+    {
+        $m = new \ReflectionMethod(Recovery::class, $method);
+        $m->setAccessible(true);
+
+        return (string) $m->invoke(null, ...$args);
+    }
+
+    public function test_the_last_address_stays_while_the_login_code_is_required(): void
+    {
+        $admin = $this->user('administrator');
+        update_option('draco_mfa_enabled', 'yes');
+        update_user_meta($admin->ID, Recovery::META_LIST, ['one@example.net', 'two@example.net']);
+        $this->assertSame('sent_remove', $this->call('requestRemove', $admin, 1), 'with two, one can go');
+        update_user_meta($admin->ID, Recovery::META_LIST, ['one@example.net']);
+        delete_user_meta($admin->ID, Recovery::META_PENDING);
+        $this->assertSame('last', $this->call('requestRemove', $admin, 0));
+        $this->assertSame('', get_user_meta($admin->ID, Recovery::META_PENDING, true));
+        update_option('draco_mfa_enabled', 'no');
+        $this->assertSame('sent_remove', $this->call('requestRemove', $admin, 0), 'without the login code it can');
+    }
+
+    public function test_a_removal_under_way_does_not_take_the_last_address_either(): void
+    {
+        $admin = $this->user('administrator');
+        update_option('draco_mfa_enabled', 'yes');
+        update_user_meta($admin->ID, Recovery::META_LIST, ['one@example.net']);
+        update_user_meta($admin->ID, Recovery::META_PENDING, ['op' => 'remove', 'slot' => 0, 'email' => 'one@example.net', 'new' => \DracoInsomnis\Login\Challenge::hash('123456'), 'old' => '', 'at' => time(), 'tries' => 0]);
+        $this->assertSame('last', $this->call('confirmRemove', $admin, '123456'));
+        $this->assertSame(['one@example.net'], Recovery::emails($admin->ID));
+    }
+
     public function test_no_address_yet(): void
     {
         $html = $this->screen([]);

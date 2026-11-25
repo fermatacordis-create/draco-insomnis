@@ -679,5 +679,8 @@ return array (
     'Confirm the previous one first.' => 'Bevestig eerst het vorige.',
     'Verified' => 'Geverifieerd',
     'Free' => 'Vrij',
+    'PHP %s gets security updates' => 'PHP %s krijgt beveiligingsupdates',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s krijgt alleen nog tot %2$s beveiligingsupdates van php.net: kies een nieuwere versie in je hostingpaneel',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s krijgt sinds %2$s geen beveiligingsupdates meer van php.net: kies een nieuwere versie in je hostingpaneel',
   ),
 );

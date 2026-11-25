@@ -679,5 +679,8 @@ return array (
     'Confirm the previous one first.' => 'Hãy xác nhận địa chỉ trước đó trước.',
     'Verified' => 'Đã xác minh',
     'Free' => 'Trống',
+    'PHP %s gets security updates' => 'PHP %s vẫn nhận bản cập nhật bảo mật',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s chỉ nhận bản cập nhật bảo mật từ php.net đến %2$s: hãy chọn phiên bản mới hơn trong bảng điều khiển hosting',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s không còn nhận bản cập nhật bảo mật từ php.net kể từ %2$s: hãy chọn phiên bản mới hơn trong bảng điều khiển hosting',
   ),
 );

@@ -679,5 +679,8 @@ return array (
     'Confirm the previous one first.' => '先に前のアドレスを確認してください。',
     'Verified' => '確認済み',
     'Free' => '空き',
+    'PHP %s gets security updates' => 'PHP %s はセキュリティ更新の対象です',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s への php.net のセキュリティ更新は %2$s までです。ホスティングの管理画面で新しいバージョンを選んでください',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s への php.net のセキュリティ更新は %2$s で終了しました。ホスティングの管理画面で新しいバージョンを選んでください',
   ),
 );

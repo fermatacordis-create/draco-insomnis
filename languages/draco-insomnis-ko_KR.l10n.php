@@ -679,5 +679,8 @@ return array (
     'Confirm the previous one first.' => '먼저 이전 주소를 확인하세요.',
     'Verified' => '확인됨',
     'Free' => '비어 있음',
+    'PHP %s gets security updates' => 'PHP %s은(는) 보안 업데이트를 받습니다',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s은(는) php.net의 보안 업데이트를 %2$s까지만 받습니다. 호스팅 관리판에서 더 새로운 버전을 선택하세요',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s은(는) %2$s 이후 php.net의 보안 업데이트를 받지 않습니다. 호스팅 관리판에서 더 새로운 버전을 선택하세요',
   ),
 );

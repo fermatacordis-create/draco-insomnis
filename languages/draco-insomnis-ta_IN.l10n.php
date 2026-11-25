@@ -679,5 +679,8 @@ return array (
     'Confirm the previous one first.' => 'முதலில் முந்தையதை உறுதிசெய்யவும்.',
     'Verified' => 'சரிபார்க்கப்பட்டது',
     'Free' => 'காலி',
+    'PHP %s gets security updates' => 'PHP %s பாதுகாப்புப் புதுப்பிப்புகளைப் பெறுகிறது',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s php.net-இலிருந்து %2$s வரை மட்டுமே பாதுகாப்புப் புதுப்பிப்புகளைப் பெறும்: ஹோஸ்டிங் பேனலில் புதிய பதிப்பைத் தேர்ந்தெடுக்கவும்',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s %2$s முதல் php.net-இன் பாதுகாப்புப் புதுப்பிப்புகளைப் பெறவில்லை: ஹோஸ்டிங் பேனலில் புதிய பதிப்பைத் தேர்ந்தெடுக்கவும்',
   ),
 );

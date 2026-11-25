@@ -679,5 +679,8 @@ return array (
     'Confirm the previous one first.' => 'Najpierw potwierdź poprzedni.',
     'Verified' => 'Zweryfikowany',
     'Free' => 'Wolne',
+    'PHP %s gets security updates' => 'PHP %s otrzymuje aktualizacje bezpieczeństwa',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s otrzymuje aktualizacje bezpieczeństwa z php.net tylko do %2$s: wybierz nowszą wersję w panelu hostingu',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s nie otrzymuje aktualizacji bezpieczeństwa z php.net od %2$s: wybierz nowszą wersję w panelu hostingu',
   ),
 );

@@ -113,9 +113,42 @@ final class Overview
             self::todo(Recovery::emails((int) $user->ID) !== [], __('You have a recovery e-mail', 'draco-insomnis'), 'users.php?page=' . Recovery::SLUG);
         }
         self::todo(Waf::active() && Waf::blocking(), Waf::active() ? __('The firewall blocks attacks (switch it from "Log only" once you have looked at what it records)', 'draco-insomnis') : __('The firewall is on', 'draco-insomnis'), 'draco-insomnis-firewall');
+        self::phpTodo();
         echo '</ul>';
         Brand::cardEnd();
         Brand::close();
+    }
+
+    /** Last day of security updates of each PHP branch (php.net/supported-versions). */
+    private const PHP_END = ['8.0' => '2023-11-26', '8.1' => '2025-12-31', '8.2' => '2026-12-31', '8.3' => '2027-12-31', '8.4' => '2028-12-31', '8.5' => '2029-12-31'];
+
+    /** 'ended', 'ending' (90 days or less) or 'ok'; a branch newer than this list is 'ok'. */
+    public static function phpState(string $branch, int $now): string
+    {
+        if (!isset(self::PHP_END[$branch])) {
+            return 'ok';
+        }
+        $after = (int) strtotime(self::PHP_END[$branch] . ' +1 day UTC');
+
+        return $now >= $after ? 'ended' : ($now >= $after - 90 * DAY_IN_SECONDS ? 'ending' : 'ok');
+    }
+
+    private static function phpTodo(): void
+    {
+        $branch = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+        $state = self::phpState($branch, time());
+        $end = isset(self::PHP_END[$branch]) ? (string) wp_date((string) get_option('date_format'), (int) strtotime(self::PHP_END[$branch] . ' 12:00 UTC'), new \DateTimeZone('UTC')) : '';
+        if ($state === 'ok') {
+            /* translators: %s: PHP version, such as 8.5 */
+            $text = sprintf(__('PHP %s gets security updates', 'draco-insomnis'), $branch);
+        } elseif ($state === 'ending') {
+            /* translators: 1: PHP version, such as 8.2, 2: date */
+            $text = sprintf(__('PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel', 'draco-insomnis'), $branch, $end);
+        } else {
+            /* translators: 1: PHP version, such as 8.1, 2: date */
+            $text = sprintf(__('PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel', 'draco-insomnis'), $branch, $end);
+        }
+        echo '<li><span class="dashicons dashicons-' . ($state === 'ok' ? 'yes-alt is-ok' : 'warning is-warn') . '" aria-hidden="true"></span><span>' . esc_html($text) . '</span></li>';
     }
 
     private static function stat(int $number, string $label, string $icon): void

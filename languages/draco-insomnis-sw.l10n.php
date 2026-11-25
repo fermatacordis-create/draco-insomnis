@@ -679,5 +679,8 @@ return array (
     'Confirm the previous one first.' => 'Thibitisha kwanza iliyotangulia.',
     'Verified' => 'Imethibitishwa',
     'Free' => 'Wazi',
+    'PHP %s gets security updates' => 'PHP %s hupokea masasisho ya usalama',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s itapokea masasisho ya usalama kutoka php.net hadi %2$s pekee: chagua toleo jipya zaidi kwenye paneli ya upangishaji',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s haijapokea masasisho ya usalama kutoka php.net tangu %2$s: chagua toleo jipya zaidi kwenye paneli ya upangishaji',
   ),
 );

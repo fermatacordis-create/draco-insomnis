@@ -679,5 +679,8 @@ return array (
     'Confirm the previous one first.' => 'ยืนยันรายการก่อนหน้าก่อน',
     'Verified' => 'ยืนยันแล้ว',
     'Free' => 'ว่าง',
+    'PHP %s gets security updates' => 'PHP %s ยังได้รับการอัปเดตความปลอดภัย',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s จะได้รับการอัปเดตความปลอดภัยจาก php.net ถึง %2$s เท่านั้น: เลือกเวอร์ชันใหม่กว่าในแผงควบคุมโฮสติ้ง',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s ไม่ได้รับการอัปเดตความปลอดภัยจาก php.net ตั้งแต่ %2$s: เลือกเวอร์ชันใหม่กว่าในแผงควบคุมโฮสติ้ง',
   ),
 );

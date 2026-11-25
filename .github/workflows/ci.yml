@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['8.0', '8.1', '8.2', '8.3', '8.4']
+        php: ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['8.2', '8.4']
+        php: ['8.2', '8.4', '8.5']
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -41,12 +41,15 @@ jobs:
       - run: vendor/bin/phpunit
 
   wordpress:
-    name: WordPress ${{ matrix.wp }} — integration, HTTP and Plugin Check
+    name: WordPress ${{ matrix.wp }}${{ matrix.php != '8.3' && format(' (PHP {0})', matrix.php) || '' }} — integration, HTTP and Plugin Check
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         wp: ['latest', '6.5']
+        php: ['8.3']
+        include:
+          - { wp: 'latest', php: '8.5' }
     services:
       mysql:
         image: mysql:8.0
@@ -67,7 +70,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: ${{ matrix.php }}
           extensions: mysqli, zip, gd
           tools: wp-cli
           coverage: none

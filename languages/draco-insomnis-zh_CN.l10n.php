@@ -679,5 +679,8 @@ return array (
     'Confirm the previous one first.' => '请先确认上一个。',
     'Verified' => '已验证',
     'Free' => '空闲',
+    'PHP %s gets security updates' => 'PHP %s 可获得安全更新',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'php.net 对 PHP %1$s 的安全更新只到 %2$s：请在主机控制面板中选择更新的版本',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'php.net 自 %2$s 起不再为 PHP %1$s 提供安全更新：请在主机控制面板中选择更新的版本',
   ),
 );

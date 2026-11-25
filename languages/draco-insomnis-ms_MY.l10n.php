@@ -679,5 +679,8 @@ return array (
     'Confirm the previous one first.' => 'Sahkan yang sebelumnya dahulu.',
     'Verified' => 'Disahkan',
     'Free' => 'Kosong',
+    'PHP %s gets security updates' => 'PHP %s menerima kemas kini keselamatan',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s hanya menerima kemas kini keselamatan daripada php.net sehingga %2$s: pilih versi lebih baharu dalam panel pengehosan anda',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s tidak lagi menerima kemas kini keselamatan daripada php.net sejak %2$s: pilih versi lebih baharu dalam panel pengehosan anda',
   ),
 );

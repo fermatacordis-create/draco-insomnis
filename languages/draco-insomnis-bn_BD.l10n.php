@@ -679,5 +679,8 @@ return array (
     'Confirm the previous one first.' => 'আগে আগেরটি নিশ্চিত করুন।',
     'Verified' => 'যাচাইকৃত',
     'Free' => 'খালি',
+    'PHP %s gets security updates' => 'PHP %s নিরাপত্তা আপডেট পায়',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s php.net থেকে শুধু %2$s পর্যন্ত নিরাপত্তা আপডেট পাবে: হোস্টিং প্যানেলে নতুন সংস্করণ বেছে নিন',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s %2$s থেকে php.net-এর নিরাপত্তা আপডেট পাচ্ছে না: হোস্টিং প্যানেলে নতুন সংস্করণ বেছে নিন',
   ),
 );

@@ -679,5 +679,8 @@ return array (
     'Confirm the previous one first.' => 'Kumpirmahin muna ang nauna.',
     'Verified' => 'Na-verify',
     'Free' => 'Bakante',
+    'PHP %s gets security updates' => 'Nakakatanggap ng security update ang PHP %s',
+    'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'Hanggang %2$s lang makakatanggap ng security update mula sa php.net ang PHP %1$s: pumili ng mas bagong bersyon sa panel ng iyong hosting',
+    'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'Wala nang security update mula sa php.net ang PHP %1$s mula noong %2$s: pumili ng mas bagong bersyon sa panel ng iyong hosting',
   ),
 );
