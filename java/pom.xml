@@ -7,7 +7,7 @@
        pom stands alone, so the pom inside each jar is complete for whoever installs the jar. -->
   <groupId>io.github.fermatacordis-create</groupId>
   <artifactId>draco-insomnis-build</artifactId>
-  <version>0.1.37</version>
+  <version>0.1.38</version>
   <packaging>pom</packaging>
 
   <modules>
