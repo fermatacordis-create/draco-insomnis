@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.37
+Stable tag: 0.1.38
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,14 @@ The code is free software (GPLv2 or later). The names Draco Insomnis, Notorius V
 6. Open **Draco Insomnis → Firewall**, switch it on in **Log only**, and move to **Block** after a few days.
 7. If the site is behind Cloudflare or another proxy, choose the matching **Visitor address** option and check that "Your address as the plugin sees it" shows your real address.
 
+== Screenshots ==
+
+1. Overview — bots stopped, forms checked, firewall and modules at a glance.
+2. Anti-bot shield — protect sign-ups without captchas; evidence for abuse reports.
+3. Site mail (SMTP) — real mailbox, encrypted password, DMARC-friendly sender.
+4. Two-step login — e-mail codes after the password, recovery e-mail, trusted devices.
+5. Firewall — log-only or block; attack signatures without word-list false positives.
+
 == Frequently Asked Questions ==
 
 = Will real people be rejected? =
@@ -167,6 +175,12 @@ The settings screen offers a list of common providers (for example Amazon SES, G
 Service: the mail provider the administrator has an account with, under the terms and privacy policy the administrator accepted with that provider. Draco has no agreement with any of them.
 
 == Changelog ==
+
+= 0.1.38 =
+* Recovery e-mails — the screen always shows the three slots in order, with their state; a change under way asks for its code inside its own slot. Its tab has a light: green with three addresses, amber with some, grey with none.
+* Recovery e-mails — fixed: the last address could be removed while the login code was required. It now stays.
+* Overview — the checklist says whether the PHP version of the site still gets security updates, and warns 90 days before they end. Tested with PHP 8.5.
+* Translations — the new texts in all 39 languages; curly quotes in Spanish.
 
 = 0.1.37 =
 * Translations — every screen added since 0.1.27 (co-signature, trusted devices, recovery e-mails, malicious links, mail provider notes, block list) is now translated in all 39 languages. The Latin American Spanish translations had fallen behind and now match Spanish (Spain).
