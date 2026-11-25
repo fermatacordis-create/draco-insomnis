@@ -675,5 +675,9 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'தடுக்கப்பட்ட முகவரிகள் நீங்கள் தடையை நீக்கும் வரை அல்லது காலாவதியாகும் வரை இங்கே இருக்கும். மேலே உள்ள பட்டியலை அழித்தால் அவை நீங்காது. தடுக்கப்பட்ட முகவரியிலிருந்து வரும் படிவங்களும் பதிவுகளும் எல்லோருக்கும் போலவே "கிட்டத்தட்ட முடிந்தது" பதிலைப் பெறும், எனவே அவர்களால் அறிய முடியாது.',
     'Full block list in Anti-bot shield →' => 'முழுத் தடைப் பட்டியல் பாட் எதிர்ப்புக் கேடயத்தில் →',
     'Registration is complete. Check your email for details!' => 'பதிவு முடிந்தது. உங்கள் மின்னஞ்சலைச் சரிபார்க்கவும்.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'ஒவ்வொன்றாக: முகவரியை எழுதி, அதன் குறியீட்டைப் பெற்று, அடுத்ததற்குச் செல்லும் முன் உறுதிசெய்யவும்.',
+    'Confirm the previous one first.' => 'முதலில் முந்தையதை உறுதிசெய்யவும்.',
+    'Verified' => 'சரிபார்க்கப்பட்டது',
+    'Free' => 'காலி',
   ),
 );

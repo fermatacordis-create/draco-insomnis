@@ -675,5 +675,9 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'تبقى العناوين المحظورة هنا حتى تلغي حظرها أو تنتهي مدتها. مسح القائمة أعلاه لا يزيلها. تتلقى النماذج والتسجيلات من عنوان محظور الرد نفسه «اقتربنا من الانتهاء» مثل الجميع، فلا يمكنهم ملاحظة ذلك.',
     'Full block list in Anti-bot shield →' => 'قائمة الحظر الكاملة في درع مكافحة الروبوتات ←',
     'Registration is complete. Check your email for details!' => 'اكتمل التسجيل. يُرجى التحقق من بريدك الإلكتروني.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'واحدًا تلو الآخر: اكتب عنوانًا، واستلم رمزه وأكِّده قبل الانتقال إلى التالي.',
+    'Confirm the previous one first.' => 'أكِّد السابق أولًا.',
+    'Verified' => 'تم التحقق',
+    'Free' => 'متاحة',
   ),
 );

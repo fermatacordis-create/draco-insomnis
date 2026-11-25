@@ -675,5 +675,9 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'Les adresses bloquées restent ici jusqu’à ce que vous les débloquiez ou qu’elles expirent. Vider la liste ci-dessus ne les retire pas. Les formulaires et inscriptions venant d’une adresse bloquée reçoivent la même réponse « presque terminé » que tout le monde, ils ne peuvent donc pas le savoir.',
     'Full block list in Anti-bot shield →' => 'Liste de blocage complète dans Bouclier anti-bots →',
     'Registration is complete. Check your email for details!' => 'Inscription terminée. Veuillez vérifier votre messagerie.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'Une à la fois : saisissez une adresse, recevez son code et confirmez-le avant de passer à la suivante.',
+    'Confirm the previous one first.' => 'Confirmez d’abord la précédente.',
+    'Verified' => 'Vérifiée',
+    'Free' => 'Libre',
   ),
 );

@@ -675,5 +675,9 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'ที่อยู่ที่ถูกบล็อกจะอยู่ที่นี่จนกว่าคุณจะเลิกบล็อกหรือหมดอายุ การล้างรายการด้านบนไม่ได้ลบออก แบบฟอร์มและการสมัครจากที่อยู่ที่ถูกบล็อกจะได้รับคำตอบ "ใกล้เสร็จแล้ว" แบบเดียวกับทุกคน จึงไม่สามารถรู้ได้',
     'Full block list in Anti-bot shield →' => 'รายการบล็อกทั้งหมดในโล่ป้องกันบอต →',
     'Registration is complete. Check your email for details!' => 'ลงทะเบียนเสร็จสมบูรณ์ โปรดตรวจสอบอีเมลของคุณ',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'ทีละรายการ: พิมพ์ที่อยู่ รับรหัส แล้วยืนยันก่อนไปรายการถัดไป',
+    'Confirm the previous one first.' => 'ยืนยันรายการก่อนหน้าก่อน',
+    'Verified' => 'ยืนยันแล้ว',
+    'Free' => 'ว่าง',
   ),
 );

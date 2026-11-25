@@ -688,5 +688,9 @@ return array (
     'Host pattern: yourdomain.correoseguro.dinaserver.com.' => 'Forma del servidor: yourdomain.correoseguro.dinaserver.com.',
     'Or the cPanel hostname assigned to your account.' => 'O el nombre del servidor cPanel asignado a tu cuenta.',
     'Registration is complete. Check your email for details!' => 'Registro completado. Por favor, revisa tu correo electrónico.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'De uno en uno: escribe un correo, recibe su código y confírmalo antes de pasar al siguiente.',
+    'Confirm the previous one first.' => 'Confirma primero el anterior.',
+    'Verified' => 'Verificado',
+    'Free' => 'Libre',
   ),
 );

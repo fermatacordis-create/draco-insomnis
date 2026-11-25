@@ -675,5 +675,9 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'Os endereços bloqueados ficam aqui até os desbloquear ou expirarem. Limpar a lista acima não os remove. Os formulários e registos de um endereço bloqueado recebem a mesma resposta de «quase pronto» que todos, por isso não conseguem perceber.',
     'Full block list in Anti-bot shield →' => 'Lista de bloqueio completa no Escudo anti-bots →',
     'Registration is complete. Check your email for details!' => 'Registo concluído. Verifique o seu e-mail.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'Um de cada vez: escreva um endereço, receba o código e confirme-o antes de passar ao seguinte.',
+    'Confirm the previous one first.' => 'Confirme primeiro o anterior.',
+    'Verified' => 'Verificado',
+    'Free' => 'Livre',
   ),
 );

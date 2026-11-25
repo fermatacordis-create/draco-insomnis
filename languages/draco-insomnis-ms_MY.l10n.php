@@ -675,5 +675,9 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'Alamat yang disekat kekal di sini sehingga anda membuka sekatannya atau ia tamat tempoh. Mengosongkan senarai di atas tidak membuangnya. Borang dan pendaftaran dari alamat yang disekat menerima jawapan "hampir siap" yang sama seperti orang lain, jadi mereka tidak dapat mengetahuinya.',
     'Full block list in Anti-bot shield →' => 'Senarai sekatan penuh dalam Perisai anti-bot →',
     'Registration is complete. Check your email for details!' => 'Pendaftaran selesai. Sila semak e-mel anda.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'Satu demi satu: taip alamat, terima kodnya dan sahkan sebelum ke yang seterusnya.',
+    'Confirm the previous one first.' => 'Sahkan yang sebelumnya dahulu.',
+    'Verified' => 'Disahkan',
+    'Free' => 'Kosong',
   ),
 );

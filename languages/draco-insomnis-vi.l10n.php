@@ -675,5 +675,9 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'Địa chỉ bị chặn sẽ ở đây cho đến khi bạn bỏ chặn hoặc hết hạn. Xóa danh sách ở trên không gỡ chúng. Biểu mẫu và đăng ký từ địa chỉ bị chặn nhận cùng câu trả lời "sắp xong" như mọi người, nên họ không thể nhận ra.',
     'Full block list in Anti-bot shield →' => 'Danh sách chặn đầy đủ trong Lá chắn chống bot →',
     'Registration is complete. Check your email for details!' => 'Đăng ký hoàn tất. Vui lòng kiểm tra email của bạn.',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'Lần lượt từng địa chỉ: nhập địa chỉ, nhận mã và xác nhận trước khi sang địa chỉ tiếp theo.',
+    'Confirm the previous one first.' => 'Hãy xác nhận địa chỉ trước đó trước.',
+    'Verified' => 'Đã xác minh',
+    'Free' => 'Trống',
   ),
 );

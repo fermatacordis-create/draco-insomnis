@@ -675,5 +675,9 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => 'بلاک شدہ پتے یہاں رہتے ہیں جب تک آپ انہیں ان بلاک نہ کریں یا ان کی مدت ختم نہ ہو۔ اوپر کی فہرست صاف کرنے سے یہ نہیں ہٹتے۔ بلاک شدہ پتے سے آنے والے فارموں اور رجسٹریشنز کو سب جیسا "تقریباً مکمل" جواب ملتا ہے، اس لیے انہیں پتا نہیں چلتا۔',
     'Full block list in Anti-bot shield →' => 'مکمل بلاک فہرست اینٹی بوٹ ڈھال میں ←',
     'Registration is complete. Check your email for details!' => 'رجسٹریشن مکمل ہو گئی۔ براہِ کرم اپنی ای میل دیکھیں۔',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => 'ایک ایک کر کے: پتا لکھیں، اس کا کوڈ حاصل کریں اور اگلے پر جانے سے پہلے اس کی تصدیق کریں۔',
+    'Confirm the previous one first.' => 'پہلے پچھلے کی تصدیق کریں۔',
+    'Verified' => 'تصدیق شدہ',
+    'Free' => 'خالی',
   ),
 );

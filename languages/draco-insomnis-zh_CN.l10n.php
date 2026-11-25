@@ -675,5 +675,9 @@ return array (
     'Blocked addresses stay here until you unblock them or they expire. Clearing the list above does not remove them. Forms and sign-ups from a blocked address get the same “almost done” answer as everyone else, so they cannot tell.' => '被封锁的地址会一直留在这里，直到你解除封锁或到期。清空上面的列表不会移除它们。来自被封锁地址的表单和注册会收到与其他人相同的“快完成了”回复，因此对方无法察觉。',
     'Full block list in Anti-bot shield →' => '完整封锁列表请见反机器人盾 →',
     'Registration is complete. Check your email for details!' => '注册完成。请查收你的电子邮件。',
+    'One at a time: type an address, get its code and confirm it before going on to the next one.' => '请逐个添加：输入地址，收到验证码并确认后，再添加下一个。',
+    'Confirm the previous one first.' => '请先确认上一个。',
+    'Verified' => '已验证',
+    'Free' => '空闲',
   ),
 );

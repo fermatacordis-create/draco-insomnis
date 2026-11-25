@@ -213,8 +213,13 @@ final class Brand
             echo '</a>';
         }
         if (\DracoInsomnis\Login\Mfa::active()) {
+            $own = get_current_user_id();
+            $state = \DracoInsomnis\Login\Recovery::state($own);
+            /* translators: %d: number of recovery slots in use */
+            $slots = sprintf(__('Slots in use: %d of 3', 'draco-insomnis'), count(\DracoInsomnis\Login\Recovery::emails($own)));
             echo '<a href="' . esc_url(admin_url('users.php?page=' . \DracoInsomnis\Login\Recovery::SLUG)) . '"' . ($page === \DracoInsomnis\Login\Recovery::SLUG ? ' class="is-current" aria-current="page"' : '') . '>'
-                . '<span class="dashicons dashicons-sos" aria-hidden="true"></span>' . esc_html__('Recovery e-mail', 'draco-insomnis') . '</a>';
+                . '<span class="dashicons dashicons-sos" aria-hidden="true"></span>' . esc_html__('Recovery e-mail', 'draco-insomnis')
+                . ' <span class="draco-nav__dot' . ($state === 'off' ? '' : ' is-' . esc_attr($state)) . '" title="' . esc_attr($slots) . '"></span></a>';
         }
         echo '</nav>';
     }
