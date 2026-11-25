@@ -12,7 +12,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <draco.version>0.1.38</draco.version>
+    <draco.version>0.1.39</draco.version>
     <kotlin.version>2.4.21</kotlin.version>
     <ktor.version>3.6.1</ktor.version>
   </properties>

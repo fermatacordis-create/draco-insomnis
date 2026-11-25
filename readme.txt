@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.1.38
+Stable tag: 0.1.39
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -175,6 +175,10 @@ The settings screen offers a list of common providers (for example Amazon SES, G
 Service: the mail provider the administrator has an account with, under the terms and privacy policy the administrator accepted with that provider. Draco has no agreement with any of them.
 
 == Changelog ==
+
+= 0.1.39 =
+* Site mail — fixed: opening the screen with the server of a known provider put that provider's port and encryption in the form instead of the saved ones; saving then switched SMTP off. They are now filled in only when you choose a provider.
+* Site mail — the server, username and sender name fields look like the others.
 
 = 0.1.38 =
 * Recovery e-mails — the screen always shows the three slots in order, with their state; a change under way asks for its code inside its own slot. Its tab has a light: green with three addresses, amber with some, grey with none.
