@@ -102,6 +102,14 @@ The code is free software (GPLv2 or later). The names Draco Insomnis, Notorius V
 6. Open **Draco Insomnis → Firewall**, switch it on in **Log only**, and move to **Block** after a few days.
 7. If the site is behind Cloudflare or another proxy, choose the matching **Visitor address** option and check that "Your address as the plugin sees it" shows your real address.
 
+== Screenshots ==
+
+1. Overview — bots stopped, forms checked, firewall and modules at a glance.
+2. Anti-bot shield — protect sign-ups without captchas; evidence for abuse reports.
+3. Site mail (SMTP) — real mailbox, encrypted password, DMARC-friendly sender.
+4. Two-step login — e-mail codes after the password, recovery e-mail, trusted devices.
+5. Firewall — log-only or block; attack signatures without word-list false positives.
+
 == Frequently Asked Questions ==
 
 = Will real people be rejected? =
