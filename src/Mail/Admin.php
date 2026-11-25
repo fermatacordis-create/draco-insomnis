@@ -227,14 +227,14 @@ final class Admin
 
         /* translators: 1: site domain, 2: site domain */
         $row('draco-mail-region', __('Where is your mailbox?', 'draco-insomnis'), $cascade, sprintf(__('Preferably a mailbox on the domain of this site, @%1$s. Country → provider fills SMTP server, encryption and port automatically (shown in the note and editable below). If yours is missing, type the server by hand (often mail.%2$s) and confirm it with them.', 'draco-insomnis'), $domain, $domain));
-        $row('draco-mail-host', __('Outgoing server (SMTP)', 'draco-insomnis'), '<input id="draco-mail-host" name="host" class="regular-text" required placeholder="smtp.example.com" value="' . esc_attr((string) $s['host']) . '">', __('Filled when you choose a provider. You can still edit it. Your provider gives it to you.', 'draco-insomnis'));
+        $row('draco-mail-host', __('Outgoing server (SMTP)', 'draco-insomnis'), '<input id="draco-mail-host" type="text" name="host" class="regular-text" required placeholder="smtp.example.com" value="' . esc_attr((string) $s['host']) . '">', __('Filled when you choose a provider. You can still edit it. Your provider gives it to you.', 'draco-insomnis'));
         $row('draco-mail-secure', __('Encryption and port', 'draco-insomnis'), '<select id="draco-mail-secure" name="secure"><option value="ssl"' . selected($s['secure'], 'ssl', false) . '>SSL (465)</option><option value="tls"' . selected($s['secure'], 'tls', false) . '>STARTTLS (587)</option></select> '
             . '<label>' . esc_html__('Port', 'draco-insomnis') . ' <input id="draco-mail-port" type="number" name="port" class="small-text" min="1" max="65535" value="' . (int) $s['port'] . '"></label>', __('Filled with the provider preset. Some providers use other values — check the note and change them here if needed.', 'draco-insomnis'));
-        $row('draco-mail-user', __('Username', 'draco-insomnis'), '<input id="draco-mail-user" name="user" class="regular-text" autocomplete="off" required placeholder="' . esc_attr($example) . '" value="' . esc_attr((string) $s['user']) . '">', $known['user'] ?? $userHelp);
+        $row('draco-mail-user', __('Username', 'draco-insomnis'), '<input id="draco-mail-user" type="text" name="user" class="regular-text" autocomplete="off" required placeholder="' . esc_attr($example) . '" value="' . esc_attr((string) $s['user']) . '">', $known['user'] ?? $userHelp);
         $row('draco-mail-pass', __('Password', 'draco-insomnis'), '<input id="draco-mail-pass" type="password" name="password" class="regular-text" autocomplete="new-password" placeholder="' . esc_attr($s['pass'] !== '' ? __('Saved. Leave empty to keep it', 'draco-insomnis') : '') . '">', ($known['pass'] ?? $passHelp) . ' ' . __('It is stored encrypted.', 'draco-insomnis'));
         $row('draco-mail-from', __('Sender address (optional)', 'draco-insomnis'), '<input id="draco-mail-from" type="email" name="from" class="regular-text" placeholder="' . esc_attr($example) . '" value="' . esc_attr((string) $s['from']) . '">', __('The address people see. Empty uses the username above, which is normal. If you fill it in, it must be a mailbox or authorised alias on the domain of this site.', 'draco-insomnis'));
         echo '<tr><th></th><td><div id="draco-mail-domain-warning" class="notice notice-error inline" style="margin:0" hidden><p></p></div></td></tr>';
-        $row('draco-mail-name', __('Sender name (optional)', 'draco-insomnis'), '<input id="draco-mail-name" name="from_name" class="regular-text" placeholder="' . esc_attr((string) get_bloginfo('name')) . '" value="' . esc_attr((string) $s['from_name']) . '">', __('The name people see. Empty keeps whatever each plugin sets, usually "WordPress".', 'draco-insomnis'));
+        $row('draco-mail-name', __('Sender name (optional)', 'draco-insomnis'), '<input id="draco-mail-name" type="text" name="from_name" class="regular-text" placeholder="' . esc_attr((string) get_bloginfo('name')) . '" value="' . esc_attr((string) $s['from_name']) . '">', __('The name people see. Empty keeps whatever each plugin sets, usually "WordPress".', 'draco-insomnis'));
         $row('draco-mail-extra', __('Addresses for security alerts', 'draco-insomnis'), '<textarea id="draco-mail-extra" name="security_recipients" rows="3" class="large-text" placeholder="you@gmail.com">' . esc_textarea(implode("\n", Settings::securityRecipients())) . '</textarea>',
             /* translators: %s: site domain */
             sprintf(__('One per line. Besides the administrator, they receive the WordPress link to get in and fix the site if a plugin or theme breaks it (it gives access to the dashboard: trusted mailboxes only), and password-change alerts. Put at least one that is not @%s: if this domain fails, alerts still arrive.', 'draco-insomnis'), $domain));
@@ -340,7 +340,8 @@ final class Admin
                 note.hidden = false;
             }
 
-            function applyProvider(id) {
+            // fill: only when the person chooses a provider; on opening the screen the saved values stay.
+            function applyProvider(id, fill) {
                 var p = byId[id];
                 if (!p) {
                     hideNote();
@@ -350,10 +351,12 @@ final class Admin
                 }
                 $('draco-mail-user-help').textContent = p.user || userHelp;
                 $('draco-mail-pass-help').textContent = p.pass || passHelp;
-                if (p.host) { $('draco-mail-host').value = p.host; }
-                else if (p.host_kind === 'ask') { $('draco-mail-host').value = ''; $('draco-mail-host').focus(); }
-                secure.value = p.secure;
-                port.value = p.port;
+                if (fill) {
+                    if (p.host) { $('draco-mail-host').value = p.host; }
+                    else if (p.host_kind === 'ask') { $('draco-mail-host').value = ''; $('draco-mail-host').focus(); }
+                    secure.value = p.secure;
+                    port.value = p.port;
+                }
                 showNote(p);
             }
 
@@ -363,18 +366,19 @@ final class Admin
             });
             provider.addEventListener('change', function () {
                 if (!provider.value) { hideNote(); return; }
-                applyProvider(provider.value);
+                applyProvider(provider.value, true);
             });
             secure.addEventListener('change', function () { port.value = secure.value === 'ssl' ? 465 : 587; });
 
             // Restore cascade from saved host when possible.
             var savedHost = ($('draco-mail-host').value || '').toLowerCase();
             if (savedHost) {
-                var match = catalog.find(function (p) { return p.host && p.host.toLowerCase() === savedHost; });
+                var same = catalog.filter(function (p) { return p.host && p.host.toLowerCase() === savedHost; });
+                var match = same.find(function (p) { return String(p.port) === port.value && p.secure === secure.value; }) || same[0];
                 if (match) {
                     region.value = match.region;
                     fillProviders(match.region, match.id);
-                    applyProvider(match.id);
+                    applyProvider(match.id, false);
                 }
             }
 

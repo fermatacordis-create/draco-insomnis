@@ -57,6 +57,17 @@ final class ScreensTest extends TestCase
         $this->assertSame(substr_count($html, '<form'), substr_count($html, '</form>'), 'every form is closed');
     }
 
+    public function test_every_field_of_the_mail_screen_has_a_type(): void
+    {
+        wp_set_current_user($this->user('administrator')->ID);
+        $_GET['page'] = 'draco-insomnis-mail';
+        ob_start();
+        \DracoInsomnis\Mail\Admin::render();
+        preg_match_all('/<input\b[^>]*>/', (string) ob_get_clean(), $m);
+        $this->assertNotSame([], $m[0]);
+        $this->assertSame([], array_values(preg_grep('/\stype=/', $m[0], PREG_GREP_INVERT)), 'WordPress styles fields by their type');
+    }
+
     public function test_php_support(): void
     {
         $at = static fn (string $d): int => (int) strtotime($d . ' UTC');
