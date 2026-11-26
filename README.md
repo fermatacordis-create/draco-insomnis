@@ -15,7 +15,7 @@ with signed checksums, build provenance and an SBOM (see [SECURITY.md](SECURITY.
 
 | Platform | Package | More |
 | --- | --- | --- |
-| WordPress 6.5+ | plugin (`.zip`) | everything below |
+| WordPress 6.5+ | plugin on [WordPress.org](https://wordpress.org/plugins/draco-insomnis/), or `.zip` | everything below |
 | PrestaShop 8–9, Drupal 10.3–11, Joomla 5–6, Moodle 4.5–5.x | module or plugin (`.zip`) | anti-bot shield, firewall, anti-copy |
 | Magento 2.4 and Mage-OS | Composer package | [Magento and Mage-OS](#magento-and-mage-os) |
 | Laravel 11–13 | Composer package | [Laravel](#laravel) |
@@ -31,7 +31,8 @@ with signed checksums, build provenance and an SBOM (see [SECURITY.md](SECURITY.
 
 ## WordPress and the PHP CMSs
 
-On WordPress it has:
+On WordPress it installs from [WordPress.org](https://wordpress.org/plugins/draco-insomnis/)
+(Plugins → Add New → "Draco Insomnis"), tested up to WordPress 7.2 and PHP 8.6. It has:
 
 - **Anti-bot shield** — stops fake sign-ups without captchas: scores every public registration, feeds
   bots a fake success and keeps evidence for abuse reports.
@@ -45,7 +46,11 @@ On WordPress it has:
 - **Anti-copy** — closes the bulk JSON door (/wp-json/wp/v2/) to anonymous visitors with an allow
   list, and limits pages per minute per address and network; verified search engines are never limited.
 - **Firewall** — precise attack signatures and scanner probes, log-only mode first, hidden user list,
-  login limits, no XML-RPC multicall.
+  login limits, no XML-RPC multicall. Files that must never be public are always refused: .env, .git,
+  the installer of a site that is already installed (Drupal, WordPress), phpMyAdmin, logs such as
+  `error_log`, and backup or editor copies. `update.php` never is.
+- **Overview** — every module at a glance, a checklist, and whether the site's PHP version still gets
+  security updates.
 
 Also for **PrestaShop** 8 and 9 (module `dracoinsomnis`), **Drupal** 10.3 and 11 (module
 `draco_insomnis`), **Joomla** 5 and 6 (plugin `plg_system_dracoinsomnis`) and **Moodle** 4.5 to 5.x
@@ -200,7 +205,9 @@ Linux server (`auto_prepend_file`), so any PHP site gets the firewall, block lis
 pace limit, security headers and review requests without a plugin — MediaWiki, TYPO3, Magento,
 phpBB, Nextcloud or custom code. `bin/build-server.sh` makes the `.deb` (Debian, Ubuntu) and a
 `.tar.gz` with `install.sh` for other Linux; `tests/e2e/server.sh` runs against nginx + PHP-FPM and
-Apache + mod_php in CI. See [server/README.md](server/README.md).
+Apache + mod_php in CI. `draco audit https://your-site --mine` asks your own site, from outside, for
+those files and says what each answer means (protected, absent, EXPOSED, RAN, review). See
+[server/README.md](server/README.md).
 
 ## JavaScript
 
