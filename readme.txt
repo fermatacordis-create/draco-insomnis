@@ -67,7 +67,7 @@ Stops requests with the shape of an attack, and the scanners that look for weak 
 
 * **Precise signatures, not word lists.** Database injection, reading server files, running code and scripts in links are matched by their shape, so ordinary messages with words like "select", "update" or "delete" go through.
 * **Scanners and probes.** Tools such as sqlmap, WPScan or Nikto, and requests for .env, .git, wp-config backups, phpinfo or known web shells.
-* **Files that must never be public.** The installer of a site that is already installed, phpMyAdmin, logs such as error_log and debug.log, and backup or editor copies (.bak, .old, .orig, .swp). update.php is never refused.
+* **Files that must never be public.** phpMyAdmin, logs such as error_log and debug.log, and backup or editor copies (.bak, .old, .orig, .swp), when the request reaches WordPress. update.php is never refused. Files that run without WordPress, such as wp-admin/install.php, are out of reach of any plugin: refuse them in the web server.
 * **Starts in log-only mode**, so you can see what it would stop before it stops anything.
 * **Automatic blocks**: five attacks in 10 minutes put the address on the block list for 7 days. Blocked addresses can still read the site, but not log in, post forms or use XML-RPC.
 * **Hides the list of user names** from anonymous visitors (?author=1 and the users REST endpoint).
