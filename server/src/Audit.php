@@ -30,6 +30,15 @@ final class Audit
     public const RAN = 'RAN';
     public const REVIEW = 'review';
     public const ERROR = 'error';
+    public const BLOCKED = 'BLOCKED';
+
+    /** Answers a firewall gives to an address it refuses. */
+    private const REFUSALS = [401, 403, 429];
+
+    /** Shown before any request: the audit can get one's own address blocked. */
+    public const WARNING = 'These requests look like an attack to a firewall. Draco, or any firewall in block mode, may block the address that sends them, for days. '
+        . 'Before running it, sign in to the site\'s dashboard from this connection (Draco then lets this address through), '
+        . 'or add this address to the firewall\'s allow list, or run it from another address.';
 
     /**
      * What one answer means.
@@ -89,18 +98,40 @@ final class Audit
     public static function run(string $base, callable $fetch, int $pauseMs = 150): array
     {
         $base = rtrim($base, '/');
-        $baseline = $fetch($base . '/draco-audit-' . bin2hex(random_bytes(6)) . '-missing.php');
+        $missing = static fn (): string => $base . '/draco-audit-' . bin2hex(random_bytes(6)) . '-missing.php';
+        $baseline = $fetch($missing());
         $rows = [];
         foreach (self::PATHS as $group => $paths) {
+            $refused = false;
             foreach ($paths as $path) {
                 $answer = $fetch($base . $path);
                 [$result, $note] = self::classify($path, $answer, $baseline);
                 $rows[] = ['group' => $group, 'path' => $path, 'code' => $answer['code'], 'result' => $result, 'note' => $note];
+                $refused = $refused || in_array($answer['code'], self::REFUSALS, true);
                 usleep($pauseMs * 1000);
+            }
+            // A firewall may take these requests for an attack and block the address that sends them.
+            // Once blocked, every answer is a refusal and proves nothing: stop and say so.
+            if ($refused && !in_array($baseline['code'], self::REFUSALS, true) && in_array($fetch($missing())['code'], self::REFUSALS, true)) {
+                foreach ($rows as $i => $r) {
+                    if ($r['group'] === $group && in_array($r['code'], self::REFUSALS, true)) {
+                        $rows[$i]['result'] = self::REVIEW;
+                        $rows[$i]['note'] = 'your address may have been blocked by then';
+                    }
+                }
+                $rows[] = ['group' => $group, 'path' => '(stopped)', 'code' => 0, 'result' => self::BLOCKED, 'note' => 'the site now refuses a missing path too: its firewall blocked this address'];
+
+                return $rows;
             }
         }
 
         return $rows;
+    }
+
+    /** @param list<array{result: string}> $rows */
+    public static function blocked(array $rows): bool
+    {
+        return in_array(self::BLOCKED, array_column($rows, 'result'), true);
     }
 
     /** @param list<array{result: string}> $rows */

@@ -208,7 +208,9 @@ pace limit, security headers and review requests without a plugin — MediaWiki,
 phpBB, Nextcloud or custom code. `bin/build-server.sh` makes the `.deb` (Debian, Ubuntu) and a
 `.tar.gz` with `install.sh` for other Linux; `tests/e2e/server.sh` runs against nginx + PHP-FPM and
 Apache + mod_php in CI. `draco audit https://your-site --mine` asks your own site, from outside, for
-those files and says what each answer means (protected, absent, EXPOSED, RAN, review). See
+those files and says what each answer means (protected, absent, EXPOSED, RAN, review). A firewall may
+take it for an attack and block your address: sign in to the site from the same connection first; if
+it happens anyway, the audit stops and says BLOCKED. See
 [server/README.md](server/README.md).
 
 ## JavaScript
