@@ -75,6 +75,13 @@ Settings live in `/etc/draco-insomnis/draco.ini`. A `[site:example.com]` section
 - **EXPOSED**: served to anyone.
 - **RAN**: the code ran and failed: an error is not a refusal.
 - **review**: a redirect or an odd answer, for a person to look at.
+- **BLOCKED**: the site's firewall blocked the address that runs the audit, so it stopped.
+
+These requests look like an attack, and a firewall in block mode (Draco's too: 5 refusals in 10
+minutes block the address for 7 days) may block the address that sends them. Before running it, sign
+in to the site's dashboard from the same connection (Draco lets the addresses of administrators
+through) or add the address to the firewall's allow list. When the site starts refusing a path that
+cannot exist, the audit stops, says BLOCKED and exits with 2.
 
 Each answer is compared with the answer to a path that cannot exist, so a site that answers 200 or 403
 to everything is not taken for protected. It reads at most 64 KB per path, waits between requests and

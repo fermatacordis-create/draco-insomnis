@@ -59,9 +59,51 @@ final class AuditTest extends TestCase
         };
         $rows = Audit::run('https://example.com/', $fetch, 0);
         $this->assertStringContainsString('https://example.com/draco-audit-', $asked[0]);
-        $this->assertCount(count(array_merge(...array_values(Audit::PATHS))) + 1, $asked);
+        // One missing path first, then each path, then one missing path after each group that was refused.
+        $this->assertCount(count(array_merge(...array_values(Audit::PATHS))) + 1 + count(Audit::PATHS), $asked);
+        $this->assertFalse(Audit::blocked($rows));
         $this->assertSame([Audit::EXPOSED], array_values(array_unique(array_column(array_filter($rows, static fn ($r) => $r['path'] === '/.env'), 'result'))));
         $this->assertTrue(Audit::failed($rows));
         $this->assertFalse(Audit::failed(array_values(array_filter($rows, static fn ($r) => $r['path'] !== '/.env'))));
+    }
+
+    public function test_a_site_that_never_refuses_costs_no_extra_request(): void
+    {
+        $asked = 0;
+        $rows = Audit::run('https://example.com', static function () use (&$asked): array {
+            $asked++;
+
+            return ['code' => 404, 'body' => '', 'location' => ''];
+        }, 0);
+        $this->assertSame(count(array_merge(...array_values(Audit::PATHS))) + 1, $asked);
+        $this->assertFalse(Audit::blocked($rows));
+    }
+
+    public function test_stops_when_the_firewall_blocks_the_address(): void
+    {
+        // Like Draco in block mode: refuses each path and, after the fifth refusal, everything.
+        $hits = 0;
+        $asked = [];
+        $fetch = static function (string $url) use (&$hits, &$asked): array {
+            $asked[] = $url;
+            if ($hits >= 5) {
+                return ['code' => 403, 'body' => 'Blocked', 'location' => ''];
+            }
+            if (str_contains($url, 'draco-audit-')) {
+                return ['code' => 404, 'body' => '', 'location' => ''];
+            }
+            $hits++;
+
+            return ['code' => 403, 'body' => 'Forbidden', 'location' => ''];
+        };
+        $rows = Audit::run('https://example.com', $fetch, 0);
+        $this->assertTrue(Audit::blocked($rows));
+        $this->assertFalse(Audit::failed($rows));
+        $last = end($rows);
+        $this->assertSame([Audit::BLOCKED, '(stopped)'], [$last['result'], $last['path']]);
+        // Stopped after the group in which the block came, not at the end of the list.
+        $this->assertLessThan(count(array_merge(...array_values(Audit::PATHS))), count($asked));
+        // A refusal in the group where the block came proves nothing.
+        $this->assertNotContains(Audit::PROTECTED, array_column(array_filter($rows, static fn ($r) => $r['group'] === $last['group']), 'result'));
     }
 }
