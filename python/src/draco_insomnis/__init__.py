@@ -10,7 +10,7 @@ from .review import ReviewRequest, open_sealed, seal, sign
 from .store import Blocks, DracoEvent, MemoryStore, Store, valid_net
 from .waf import flatten, inspect
 
-__version__ = "0.1.39"
+__version__ = "0.1.40"
 
 __all__ = [
     "Answer", "Blocks", "CrowdSec", "DracoEvent", "DracoRequest", "Gatekeeper", "GeoFile", "MemoryStore",
