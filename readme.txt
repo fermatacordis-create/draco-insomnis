@@ -58,7 +58,7 @@ After the right password, WordPress asks for a 6-digit code sent by e-mail. A st
 * **The code is only sent after the right password**, expires in 10 minutes and allows 5 tries. Repeated failures block the address for 15 minutes.
 * **Trust this device for 7 days** (optional). Changing the password or e-mail of an account revokes its trusted devices.
 * **No lock-outs from missing mail.** It only switches on with SMTP working and switches itself off if that connection is forgotten.
-* **Recovery e-mail, like the PUK of a phone.** Everyone who needs a code keeps a second mailbox. The code screen can send the code there instead; "Lost your password?" accepts it too; after a password reset the next code goes only there. Changing it needs a code from the new address and one from the current one, and every change is told to the other mailbox. Administrators set it up before using the dashboard.
+* **Recovery e-mails, like the PUK of a phone.** Everyone who needs a code keeps up to three other mailboxes, added one at a time and each confirmed with a code; the screen shows the three slots in order, with their state. The last one cannot be removed while the code is required. The code screen can send the code there instead; "Lost your password?" accepts it too; after a password reset the next code goes only there. Changing it needs a code from the new address and one from the current one, and every change is told to the other mailbox. Administrators set it up before using the dashboard.
 * **Emergency exit for the owner:** `define('DRACO_MFA_OFF', true);` in wp-config.php. Only someone with access to the server can use it, unlike a "skip" button a thief could press.
 
 = Firewall =
@@ -67,11 +67,14 @@ Stops requests with the shape of an attack, and the scanners that look for weak 
 
 * **Precise signatures, not word lists.** Database injection, reading server files, running code and scripts in links are matched by their shape, so ordinary messages with words like "select", "update" or "delete" go through.
 * **Scanners and probes.** Tools such as sqlmap, WPScan or Nikto, and requests for .env, .git, wp-config backups, phpinfo or known web shells.
+* **Files that must never be public.** The installer of a site that is already installed, phpMyAdmin, logs such as error_log and debug.log, and backup or editor copies (.bak, .old, .orig, .swp). update.php is never refused.
 * **Starts in log-only mode**, so you can see what it would stop before it stops anything.
 * **Automatic blocks**: five attacks in 10 minutes put the address on the block list for 7 days. Blocked addresses can still read the site, but not log in, post forms or use XML-RPC.
 * **Hides the list of user names** from anonymous visitors (?author=1 and the users REST endpoint).
 * **Limits failed logins** and always refuses XML-RPC system.multicall (hundreds of passwords in one call) and pingbacks.
 * **Never inspects people who can edit the site** and never blocks an address an administrator used recently. Emergency exit: `define('DRACO_WAF_OFF', true);` in wp-config.php.
+
+The Overview screen shows every module at a glance, with a checklist of what makes the biggest difference. It also says whether the PHP version of the site still gets security updates from php.net, and warns 90 days before they end.
 
 = Anti-copy =
 
@@ -178,7 +181,6 @@ Service: the mail provider the administrator has an account with, under the term
 
 = 0.1.40 =
 * Firewall — also refuses the installers of a site that is already installed (Drupal and WordPress), phpMyAdmin, logs such as error_log and debug.log, and backup or editor copies (.bak, .old, .orig, .swp). update.php is never refused. Prompted by the Drupal installer flaws exploited in November 2026 (SA-CORE-2026-017 and 019).
-* Server edition — new command draco audit: asks your own site, from outside, for files that must never be public and says what each answer means.
 
 = 0.1.39 =
 * Site mail — fixed: opening the screen with the server of a known provider put that provider's port and encryption in the form instead of the saved ones; saving then switched SMTP off. They are now filled in only when you choose a provider.
