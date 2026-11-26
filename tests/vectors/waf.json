@@ -365,6 +365,136 @@
                 "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
             },
             "rule": "xss"
+        },
+        {
+            "name": "drupal installer",
+            "request": {
+                "path": "/drupal/core/install.php",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "wordpress installer",
+            "request": {
+                "path": "/wp-admin/install.php",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "wordpress setup",
+            "request": {
+                "path": "/wp-admin/setup-config.php",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "phpmyadmin",
+            "request": {
+                "path": "/phpMyAdmin/index.php",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "pma",
+            "request": {
+                "path": "/pma/",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "htpasswd",
+            "request": {
+                "path": "/.htpasswd",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "cpanel error_log",
+            "request": {
+                "path": "/error_log",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "laravel log",
+            "request": {
+                "path": "/storage/logs/laravel.log",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "rotated log",
+            "request": {
+                "path": "/logs/access.log.1",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "editor copy",
+            "request": {
+                "path": "/index.php.bak",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "old config",
+            "request": {
+                "path": "/config.php.old",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "zipped backup",
+            "request": {
+                "path": "/backup-2026-11-25.zip",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
+        },
+        {
+            "name": "database dump",
+            "request": {
+                "path": "/database.tar.gz",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            },
+            "rule": "probe"
         }
     ],
     "ordinary": [
@@ -556,6 +686,87 @@
                 "params": [
                     "I know javascript: React and Vue"
                 ],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "drupal update",
+            "request": {
+                "path": "/drupal/update.php",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "drupal script",
+            "request": {
+                "path": "/core/misc/drupal.js",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "a post about logs",
+            "request": {
+                "path": "/blog/logs-and-lumber/",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "a brochure",
+            "request": {
+                "path": "/downloads/brochure.zip",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "a magazine",
+            "request": {
+                "path": "/pmagazine/",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "an install guide",
+            "request": {
+                "path": "/install-guide/",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "a changelog page",
+            "request": {
+                "path": "/changelog/",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "a backup guide",
+            "request": {
+                "path": "/backup-guide/",
+                "query": "",
+                "params": [],
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+            }
+        },
+        {
+            "name": "wordpress plugins screen",
+            "request": {
+                "path": "/wp-admin/plugins.php",
+                "query": "",
+                "params": [],
                 "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
             }
         }

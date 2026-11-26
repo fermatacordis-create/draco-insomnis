@@ -65,6 +65,26 @@ draco disable                stop loading it (the package also does this on remo
 
 Settings live in `/etc/draco-insomnis/draco.ini`. A `[site:example.com]` section overrides them for one site and its subdomains.
 
+## Check your own site from outside
+
+`draco audit https://your-site --mine` asks your site for files and tools that must never be public
+(.env, .git, installers, backups, phpMyAdmin, logs such as `error_log`) and says what each answer means:
+
+- **protected**: refused (401 or 403).
+- **absent**: not there, but not refused either.
+- **EXPOSED**: served to anyone.
+- **RAN**: the code ran and failed: an error is not a refusal.
+- **review**: a redirect or an odd answer, for a person to look at.
+
+Each answer is compared with the answer to a path that cannot exist, so a site that answers 200 or 403
+to everything is not taken for protected. It reads at most 64 KB per path, waits between requests and
+never asks for `update.php`. `--json` gives the same as JSON; the exit code is 1 when something is
+EXPOSED or RAN. `--mine` is required: asking someone else's site for these files is scanning it.
+
+The firewall now also refuses the installers of a site that is already installed (`core/install.php`,
+`wp-admin/install.php`, `wp-admin/setup-config.php`). To install a new site behind Draco, run the
+installer with `waf_mode` at `log` or add its path to `except`, then put it back.
+
 ## How it keeps sites safe
 
 - **Fails open.** Any error of Draco itself goes to the PHP log, and the request continues.

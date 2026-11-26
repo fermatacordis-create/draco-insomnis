@@ -54,6 +54,7 @@ final class Cli
                 'geo-update' => $cli->geoUpdate(),
                 'crowdsec' => $cli->crowdsec(),
                 'report' => $cli->report(),
+                'audit' => $cli->audit(),
                 'version' => $cli->out(DRACO_SERVER_VERSION),
                 default => $cli->help(),
             };
@@ -96,6 +97,7 @@ final class Cli
               draco geo-update                  Downloads the country list (DB-IP Lite, CC BY 4.0)
               draco crowdsec [sync]             CrowdSec bans copied in, Draco's attacks shared (see draco.ini)
               draco report <ip> [--to=addr] [--send]   Abuse report to the network: draft first, sent only with --send
+              draco audit <https://your-site> --mine [--json]   Asks your own site for files that must never be public
 
             Options: --user=<php user> picks whose evidence (default: the only one there is).
             TXT);
@@ -493,6 +495,40 @@ final class Cli
         $store->log($ip, $ip, Abuse::ENDPOINT, ['score' => 0, 'verdict' => 'sent', 'reasons' => []], '', ['email' => $to, 'username' => substr($draft['subject'], 0, 150)]);
 
         return $this->out("Sent to $to.");
+    }
+
+    /** Asks one's own site, from outside, for what must never be public. Only with --mine. */
+    private function audit(): int
+    {
+        $url = $this->args[0] ?? '';
+        $parts = parse_url($url);
+        if (!is_array($parts) || !in_array($parts['scheme'] ?? '', ['http', 'https'], true) || ($parts['host'] ?? '') === '') {
+            return $this->fail('draco audit <https://your-site> --mine [--json]');
+        }
+        if (!isset($this->opt['mine'])) {
+            return $this->fail('Only for your own sites: asking someone else\'s for these files is scanning it. Add --mine to confirm that ' . $parts['host'] . ' is yours.');
+        }
+        $rows = Audit::run($url, Audit::curl($this->version()));
+        if (isset($this->opt['json'])) {
+            echo json_encode(['site' => $url, 'checked_at' => gmdate('c'), 'results' => $rows], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES), "\n";
+
+            return Audit::failed($rows) ? 1 : 0;
+        }
+        $count = array_count_values(array_column($rows, 'result'));
+        foreach ($rows as $r) {
+            printf("%-10s %3s  %-52s %s\n", $r['result'], $r['code'] ?: '-', $r['path'], $r['note']);
+        }
+        echo "\n";
+        foreach ([Audit::EXPOSED, Audit::RAN, Audit::REVIEW, Audit::ERROR, Audit::PROTECTED, Audit::ABSENT] as $k) {
+            if (isset($count[$k])) {
+                echo $k, ': ', $count[$k], '  ';
+            }
+        }
+        echo "\n", Audit::failed($rows)
+            ? 'EXPOSED: served to anyone. RAN: the code ran (an error is not a refusal). Refuse them in the web server (draco enable, or the rules generator).'
+            : 'Nothing served. "absent" is not there but not refused either; "review" needs a look by a person.', "\n";
+
+        return Audit::failed($rows) ? 1 : 0;
     }
 
     private function crowdsec(): int
