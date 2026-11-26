@@ -11,10 +11,11 @@ check() { if [ "$2" = "$3" ]; then echo "ok   - $1"; else echo "FAIL - $1 (expec
 
 # The site, with what people upload by mistake.
 site="$work/site"
-mkdir -p "$site/.git" "$site/app" "$site/wp-content/uploads" "$site/vendor/phpunit/phpunit/src/Util/PHP" "$site/blog/environment-friendly-homes" "$site/info"
+mkdir -p "$site/.git" "$site/app" "$site/wp-content/uploads" "$site/vendor/phpunit/phpunit/src/Util/PHP" "$site/blog/environment-friendly-homes" "$site/info" "$site/drupal/core" "$site/wp-admin" "$site/phpMyAdmin" "$site/storage/logs"
 echo '<!doctype html><title>home</title>home' > "$site/index.html"
 echo 'post' > "$site/blog/environment-friendly-homes/index.html"
 echo 'info' > "$site/info/index.html"
+echo 'update' > "$site/drupal/update.php"
 for f in .env app/.env.production .git/config wp-config.php.bak 'wp-config.php~' vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php backup.sql.gz wp-content/debug.log wp-content/uploads/alfa-rex.php drupal/core/install.php wp-admin/install.php phpMyAdmin/index.php .htpasswd error_log storage/logs/laravel.log index.php.bak backup-2026-11-25.zip; do
   echo secret > "$site/$f"
 done
