@@ -47,8 +47,10 @@ On WordPress it installs from [WordPress.org](https://wordpress.org/plugins/drac
   list, and limits pages per minute per address and network; verified search engines are never limited.
 - **Firewall** — precise attack signatures and scanner probes, log-only mode first, hidden user list,
   login limits, no XML-RPC multicall. Files that must never be public are always refused: .env, .git,
-  the installer of a site that is already installed (Drupal, WordPress), phpMyAdmin, logs such as
-  `error_log`, and backup or editor copies. `update.php` never is.
+  phpMyAdmin, logs such as `error_log`, and backup or editor copies; `update.php` never is. The
+  plugin sees only requests that reach WordPress: files that run without it, such as
+  `wp-admin/install.php`, are refused by the [server edition](#server-edition) and the
+  [rules generator](#static-sites), which act in front of PHP.
 - **Overview** — every module at a glance, a checklist, and whether the site's PHP version still gets
   security updates.
 
