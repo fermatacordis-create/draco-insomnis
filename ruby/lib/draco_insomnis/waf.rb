@@ -7,7 +7,7 @@ module DracoInsomnis
   module Waf
     SCANNERS = /\b(sqlmap|nikto|wpscan|nmap|masscan|zgrab|nuclei|acunetix|dirbuster|gobuster|ffuf|feroxbuster|wfuzz|whatweb|openvas|netsparker|jaeles|hydra)\b/i
 
-    PROBES = %r{(\A|/)(\.env(\.[a-z0-9]+)?\Z|\.git(/|\Z)|\.svn/|\.hg/|\.aws/|\.ssh/|\.ds_store\Z|wp-config\.php[^/]+\Z|wp-config\.(bak|old|txt|orig|save|swp)\Z|phpinfo\.php\Z|info\.php\Z|adminer[\w.-]*\.php\Z|eval-stdin\.php\Z|vendor/phpunit/|[\w.-]+\.sql(\.gz|\.zip)?\Z|debug\.log\Z|server-status\Z|cgi-bin/|(wso|c99|r57|alfa[\w-]*|shell|webshell|b374k)\.php\Z)}i
+    PROBES = %r{(\A|/)(\.env(\.[a-z0-9]+)?\Z|\.git(/|\Z)|\.svn/|\.hg/|\.aws/|\.ssh/|\.ds_store\Z|wp-config\.php[^/]+\Z|wp-config\.(bak|old|txt|orig|save|swp)\Z|phpinfo\.php\Z|info\.php\Z|adminer[\w.-]*\.php\Z|eval-stdin\.php\Z|vendor/phpunit/|[\w.-]+\.sql(\.gz|\.zip)?\Z|[\w.-]+\.log(\.\d+|\.gz)?\Z|error_log\Z|(storage|var)/logs?/|\.ht(access|passwd)\Z|core/install\.php\Z|wp-admin/(install|setup-config)\.php\Z|(phpmyadmin|phppgadmin)[\w.-]*(/|\Z)|pma(/|\Z)|[\w.-]+\.(bak|old|orig|save|swp)\Z|(backup|backups|dump|database)[\w.-]*\.(zip|tar|tgz|gz|bz2|7z|rar)\Z|server-status\Z|cgi-bin/|(wso|c99|r57|alfa[\w-]*|shell|webshell|b374k)\.php\Z)}i
 
     SP = '(\s|/\*.*?\*/|\+)'
 

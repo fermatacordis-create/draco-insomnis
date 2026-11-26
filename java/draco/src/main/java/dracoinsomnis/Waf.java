@@ -49,7 +49,7 @@ public final class Waf {
 
     private static final Pattern SCANNERS = r("\\b(sqlmap|nikto|wpscan|nmap|masscan|zgrab|nuclei|acunetix|dirbuster|gobuster|ffuf|feroxbuster|wfuzz|whatweb|openvas|netsparker|jaeles|hydra)\\b", I);
 
-    private static final Pattern PROBES = r("(^|/)(\\.env(\\.[a-z0-9]+)?$|\\.git(/|$)|\\.svn/|\\.hg/|\\.aws/|\\.ssh/|\\.ds_store$|wp-config\\.php[^/]+$|wp-config\\.(bak|old|txt|orig|save|swp)$|phpinfo\\.php$|info\\.php$|adminer[\\w.-]*\\.php$|eval-stdin\\.php$|vendor/phpunit/|[\\w.-]+\\.sql(\\.gz|\\.zip)?$|debug\\.log$|server-status$|cgi-bin/|(wso|c99|r57|alfa[\\w-]*|shell|webshell|b374k)\\.php$)", I);
+    private static final Pattern PROBES = r("(^|/)(\\.env(\\.[a-z0-9]+)?$|\\.git(/|$)|\\.svn/|\\.hg/|\\.aws/|\\.ssh/|\\.ds_store$|wp-config\\.php[^/]+$|wp-config\\.(bak|old|txt|orig|save|swp)$|phpinfo\\.php$|info\\.php$|adminer[\\w.-]*\\.php$|eval-stdin\\.php$|vendor/phpunit/|[\\w.-]+\\.sql(\\.gz|\\.zip)?$|[\\w.-]+\\.log(\\.\\d+|\\.gz)?$|error_log$|(storage|var)/logs?/|\\.ht(access|passwd)$|core/install\\.php$|wp-admin/(install|setup-config)\\.php$|(phpmyadmin|phppgadmin)[\\w.-]*(/|$)|pma(/|$)|[\\w.-]+\\.(bak|old|orig|save|swp)$|(backup|backups|dump|database)[\\w.-]*\\.(zip|tar|tgz|gz|bz2|7z|rar)$|server-status$|cgi-bin/|(wso|c99|r57|alfa[\\w-]*|shell|webshell|b374k)\\.php$)", I);
 
     private static final String SP = "(\\s|/\\*.*?\\*/|\\+)";
 

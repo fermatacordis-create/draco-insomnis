@@ -15,7 +15,7 @@ mkdir -p "$site/.git" "$site/app" "$site/wp-content/uploads" "$site/vendor/phpun
 echo '<!doctype html><title>home</title>home' > "$site/index.html"
 echo 'post' > "$site/blog/environment-friendly-homes/index.html"
 echo 'info' > "$site/info/index.html"
-for f in .env app/.env.production .git/config wp-config.php.bak 'wp-config.php~' vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php backup.sql.gz wp-content/debug.log wp-content/uploads/alfa-rex.php; do
+for f in .env app/.env.production .git/config wp-config.php.bak 'wp-config.php~' vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php backup.sql.gz wp-content/debug.log wp-content/uploads/alfa-rex.php drupal/core/install.php wp-admin/install.php phpMyAdmin/index.php .htpasswd error_log storage/logs/laravel.log index.php.bak backup-2026-11-25.zip; do
   echo secret > "$site/$f"
 done
 chmod -R a+rX "$work"
@@ -68,6 +68,7 @@ for server in apache:18091 nginx:18092; do
   done <<< "$vectors"
   check "$name: the home page" 200 "$(curl -s -o /dev/null -w '%{http_code}' -A "$UA" "http://127.0.0.1:$port/")"
   check "$name: a post whose name starts with env" 200 "$(curl -s -o /dev/null -w '%{http_code}' -A "$UA" "http://127.0.0.1:$port/blog/environment-friendly-homes/")"
+  check "$name: update.php is never refused" 200 "$(curl -s -o /dev/null -w '%{http_code}' -A "$UA" "http://127.0.0.1:$port/drupal/update.php")"
   check "$name: /info/ is a page, not info.php" 200 "$(curl -s -o /dev/null -w '%{http_code}' -A "$UA" "http://127.0.0.1:$port/info/")"
   h=$(curl -s -D - -o /dev/null -A "$UA" "http://127.0.0.1:$port/")
   check "$name: nosniff" 1 "$(grep -ci '^x-content-type-options: nosniff' <<< "$h")"
