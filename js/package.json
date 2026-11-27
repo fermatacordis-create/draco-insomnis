@@ -1,6 +1,6 @@
 {
   "name": "draco-insomnis",
-  "version": "0.1.40",
+  "version": "0.1.41",
   "description": "Firewall, anti-copy pace and country rules for Node.js (Express, Koa, Strapi, Directus) and Cloudflare Workers. No dependencies.",
   "license": "GPL-2.0-or-later",
   "type": "module",
