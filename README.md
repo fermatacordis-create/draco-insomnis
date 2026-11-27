@@ -45,12 +45,17 @@ On WordPress it installs from [WordPress.org](https://wordpress.org/plugins/drac
   e-mails. Identity stays on WordPress; see `docs/identity/`.
 - **Anti-copy** — closes the bulk JSON door (/wp-json/wp/v2/) to anonymous visitors with an allow
   list, and limits pages per minute per address and network; verified search engines are never limited.
+  Its log says the kind of route asked for (content, search, user accounts), the answer the visitor
+  got and the whole browser string.
 - **Firewall** — precise attack signatures and scanner probes, log-only mode first, hidden user list,
   login limits, no XML-RPC multicall. Files that must never be public are always refused: .env, .git,
   phpMyAdmin, logs such as `error_log`, and backup or editor copies; `update.php` never is. The
   plugin sees only requests that reach WordPress: files that run without it, such as
   `wp-admin/install.php`, are refused by the [server edition](#server-edition) and the
-  [rules generator](#static-sites), which act in front of PHP.
+  [rules generator](#static-sites), which act in front of PHP. Optional, off by default: **hide
+  versions** (generator tags out, and `?ver=` of styles and scripts turned into a code that still
+  changes on every update) and **security.txt** (`/.well-known/security.txt`, RFC 9116, with the
+  contact you choose).
 - **Overview** — every module at a glance, a checklist, and whether the site's PHP version still gets
   security updates.
 
