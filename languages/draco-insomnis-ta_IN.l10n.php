@@ -682,5 +682,7 @@ return array (
     'PHP %s gets security updates' => 'PHP %s பாதுகாப்புப் புதுப்பிப்புகளைப் பெறுகிறது',
     'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s php.net-இலிருந்து %2$s வரை மட்டுமே பாதுகாப்புப் புதுப்பிப்புகளைப் பெறும்: ஹோஸ்டிங் பேனலில் புதிய பதிப்பைத் தேர்ந்தெடுக்கவும்',
     'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s %2$s முதல் php.net-இன் பாதுகாப்புப் புதுப்பிப்புகளைப் பெறவில்லை: ஹோஸ்டிங் பேனலில் புதிய பதிப்பைத் தேர்ந்தெடுக்கவும்',
+    'Hide versions on public pages (WordPress, theme and plugins)' => 'பொதுப் பக்கங்களில் பதிப்புகளை மறை (WordPress, தீம், செருகுநிரல்கள்)',
+    'Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.' => '"generator" குறிச்சொற்களை நீக்கி, ஸ்டைல்கள் மற்றும் ஸ்கிரிப்ட்களின் "?ver=" ஐ ஒவ்வொரு புதுப்பிப்பிலும் மாறிக்கொண்டே இருக்கும் குறியீடாக மாற்றுகிறது. பழைய பதிப்புகளைத் தேடும் ரோபோக்களுக்குத் தளத்தைப் பட்டியலிடுவது கடினமாகிறது; இது எதையும் சரிசெய்யாது: எல்லாவற்றையும் புதுப்பித்து வையுங்கள். readme.html, license.txt ஆகியவற்றை வலை சேவையகம் WordPress இல்லாமல் அனுப்புகிறது, எனவே எந்தச் செருகுநிரலும் அவற்றை மறுக்க முடியாது: சேவையகத்தில் மறுக்கவும்.',
   ),
 );

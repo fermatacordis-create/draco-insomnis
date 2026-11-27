@@ -682,5 +682,7 @@ return array (
     'PHP %s gets security updates' => 'PHP %s hupokea masasisho ya usalama',
     'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s itapokea masasisho ya usalama kutoka php.net hadi %2$s pekee: chagua toleo jipya zaidi kwenye paneli ya upangishaji',
     'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s haijapokea masasisho ya usalama kutoka php.net tangu %2$s: chagua toleo jipya zaidi kwenye paneli ya upangishaji',
+    'Hide versions on public pages (WordPress, theme and plugins)' => 'Ficha matoleo kwenye kurasa za umma (WordPress, mandhari na programu-jalizi)',
+    'Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.' => 'Huondoa lebo za "generator" na hubadilisha "?ver=" ya mitindo na hati kuwa msimbo unaoendelea kubadilika kila sasisho. Roboti zinazotafuta matoleo ya zamani hupata ugumu zaidi kuiweka tovuti kwenye orodha zao; hairekebishi chochote: sasisha kila kitu. readme.html na license.txt hutumwa na seva ya wavuti bila WordPress, kwa hivyo hakuna programu-jalizi inayoweza kuzikataa: zikatae kwenye seva.',
   ),
 );

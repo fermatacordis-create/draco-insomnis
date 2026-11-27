@@ -682,5 +682,7 @@ return array (
     'PHP %s gets security updates' => 'PHP %s vẫn nhận bản cập nhật bảo mật',
     'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s chỉ nhận bản cập nhật bảo mật từ php.net đến %2$s: hãy chọn phiên bản mới hơn trong bảng điều khiển hosting',
     'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s không còn nhận bản cập nhật bảo mật từ php.net kể từ %2$s: hãy chọn phiên bản mới hơn trong bảng điều khiển hosting',
+    'Hide versions on public pages (WordPress, theme and plugins)' => 'Ẩn phiên bản trên các trang công khai (WordPress, giao diện và plugin)',
+    'Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.' => 'Gỡ các thẻ "generator" và biến "?ver=" của tệp kiểu và tập lệnh thành một mã vẫn thay đổi sau mỗi lần cập nhật. Robot tìm phiên bản cũ sẽ khó đưa trang vào danh sách của chúng hơn; điều này không sửa được gì: hãy luôn cập nhật mọi thứ. readme.html và license.txt do máy chủ web gửi đi mà không qua WordPress, nên không plugin nào từ chối được: hãy từ chối chúng trên máy chủ.',
   ),
 );

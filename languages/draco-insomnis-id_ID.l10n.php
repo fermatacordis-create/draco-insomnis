@@ -682,5 +682,7 @@ return array (
     'PHP %s gets security updates' => 'PHP %s mendapat pembaruan keamanan',
     'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s hanya mendapat pembaruan keamanan dari php.net sampai %2$s: pilih versi lebih baru di panel hosting Anda',
     'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s tidak lagi mendapat pembaruan keamanan dari php.net sejak %2$s: pilih versi lebih baru di panel hosting Anda',
+    'Hide versions on public pages (WordPress, theme and plugins)' => 'Sembunyikan versi di halaman publik (WordPress, tema, dan plugin)',
+    'Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.' => 'Menghapus tag "generator" dan mengubah "?ver=" pada stylesheet dan skrip menjadi kode yang tetap berubah di setiap pembaruan. Robot yang mencari versi lama jadi lebih sulit memasukkan situs ke daftar mereka; ini tidak memperbaiki apa pun: selalu perbarui semuanya. readme.html dan license.txt dikirim oleh server web tanpa WordPress, jadi tidak ada plugin yang bisa menolaknya: tolak di server.',
   ),
 );

@@ -682,5 +682,7 @@ return array (
     'PHP %s gets security updates' => 'PHP %s menerima kemas kini keselamatan',
     'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s hanya menerima kemas kini keselamatan daripada php.net sehingga %2$s: pilih versi lebih baharu dalam panel pengehosan anda',
     'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s tidak lagi menerima kemas kini keselamatan daripada php.net sejak %2$s: pilih versi lebih baharu dalam panel pengehosan anda',
+    'Hide versions on public pages (WordPress, theme and plugins)' => 'Sembunyikan versi pada halaman awam (WordPress, tema dan pemalam)',
+    'Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.' => 'Membuang tag "generator" dan menukar "?ver=" pada gaya dan skrip kepada kod yang masih berubah pada setiap kemas kini. Robot yang mencari versi lama lebih sukar menyenaraikan laman ini; ia tidak membaiki apa-apa: pastikan semuanya dikemas kini. readme.html dan license.txt dihantar oleh pelayan web tanpa WordPress, jadi tiada pemalam boleh menolaknya: tolaknya di pelayan.',
   ),
 );

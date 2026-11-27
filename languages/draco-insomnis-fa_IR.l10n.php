@@ -682,5 +682,7 @@ return array (
     'PHP %s gets security updates' => 'PHP %s به‌روزرسانی امنیتی دریافت می‌کند',
     'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s فقط تا %2$s از php.net به‌روزرسانی امنیتی می‌گیرد: در پنل میزبانی نسخهٔ جدیدتری انتخاب کنید',
     'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s از %2$s دیگر از php.net به‌روزرسانی امنیتی نمی‌گیرد: در پنل میزبانی نسخهٔ جدیدتری انتخاب کنید',
+    'Hide versions on public pages (WordPress, theme and plugins)' => 'پنهان کردن نسخه‌ها در صفحه‌های عمومی (وردپرس، پوسته و افزونه‌ها)',
+    'Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.' => 'برچسب‌های «generator» را حذف می‌کند و «?ver=» استایل‌ها و اسکریپت‌ها را به کدی تبدیل می‌کند که همچنان با هر به‌روزرسانی تغییر می‌کند. فهرست کردن سایت را برای ربات‌هایی که دنبال نسخه‌های قدیمی می‌گردند دشوارتر می‌کند؛ اما چیزی را درست نمی‌کند: همه چیز را به‌روز نگه دارید. readme.html و license.txt را سرور وب بدون وردپرس ارسال می‌کند، پس هیچ افزونه‌ای نمی‌تواند آن‌ها را رد کند: آن‌ها را در سرور رد کنید.',
   ),
 );

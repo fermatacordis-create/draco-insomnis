@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Draco Insomnis 0.1.37\n"
+"Project-Id-Version: Draco Insomnis 0.1.40\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/draco-insomnis\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T06:35:51+00:00\n"
+"POT-Creation-Date: 2026-11-27T05:50:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: draco-insomnis\n"
@@ -113,14 +113,14 @@ msgstr ""
 #: src/Admin/Brand.php:229
 #: src/AntiCopy/Admin.php:60
 #: src/Firewall/Admin.php:145
-#: src/Firewall/Admin.php:248
+#: src/Firewall/Admin.php:254
 msgid "Log only"
 msgstr ""
 
 #: src/Admin/Brand.php:229
 #: src/Admin/Overview.php:96
 #: src/AntiCopy/Admin.php:59
-#: src/Firewall/Admin.php:246
+#: src/Firewall/Admin.php:252
 msgid "Off"
 msgstr ""
 
@@ -236,7 +236,7 @@ msgstr ""
 
 #: src/Admin/Overview.php:81
 #: src/Mail/Admin.php:121
-#: src/Mail/Admin.php:430
+#: src/Mail/Admin.php:434
 msgid "Another plugin"
 msgstr ""
 
@@ -362,11 +362,11 @@ msgstr ""
 
 #: src/AntiCopy/Admin.php:61
 #: src/Firewall/Admin.php:146
-#: src/Firewall/Admin.php:248
+#: src/Firewall/Admin.php:254
 #: src/Gate/Admin.php:192
 #: src/Gate/Admin.php:224
-#: src/Mail/Admin.php:442
-#: src/Mail/Admin.php:466
+#: src/Mail/Admin.php:446
+#: src/Mail/Admin.php:470
 #: src/Shield/Admin.php:136
 msgid "Block"
 msgstr ""
@@ -412,8 +412,8 @@ msgid "Only requests that reach WordPress count: images, styles and pages served
 msgstr ""
 
 #: src/AntiCopy/Admin.php:90
-#: src/Firewall/Admin.php:162
-#: src/Firewall/Admin.php:251
+#: src/Firewall/Admin.php:168
+#: src/Firewall/Admin.php:257
 #: src/Gate/Admin.php:133
 #: src/Gate/Admin.php:204
 #: src/Login/Admin.php:108
@@ -440,23 +440,23 @@ msgid "Recent"
 msgstr ""
 
 #: src/AntiCopy/Admin.php:99
-#: src/Firewall/Admin.php:183
-#: src/Firewall/Admin.php:276
+#: src/Firewall/Admin.php:189
+#: src/Firewall/Admin.php:282
 #: src/Gate/Admin.php:219
-#: src/Mail/Admin.php:458
+#: src/Mail/Admin.php:462
 #: src/Shield/AbuseReport.php:126
 #: src/Shield/Admin.php:167
 msgid "Date (UTC)"
 msgstr ""
 
 #: src/AntiCopy/Admin.php:99
-#: src/Firewall/Admin.php:183
-#: src/Firewall/Admin.php:209
+#: src/Firewall/Admin.php:189
+#: src/Firewall/Admin.php:215
 msgid "What"
 msgstr ""
 
 #: src/AntiCopy/Admin.php:99
-#: src/Firewall/Admin.php:183
+#: src/Firewall/Admin.php:189
 msgid "Address requested"
 msgstr ""
 
@@ -465,19 +465,19 @@ msgid "Browser"
 msgstr ""
 
 #: src/AntiCopy/Admin.php:99
-#: src/Firewall/Admin.php:183
-#: src/Firewall/Admin.php:276
-#: src/Mail/Admin.php:458
+#: src/Firewall/Admin.php:189
+#: src/Firewall/Admin.php:282
+#: src/Mail/Admin.php:462
 msgid "Result"
 msgstr ""
 
 #: src/AntiCopy/Admin.php:106
-#: src/Firewall/Admin.php:188
+#: src/Firewall/Admin.php:194
 msgid "Blocked"
 msgstr ""
 
 #: src/AntiCopy/Admin.php:106
-#: src/Firewall/Admin.php:188
+#: src/Firewall/Admin.php:194
 msgid "Would block"
 msgstr ""
 
@@ -572,180 +572,188 @@ msgstr ""
 msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
 msgstr ""
 
-#: src/Firewall/Admin.php:160
+#: src/Firewall/Admin.php:163
+msgid "Hide versions on public pages (WordPress, theme and plugins)"
+msgstr ""
+
+#: src/Firewall/Admin.php:164
+msgid "Takes out the \"generator\" tags and turns \"?ver=\" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server."
+msgstr ""
+
+#: src/Firewall/Admin.php:166
 msgid "Turn off XML-RPC completely (leave it on if you use Jetpack or the WordPress mobile app; its riskiest parts are always off)"
 msgstr ""
 
-#: src/Firewall/Admin.php:167
+#: src/Firewall/Admin.php:173
 msgid "Test the firewall"
 msgstr ""
 
-#: src/Firewall/Admin.php:168
+#: src/Firewall/Admin.php:174
 msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
 msgstr ""
 
-#: src/Firewall/Admin.php:172
+#: src/Firewall/Admin.php:178
 msgid "scanner tool"
 msgstr ""
 
-#: src/Firewall/Admin.php:172
+#: src/Firewall/Admin.php:178
 msgid "looking for sensitive files"
 msgstr ""
 
-#: src/Firewall/Admin.php:173
+#: src/Firewall/Admin.php:179
 msgid "database injection"
 msgstr ""
 
-#: src/Firewall/Admin.php:173
+#: src/Firewall/Admin.php:179
 msgid "reading server files"
 msgstr ""
 
-#: src/Firewall/Admin.php:174
+#: src/Firewall/Admin.php:180
 msgid "running code"
 msgstr ""
 
-#: src/Firewall/Admin.php:174
+#: src/Firewall/Admin.php:180
 msgid "script in the link"
 msgstr ""
 
-#: src/Firewall/Admin.php:175
+#: src/Firewall/Admin.php:181
 msgid "many passwords in one XML-RPC call"
 msgstr ""
 
-#: src/Firewall/Admin.php:176
+#: src/Firewall/Admin.php:182
 msgid "country not allowed"
 msgstr ""
 
-#: src/Firewall/Admin.php:182
+#: src/Firewall/Admin.php:188
 msgid "Recent attacks"
 msgstr ""
 
-#: src/Firewall/Admin.php:182
+#: src/Firewall/Admin.php:188
 msgid "Kept for 90 days. \"Evidence\" downloads everything from that address for an abuse report. In log-only mode they appear as \"Would block\"."
 msgstr ""
 
-#: src/Firewall/Admin.php:190
+#: src/Firewall/Admin.php:196
 #: src/Shield/Admin.php:178
 msgid "Evidence"
 msgstr ""
 
-#: src/Firewall/Admin.php:190
+#: src/Firewall/Admin.php:196
 #: src/Shield/Admin.php:178
 msgid "Report"
 msgstr ""
 
-#: src/Firewall/Admin.php:193
+#: src/Firewall/Admin.php:199
 msgid "No attacks seen yet."
 msgstr ""
 
-#: src/Firewall/Admin.php:193
+#: src/Firewall/Admin.php:199
 msgid "The firewall is off."
 msgstr ""
 
-#: src/Firewall/Admin.php:197
+#: src/Firewall/Admin.php:203
 msgid "If the firewall ever blocks you, add define('DRACO_WAF_OFF', true); to wp-config.php, log in, look at this list and remove the line."
 msgstr ""
 
 #. translators: 1: attacks seen, 2: of them blocked
-#: src/Firewall/Admin.php:206
+#: src/Firewall/Admin.php:212
 #, php-format
 msgid "%1$d attacks seen, %2$d blocked."
 msgstr ""
 
-#: src/Firewall/Admin.php:207
+#: src/Firewall/Admin.php:213
 msgid "Last 7 days"
 msgstr ""
 
-#: src/Firewall/Admin.php:213
+#: src/Firewall/Admin.php:219
 msgid "Busiest addresses"
 msgstr ""
 
-#: src/Firewall/Admin.php:229
+#: src/Firewall/Admin.php:235
 msgid "The country list could not be downloaded. The filter does nothing until it is there; try \"Update the country list\" later."
 msgstr ""
 
-#: src/Firewall/Admin.php:231
+#: src/Firewall/Admin.php:237
 msgid "Country list downloaded."
 msgstr ""
 
-#: src/Firewall/Admin.php:234
+#: src/Firewall/Admin.php:240
 msgid "Countries"
 msgstr ""
 
-#: src/Firewall/Admin.php:234
+#: src/Firewall/Admin.php:240
 msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
 msgstr ""
 
-#: src/Firewall/Admin.php:246
+#: src/Firewall/Admin.php:252
 msgid "Filter"
 msgstr ""
 
-#: src/Firewall/Admin.php:246
+#: src/Firewall/Admin.php:252
 msgid "Refuse the countries listed"
 msgstr ""
 
-#: src/Firewall/Admin.php:246
+#: src/Firewall/Admin.php:252
 msgid "Only the countries listed"
 msgstr ""
 
-#: src/Firewall/Admin.php:247
+#: src/Firewall/Admin.php:253
 #: src/Gate/Admin.php:219
 #: src/Shield/Admin.php:167
 msgid "Where"
 msgstr ""
 
-#: src/Firewall/Admin.php:247
+#: src/Firewall/Admin.php:253
 msgid "Logging in, signing up and forms (recommended)"
 msgstr ""
 
-#: src/Firewall/Admin.php:247
+#: src/Firewall/Admin.php:253
 msgid "The whole site"
 msgstr ""
 
-#: src/Firewall/Admin.php:248
+#: src/Firewall/Admin.php:254
 msgid "What to do"
 msgstr ""
 
-#: src/Firewall/Admin.php:249
+#: src/Firewall/Admin.php:255
 msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
 msgstr ""
 
 #. translators: %s: date of the country list, e.g. 2026-11-13
-#: src/Firewall/Admin.php:254
+#: src/Firewall/Admin.php:260
 msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
 msgstr ""
 
 #. translators: %s: date of the country list, e.g. 2026-11-13
-#: src/Firewall/Admin.php:254
+#: src/Firewall/Admin.php:260
 #, php-format
 msgid "Country list of %s."
 msgstr ""
 
-#: src/Firewall/Admin.php:259
+#: src/Firewall/Admin.php:265
 msgid "Update the country list"
 msgstr ""
 
 #. translators: %s: link to DB-IP
-#: src/Firewall/Admin.php:262
+#: src/Firewall/Admin.php:268
 #, php-format
 msgid "IP geolocation by %s (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
 msgstr ""
 
 #. translators: %d: number of review requests waiting
-#: src/Firewall/Admin.php:273
+#: src/Firewall/Admin.php:279
 #, php-format
 msgid "Waiting: %d"
 msgstr ""
 
-#: src/Firewall/Admin.php:275
+#: src/Firewall/Admin.php:281
 msgid "Review requests"
 msgstr ""
 
-#: src/Firewall/Admin.php:275
+#: src/Firewall/Admin.php:281
 msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
 msgstr ""
 
-#: src/Firewall/Admin.php:276
+#: src/Firewall/Admin.php:282
 #: src/Gate/Admin.php:219
 #: src/Shield/Admin.php:128
 #: src/Shield/Admin.php:146
@@ -753,44 +761,44 @@ msgstr ""
 msgid "E-mail"
 msgstr ""
 
-#: src/Firewall/Admin.php:276
+#: src/Firewall/Admin.php:282
 #: src/Gate/Admin.php:212
 msgid "Message"
 msgstr ""
 
-#: src/Firewall/Admin.php:277
-#: src/Firewall/Admin.php:288
+#: src/Firewall/Admin.php:283
+#: src/Firewall/Admin.php:294
 msgid "Let through"
 msgstr ""
 
-#: src/Firewall/Admin.php:277
+#: src/Firewall/Admin.php:283
 msgid "Denied"
 msgstr ""
 
-#: src/Firewall/Admin.php:277
+#: src/Firewall/Admin.php:283
 msgid "Attacker: blocked"
 msgstr ""
 
-#: src/Firewall/Admin.php:284
+#: src/Firewall/Admin.php:290
 #: src/Gate/Admin.php:187
-#: src/Mail/Admin.php:437
+#: src/Mail/Admin.php:441
 #: src/Shield/Admin.php:130
 msgid "For"
 msgstr ""
 
-#: src/Firewall/Admin.php:284
+#: src/Firewall/Admin.php:290
 msgid "24 hours"
 msgstr ""
 
-#: src/Firewall/Admin.php:289
+#: src/Firewall/Admin.php:295
 msgid "Deny"
 msgstr ""
 
-#: src/Firewall/Admin.php:290
+#: src/Firewall/Admin.php:296
 msgid "Attacker"
 msgstr ""
 
-#: src/Firewall/Admin.php:298
+#: src/Firewall/Admin.php:304
 msgid "No requests."
 msgstr ""
 
@@ -922,7 +930,7 @@ msgid "Recent submissions cleared. Blocked addresses stay on the block list."
 msgstr ""
 
 #: src/Gate/Admin.php:164
-#: src/Mail/Admin.php:410
+#: src/Mail/Admin.php:414
 msgid "Address unblocked."
 msgstr ""
 
@@ -1021,7 +1029,7 @@ msgid "Clear all recent submissions from this list? Blocked addresses stay on th
 msgstr ""
 
 #: src/Gate/Admin.php:217
-#: src/Mail/Admin.php:452
+#: src/Mail/Admin.php:456
 msgid "Clear list"
 msgstr ""
 
@@ -1804,7 +1812,7 @@ msgid "Code sent to your current recovery e-mail %s"
 msgstr ""
 
 #: src/Login/Recovery.php:582
-#: src/Mail/Admin.php:443
+#: src/Mail/Admin.php:447
 #: src/Shield/AbuseReport.php:90
 msgid "Cancel"
 msgstr ""
@@ -2052,103 +2060,103 @@ msgstr ""
 msgid "Choosing a provider fills SMTP server, encryption and port below automatically. You can still edit them."
 msgstr ""
 
-#: src/Mail/Admin.php:402
+#: src/Mail/Admin.php:406
 msgid "Connection saved. Now send a test."
 msgstr ""
 
-#: src/Mail/Admin.php:403
+#: src/Mail/Admin.php:407
 msgid "SMTP switched on. The mail of this site now leaves through your mailbox."
 msgstr ""
 
-#: src/Mail/Admin.php:404
+#: src/Mail/Admin.php:408
 msgid "Connection forgotten. The site sends with PHP mail() again. The alert addresses were kept."
 msgstr ""
 
 #. translators: %s: e-mail address
-#: src/Mail/Admin.php:406
+#: src/Mail/Admin.php:410
 #, php-format
 msgid "Test sent to %s. The server accepted it: check that it arrived, also in spam."
 msgstr ""
 
-#: src/Mail/Admin.php:407
+#: src/Mail/Admin.php:411
 msgid "Recent messages cleared."
 msgstr ""
 
 #. translators: %s: e-mail address
-#: src/Mail/Admin.php:409
+#: src/Mail/Admin.php:413
 #, php-format
 msgid "%s is blocked. Messages and sign-ups from that address are held or refused."
 msgstr ""
 
-#: src/Mail/Admin.php:411
+#: src/Mail/Admin.php:415
 msgid "Nothing was blocked: the address is not valid, belongs to an administrator, or is your own."
 msgstr ""
 
-#: src/Mail/Admin.php:412
+#: src/Mail/Admin.php:416
 msgid "Missing data. Check server, username, password, sender and recipient."
 msgstr ""
 
-#: src/Mail/Admin.php:413
+#: src/Mail/Admin.php:417
 msgid "Not saved: the password could not be encrypted (OpenSSL is missing on the server)."
 msgstr ""
 
-#: src/Mail/Admin.php:414
+#: src/Mail/Admin.php:418
 msgid "A successful test with this connection is needed first."
 msgstr ""
 
-#: src/Mail/Admin.php:415
+#: src/Mail/Admin.php:419
 msgid "Another plugin is sending the mail of this site. Turn it off first."
 msgstr ""
 
 #. translators: 1: e-mail address, 2: error message
-#: src/Mail/Admin.php:420
+#: src/Mail/Admin.php:424
 #, php-format
 msgid "The test to %1$s failed: %2$s"
 msgstr ""
 
-#: src/Mail/Admin.php:434
+#: src/Mail/Admin.php:438
 msgid "Block this address?"
 msgstr ""
 
-#: src/Mail/Admin.php:447
+#: src/Mail/Admin.php:451
 msgid "Recent messages"
 msgstr ""
 
-#: src/Mail/Admin.php:447
+#: src/Mail/Admin.php:451
 msgid "\"Accepted\" means the server took it, not that it reached the inbox. With PHP mail(), not even that. Message bodies are never stored. You can clear the list, or block an address that confirmed a form or sign-up."
 msgstr ""
 
-#: src/Mail/Admin.php:453
+#: src/Mail/Admin.php:457
 msgid "Clear all recent messages from this list? This cannot be undone."
 msgstr ""
 
-#: src/Mail/Admin.php:458
+#: src/Mail/Admin.php:462
 msgid "Via"
 msgstr ""
 
-#: src/Mail/Admin.php:458
+#: src/Mail/Admin.php:462
 #: src/Shield/AbuseReport.php:126
 msgid "To"
 msgstr ""
 
-#: src/Mail/Admin.php:458
+#: src/Mail/Admin.php:462
 #: src/Shield/AbuseReport.php:85
 #: src/Shield/AbuseReport.php:126
 msgid "Subject"
 msgstr ""
 
 #. translators: %s: error message
-#: src/Mail/Admin.php:461
+#: src/Mail/Admin.php:465
 msgid "Accepted"
 msgstr ""
 
 #. translators: %s: error message
-#: src/Mail/Admin.php:461
+#: src/Mail/Admin.php:465
 #, php-format
 msgid "Error: %s"
 msgstr ""
 
-#: src/Mail/Admin.php:472
+#: src/Mail/Admin.php:476
 msgid "Nothing yet."
 msgstr ""
 

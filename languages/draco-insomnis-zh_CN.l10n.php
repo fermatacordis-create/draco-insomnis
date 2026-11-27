@@ -682,5 +682,7 @@ return array (
     'PHP %s gets security updates' => 'PHP %s 可获得安全更新',
     'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'php.net 对 PHP %1$s 的安全更新只到 %2$s：请在主机控制面板中选择更新的版本',
     'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'php.net 自 %2$s 起不再为 PHP %1$s 提供安全更新：请在主机控制面板中选择更新的版本',
+    'Hide versions on public pages (WordPress, theme and plugins)' => '在公开页面隐藏版本（WordPress、主题和插件）',
+    'Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.' => '去掉“generator”标签，并把样式和脚本的“?ver=”换成一个每次更新仍会变化的代码。这样，寻找旧版本的机器人更难把网站列入名单；但它不修复任何问题：请保持一切为最新。readme.html 和 license.txt 由网页服务器直接发送，不经过 WordPress，因此任何插件都无法拒绝它们：请在服务器上拒绝。',
   ),
 );
