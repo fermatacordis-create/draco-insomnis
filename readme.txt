@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.2
 Requires PHP: 8.0
-Stable tag: 0.1.41
+Stable tag: 0.1.42
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,6 +69,7 @@ Stops requests with the shape of an attack, and the scanners that look for weak 
 * **Scanners and probes.** Tools such as sqlmap, WPScan or Nikto, and requests for .env, .git, wp-config backups, phpinfo or known web shells.
 * **Files that must never be public.** phpMyAdmin, logs such as error_log and debug.log, and backup or editor copies (.bak, .old, .orig, .swp), when the request reaches WordPress. update.php is never refused. Files that run without WordPress, such as wp-admin/install.php, are out of reach of any plugin: refuse them in the web server.
 * **Starts in log-only mode**, so you can see what it would stop before it stops anything.
+* **Says what each attack was after**: backups, logs, server information pages, database tools, known exploits or back doors, with the name of well-known attacks (PHPUnit CVE-2017-9841, PHP-CGI, SPIP). Your own tests from an administrator's address are marked and left out of the summary.
 * **Automatic blocks**: five attacks in 10 minutes put the address on the block list for 7 days. Blocked addresses can still read the site, but not log in, post forms or use XML-RPC.
 * **Hides the list of user names** from anonymous visitors (?author=1 and the users REST endpoint).
 * **Limits failed logins** and always refuses XML-RPC system.multicall (hundreds of passwords in one call) and pingbacks.
@@ -180,6 +181,12 @@ The settings screen offers a list of common providers (for example Amazon SES, G
 Service: the mail provider the administrator has an account with, under the terms and privacy policy the administrator accepted with that provider. Draco has no agreement with any of them.
 
 == Changelog ==
+
+= 0.1.42 =
+* Firewall — the list of recent attacks says what each one was after (configuration and keys, backup copies, logs, server information pages, database tools, installers, known exploits, back doors) and names well-known attacks such as PHPUnit CVE-2017-9841, PHP-CGI or SPIP. It also shows the answer the visitor got and the whole browser string.
+* Firewall — rows from an administrator's address, such as your own tests, are marked, cannot be reported and do not count in the 7-day summary.
+* Evidence — the CSV for abuse reports has two new columns: what the attack was after and the known attack's name.
+* Translations — the new texts in all 39 languages.
 
 = 0.1.41 =
 * Firewall — "Hide versions" (off by default): takes the generator tags out of pages and feeds, and turns "?ver=" of styles and scripts into a code that still changes on every update, on public pages only.
