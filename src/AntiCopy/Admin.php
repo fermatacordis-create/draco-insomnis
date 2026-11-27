@@ -90,25 +90,37 @@ final class Admin
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
         echo '</p></form>';
 
-        $what = [
+        $labels = [
             'anticopy_rest' => __('content API', 'draco-insomnis'),
             'anticopy_rate_ip' => __('too fast, one address', 'draco-insomnis'),
             'anticopy_rate_net' => __('too fast, one network', 'draco-insomnis'),
         ];
-        Brand::card('list-view', __('Recent', 'draco-insomnis'), '', '', 'info', 'draco-card--flush');
-        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('What', 'draco-insomnis') . '</th><th>' . esc_html__('Address requested', 'draco-insomnis') . '</th><th>' . esc_html__('Browser', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th></tr></thead><tbody>';
+        $kinds = [
+            'content' => __('content', 'draco-insomnis'),
+            'search' => __('search', 'draco-insomnis'),
+            'identity' => __('user accounts', 'draco-insomnis'),
+        ];
+        Brand::card('list-view', __('Recent', 'draco-insomnis'), __('"Answer" is what the visitor got: 401 means the door was closed, 200 that the content was sent. Anonymous visitors always get 401 from /wp/v2/users/me, with or without Draco.', 'draco-insomnis'), '', 'info', 'draco-card--flush');
+        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('What', 'draco-insomnis') . '</th><th>' . esc_html__('Address requested', 'draco-insomnis') . '</th><th>' . esc_html__('Answer', 'draco-insomnis') . '</th><th>' . esc_html__('Browser', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th></tr></thead><tbody>';
         $rows = Store::recentWhere('anticopy:');
         foreach ($rows as $r) {
             $reason = (string) $r['reasons'];
             $blocked = str_ends_with($reason, '_block');
             $key = (string) preg_replace('/_(block|log)$/', '', $reason);
             $fields = json_decode((string) $r['fields'], true);
+            $fields = is_array($fields) ? $fields : [];
+            $path = (string) ($fields['referer'] ?? '');
+            $what = $labels[$key] ?? $key;
+            if ($key === 'anticopy_rest' && $path !== '') {
+                $what .= ' · ' . $kinds[Guard::routeKind($path)];
+            }
+            $status = (string) ($fields['status'] ?? '');
             $result = $blocked ? Brand::pill(__('Blocked', 'draco-insomnis'), 'bad') : Brand::pill(__('Would block', 'draco-insomnis'), 'log');
-            echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td><span class="draco-code">' . esc_html((string) $r['ip']) . '</span></td><td>' . esc_html($what[$key] ?? $key) . '</td><td><code>'
-                . esc_html((string) (is_array($fields) ? ($fields['referer'] ?? '') : '')) . '</code></td><td>' . esc_html(substr((string) $r['user_agent'], 0, 60)) . '</td><td>' . wp_kses_post($result) . '</td></tr>';
+            echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td><span class="draco-code">' . esc_html((string) $r['ip']) . '</span></td><td>' . esc_html($what) . '</td><td><code>'
+                . esc_html($path) . '</code></td><td>' . esc_html($status !== '' ? $status : '–') . '</td><td class="draco-ua">' . esc_html((string) $r['user_agent']) . '</td><td>' . wp_kses_post($result) . '</td></tr>';
         }
         if ($rows === []) {
-            Brand::emptyRow(6, __('Nothing recorded yet.', 'draco-insomnis'));
+            Brand::emptyRow(7, __('Nothing recorded yet.', 'draco-insomnis'));
         }
         echo '</tbody></table></div>';
         Brand::cardEnd();

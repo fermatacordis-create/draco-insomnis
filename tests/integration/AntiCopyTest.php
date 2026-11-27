@@ -25,15 +25,45 @@ final class AntiCopyTest extends TestCase
         $this->assertSame('off', Guard::mode(Guard::OPTION_REST));
     }
 
-    public function test_log_mode_lets_the_read_through_and_writes_it_down(): void
+    public function test_log_mode_lets_the_read_through_and_writes_it_down_with_the_answer(): void
     {
         update_option(Guard::OPTION_REST, 'log');
-        $this->assertNull($this->read('/wp/v2/posts'));
+        $this->assertNull($this->read('/wp/v2/posts'), 'nothing is stopped before WordPress answers');
+        $this->assertSame([], Store::recentWhere('anticopy:'), 'written down after the answer, not before');
+        $response = new \WP_REST_Response(['id' => 1], 200);
+        $this->assertSame($response, Guard::restAnswered($response, null, new \WP_REST_Request('GET', '/wp/v2/posts')));
+        Guard::restAnswered(new \WP_REST_Response(null, 401), null, new \WP_REST_Request('GET', '/wp/v2/users/me'));
         $rows = Store::recentWhere('anticopy:');
-        $this->assertCount(1, $rows);
-        $this->assertSame('anticopy_rest_log', $rows[0]['reasons']);
-        $this->assertSame('/wp/v2/posts', json_decode($rows[0]['fields'], true)['referer']);
-        $this->assertSame('doubtful', $rows[0]['verdict'], 'never counts as a bot attempt for the shield');
+        $this->assertCount(2, $rows);
+        $byRoute = [];
+        foreach ($rows as $row) {
+            $fields = json_decode($row['fields'], true);
+            $byRoute[$fields['referer']] = $fields['status'] ?? '';
+            $this->assertSame('anticopy_rest_log', $row['reasons']);
+            $this->assertSame('doubtful', $row['verdict'], 'never counts as a bot attempt for the shield');
+        }
+        ksort($byRoute);
+        $this->assertSame(['/wp/v2/posts' => '200', '/wp/v2/users/me' => '401'], $byRoute);
+    }
+
+    public function test_block_mode_writes_down_the_401_it_gives(): void
+    {
+        update_option(Guard::OPTION_REST, 'block');
+        $this->read('/wp/v2/search');
+        $rows = Store::recentWhere('anticopy:');
+        $this->assertSame('anticopy_rest_block', $rows[0]['reasons']);
+        $this->assertSame('401', json_decode($rows[0]['fields'], true)['status']);
+    }
+
+    public function test_routes_are_told_apart_in_the_log(): void
+    {
+        $this->assertSame('identity', Guard::routeKind('/wp/v2/users/me'));
+        $this->assertSame('identity', Guard::routeKind('/wp/v2/users'));
+        $this->assertSame('search', Guard::routeKind('/wp/v2/search'));
+        $this->assertSame('search', Guard::routeKind('/wp/v2/block-renderer/core/latest-posts'));
+        $this->assertSame('content', Guard::routeKind('/wp/v2/posts'));
+        $this->assertSame('content', Guard::routeKind('/wp/v2/pages/12'));
+        $this->assertSame('content', Guard::routeKind('/wp/v2/usersx'), 'a whole segment, not a prefix');
     }
 
     public function test_block_mode_closes_content_reads_to_anonymous_visitors(): void

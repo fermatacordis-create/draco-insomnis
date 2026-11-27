@@ -35,8 +35,12 @@ final class Guard
 
     public static function boot(): void
     {
-        if (self::mode(self::OPTION_REST) !== 'off') {
+        $rest = self::mode(self::OPTION_REST);
+        if ($rest === 'block') {
             add_filter('rest_pre_dispatch', [self::class, 'rest'], 5, 3);
+        } elseif ($rest === 'log') {
+            // Log only: write it down after WordPress answered, so the log shows what the visitor got.
+            add_filter('rest_post_dispatch', [self::class, 'restAnswered'], 99, 3);
         }
         if (self::mode(self::OPTION_RATE) !== 'off') {
             self::pace();
@@ -63,24 +67,68 @@ final class Guard
      */
     public static function rest($result, $server = null, $request = null)
     {
-        if ($result !== null || !$request instanceof \WP_REST_Request || is_user_logged_in()) {
+        if ($result !== null || self::mode(self::OPTION_REST) !== 'block') {
             return $result;
         }
-        if (!in_array(strtoupper((string) $request->get_method()), ['GET', 'HEAD'], true)) {
+        $route = self::watched($request);
+        if ($route === null) {
             return $result;
         }
-        $route = '/' . ltrim((string) $request->get_route(), '/');
-        $visitor = WpHost::request();
-        if (!str_starts_with($route, '/wp/v2/') || self::allowed($route) || self::engine()->exempt($visitor)) {
-            return $result;
-        }
-        $block = self::mode(self::OPTION_REST) === 'block';
-        self::engine()->record($visitor, 'rest', $block, $route);
-        if (!$block) {
-            return $result;
-        }
+        self::engine()->record(WpHost::request(), 'rest', true, $route, 401);
 
         return new \WP_Error('draco_rest_closed', __('This content is not available through the API.', 'draco-insomnis'), ['status' => 401]);
+    }
+
+    /**
+     * Log mode: the same reads, written down with the answer WordPress gave.
+     *
+     * @param mixed $response
+     * @param \WP_REST_Server|null $server
+     * @param \WP_REST_Request|null $request
+     * @return mixed
+     */
+    public static function restAnswered($response, $server = null, $request = null)
+    {
+        $route = self::watched($request);
+        if ($route !== null) {
+            $status = $response instanceof \WP_HTTP_Response ? (int) $response->get_status() : 0;
+            self::engine()->record(WpHost::request(), 'rest', false, $route, $status);
+        }
+
+        return $response;
+    }
+
+    /** The route of an anonymous GET/HEAD on /wp/v2/ that is neither allowed nor exempt; null otherwise. */
+    private static function watched($request): ?string
+    {
+        if (!$request instanceof \WP_REST_Request || is_user_logged_in()) {
+            return null;
+        }
+        if (!in_array(strtoupper((string) $request->get_method()), ['GET', 'HEAD'], true)) {
+            return null;
+        }
+        $route = '/' . ltrim((string) $request->get_route(), '/');
+        if (!str_starts_with($route, '/wp/v2/') || self::allowed($route) || self::engine()->exempt(WpHost::request())) {
+            return null;
+        }
+
+        return $route;
+    }
+
+    /**
+     * What kind of door a route is, for the log: identity (user accounts), search (finding and
+     * rendering content on demand) or content (posts, pages, terms, media).
+     */
+    public static function routeKind(string $route): string
+    {
+        if (preg_match('#^/wp/v2/users(/|$)#', $route)) {
+            return 'identity';
+        }
+        if (preg_match('#^/wp/v2/(search|block-renderer)(/|$)#', $route)) {
+            return 'search';
+        }
+
+        return 'content';
     }
 
     /** Route prefixes that stay open: one per line, from the screen, plus the draco_insomnis_rest_allow filter. */

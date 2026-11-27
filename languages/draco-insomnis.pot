@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-27T05:50:15+00:00\n"
+"POT-Creation-Date: 2026-11-27T07:05:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: draco-insomnis\n"
@@ -66,7 +66,7 @@ msgstr ""
 
 #: src/Admin/Brand.php:136
 #: src/Firewall/Admin.php:27
-#: src/Firewall/Admin.php:127
+#: src/Firewall/Admin.php:130
 msgid "Firewall"
 msgstr ""
 
@@ -112,15 +112,15 @@ msgstr ""
 
 #: src/Admin/Brand.php:229
 #: src/AntiCopy/Admin.php:60
-#: src/Firewall/Admin.php:145
-#: src/Firewall/Admin.php:254
+#: src/Firewall/Admin.php:148
+#: src/Firewall/Admin.php:272
 msgid "Log only"
 msgstr ""
 
 #: src/Admin/Brand.php:229
 #: src/Admin/Overview.php:96
 #: src/AntiCopy/Admin.php:59
-#: src/Firewall/Admin.php:252
+#: src/Firewall/Admin.php:270
 msgid "Off"
 msgstr ""
 
@@ -345,7 +345,7 @@ msgid "Makes it harder to copy the whole site in one go, without getting in the 
 msgstr ""
 
 #: src/AntiCopy/Admin.php:56
-#: src/Firewall/Admin.php:129
+#: src/Firewall/Admin.php:132
 #: src/Gate/Admin.php:176
 #: src/Login/Admin.php:152
 #: src/Shield/Admin.php:94
@@ -361,8 +361,8 @@ msgid "Writes down what it would stop, without stopping it."
 msgstr ""
 
 #: src/AntiCopy/Admin.php:61
-#: src/Firewall/Admin.php:146
-#: src/Firewall/Admin.php:254
+#: src/Firewall/Admin.php:149
+#: src/Firewall/Admin.php:272
 #: src/Gate/Admin.php:192
 #: src/Gate/Admin.php:224
 #: src/Mail/Admin.php:446
@@ -412,8 +412,8 @@ msgid "Only requests that reach WordPress count: images, styles and pages served
 msgstr ""
 
 #: src/AntiCopy/Admin.php:90
-#: src/Firewall/Admin.php:168
-#: src/Firewall/Admin.php:257
+#: src/Firewall/Admin.php:186
+#: src/Firewall/Admin.php:275
 #: src/Gate/Admin.php:133
 #: src/Gate/Admin.php:204
 #: src/Login/Admin.php:108
@@ -435,13 +435,29 @@ msgstr ""
 msgid "too fast, one network"
 msgstr ""
 
-#: src/AntiCopy/Admin.php:98
+#: src/AntiCopy/Admin.php:99
+msgid "content"
+msgstr ""
+
+#: src/AntiCopy/Admin.php:100
+msgid "search"
+msgstr ""
+
+#: src/AntiCopy/Admin.php:101
+msgid "user accounts"
+msgstr ""
+
+#: src/AntiCopy/Admin.php:103
 msgid "Recent"
 msgstr ""
 
-#: src/AntiCopy/Admin.php:99
-#: src/Firewall/Admin.php:189
-#: src/Firewall/Admin.php:282
+#: src/AntiCopy/Admin.php:103
+msgid "\"Answer\" is what the visitor got: 401 means the door was closed, 200 that the content was sent. Anonymous visitors always get 401 from /wp/v2/users/me, with or without Draco."
+msgstr ""
+
+#: src/AntiCopy/Admin.php:104
+#: src/Firewall/Admin.php:207
+#: src/Firewall/Admin.php:300
 #: src/Gate/Admin.php:219
 #: src/Mail/Admin.php:462
 #: src/Shield/AbuseReport.php:126
@@ -449,311 +465,339 @@ msgstr ""
 msgid "Date (UTC)"
 msgstr ""
 
-#: src/AntiCopy/Admin.php:99
-#: src/Firewall/Admin.php:189
-#: src/Firewall/Admin.php:215
+#: src/AntiCopy/Admin.php:104
+#: src/Firewall/Admin.php:207
+#: src/Firewall/Admin.php:233
 msgid "What"
 msgstr ""
 
-#: src/AntiCopy/Admin.php:99
-#: src/Firewall/Admin.php:189
+#: src/AntiCopy/Admin.php:104
+#: src/Firewall/Admin.php:207
 msgid "Address requested"
 msgstr ""
 
-#: src/AntiCopy/Admin.php:99
+#: src/AntiCopy/Admin.php:104
+msgid "Answer"
+msgstr ""
+
+#: src/AntiCopy/Admin.php:104
 msgid "Browser"
 msgstr ""
 
-#: src/AntiCopy/Admin.php:99
-#: src/Firewall/Admin.php:189
-#: src/Firewall/Admin.php:282
+#: src/AntiCopy/Admin.php:104
+#: src/Firewall/Admin.php:207
+#: src/Firewall/Admin.php:300
 #: src/Mail/Admin.php:462
 msgid "Result"
 msgstr ""
 
-#: src/AntiCopy/Admin.php:106
-#: src/Firewall/Admin.php:194
+#: src/AntiCopy/Admin.php:118
+#: src/Firewall/Admin.php:212
 msgid "Blocked"
 msgstr ""
 
-#: src/AntiCopy/Admin.php:106
-#: src/Firewall/Admin.php:194
+#: src/AntiCopy/Admin.php:118
+#: src/Firewall/Admin.php:212
 msgid "Would block"
 msgstr ""
 
-#: src/AntiCopy/Admin.php:111
+#: src/AntiCopy/Admin.php:123
 msgid "Nothing recorded yet."
 msgstr ""
 
-#: src/AntiCopy/Guard.php:83
+#: src/AntiCopy/Guard.php:79
 msgid "This content is not available through the API."
 msgstr ""
 
-#: src/Firewall/Admin.php:109
+#: src/Firewall/Admin.php:112
 msgid "The firewall is off: switch it on and save, then test again."
 msgstr ""
 
-#: src/Firewall/Admin.php:111
+#: src/Firewall/Admin.php:114
 msgid "The test could not reach the site from the server itself (some hostings do not allow it). The firewall may still work: look at \"Recent attacks\"."
 msgstr ""
 
-#: src/Firewall/Admin.php:113
+#: src/Firewall/Admin.php:116
 msgid "The test was stopped before it reached WordPress, by the hosting's own firewall. Good: two layers."
 msgstr ""
 
-#: src/Firewall/Admin.php:115
+#: src/Firewall/Admin.php:118
 msgid "The test attack was not recognised. Please report it to Draco Insomnis."
 msgstr ""
 
-#: src/Firewall/Admin.php:117
+#: src/Firewall/Admin.php:120
 msgid "Works: a database injection was recognised and blocked (403)."
 msgstr ""
 
-#: src/Firewall/Admin.php:119
+#: src/Firewall/Admin.php:122
 msgid "Works: a database injection was recognised. In \"Log only\" it is written down but not stopped; switch to \"Block\" when you are ready."
 msgstr ""
 
-#: src/Firewall/Admin.php:127
+#: src/Firewall/Admin.php:130
 msgid "Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and the scanners that look for weak spots. People who can edit the site are never inspected."
 msgstr ""
 
-#: src/Firewall/Admin.php:136
+#: src/Firewall/Admin.php:139
 msgid "DRACO_WAF_OFF is set in wp-config.php: the firewall is off. Remove that line once the problem is fixed."
 msgstr ""
 
-#: src/Firewall/Admin.php:139
+#: src/Firewall/Admin.php:142
 #: src/Gate/Admin.php:197
 #: src/Login/Admin.php:162
 #: src/Shield/Admin.php:104
 msgid "Settings"
 msgstr ""
 
-#: src/Firewall/Admin.php:143
+#: src/Firewall/Admin.php:146
 msgid "Switch on the firewall"
 msgstr ""
 
-#: src/Firewall/Admin.php:145
+#: src/Firewall/Admin.php:148
 msgid "Writes down what it would stop, without stopping it. Start here for a few days."
 msgstr ""
 
-#: src/Firewall/Admin.php:146
+#: src/Firewall/Admin.php:149
 msgid "Stops those requests. Five in 10 minutes put the address on the block list for 7 days."
 msgstr ""
 
-#: src/Firewall/Admin.php:148
+#: src/Firewall/Admin.php:151
 msgid "Hide the list of user names from anonymous visitors (?author=1 and /wp-json/wp/v2/users), the first step of password attacks"
 msgstr ""
 
-#: src/Firewall/Admin.php:149
+#: src/Firewall/Admin.php:152
 msgid "Limit failed logins: 10 in 10 minutes lock that address out of the login for 30 minutes"
 msgstr ""
 
-#: src/Firewall/Admin.php:150
+#: src/Firewall/Admin.php:153
 msgid "Send security headers on public pages (no sniffing of file types, no framing by other sites, less referrer data, no camera, microphone or location for embedded content)"
 msgstr ""
 
-#: src/Firewall/Admin.php:150
+#: src/Firewall/Admin.php:153
 msgid "Safe for almost every site. If another plugin or the server already sends one of them, Draco leaves it alone."
 msgstr ""
 
-#: src/Firewall/Admin.php:155
+#: src/Firewall/Admin.php:158
 msgid "Allow the microphone for this site (OPNV Accessibility voice commands)"
 msgstr ""
 
-#: src/Firewall/Admin.php:156
+#: src/Firewall/Admin.php:159
 msgid "Only when security headers are on. Reading aloud never needs the microphone. Voice commands do: this sets microphone=(self) so this site may ask for it, while camera, location and embeds stay blocked."
 msgstr ""
 
-#: src/Firewall/Admin.php:159
+#: src/Firewall/Admin.php:162
 msgid "Force HTTPS in browsers for 6 months (HSTS)"
 msgstr ""
 
-#: src/Firewall/Admin.php:159
+#: src/Firewall/Admin.php:162
 msgid "Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires."
 msgstr ""
 
-#: src/Firewall/Admin.php:163
+#: src/Firewall/Admin.php:166
 msgid "Hide versions on public pages (WordPress, theme and plugins)"
 msgstr ""
 
-#: src/Firewall/Admin.php:164
+#: src/Firewall/Admin.php:167
 msgid "Takes out the \"generator\" tags and turns \"?ver=\" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server."
 msgstr ""
 
-#: src/Firewall/Admin.php:166
-msgid "Turn off XML-RPC completely (leave it on if you use Jetpack or the WordPress mobile app; its riskiest parts are always off)"
-msgstr ""
-
-#: src/Firewall/Admin.php:173
-msgid "Test the firewall"
+#: src/Firewall/Admin.php:172
+msgid "Publish /.well-known/security.txt (how to report a security problem)"
 msgstr ""
 
 #: src/Firewall/Admin.php:174
-msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
+msgid "The standard file (RFC 9116) that tells whoever finds a weakness how to reach you. Draco renews its expiry date by itself."
+msgstr ""
+
+#: src/Firewall/Admin.php:175
+msgid "Not possible here: the standard wants the file at the root of the domain, and this WordPress is in a folder."
+msgstr ""
+
+#: src/Firewall/Admin.php:177
+msgid "Contact (e-mail or https:// address)"
 msgstr ""
 
 #: src/Firewall/Admin.php:178
-msgid "scanner tool"
-msgstr ""
-
-#: src/Firewall/Admin.php:178
-msgid "looking for sensitive files"
-msgstr ""
-
-#: src/Firewall/Admin.php:179
-msgid "database injection"
-msgstr ""
-
-#: src/Firewall/Admin.php:179
-msgid "reading server files"
-msgstr ""
-
-#: src/Firewall/Admin.php:180
-msgid "running code"
-msgstr ""
-
-#: src/Firewall/Admin.php:180
-msgid "script in the link"
-msgstr ""
-
-#: src/Firewall/Admin.php:181
-msgid "many passwords in one XML-RPC call"
+msgid "Policy page (optional, https://)"
 msgstr ""
 
 #: src/Firewall/Admin.php:182
-msgid "country not allowed"
+msgid "Not published yet: write a valid contact."
 msgstr ""
 
-#: src/Firewall/Admin.php:188
-msgid "Recent attacks"
+#: src/Firewall/Admin.php:184
+msgid "Turn off XML-RPC completely (leave it on if you use Jetpack or the WordPress mobile app; its riskiest parts are always off)"
 msgstr ""
 
-#: src/Firewall/Admin.php:188
-msgid "Kept for 90 days. \"Evidence\" downloads everything from that address for an abuse report. In log-only mode they appear as \"Would block\"."
+#: src/Firewall/Admin.php:191
+msgid "Test the firewall"
+msgstr ""
+
+#: src/Firewall/Admin.php:192
+msgid "Sends a harmless attack-shaped request to the site and tells you what happened. It is not logged."
 msgstr ""
 
 #: src/Firewall/Admin.php:196
+msgid "scanner tool"
+msgstr ""
+
+#: src/Firewall/Admin.php:196
+msgid "looking for sensitive files"
+msgstr ""
+
+#: src/Firewall/Admin.php:197
+msgid "database injection"
+msgstr ""
+
+#: src/Firewall/Admin.php:197
+msgid "reading server files"
+msgstr ""
+
+#: src/Firewall/Admin.php:198
+msgid "running code"
+msgstr ""
+
+#: src/Firewall/Admin.php:198
+msgid "script in the link"
+msgstr ""
+
+#: src/Firewall/Admin.php:199
+msgid "many passwords in one XML-RPC call"
+msgstr ""
+
+#: src/Firewall/Admin.php:200
+msgid "country not allowed"
+msgstr ""
+
+#: src/Firewall/Admin.php:206
+msgid "Recent attacks"
+msgstr ""
+
+#: src/Firewall/Admin.php:206
+msgid "Kept for 90 days. \"Evidence\" downloads everything from that address for an abuse report. In log-only mode they appear as \"Would block\"."
+msgstr ""
+
+#: src/Firewall/Admin.php:214
 #: src/Shield/Admin.php:178
 msgid "Evidence"
 msgstr ""
 
-#: src/Firewall/Admin.php:196
+#: src/Firewall/Admin.php:214
 #: src/Shield/Admin.php:178
 msgid "Report"
 msgstr ""
 
-#: src/Firewall/Admin.php:199
+#: src/Firewall/Admin.php:217
 msgid "No attacks seen yet."
 msgstr ""
 
-#: src/Firewall/Admin.php:199
+#: src/Firewall/Admin.php:217
 msgid "The firewall is off."
 msgstr ""
 
-#: src/Firewall/Admin.php:203
+#: src/Firewall/Admin.php:221
 msgid "If the firewall ever blocks you, add define('DRACO_WAF_OFF', true); to wp-config.php, log in, look at this list and remove the line."
 msgstr ""
 
 #. translators: 1: attacks seen, 2: of them blocked
-#: src/Firewall/Admin.php:212
+#: src/Firewall/Admin.php:230
 #, php-format
 msgid "%1$d attacks seen, %2$d blocked."
 msgstr ""
 
-#: src/Firewall/Admin.php:213
+#: src/Firewall/Admin.php:231
 msgid "Last 7 days"
 msgstr ""
 
-#: src/Firewall/Admin.php:219
+#: src/Firewall/Admin.php:237
 msgid "Busiest addresses"
 msgstr ""
 
-#: src/Firewall/Admin.php:235
+#: src/Firewall/Admin.php:253
 msgid "The country list could not be downloaded. The filter does nothing until it is there; try \"Update the country list\" later."
 msgstr ""
 
-#: src/Firewall/Admin.php:237
+#: src/Firewall/Admin.php:255
 msgid "Country list downloaded."
 msgstr ""
 
-#: src/Firewall/Admin.php:240
+#: src/Firewall/Admin.php:258
 msgid "Countries"
 msgstr ""
 
-#: src/Firewall/Admin.php:240
+#: src/Firewall/Admin.php:258
 msgid "Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with \"Log only\". Administrators, people you let through and search engines are never filtered."
 msgstr ""
 
-#: src/Firewall/Admin.php:252
+#: src/Firewall/Admin.php:270
 msgid "Filter"
 msgstr ""
 
-#: src/Firewall/Admin.php:252
+#: src/Firewall/Admin.php:270
 msgid "Refuse the countries listed"
 msgstr ""
 
-#: src/Firewall/Admin.php:252
+#: src/Firewall/Admin.php:270
 msgid "Only the countries listed"
 msgstr ""
 
-#: src/Firewall/Admin.php:253
+#: src/Firewall/Admin.php:271
 #: src/Gate/Admin.php:219
 #: src/Shield/Admin.php:167
 msgid "Where"
 msgstr ""
 
-#: src/Firewall/Admin.php:253
+#: src/Firewall/Admin.php:271
 msgid "Logging in, signing up and forms (recommended)"
 msgstr ""
 
-#: src/Firewall/Admin.php:253
+#: src/Firewall/Admin.php:271
 msgid "The whole site"
 msgstr ""
 
-#: src/Firewall/Admin.php:254
+#: src/Firewall/Admin.php:272
 msgid "What to do"
 msgstr ""
 
-#: src/Firewall/Admin.php:255
+#: src/Firewall/Admin.php:273
 msgid "Countries (two-letter codes, e.g. ES, FR, DE)"
 msgstr ""
 
 #. translators: %s: date of the country list, e.g. 2026-11-13
-#: src/Firewall/Admin.php:260
+#: src/Firewall/Admin.php:278
 msgid "Country list: not downloaded yet (it is downloaded when you switch the filter on)."
 msgstr ""
 
 #. translators: %s: date of the country list, e.g. 2026-11-13
-#: src/Firewall/Admin.php:260
+#: src/Firewall/Admin.php:278
 #, php-format
 msgid "Country list of %s."
 msgstr ""
 
-#: src/Firewall/Admin.php:265
+#: src/Firewall/Admin.php:283
 msgid "Update the country list"
 msgstr ""
 
 #. translators: %s: link to DB-IP
-#: src/Firewall/Admin.php:268
+#: src/Firewall/Admin.php:286
 #, php-format
 msgid "IP geolocation by %s (CC BY 4.0). Looked up on your own server: no address is sent anywhere."
 msgstr ""
 
 #. translators: %d: number of review requests waiting
-#: src/Firewall/Admin.php:279
+#: src/Firewall/Admin.php:297
 #, php-format
 msgid "Waiting: %d"
 msgstr ""
 
-#: src/Firewall/Admin.php:281
+#: src/Firewall/Admin.php:299
 msgid "Review requests"
 msgstr ""
 
-#: src/Firewall/Admin.php:281
+#: src/Firewall/Admin.php:299
 msgid "People the firewall stopped can ask from the block page. Let them through for a while if it was a mistake. Draco never writes to them: answer from your own mail if you want."
 msgstr ""
 
-#: src/Firewall/Admin.php:282
+#: src/Firewall/Admin.php:300
 #: src/Gate/Admin.php:219
 #: src/Shield/Admin.php:128
 #: src/Shield/Admin.php:146
@@ -761,44 +805,44 @@ msgstr ""
 msgid "E-mail"
 msgstr ""
 
-#: src/Firewall/Admin.php:282
+#: src/Firewall/Admin.php:300
 #: src/Gate/Admin.php:212
 msgid "Message"
 msgstr ""
 
-#: src/Firewall/Admin.php:283
-#: src/Firewall/Admin.php:294
+#: src/Firewall/Admin.php:301
+#: src/Firewall/Admin.php:312
 msgid "Let through"
 msgstr ""
 
-#: src/Firewall/Admin.php:283
+#: src/Firewall/Admin.php:301
 msgid "Denied"
 msgstr ""
 
-#: src/Firewall/Admin.php:283
+#: src/Firewall/Admin.php:301
 msgid "Attacker: blocked"
 msgstr ""
 
-#: src/Firewall/Admin.php:290
+#: src/Firewall/Admin.php:308
 #: src/Gate/Admin.php:187
 #: src/Mail/Admin.php:441
 #: src/Shield/Admin.php:130
 msgid "For"
 msgstr ""
 
-#: src/Firewall/Admin.php:290
+#: src/Firewall/Admin.php:308
 msgid "24 hours"
 msgstr ""
 
-#: src/Firewall/Admin.php:295
+#: src/Firewall/Admin.php:313
 msgid "Deny"
 msgstr ""
 
-#: src/Firewall/Admin.php:296
+#: src/Firewall/Admin.php:314
 msgid "Attacker"
 msgstr ""
 
-#: src/Firewall/Admin.php:304
+#: src/Firewall/Admin.php:322
 msgid "No requests."
 msgstr ""
 
