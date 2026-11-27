@@ -198,23 +198,44 @@ final class Admin
             'waf_code' => __('running code', 'draco-insomnis'), 'waf_xss' => __('script in the link', 'draco-insomnis'),
             'waf_multicall' => __('many passwords in one XML-RPC call', 'draco-insomnis'),
             'waf_geo' => __('country not allowed', 'draco-insomnis'),
+            // What "looking for sensitive files" was looking for (Explain::kind()).
+            'secrets' => __('looking for configuration and keys', 'draco-insomnis'),
+            'backup' => __('looking for backup copies', 'draco-insomnis'),
+            'log' => __('looking for logs', 'draco-insomnis'),
+            'info' => __('looking for server information pages', 'draco-insomnis'),
+            'admin_tool' => __('looking for database tools', 'draco-insomnis'),
+            'installer' => __('looking for installers', 'draco-insomnis'),
+            'exploit' => __('trying a known exploit', 'draco-insomnis'),
+            'shell' => __('looking for a back door', 'draco-insomnis'),
+            'probe' => __('looking for sensitive files', 'draco-insomnis'),
         ];
-        self::summary($rules);
+        $admins = \DracoInsomnis\WpHost::get()->adminIps();
+        self::summary($rules, $admins);
         self::reviews();
         self::geo();
 
-        Brand::card('warning', __('Recent attacks', 'draco-insomnis'), __('Kept for 90 days. "Evidence" downloads everything from that address for an abuse report. In log-only mode they appear as "Would block".', 'draco-insomnis'), '', 'warn', 'draco-card--flush');
-        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('What', 'draco-insomnis') . '</th><th>' . esc_html__('Address requested', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
+        Brand::card('warning', __('Recent attacks', 'draco-insomnis'), __('Kept for 90 days. "Evidence" downloads everything from that address for an abuse report. In log-only mode they appear as "Would block". Rows from an administrator\'s address (your own tests) are marked, cannot be reported and do not count in the summary.', 'draco-insomnis'), '', 'warn', 'draco-card--flush');
+        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('What', 'draco-insomnis') . '</th><th>' . esc_html__('Address requested', 'draco-insomnis') . '</th><th>' . esc_html__('Answer', 'draco-insomnis') . '</th><th>' . esc_html__('Browser', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
         $rows = Store::recentWhere('waf:');
         foreach ($rows as $r) {
             $fields = json_decode((string) $r['fields'], true);
-            $export = wp_nonce_url(admin_url('admin-post.php?action=draco_export&ip=' . rawurlencode((string) $r['ip'])), 'draco_export');
+            $requested = (string) (is_array($fields) ? ($fields['referer'] ?? '') : '');
+            $ip = (string) $r['ip'];
+            $own = in_array($ip, $admins, true);
+            $what = $rules[Explain::kind((string) $r['reasons'], $requested)] ?? (string) $r['reasons'];
+            $signature = Explain::signature($requested);
+            $answer = Explain::answer((string) $r['verdict']);
+            $export = wp_nonce_url(admin_url('admin-post.php?action=draco_export&ip=' . rawurlencode($ip)), 'draco_export');
             $result = $r['verdict'] === 'bot' ? Brand::pill(__('Blocked', 'draco-insomnis'), 'bad') : Brand::pill(__('Would block', 'draco-insomnis'), 'log');
-            echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td><span class="draco-code">' . esc_html((string) $r['ip']) . '</span></td><td>' . esc_html($rules[(string) $r['reasons']] ?? (string) $r['reasons']) . '</td><td><code>'
-                . esc_html((string) (is_array($fields) ? ($fields['referer'] ?? '') : '')) . '</code></td><td>' . wp_kses_post($result) . '</td><td><a href="' . esc_url($export) . '">' . esc_html__('Evidence', 'draco-insomnis') . '</a> · <a href="' . esc_url(\DracoInsomnis\Shield\AbuseReport::url((string) $r['ip'])) . '">' . esc_html__('Report', 'draco-insomnis') . '</a></td></tr>';
+            $actions = '<a href="' . esc_url($export) . '">' . esc_html__('Evidence', 'draco-insomnis') . '</a>'
+                . ($own ? '' : ' · <a href="' . esc_url(\DracoInsomnis\Shield\AbuseReport::url($ip)) . '">' . esc_html__('Report', 'draco-insomnis') . '</a>');
+            echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td><span class="draco-code">' . esc_html($ip) . '</span>'
+                . ($own ? '<br>' . wp_kses_post(Brand::pill(__('Your address (administrator)', 'draco-insomnis'), 'log')) : '') . '</td><td>' . esc_html($what)
+                . ($signature !== '' ? '<br><strong>' . esc_html($signature) . '</strong>' : '') . '</td><td><code>'
+                . esc_html($requested) . '</code></td><td>' . esc_html($answer !== '' ? $answer : '–') . '</td><td class="draco-ua">' . esc_html((string) $r['user_agent']) . '</td><td>' . wp_kses_post($result) . '</td><td>' . $actions . '</td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $actions is built from escaped parts above
         }
         if ($rows === []) {
-            Brand::emptyRow(6, $on ? __('No attacks seen yet.', 'draco-insomnis') : __('The firewall is off.', 'draco-insomnis'), $on ? 'yes-alt' : 'marker');
+            Brand::emptyRow(8, $on ? __('No attacks seen yet.', 'draco-insomnis') : __('The firewall is off.', 'draco-insomnis'), $on ? 'yes-alt' : 'marker');
         }
         echo '</tbody></table></div>';
         Brand::cardEnd();
@@ -222,10 +243,13 @@ final class Admin
         Brand::close();
     }
 
-    /** @param array<string, string> $rules */
-    private static function summary(array $rules): void
+    /**
+     * @param array<string, string> $rules
+     * @param list<string> $admins Administrators' addresses: their own tests do not count.
+     */
+    private static function summary(array $rules, array $admins): void
     {
-        $sum = Store::wafSummary(7);
+        $sum = Store::wafSummary(7, $admins, [Explain::class, 'kind']);
         /* translators: 1: attacks seen, 2: of them blocked */
         $line = sprintf(__('%1$d attacks seen, %2$d blocked.', 'draco-insomnis'), $sum['total'], $sum['blocked']);
         Brand::card('chart-bar', __('Last 7 days', 'draco-insomnis'), $line, '', 'info');
