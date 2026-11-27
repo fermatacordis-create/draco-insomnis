@@ -4,7 +4,7 @@ Tags: security, anti-spam, registration, honeypot, bots
 Requires at least: 6.5
 Tested up to: 7.2
 Requires PHP: 8.0
-Stable tag: 0.1.40
+Stable tag: 0.1.41
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,8 @@ Stops requests with the shape of an attack, and the scanners that look for weak 
 * **Automatic blocks**: five attacks in 10 minutes put the address on the block list for 7 days. Blocked addresses can still read the site, but not log in, post forms or use XML-RPC.
 * **Hides the list of user names** from anonymous visitors (?author=1 and the users REST endpoint).
 * **Limits failed logins** and always refuses XML-RPC system.multicall (hundreds of passwords in one call) and pingbacks.
+* **Hide versions** (optional): public pages stop saying which WordPress, theme and plugins they run. The generator tags go, and "?ver=" of styles and scripts becomes a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything, so keep everything updated.
+* **security.txt** (optional): publishes /.well-known/security.txt (RFC 9116) with the contact you choose, so whoever finds a weakness knows how to tell you. Its expiry date renews itself.
 * **Never inspects people who can edit the site** and never blocks an address an administrator used recently. Emergency exit: `define('DRACO_WAF_OFF', true);` in wp-config.php.
 
 The Overview screen shows every module at a glance, with a checklist of what makes the biggest difference. It also says whether the PHP version of the site still gets security updates from php.net, and warns 90 days before they end.
@@ -83,7 +85,7 @@ Makes it harder to copy the whole site in one go, without getting in the way of 
 * **Content API closed to anonymous visitors.** /wp-json/wp/v2/ lists every post, page and image as JSON; reads there need a login, except the routes you keep open. Pages stay public, and other APIs (forms, shop, embeds) are untouched.
 * **Pace limit.** More pages per minute than a person reads, from one address or from one network, get "429 Too many requests" until the minute ends.
 * **Search engines are verified, not trusted.** Google, Bing, Apple and Yandex pass after a reverse and forward DNS check, kept for a day; a program that only borrows their name does not.
-* **Log first.** Both parts have a log-only mode that shows what would be stopped.
+* **Log first.** Both parts have a log-only mode that shows what would be stopped. The log says what kind of route was asked for (content, search or user accounts), what the visitor got (401, 200…) and with which browser.
 
 = Languages =
 
@@ -178,6 +180,13 @@ The settings screen offers a list of common providers (for example Amazon SES, G
 Service: the mail provider the administrator has an account with, under the terms and privacy policy the administrator accepted with that provider. Draco has no agreement with any of them.
 
 == Changelog ==
+
+= 0.1.41 =
+* Firewall — "Hide versions" (off by default): takes the generator tags out of pages and feeds, and turns "?ver=" of styles and scripts into a code that still changes on every update, on public pages only.
+* Firewall — "Publish /.well-known/security.txt" (off by default), with the contact you choose; its expiry date renews itself. Only when WordPress is at the root of the domain.
+* Anti-copy — the log shows the answer the visitor got, the kind of route (content, search, user accounts) and the whole browser string. In log-only mode the event is written after WordPress answered.
+* Server edition — "draco audit" warns before it starts that a firewall may block the address that runs it, and stops and says BLOCKED if that happens.
+* Translations — the new texts in all 39 languages.
 
 = 0.1.40 =
 * Firewall — also refuses the installers of a site that is already installed (Drupal and WordPress), phpMyAdmin, logs such as error_log and debug.log, and backup or editor copies (.bak, .old, .orig, .swp). update.php is never refused. Prompted by the Drupal installer flaws exploited in November 2026 (SA-CORE-2026-017 and 019).
