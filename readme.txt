@@ -1,6 +1,6 @@
 === Draco Insomnis ===
 Contributors: opnvsole
-Tags: security, anti-spam, registration, honeypot, bots
+Tags: security, firewall, anti-spam, login, smtp
 Requires at least: 6.5
 Tested up to: 7.2
 Requires PHP: 8.0
@@ -8,11 +8,22 @@ Stable tag: 0.1.42
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Ab insomni custodita dracone. Stops fake sign-ups without captchas, feeds bots a fake success and keeps evidence for abuse reports.
+Security for WordPress without captchas: firewall, fake sign-up and spam blocking, two-step login, site mail (SMTP) and anti-copy.
 
 == Description ==
 
-Author: Soledad Sánchez Mohamed.
+Draco Insomnis brings together, in one plugin, the protections a WordPress site usually needs several plugins for. Each part is switched on separately. The firewall starts in log-only mode and anti-copy has one too, so you can see what they would stop before they stop anything.
+
+* **Firewall**: stops requests shaped like attacks and the scanners looking for weak spots, and says what each attack was after.
+* **Fake sign-ups**: spots bot registrations before the account exists, without captchas, and keeps evidence for abuse reports.
+* **Forms and comments confirmed by e-mail**: spam never reaches you, because bots do not confirm.
+* **Two-step login**: a stolen password alone is no longer enough.
+* **Site mail (SMTP)**: login codes, forms and orders actually arrive.
+* **Anti-copy**: makes it harder to copy the whole site in one go, without getting in the way of visitors or search engines.
+
+Free software, made by Notorius Vision: the open-source security core of OPNV. *Ab insomni custodita dracone.*
+
+= Fake sign-ups =
 
 Bots that create fake accounts usually post straight to the registration endpoint, ask for roles that do not exist, fill every field they see and come from rented servers. Draco Insomnis scores every public sign-up on those signs before the account exists.
 
