@@ -682,5 +682,7 @@ return array (
     'PHP %s gets security updates' => 'PHP %s को सुरक्षा अपडेट मिल रहे हैं',
     'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s को php.net से सुरक्षा अपडेट केवल %2$s तक मिलेंगे: अपने होस्टिंग पैनल में नया संस्करण चुनें',
     'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s को %2$s से php.net के सुरक्षा अपडेट नहीं मिल रहे: अपने होस्टिंग पैनल में नया संस्करण चुनें',
+    'Hide versions on public pages (WordPress, theme and plugins)' => 'सार्वजनिक पेजों पर संस्करण छिपाएँ (WordPress, थीम और प्लगइन)',
+    'Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.' => '"generator" टैग हटा देता है और स्टाइल व स्क्रिप्ट के "?ver=" को ऐसे कोड में बदल देता है जो हर अपडेट पर बदलता रहता है। इससे पुराने संस्करण खोजने वाले रोबोट के लिए साइट को सूची में डालना कठिन हो जाता है; यह कुछ ठीक नहीं करता: सब कुछ अपडेट रखें। readme.html और license.txt वेब सर्वर WordPress के बिना भेजता है, इसलिए कोई भी प्लगइन उन्हें रोक नहीं सकता: उन्हें सर्वर में रोकें।',
   ),
 );

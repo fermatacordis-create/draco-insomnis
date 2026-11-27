@@ -682,5 +682,7 @@ return array (
     'PHP %s gets security updates' => 'يتلقى PHP %s تحديثات الأمان',
     'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'يتلقى PHP %1$s تحديثات الأمان من php.net حتى %2$s فقط: اختر إصدارًا أحدث من لوحة الاستضافة',
     'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'لا يتلقى PHP %1$s تحديثات الأمان من php.net منذ %2$s: اختر إصدارًا أحدث من لوحة الاستضافة',
+    'Hide versions on public pages (WordPress, theme and plugins)' => 'إخفاء الإصدارات في الصفحات العامة (ووردبريس والقالب والإضافات)',
+    'Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.' => 'يزيل وسوم "generator" ويحوّل "?ver=" في ملفات الأنماط والسكربتات إلى رمز يتغيّر مع كل تحديث. يصعّب ذلك على الروبوتات التي تبحث عن الإصدارات القديمة إدراج الموقع في قوائمها، لكنه لا يصلح شيئًا: حافظ على تحديث كل شيء. يرسل خادم الويب الملفين readme.html وlicense.txt دون ووردبريس، لذا لا تستطيع أي إضافة رفضهما: ارفضهما في الخادم.',
   ),
 );

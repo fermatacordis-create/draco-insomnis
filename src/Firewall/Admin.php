@@ -66,7 +66,7 @@ final class Admin
         }
         update_option(Waf::OPTION_ENABLED, empty($_POST['enabled']) ? 'no' : 'yes');
         update_option(Waf::OPTION_MODE, Input::post('mode') === 'block' ? 'block' : 'log');
-        foreach ([Waf::OPTION_HIDE_USERS => 'hide_users', Waf::OPTION_XMLRPC_OFF => 'xmlrpc_off', Waf::OPTION_LOGIN_LIMIT => 'login_limit', Headers::OPTION_SAFE => 'headers', Headers::OPTION_HSTS => 'hsts', Headers::OPTION_MIC => 'headers_mic'] as $option => $field) {
+        foreach ([Waf::OPTION_HIDE_USERS => 'hide_users', Waf::OPTION_XMLRPC_OFF => 'xmlrpc_off', Waf::OPTION_LOGIN_LIMIT => 'login_limit', Headers::OPTION_SAFE => 'headers', Headers::OPTION_HSTS => 'hsts', Headers::OPTION_MIC => 'headers_mic', Versions::OPTION => 'hide_versions'] as $option => $field) {
             update_option($option, empty($_POST[$field]) ? 'no' : 'yes');
         }
         // Mic exception only applies with the safe headers and when OPNV-WP is on the site.
@@ -157,7 +157,13 @@ final class Admin
             );
         }
         Brand::toggle('hsts', get_option(Headers::OPTION_HSTS, 'no') === 'yes', __('Force HTTPS in browsers for 6 months (HSTS)', 'draco-insomnis'), __('Only when the whole site works on HTTPS and will keep working: browsers remember it and refuse plain HTTP until it expires.', 'draco-insomnis'));
-        Brand::toggle('xmlrpc_off', get_option(Waf::OPTION_XMLRPC_OFF, 'no') === 'yes', __('Turn off XML-RPC completely (leave it on if you use Jetpack or the WordPress mobile app; its riskiest parts are always off)', 'draco-insomnis'));
+        Brand::toggle(
+            'hide_versions',
+            Versions::active(),
+            __('Hide versions on public pages (WordPress, theme and plugins)', 'draco-insomnis'),
+            __('Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.', 'draco-insomnis')
+        );
+        Brand::toggle('xmlrpc_off',get_option(Waf::OPTION_XMLRPC_OFF, 'no') === 'yes', __('Turn off XML-RPC completely (leave it on if you use Jetpack or the WordPress mobile app; its riskiest parts are always off)', 'draco-insomnis'));
         echo '<p style="margin-top:12px">';
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
         echo '</p></form>';

@@ -682,5 +682,7 @@ return array (
     'PHP %s gets security updates' => 'PHP %s은(는) 보안 업데이트를 받습니다',
     'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s은(는) php.net의 보안 업데이트를 %2$s까지만 받습니다. 호스팅 관리판에서 더 새로운 버전을 선택하세요',
     'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s은(는) %2$s 이후 php.net의 보안 업데이트를 받지 않습니다. 호스팅 관리판에서 더 새로운 버전을 선택하세요',
+    'Hide versions on public pages (WordPress, theme and plugins)' => '공개 페이지에서 버전 숨기기(워드프레스, 테마, 플러그인)',
+    'Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.' => '"generator" 태그를 없애고 스타일과 스크립트의 "?ver="를 업데이트할 때마다 계속 바뀌는 코드로 바꿉니다. 오래된 버전을 찾는 로봇이 사이트를 목록에 올리기 어려워지지만, 아무것도 고치지는 않습니다. 모든 것을 최신으로 유지하세요. readme.html과 license.txt는 웹 서버가 워드프레스 없이 보내므로 어떤 플러그인도 거부할 수 없습니다. 서버에서 거부하세요.',
   ),
 );

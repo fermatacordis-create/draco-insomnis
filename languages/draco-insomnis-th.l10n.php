@@ -682,5 +682,7 @@ return array (
     'PHP %s gets security updates' => 'PHP %s ยังได้รับการอัปเดตความปลอดภัย',
     'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s จะได้รับการอัปเดตความปลอดภัยจาก php.net ถึง %2$s เท่านั้น: เลือกเวอร์ชันใหม่กว่าในแผงควบคุมโฮสติ้ง',
     'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s ไม่ได้รับการอัปเดตความปลอดภัยจาก php.net ตั้งแต่ %2$s: เลือกเวอร์ชันใหม่กว่าในแผงควบคุมโฮสติ้ง',
+    'Hide versions on public pages (WordPress, theme and plugins)' => 'ซ่อนเวอร์ชันในหน้าสาธารณะ (WordPress ธีม และปลั๊กอิน)',
+    'Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.' => 'นำแท็ก "generator" ออก และเปลี่ยน "?ver=" ของสไตล์และสคริปต์ให้เป็นรหัสที่ยังคงเปลี่ยนทุกครั้งที่อัปเดต ทำให้โรบอตที่ค้นหาเวอร์ชันเก่าจัดเว็บไซต์เข้ารายชื่อได้ยากขึ้น แต่ไม่ได้แก้ไขอะไร: อัปเดตทุกอย่างให้เป็นปัจจุบันเสมอ readme.html และ license.txt ถูกส่งโดยเว็บเซิร์ฟเวอร์โดยไม่ผ่าน WordPress จึงไม่มีปลั๊กอินใดปฏิเสธได้: ให้ปฏิเสธที่เซิร์ฟเวอร์',
   ),
 );

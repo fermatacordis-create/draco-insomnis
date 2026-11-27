@@ -682,5 +682,7 @@ return array (
     'PHP %s gets security updates' => 'Nakakatanggap ng security update ang PHP %s',
     'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'Hanggang %2$s lang makakatanggap ng security update mula sa php.net ang PHP %1$s: pumili ng mas bagong bersyon sa panel ng iyong hosting',
     'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'Wala nang security update mula sa php.net ang PHP %1$s mula noong %2$s: pumili ng mas bagong bersyon sa panel ng iyong hosting',
+    'Hide versions on public pages (WordPress, theme and plugins)' => 'Itago ang mga bersyon sa mga pampublikong pahina (WordPress, tema at mga plugin)',
+    'Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.' => 'Inaalis ang mga "generator" tag at ginagawang code ang "?ver=" ng mga style at script na nagbabago pa rin sa bawat update. Mas nahihirapan ang mga robot na naghahanap ng lumang bersyon na ilista ang site; wala itong inaayos: panatilihing updated ang lahat. Ang readme.html at license.txt ay ipinapadala ng web server nang walang WordPress, kaya walang plugin na makatatanggi sa mga ito: tanggihan ang mga ito sa server.',
   ),
 );

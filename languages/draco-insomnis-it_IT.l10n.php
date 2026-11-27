@@ -682,5 +682,7 @@ return array (
     'PHP %s gets security updates' => 'PHP %s riceve aggiornamenti di sicurezza',
     'PHP %1$s gets security updates from php.net only until %2$s: choose a newer one in your hosting panel' => 'PHP %1$s riceve aggiornamenti di sicurezza da php.net solo fino al %2$s: scegli una versione più recente nel pannello del tuo hosting',
     'PHP %1$s has had no security updates from php.net since %2$s: choose a newer one in your hosting panel' => 'PHP %1$s non riceve aggiornamenti di sicurezza da php.net dal %2$s: scegli una versione più recente nel pannello del tuo hosting',
+    'Hide versions on public pages (WordPress, theme and plugins)' => 'Nascondi le versioni nelle pagine pubbliche (WordPress, tema e plugin)',
+    'Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.' => 'Toglie i tag «generator» e trasforma il «?ver=» di stili e script in un codice che continua a cambiare a ogni aggiornamento. Ai robot che cercano versioni vecchie diventa più difficile mettere il sito nelle loro liste; non ripara nulla: tieni tutto aggiornato. readme.html e license.txt li invia il server web senza WordPress, quindi nessun plugin può rifiutarli: rifiutali nel server.',
   ),
 );
