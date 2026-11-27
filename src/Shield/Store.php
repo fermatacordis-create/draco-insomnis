@@ -394,35 +394,44 @@ final class Store
 
     /**
      * What the firewall stopped in the last days: totals, by rule and the busiest addresses.
+     * Addresses in $exclude (administrators' own tests) are left out. With $kind, rules are grouped by
+     * $kind(rule, address requested) instead, for a finer "what".
      *
+     * @param list<string> $exclude
+     * @param (callable(string, string): string)|null $kind
      * @return array{total: int, blocked: int, rules: array<string, int>, ips: array<string, int>}
      */
-    public static function wafSummary(int $days = 7): array
+    public static function wafSummary(int $days = 7, array $exclude = [], ?callable $kind = null): array
     {
         global $wpdb;
         $since = gmdate('Y-m-d H:i:s', time() - $days * 86400);
+        // At most the rows of a busy week; the ones a site keeps are capped per address and hour.
         $rows = (array) $wpdb->get_results($wpdb->prepare(
-            'SELECT reasons, verdict, COUNT(*) n FROM %i WHERE endpoint LIKE %s AND created_at > %s GROUP BY reasons, verdict',
+            'SELECT ip, reasons, verdict, fields FROM %i WHERE endpoint LIKE %s AND created_at > %s ORDER BY id DESC LIMIT 20000',
             self::events(),
             $wpdb->esc_like('waf:') . '%',
             $since,
         ), ARRAY_A);
         $out = ['total' => 0, 'blocked' => 0, 'rules' => [], 'ips' => []];
+        $skip = array_flip(array_map('strval', $exclude));
         foreach ($rows as $r) {
-            $n = (int) $r['n'];
-            $out['total'] += $n;
-            $out['blocked'] += $r['verdict'] === 'bot' ? $n : 0;
-            $out['rules'][(string) $r['reasons']] = ($out['rules'][(string) $r['reasons']] ?? 0) + $n;
+            $ip = (string) $r['ip'];
+            if (isset($skip[$ip])) {
+                continue;
+            }
+            $rule = (string) $r['reasons'];
+            if ($kind !== null) {
+                $fields = json_decode((string) $r['fields'], true);
+                $rule = (string) $kind($rule, (string) (is_array($fields) ? ($fields['referer'] ?? '') : ''));
+            }
+            $out['total']++;
+            $out['blocked'] += $r['verdict'] === 'bot' ? 1 : 0;
+            $out['rules'][$rule] = ($out['rules'][$rule] ?? 0) + 1;
+            $out['ips'][$ip] = ($out['ips'][$ip] ?? 0) + 1;
         }
         arsort($out['rules']);
-        foreach ((array) $wpdb->get_results($wpdb->prepare(
-            'SELECT ip, COUNT(*) n FROM %i WHERE endpoint LIKE %s AND created_at > %s GROUP BY ip ORDER BY n DESC LIMIT 5',
-            self::events(),
-            $wpdb->esc_like('waf:') . '%',
-            $since,
-        ), ARRAY_A) as $r) {
-            $out['ips'][(string) $r['ip']] = (int) $r['n'];
-        }
+        arsort($out['ips']);
+        $out['ips'] = array_slice($out['ips'], 0, 5, true);
 
         return $out;
     }

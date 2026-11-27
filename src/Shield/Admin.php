@@ -203,14 +203,19 @@ final class Admin
         if ($out === false) {
             exit;
         }
-        fputcsv($out, ['site', 'time_utc', 'client_ip', 'connection_ip', 'endpoint', 'score', 'verdict', 'reasons', 'user_agent', 'username', 'email', 'role', 'referer'], ',', '"', '');
+        // kind and known_attack: what a firewall event was after (Firewall\Explain), for the provider reading it.
+        fputcsv($out, ['site', 'time_utc', 'client_ip', 'connection_ip', 'endpoint', 'score', 'verdict', 'reasons', 'kind', 'known_attack', 'user_agent', 'username', 'email', 'role', 'referer'], ',', '"', '');
         $site = home_url('/');
         foreach (Store::byIp($ip) as $r) {
             $f = json_decode((string) $r['fields'], true);
             $f = is_array($f) ? $f : [];
+            $requested = (string) ($f['referer'] ?? '');
+            $waf = str_starts_with((string) $r['endpoint'], 'waf:');
             fputcsv($out, [
-                $site, $r['created_at'], $r['ip'], $r['remote_addr'], $r['endpoint'], $r['score'], $r['verdict'], $r['reasons'], self::cell((string) $r['user_agent']),
-                self::cell((string) ($f['username'] ?? '')), self::cell((string) ($f['email'] ?? '')), self::cell((string) ($f['role'] ?? '')), self::cell((string) ($f['referer'] ?? '')),
+                $site, $r['created_at'], $r['ip'], $r['remote_addr'], $r['endpoint'], $r['score'], $r['verdict'], $r['reasons'],
+                $waf ? \DracoInsomnis\Firewall\Explain::kind((string) $r['reasons'], $requested) : '', $waf ? \DracoInsomnis\Firewall\Explain::signature($requested) : '',
+                self::cell((string) $r['user_agent']),
+                self::cell((string) ($f['username'] ?? '')), self::cell((string) ($f['email'] ?? '')), self::cell((string) ($f['role'] ?? '')), self::cell($requested),
             ], ',', '"', '');
         }
         fclose($out); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
