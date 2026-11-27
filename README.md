@@ -47,7 +47,7 @@ On WordPress it installs from [WordPress.org](https://wordpress.org/plugins/drac
   list, and limits pages per minute per address and network; verified search engines are never limited.
   Its log says the kind of route asked for (content, search, user accounts), the answer the visitor
   got and the whole browser string.
-- **Firewall** — precise attack signatures and scanner probes, log-only mode first, hidden user list,
+- **Firewall** — precise attack signatures and scanner probes, a log that says what each attack was after and names well-known ones (PHPUnit CVE-2017-9841, PHP-CGI, SPIP), log-only mode first, hidden user list,
   login limits, no XML-RPC multicall. Files that must never be public are always refused: .env, .git,
   phpMyAdmin, logs such as `error_log`, and backup or editor copies; `update.php` never is. The
   plugin sees only requests that reach WordPress: files that run without it, such as
