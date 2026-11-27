@@ -66,9 +66,12 @@ final class Admin
         }
         update_option(Waf::OPTION_ENABLED, empty($_POST['enabled']) ? 'no' : 'yes');
         update_option(Waf::OPTION_MODE, Input::post('mode') === 'block' ? 'block' : 'log');
-        foreach ([Waf::OPTION_HIDE_USERS => 'hide_users', Waf::OPTION_XMLRPC_OFF => 'xmlrpc_off', Waf::OPTION_LOGIN_LIMIT => 'login_limit', Headers::OPTION_SAFE => 'headers', Headers::OPTION_HSTS => 'hsts', Headers::OPTION_MIC => 'headers_mic', Versions::OPTION => 'hide_versions'] as $option => $field) {
+        foreach ([Waf::OPTION_HIDE_USERS => 'hide_users', Waf::OPTION_XMLRPC_OFF => 'xmlrpc_off', Waf::OPTION_LOGIN_LIMIT => 'login_limit', Headers::OPTION_SAFE => 'headers', Headers::OPTION_HSTS => 'hsts', Headers::OPTION_MIC => 'headers_mic', Versions::OPTION => 'hide_versions', SecurityTxt::OPTION => 'securitytxt'] as $option => $field) {
             update_option($option, empty($_POST[$field]) ? 'no' : 'yes');
         }
+        // Only what validates is kept: an e-mail address or an https:// address.
+        update_option(SecurityTxt::OPTION_CONTACT, SecurityTxt::contact(Input::post('securitytxt_contact')), false);
+        update_option(SecurityTxt::OPTION_POLICY, SecurityTxt::policy(Input::post('securitytxt_policy')), false);
         // Mic exception only applies with the safe headers and when OPNV-WP is on the site.
         if (get_option(Headers::OPTION_SAFE, 'no') !== 'yes' || !Headers::opnvWpPresent()) {
             update_option(Headers::OPTION_MIC, 'no');
@@ -163,7 +166,22 @@ final class Admin
             __('Hide versions on public pages (WordPress, theme and plugins)', 'draco-insomnis'),
             __('Takes out the "generator" tags and turns "?ver=" of styles and scripts into a code that still changes on every update. It makes the site harder to list for robots looking for old versions; it does not fix anything: keep everything updated. readme.html and license.txt are sent by the web server without WordPress, so no plugin can refuse them: refuse them in the server.', 'draco-insomnis')
         );
-        Brand::toggle('xmlrpc_off',get_option(Waf::OPTION_XMLRPC_OFF, 'no') === 'yes', __('Turn off XML-RPC completely (leave it on if you use Jetpack or the WordPress mobile app; its riskiest parts are always off)', 'draco-insomnis'));
+        Brand::toggle(
+            'securitytxt',
+            get_option(SecurityTxt::OPTION, 'no') === 'yes',
+            __('Publish /.well-known/security.txt (how to report a security problem)', 'draco-insomnis'),
+            SecurityTxt::atRoot()
+                ? __('The standard file (RFC 9116) that tells whoever finds a weakness how to reach you. Draco renews its expiry date by itself.', 'draco-insomnis')
+                : __('Not possible here: the standard wants the file at the root of the domain, and this WordPress is in a folder.', 'draco-insomnis')
+        );
+        echo '<div class="draco-inline"><div class="draco-field"><label for="draco-securitytxt-contact">' . esc_html__('Contact (e-mail or https:// address)', 'draco-insomnis') . '</label><input id="draco-securitytxt-contact" type="text" name="securitytxt_contact" class="regular-text" value="' . esc_attr((string) preg_replace('/^mailto:/', '', (string) get_option(SecurityTxt::OPTION_CONTACT, ''))) . '"></div>';
+        echo '<div class="draco-field"><label for="draco-securitytxt-policy">' . esc_html__('Policy page (optional, https://)', 'draco-insomnis') . '</label><input id="draco-securitytxt-policy" type="url" name="securitytxt_policy" class="regular-text" value="' . esc_attr((string) get_option(SecurityTxt::OPTION_POLICY, '')) . '"></div></div>';
+        if (SecurityTxt::active()) {
+            echo '<p class="description"><a href="' . esc_url(home_url(SecurityTxt::PATH)) . '" target="_blank" rel="noopener">' . esc_html(home_url(SecurityTxt::PATH)) . '</a></p>';
+        } elseif (get_option(SecurityTxt::OPTION, 'no') === 'yes' && SecurityTxt::contact() === '') {
+            echo '<p class="description">' . esc_html__('Not published yet: write a valid contact.', 'draco-insomnis') . '</p>';
+        }
+        Brand::toggle('xmlrpc_off', get_option(Waf::OPTION_XMLRPC_OFF, 'no') === 'yes', __('Turn off XML-RPC completely (leave it on if you use Jetpack or the WordPress mobile app; its riskiest parts are always off)', 'draco-insomnis'));
         echo '<p style="margin-top:12px">';
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
         echo '</p></form>';

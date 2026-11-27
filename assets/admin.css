@@ -227,6 +227,7 @@
 .draco .draco-table { border: 0; box-shadow: none; border-top: 1px solid var(--d-line); }
 .draco .draco-table thead th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--d-muted); font-weight: 600; background: var(--d-soft); padding: 10px 12px; }
 .draco .draco-table td { padding: 10px 12px; vertical-align: middle; }
+.draco .draco-table td.draco-ua { min-width: 220px; max-width: 420px; font-size: 12px; overflow-wrap: anywhere; color: var(--d-muted); }
 .draco .draco-table tbody tr:hover td { background: #f8fafc; }
 .draco .draco-table td.draco-empty { text-align: center; color: var(--d-muted); padding: 26px 12px; }
 .draco .draco-table td.draco-empty .dashicons { display: block; margin: 0 auto 6px; font-size: 26px; width: 26px; height: 26px; color: #cbd5e1; }

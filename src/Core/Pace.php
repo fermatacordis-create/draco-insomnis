@@ -105,13 +105,18 @@ final class Pace
     }
 
     /** Never counts towards the shield's bot verdicts: a fast reader or a shared office is not a bot. */
-    public function record(Request $r, string $kind, bool $block, string $path): void
+    public function record(Request $r, string $kind, bool $block, string $path, int $status = 0): void
     {
-        $this->host->events()->log($r->via($this->host), $r->remote(), 'anticopy:' . $kind, ['score' => 0, 'verdict' => 'doubtful', 'reasons' => ['anticopy_' . $kind . '_' . ($block ? 'block' : 'log')]], substr($r->userAgent, 0, 255), [
+        $fields = [
             'username' => '',
             'email' => '',
             'role' => '',
             'referer' => substr($path, 0, 200),
-        ]);
+        ];
+        // The HTTP answer the visitor got, when the caller knows it (WordPress content API).
+        if ($status > 0) {
+            $fields['status'] = (string) $status;
+        }
+        $this->host->events()->log($r->via($this->host), $r->remote(), 'anticopy:' . $kind, ['score' => 0, 'verdict' => 'doubtful', 'reasons' => ['anticopy_' . $kind . '_' . ($block ? 'block' : 'log')]], substr($r->userAgent, 0, 255), $fields);
     }
 }

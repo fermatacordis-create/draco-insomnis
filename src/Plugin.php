@@ -44,6 +44,7 @@ final class Plugin
         \DracoInsomnis\Firewall\GeoFilter::register();
         \DracoInsomnis\Firewall\Headers::register();
         \DracoInsomnis\Firewall\Versions::register();
+        \DracoInsomnis\Firewall\SecurityTxt::register();
         \DracoInsomnis\Login\Passwords::register();
         AntiCopyAdmin::register();
         Mfa::boot();
