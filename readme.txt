@@ -20,7 +20,7 @@ Draco Insomnis brings together, in one plugin, the protections a WordPress site 
 * **Two-step login**: a stolen password alone is no longer enough.
 * **Site mail (SMTP)**: login codes, forms and orders actually arrive.
 * **Anti-copy**: makes it harder to copy the whole site in one go, without getting in the way of visitors or search engines.
-* **Integrity (Guardia)**: compares WordPress core files with the official checksums, watches administrators, plugins and uploads, and tells you when something comes back after you removed it.
+* **Integrity**: checks core files against WordPress.org and warns when something comes back after you removed it.
 
 Free software, made by Notorius Vision: the open-source security core of OPNV. *Ab insomni custodita dracone.*
 
@@ -59,7 +59,7 @@ Holds every contact message, blog comment and new account until the sender confi
 * **New accounts stay closed** until confirmed: no login, no password reset, no welcome mail. Unconfirmed accounts are deleted after 48 hours, unless they have content or orders, which a person reviews instead. Accounts created while paying in the shop are never held.
 * **Block from any row**, by e-mail or IP, for 7 to 90 days. A blocked sender sees the same answer, so they cannot tell.
 * **Never sends what the visitor typed** to the address they wrote, so it cannot be used to send spam to strangers, and it limits how many confirmations an address or IP can trigger.
-* **Phishing links** (optional): links in comments and contact forms are checked against PhishTank, the list of verified phishing pages still online. A comment with a listed link goes to spam; a contact message with one is not delivered. The list is downloaded twice a day and looked up on your server; Draco warns if it stops changing for a week. The standalone plugin can also use URLhaus (malware links), with your own abuse.ch key.
+* **Phishing links** (optional): links in comments and contact forms are checked against PhishTank, in a copy kept on your server.
 
 Needs working site mail: it only switches on when SMTP is set up.
 
@@ -70,8 +70,8 @@ After the right password, WordPress asks for a 6-digit code sent by e-mail. A st
 * **For administrators by default**, or for everyone who can edit, or for every user.
 * **The code is only sent after the right password**, expires in 10 minutes and allows 5 tries. Repeated failures block the address for 15 minutes.
 * **Trust this device for 7 days** (optional). Changing the password or e-mail of an account revokes its trusted devices.
-* **Code did not arrive?** The code screen can send it again after 30 seconds (3 times an hour), renewing it, and reminds you to look in the spam folder.
-* **Administrator co-sign** (optional): an administrator's sign-in only finishes after a second approval, either another administrator's password or a one-time link sent to the account's recovery e-mails 2 and 3, with "Approve" and "It was not me" buttons. No second administrator account is needed. The approval only counts for the browser that asked for it, and co-sign cannot be switched on while nobody could approve your next login. Emergency exit: `define('DRACO_COSIGN_OFF', true);` in wp-config.php.
+* **Code did not arrive?** Send it again after 30 seconds, and check the spam folder.
+* **Administrator co-sign** (optional): a second approval, by another administrator's password or a one-time link to recovery e-mails 2 and 3. Emergency exit: `define('DRACO_COSIGN_OFF', true);`.
 * **No lock-outs from missing mail.** It only switches on with SMTP working and switches itself off if that connection is forgotten.
 * **Recovery e-mails, like the PUK of a phone.** Everyone who needs a code keeps up to three other mailboxes, added one at a time and each confirmed with a code; the screen shows the three slots in order, with their state. The last one cannot be removed while the code is required. The code screen can send the code there instead; "Lost your password?" accepts it too; after a password reset the next code goes only there. Changing it needs a code from the new address and one from the current one, and every change is told to the other mailbox. Administrators set it up before using the dashboard.
 * **Emergency exit for the owner:** `define('DRACO_MFA_OFF', true);` in wp-config.php. Only someone with access to the server can use it, unlike a "skip" button a thief could press.
@@ -105,24 +105,12 @@ Makes it harder to copy the whole site in one go, without getting in the way of 
 
 = Integrity (Guardia) =
 
-Watches what an intruder changes to stay on a site, and tells you when something comes back after you removed it. Guardia only looks: it never changes or deletes anything.
+Shows what an intruder changed to stay, and what comes back after you removed it. It only looks: it never changes or deletes anything.
 
-* **WordPress core files against the official checksums** from WordPress.org: a core file whose content differs from the release, or a PHP file in wp-admin, wp-includes or the root that no release has, is reported as high from the first scan.
-* **Also watched:** administrators, active plugins, must-use plugins, drop-ins, wp-config.php, .htaccess, PHP files inside uploads (with a look for code often used to hide a back door) and scheduled tasks that no code handles.
-* **A baseline first.** Most sites already have must-use plugins or PHP files in uploads that are fine. The first scan accepts what is there and lists it once for you to review; afterwards only what is new, changes or comes back is shown.
-* **Persistence, not just differences.** Something that is removed and comes back is the sign of an intrusion that rebuilds itself: the first return is medium, the second high, the third critical. Many items back at once are read as a restored backup, one notice instead of many.
-* **No false alarms from what it could not see.** If WordPress.org does not answer, or uploads holds more PHP files than are read, nothing unseen is reported as gone.
-* **An e-mail when it matters** (optional, on by default): one message per scan that found something medium or worse, to the site address and the administrators' recovery e-mails, at most 6 a day. The Overview shows the last scan and the findings of the last 30 days.
-
-= Languages =
-
-English, Spanish (Spain and all Latin American variants), Catalan, German, French, Italian, Portuguese (Portugal and Brazil), Dutch, Polish, Russian, Turkish, Japanese, Simplified Chinese, Korean, Arabic, Hindi, Indonesian, Vietnamese, Bengali, Urdu, Persian, Filipino, Thai, Ukrainian, Swahili, Malay and Tamil. Corrections from native speakers are very welcome, especially for the Asian, African and Middle Eastern languages.
-
-= Who makes it =
-
-Draco Insomnis is made by [Notorius Vision](https://notoriusvision.com), the team behind [OPNV Systems](https://opnv.systems) and OPNV SOLΞ. It is the open-source security core of OPNV.
-
-The code is free software (GPLv2 or later). The names Draco Insomnis, Notorius Vision, OPNV, OPNV Systems and OPNV SOLΞ, and the dragon logo, are not part of that licence: if you publish a modified version, please give it another name and logo.
+* **Core files against the WordPress.org checksums**: a modified core file, or PHP in wp-admin, wp-includes or the root that WordPress does not ship, is high from the first scan.
+* **Also watched**: administrators, plugins, must-use plugins, drop-ins, wp-config.php, .htaccess, PHP in uploads and scheduled tasks without code.
+* **Baseline first**, reviewed once; then only what is new, changes or comes back. Each return raises the level.
+* **E-mail** when a scan finds something medium or worse (optional).
 
 == Installation ==
 
@@ -144,6 +132,16 @@ The code is free software (GPLv2 or later). The names Draco Insomnis, Notorius V
 5. Firewall — log-only or block; attack signatures without word-list false positives.
 
 == Frequently Asked Questions ==
+
+= Which languages? =
+
+English, Spanish (Spain and all Latin American variants), Catalan, German, French, Italian, Portuguese (Portugal and Brazil), Dutch, Polish, Russian, Turkish, Japanese, Simplified Chinese, Korean, Arabic, Hindi, Indonesian, Vietnamese, Bengali, Urdu, Persian, Filipino, Thai, Ukrainian, Swahili, Malay and Tamil. Corrections from native speakers are very welcome, especially for the Asian, African and Middle Eastern languages.
+
+= Who makes it? =
+
+Draco Insomnis is made by [Notorius Vision](https://notoriusvision.com), the team behind [OPNV Systems](https://opnv.systems) and OPNV SOLΞ. It is the open-source security core of OPNV.
+
+The code is free software (GPLv2 or later). The names Draco Insomnis, Notorius Vision, OPNV, OPNV Systems and OPNV SOLΞ, and the dragon logo, are not part of that licence: if you publish a modified version, please give it another name and logo.
 
 = Will real people be rejected? =
 
@@ -199,23 +197,21 @@ Service: abuse.ch, with Spamhaus Technology Limited. Terms of use: https://abuse
 
 = Phishing links (PhishTank) =
 
-What and why: to check the links in comments and contact forms against PhishTank, the list of verified phishing pages that are still online.
+What and why: links in comments and contact forms are checked against PhishTank's list of verified phishing pages.
 
-When: only if the administrator switches it on (Forms and sign-ups). The list is then downloaded twice a day from data.phishtank.com.
+When: only if switched on in Forms and sign-ups; the list is then downloaded twice a day from data.phishtank.com.
 
-Data sent: an ordinary download request, with the administrator's own PhishTank application key in the address if one is set in wp-config.php (DRACO_PHISHTANK_KEY). Nothing visitors write is sent: links are looked up in the local copy.
+Data sent: a download request, with the administrator's optional key (DRACO_PHISHTANK_KEY in wp-config.php). Nothing visitors write is sent. Commercial use is allowed.
 
-PhishTank allows commercial and non-commercial use of its data.
-
-Service: PhishTank, by Cisco Talos. FAQ: https://phishtank.org/faq.php · Terms of use: https://www.cisco.com/c/en/us/about/legal/cloud-and-software/end_user_license_agreement.html · Privacy policy: https://www.cisco.com/c/en/us/about/legal/privacy-full.html
+Service: PhishTank, by Cisco Talos. FAQ: https://phishtank.org/faq.php · Terms: https://www.cisco.com/c/en/us/about/legal/cloud-and-software/end_user_license_agreement.html · Privacy: https://www.cisco.com/c/en/us/about/legal/privacy-full.html
 
 = WordPress core checksums (WordPress.org) =
 
-What and why: Integrity compares the site's WordPress core files with the official checksums of the installed version.
+What and why: Integrity compares core files with the official checksums of the installed version.
 
-When: when an administrator runs an Integrity scan, once per WordPress version and language; the checksums are then kept in the uploads folder.
+When: when an administrator runs a scan, once per WordPress version and language (then kept in uploads).
 
-Data sent: the WordPress version and language, in a request to https://api.wordpress.org/core/checksums/1.0/ (the same one WordPress uses for its own checks). Nothing about the site's files or users is sent.
+Data sent: the WordPress version and language, to https://api.wordpress.org/core/checksums/1.0/. Nothing about the site's files or users.
 
 Service: WordPress.org. Privacy policy: https://wordpress.org/about/privacy/
 
