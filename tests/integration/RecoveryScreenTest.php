@@ -118,6 +118,68 @@ final class RecoveryScreenTest extends TestCase
         $this->assertStringNotContainsString('draco-code', $slots[1]);
     }
 
+    public function test_a_new_code_replaces_the_old_one_and_the_tries_start_again(): void
+    {
+        $admin = $this->user('administrator');
+        update_user_meta($admin->ID, Recovery::META_LIST, ['one@example.net']);
+        $hash = \DracoInsomnis\Login\Challenge::hash('111111');
+        update_user_meta($admin->ID, Recovery::META_PENDING, ['op' => 'set', 'email' => 'new@example.net', 'replaces' => null, 'new' => $hash, 'old' => '', 'at' => time() - 60, 'tries' => 3]);
+
+        $this->assertSame('resent', $this->call('resend', $admin));
+        $pending = get_user_meta($admin->ID, Recovery::META_PENDING, true);
+        $this->assertNotSame($hash, $pending['new'], 'a different code');
+        $this->assertSame(0, $pending['tries']);
+        $this->assertSame('bad', $this->call('confirm', $admin, '111111', ''), 'the old code no longer works');
+    }
+
+    public function test_a_new_code_waits_a_moment_and_only_a_few_an_hour(): void
+    {
+        $admin = $this->user('administrator');
+        update_user_meta($admin->ID, Recovery::META_LIST, ['one@example.net']);
+        $pending = ['op' => 'set', 'email' => 'new@example.net', 'replaces' => null, 'new' => 'x', 'old' => '', 'at' => time(), 'tries' => 0];
+        update_user_meta($admin->ID, Recovery::META_PENDING, $pending);
+        $this->assertSame('resend_wait', $this->call('resend', $admin), 'not right after the first one');
+
+        $results = [];
+        for ($i = 0; $i < 4; $i++) {
+            $p = get_user_meta($admin->ID, Recovery::META_PENDING, true);
+            $p['sent'] = time() - 60;
+            update_user_meta($admin->ID, Recovery::META_PENDING, $p);
+            $results[] = $this->call('resend', $admin);
+        }
+        $this->assertSame(['resent', 'resent', 'resent', 'resend_limit'], $results);
+    }
+
+    public function test_a_new_code_for_a_replacement_renews_both_codes(): void
+    {
+        $admin = $this->user('administrator');
+        update_user_meta($admin->ID, Recovery::META_LIST, ['one@example.net', 'two@example.net']);
+        $old = \DracoInsomnis\Login\Challenge::hash('222222');
+        update_user_meta($admin->ID, Recovery::META_PENDING, ['op' => 'set', 'email' => 'new@example.net', 'replaces' => 1, 'new' => 'x', 'old' => $old, 'at' => time() - 60, 'tries' => 0]);
+
+        $this->assertSame('resent', $this->call('resend', $admin));
+        $this->assertNotSame($old, get_user_meta($admin->ID, Recovery::META_PENDING, true)['old']);
+    }
+
+    public function test_no_new_code_once_the_change_has_expired(): void
+    {
+        $admin = $this->user('administrator');
+        update_user_meta($admin->ID, Recovery::META_PENDING, ['op' => 'set', 'email' => 'new@example.net', 'replaces' => null, 'new' => 'x', 'old' => '', 'at' => time() - 3600, 'tries' => 0]);
+
+        $this->assertSame('expired', $this->call('resend', $admin));
+        $this->assertSame('', get_user_meta($admin->ID, Recovery::META_PENDING, true));
+    }
+
+    public function test_the_waiting_slot_offers_a_new_code(): void
+    {
+        $html = $this->screen(['one@example.net'], ['op' => 'set', 'email' => 'new@example.net', 'replaces' => null]);
+        $slots = explode('<li class="draco-slot', $html);
+        $this->assertStringContainsString('value="resend"', $slots[2]);
+        $this->assertStringContainsString('draco-rec-resend', $slots[2]);
+        $this->assertStringContainsString('draco-spam-hint', $slots[2], 'the spam reminder is always in view while a code is awaited');
+        $this->assertStringNotContainsString('value="resend"', $slots[1]);
+    }
+
     public function test_removing_asks_for_the_code_in_its_own_slot(): void
     {
         $html = $this->screen(['one@example.net', 'two@example.net'], ['op' => 'remove', 'slot' => 0, 'email' => 'one@example.net']);

@@ -6,6 +6,11 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'New code sent. Any code sent before no longer works.' => '已发送新验证码。之前发送的验证码不再有效。',
+    'Wait a moment before asking for another code.' => '请稍等片刻再请求另一个验证码。',
+    'Too many codes this hour. Try again later.' => '本小时内验证码过多。请稍后再试。',
+    'Has it not arrived? Look in spam, or send a new code.' => '没有收到？请查看垃圾邮件，或发送新的验证码。',
+    'Send a new code' => '发送新验证码',
     'by %1$s · %2$s · %3$s' => '出品：%1$s · %2$s · %3$s',
     'Firewall' => '防火墙',
     'You are not allowed to do this.' => '你没有权限执行此操作。',
