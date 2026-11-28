@@ -18,6 +18,8 @@ final class Store
     private const SCHEMA_OPTION = 'draco_guardia_schema';
     public const OPTION_LAST = 'draco_guardia_last_scan';
     public const OPTION_REVIEWED = 'draco_guardia_reviewed';
+    /** The WordPress version whose core files were last checked (empty: never). */
+    public const OPTION_CORE = 'draco_guardia_core_checked';
 
     public static function items(): string
     {
@@ -153,7 +155,7 @@ final class Store
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Guardia's own tables
         return (array) $wpdb->get_results($wpdb->prepare(
             "SELECT i.kind, i.item_key, i.label, i.state, o.severity FROM %i i LEFT JOIN %i o ON o.item_id = i.id AND o.event = 'baseline'
-             WHERE i.origin = 'baseline' ORDER BY FIELD(i.kind, 'admin', 'mu_plugin', 'dropin', 'upload_php', 'cron', 'critical', 'plugin'), i.item_key",
+             WHERE i.origin = 'baseline' ORDER BY FIELD(i.kind, 'core', 'admin', 'mu_plugin', 'dropin', 'upload_php', 'cron', 'critical', 'plugin'), i.item_key",
             self::items(),
             self::observations()
         ), ARRAY_A);
@@ -181,6 +183,7 @@ final class Store
         $wpdb->query($wpdb->prepare('TRUNCATE TABLE %i', self::observations()));
         // phpcs:enable
         delete_option(self::OPTION_LAST);
+        delete_option(self::OPTION_CORE);
         delete_option(self::OPTION_REVIEWED);
     }
 }

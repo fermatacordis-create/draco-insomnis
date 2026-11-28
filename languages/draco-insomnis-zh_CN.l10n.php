@@ -6,6 +6,14 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'WordPress core files are compared with the official checksums from wordpress.org.' => 'WordPress 核心文件会与 wordpress.org 的官方校验和进行比对。',
+    'WordPress core files were not checked in the last scan: %s They are checked again on the next one.' => '上次扫描未检查 WordPress 核心文件：%s 下次扫描时会再次检查。',
+    'WordPress core file' => 'WordPress 核心文件',
+    'WordPress %s is not a release: there are no official checksums for it.' => 'WordPress %s 不是正式发布版本：没有官方校验和。',
+    'wordpress.org answered HTTP %d.' => 'wordpress.org 返回了 HTTP %d。',
+    'wordpress.org has no checksums for this version.' => 'wordpress.org 没有此版本的校验和。',
+    'not part of WordPress' => '不属于 WordPress',
+    'modified' => '已修改',
     'Integrity' => '完整性',
     'Watches administrators, plugins, configuration files, PHP files in uploads and scheduled tasks. The first scan is the baseline, which you review once; after that only what is new, changes or comes back after being removed is shown. Guardia only looks: it never changes or deletes anything.' => '监视管理员、插件、配置文件、uploads 中的 PHP 文件和计划任务。第一次扫描是基准，您只需检查一次；之后只显示新出现的、发生变化的或删除后又回来的内容。Guardia 只查看：从不修改或删除任何内容。',
     'A scan is already running. Try again in a few minutes.' => '已有扫描正在运行。请几分钟后再试。',

@@ -6,6 +6,14 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'WordPress core files are compared with the official checksums from wordpress.org.' => 'Faili za kiini cha WordPress hulinganishwa na checksum rasmi kutoka wordpress.org.',
+    'WordPress core files were not checked in the last scan: %s They are checked again on the next one.' => 'Katika uchanganuzi wa mwisho faili za kiini cha WordPress hazikukaguliwa: %s Zitakaguliwa tena katika unaofuata.',
+    'WordPress core file' => 'Faili ya kiini cha WordPress',
+    'WordPress %s is not a release: there are no official checksums for it.' => 'WordPress %s si toleo lililotolewa: haina checksum rasmi.',
+    'wordpress.org answered HTTP %d.' => 'wordpress.org imejibu HTTP %d.',
+    'wordpress.org has no checksums for this version.' => 'wordpress.org haina checksum za toleo hili.',
+    'not part of WordPress' => 'si sehemu ya WordPress',
+    'modified' => 'imebadilishwa',
     'Integrity' => 'Uadilifu',
     'Watches administrators, plugins, configuration files, PHP files in uploads and scheduled tasks. The first scan is the baseline, which you review once; after that only what is new, changes or comes back after being removed is shown. Guardia only looks: it never changes or deletes anything.' => 'Hufuatilia wasimamizi, programu-jalizi, faili za usanidi, faili za PHP ndani ya uploads na kazi zilizopangwa. Uchanganuzi wa kwanza ndio msingi, unaoukagua mara moja; baada ya hapo huonyeshwa tu kilicho kipya, kinachobadilika au kinachorudi baada ya kuondolewa. Guardia hutazama tu: haibadilishi wala haifuti chochote.',
     'A scan is already running. Try again in a few minutes.' => 'Uchanganuzi tayari unaendelea. Jaribu tena baada ya dakika chache.',

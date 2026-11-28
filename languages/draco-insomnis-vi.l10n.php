@@ -6,6 +6,14 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'WordPress core files are compared with the official checksums from wordpress.org.' => 'Các tệp lõi WordPress được so với tổng kiểm tra chính thức từ wordpress.org.',
+    'WordPress core files were not checked in the last scan: %s They are checked again on the next one.' => 'Lần quét gần nhất chưa kiểm tra các tệp lõi WordPress: %s Chúng sẽ được kiểm tra lại ở lần sau.',
+    'WordPress core file' => 'Tệp lõi WordPress',
+    'WordPress %s is not a release: there are no official checksums for it.' => 'WordPress %s không phải bản phát hành: không có tổng kiểm tra chính thức.',
+    'wordpress.org answered HTTP %d.' => 'wordpress.org trả lời HTTP %d.',
+    'wordpress.org has no checksums for this version.' => 'wordpress.org không có tổng kiểm tra cho phiên bản này.',
+    'not part of WordPress' => 'không thuộc WordPress',
+    'modified' => 'đã bị sửa',
     'Integrity' => 'Toàn vẹn',
     'Watches administrators, plugins, configuration files, PHP files in uploads and scheduled tasks. The first scan is the baseline, which you review once; after that only what is new, changes or comes back after being removed is shown. Guardia only looks: it never changes or deletes anything.' => 'Theo dõi quản trị viên, plugin, tệp cấu hình, tệp PHP trong uploads và tác vụ đã lên lịch. Lần quét đầu tiên là mốc tham chiếu, bạn xem lại một lần; sau đó chỉ hiển thị những gì mới, thay đổi hoặc quay lại sau khi đã bị xóa. Guardia chỉ quan sát: không bao giờ thay đổi hay xóa bất cứ thứ gì.',
     'A scan is already running. Try again in a few minutes.' => 'Đang có một lần quét chạy. Hãy thử lại sau vài phút.',

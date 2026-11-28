@@ -6,6 +6,14 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'WordPress core files are compared with the official checksums from wordpress.org.' => 'تُقارَن ملفات نواة ووردبريس بالمجاميع الاختبارية الرسمية من wordpress.org.',
+    'WordPress core files were not checked in the last scan: %s They are checked again on the next one.' => 'لم تُفحص ملفات نواة ووردبريس في الفحص الأخير: %s ستُفحص مجددًا في الفحص التالي.',
+    'WordPress core file' => 'ملف من نواة ووردبريس',
+    'WordPress %s is not a release: there are no official checksums for it.' => 'ووردبريس %s ليس إصدارًا منشورًا: لا توجد له مجاميع اختبارية رسمية.',
+    'wordpress.org answered HTTP %d.' => 'أجاب wordpress.org بـ HTTP %d.',
+    'wordpress.org has no checksums for this version.' => 'لا يملك wordpress.org مجاميع اختبارية لهذا الإصدار.',
+    'not part of WordPress' => 'ليس من ووردبريس',
+    'modified' => 'معدَّل',
     'Integrity' => 'السلامة',
     'Watches administrators, plugins, configuration files, PHP files in uploads and scheduled tasks. The first scan is the baseline, which you review once; after that only what is new, changes or comes back after being removed is shown. Guardia only looks: it never changes or deletes anything.' => 'يراقب المديرين والإضافات وملفات الإعداد وملفات PHP في مجلد uploads والمهام المجدولة. الفحص الأول هو المرجع، وتراجعه مرة واحدة؛ بعد ذلك لا يُعرض إلا الجديد أو ما يتغير أو ما يعود بعد حذفه. Guardia يراقب فقط: لا يغيّر ولا يحذف أي شيء.',
     'A scan is already running. Try again in a few minutes.' => 'هناك فحص قيد التشغيل بالفعل. أعد المحاولة بعد بضع دقائق.',

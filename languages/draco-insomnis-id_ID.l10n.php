@@ -6,6 +6,14 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'WordPress core files are compared with the official checksums from wordpress.org.' => 'File inti WordPress dibandingkan dengan checksum resmi dari wordpress.org.',
+    'WordPress core files were not checked in the last scan: %s They are checked again on the next one.' => 'Pada pemindaian terakhir file inti WordPress tidak diperiksa: %s File akan diperiksa lagi pada pemindaian berikutnya.',
+    'WordPress core file' => 'File inti WordPress',
+    'WordPress %s is not a release: there are no official checksums for it.' => 'WordPress %s bukan versi rilis: tidak ada checksum resminya.',
+    'wordpress.org answered HTTP %d.' => 'wordpress.org menjawab HTTP %d.',
+    'wordpress.org has no checksums for this version.' => 'wordpress.org tidak punya checksum untuk versi ini.',
+    'not part of WordPress' => 'bukan bagian dari WordPress',
+    'modified' => 'diubah',
     'Integrity' => 'Integritas',
     'Watches administrators, plugins, configuration files, PHP files in uploads and scheduled tasks. The first scan is the baseline, which you review once; after that only what is new, changes or comes back after being removed is shown. Guardia only looks: it never changes or deletes anything.' => 'Mengawasi administrator, plugin, file konfigurasi, file PHP di uploads, dan tugas terjadwal. Pemindaian pertama adalah acuan, yang Anda tinjau sekali; setelah itu hanya yang baru, berubah, atau kembali setelah dihapus yang ditampilkan. Guardia hanya melihat: tidak pernah mengubah atau menghapus apa pun.',
     'A scan is already running. Try again in a few minutes.' => 'Pemindaian sedang berjalan. Coba lagi dalam beberapa menit.',

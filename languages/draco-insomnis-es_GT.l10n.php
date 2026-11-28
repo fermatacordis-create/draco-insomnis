@@ -6,6 +6,14 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'WordPress core files are compared with the official checksums from wordpress.org.' => 'Los archivos del núcleo de WordPress se comparan con las sumas oficiales de wordpress.org.',
+    'WordPress core files were not checked in the last scan: %s They are checked again on the next one.' => 'En el último escaneo no se comprobaron los archivos del núcleo de WordPress: %s Se vuelven a comprobar en el siguiente.',
+    'WordPress core file' => 'Archivo del núcleo de WordPress',
+    'WordPress %s is not a release: there are no official checksums for it.' => 'WordPress %s no es una versión publicada: no tiene sumas oficiales.',
+    'wordpress.org answered HTTP %d.' => 'wordpress.org respondió HTTP %d.',
+    'wordpress.org has no checksums for this version.' => 'wordpress.org no tiene sumas para esta versión.',
+    'not part of WordPress' => 'no es de WordPress',
+    'modified' => 'modificado',
     'Integrity' => 'Integridad',
     'Watches administrators, plugins, configuration files, PHP files in uploads and scheduled tasks. The first scan is the baseline, which you review once; after that only what is new, changes or comes back after being removed is shown. Guardia only looks: it never changes or deletes anything.' => 'Vigila administradores, plugins, archivos de configuración, archivos PHP en uploads y tareas programadas. El primer escaneo es la referencia, que revisas una vez; después solo se muestra lo nuevo, lo que cambia o lo que vuelve tras haberlo quitado. Guardia solo mira: nunca cambia ni borra nada.',
     'A scan is already running. Try again in a few minutes.' => 'Ya hay un escaneo en marcha. Vuelve a probar en unos minutos.',

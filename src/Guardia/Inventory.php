@@ -22,6 +22,8 @@ final class Inventory
     /** @var array<string, string> «kind|key» => label shown on screen */
     private static array $labels = [];
     private static bool $truncated = false;
+    /** @var array<string, string> kind => why its list is incomplete in this scan */
+    private static array $partial = [];
 
     /**
      * @return array<string, array{fp: string, danger?: bool}>
@@ -30,14 +32,41 @@ final class Inventory
     {
         self::$labels = [];
         self::$truncated = false;
+        self::$partial = [];
 
-        return self::admins() + self::plugins() + self::muPlugins() + self::dropins() + self::critical() + self::uploads() + self::cron();
+        return self::admins() + self::plugins() + self::muPlugins() + self::dropins() + self::critical() + self::core() + self::uploads() + self::cron();
     }
 
     /** @return array<string, string> */
     public static function labels(): array
     {
         return self::$labels;
+    }
+
+    /**
+     * Kinds this scan could not list completely, with the reason: what was not seen of them is not «gone».
+     *
+     * @return array<string, string>
+     */
+    public static function partial(): array
+    {
+        return self::$partial;
+    }
+
+    /** @return array<string, array{fp: string, danger: bool}> core files that differ from the release, or are not part of it */
+    private static function core(): array
+    {
+        $found = CoreFiles::collect();
+        if ($found === null) {
+            self::$partial[Diff::CORE] = CoreFiles::error();
+
+            return [];
+        }
+        foreach ($found as $id => $item) {
+            self::$labels[$id] = Diff::keyOf($id) . ' · ' . ($item['fp'] === 'extra' ? __('not part of WordPress', 'draco-insomnis') : __('modified', 'draco-insomnis'));
+        }
+
+        return $found;
     }
 
     /** True when uploads held more PHP files than are looked at. */
@@ -150,6 +179,7 @@ final class Inventory
                 }
                 if (++$seen > self::MAX_UPLOAD_FILES) {
                     self::$truncated = true;
+                    self::$partial[Diff::UPLOAD_PHP] = 'truncated';
                     break;
                 }
                 $rel = ltrim(str_replace('\\', '/', substr($f->getPathname(), strlen($base))), '/');
@@ -158,7 +188,8 @@ final class Inventory
                 self::$labels[$id] = $rel . ' · ' . size_format((int) $f->getSize());
             }
         } catch (\Throwable) {
-            // An unreadable folder: what was read so far is kept.
+            // An unreadable folder: what was read so far is kept, the rest is not «gone».
+            self::$partial[Diff::UPLOAD_PHP] = 'unreadable';
         }
 
         return $out;
