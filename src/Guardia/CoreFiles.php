@@ -28,9 +28,10 @@ final class CoreFiles
      * @param array<string, string> $sums   path => md5 of the release
      * @param array<string, string> $actual path => md5 of the file on disk (only paths of $sums that exist)
      * @param list<string>          $php    PHP files found in wp-admin, wp-includes and the root
+     * @param array<string, string> $heads  path => the first bytes of each of those files (to tell harmless ones)
      * @return array<string, array{fp: string, danger: bool}> «core|path» => «modified:md5» or «extra»
      */
-    public static function deviations(array $sums, array $actual, array $php): array
+    public static function deviations(array $sums, array $actual, array $php, array $heads = []): array
     {
         $items = [];
         foreach ($sums as $path => $md5) {
@@ -45,10 +46,32 @@ final class CoreFiles
                 continue;
             }
             $id = Diff::CORE . '|' . $path;
-            $items[$id] = ['fp' => 'extra', 'danger' => true];
+            $items[$id] = ['fp' => 'extra', 'danger' => !self::harmless(basename($path), $heads[$path] ?? null)];
         }
 
         return $items;
+    }
+
+    /**
+     * A PHP file that is not part of WordPress but cannot do anything: static HTML (the hosting's
+     * default page), an emptied stub (comments, exit, a 404) or Wordfence's firewall loader. Still listed,
+     * as a note; anything with real code stays high. Unknown content (unreadable) counts as code.
+     */
+    public static function harmless(string $name, ?string $head): bool
+    {
+        if ($head === null) {
+            return false;
+        }
+        if (!str_contains($head, '<?')) {
+            return true; // no PHP at all: static HTML
+        }
+        if ($name === 'wordfence-waf.php' && strlen($head) < 1024 && str_contains($head, '/wp-content/plugins/wordfence/waf/bootstrap.php') && !Diff::dangerous($head)) {
+            return true;
+        }
+        $code = (string) preg_replace(['#/\*.*?\*/#s', '#(//|\#)[^\n]*#'], '', $head);
+        $code = (string) preg_replace('/\s+/', '', $code);
+
+        return preg_match('/^(<\?php|<\?)?((http_response_code\(\d*\)|exit(\(\d*\))?|die(\(\d*\))?|return);?)*(\?>)?$/i', $code) === 1;
     }
 
     /** wp-admin/…, wp-includes/… or a file in the root. */
