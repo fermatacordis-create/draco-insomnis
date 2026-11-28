@@ -3004,3 +3004,23 @@ msgstr ""
 #, php-format
 msgid "Automatic: %d bot attempts in 24 h"
 msgstr ""
+
+#: src/Login/Recovery.php
+msgid "New code sent. Any code sent before no longer works."
+msgstr ""
+
+#: src/Login/Recovery.php
+msgid "Wait a moment before asking for another code."
+msgstr ""
+
+#: src/Login/Recovery.php
+msgid "Too many codes this hour. Try again later."
+msgstr ""
+
+#: src/Login/Recovery.php
+msgid "Has it not arrived? Look in spam, or send a new code."
+msgstr ""
+
+#: src/Login/Recovery.php
+msgid "Send a new code"
+msgstr ""

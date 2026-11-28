@@ -6,6 +6,11 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'New code sent. Any code sent before no longer works.' => 'Msimbo mpya umetumwa. Misimbo iliyotumwa awali haifanyi kazi tena.',
+    'Wait a moment before asking for another code.' => 'Subiri kidogo kabla ya kuomba msimbo mwingine.',
+    'Too many codes this hour. Try again later.' => 'Misimbo mingi mno katika saa hii. Jaribu tena baadaye.',
+    'Has it not arrived? Look in spam, or send a new code.' => 'Haujafika? Angalia kwenye barua taka, au tuma msimbo mpya.',
+    'Send a new code' => 'Tuma msimbo mpya',
     'by %1$s · %2$s · %3$s' => 'na %1$s · %2$s · %3$s',
     'Firewall' => 'Ngome ya mtandao',
     'You are not allowed to do this.' => 'Huruhusiwi kufanya hivi.',

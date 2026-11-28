@@ -6,6 +6,11 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'New code sent. Any code sent before no longer works.' => 'নতুন কোড পাঠানো হয়েছে। আগে পাঠানো কোনো কোড আর কাজ করবে না।',
+    'Wait a moment before asking for another code.' => 'আরেকটি কোড চাওয়ার আগে একটু অপেক্ষা করুন।',
+    'Too many codes this hour. Try again later.' => 'এই ঘণ্টায় অনেক বেশি কোড। পরে আবার চেষ্টা করুন।',
+    'Has it not arrived? Look in spam, or send a new code.' => 'পৌঁছায়নি? স্প্যামে দেখুন, অথবা নতুন কোড পাঠান।',
+    'Send a new code' => 'নতুন কোড পাঠান',
     'by %1$s · %2$s · %3$s' => '%1$s · %2$s · %3$s দ্বারা',
     'Firewall' => 'ফায়ারওয়াল',
     'You are not allowed to do this.' => 'আপনার এটি করার অনুমতি নেই।',
