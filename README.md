@@ -62,7 +62,8 @@ On WordPress it installs from [WordPress.org](https://wordpress.org/plugins/drac
   plus administrators, plugins, must-use plugins, drop-ins, configuration files, PHP in uploads and
   scheduled tasks without code. A baseline first, reviewed once; then only what is new, changes or comes
   back after being removed (each return raises the level). Twice a day by itself, in slices of a few
-  seconds, with an optional e-mail. Read only. See
+  seconds, with an optional e-mail. Optional known-vulnerability check of installed plugins, themes and
+  WordPress (Wordfence Intelligence through OPNV, matched on the site, or WPVulnerability). Read only. See
   `docs/adr/0001-guardia-p1-and-link-feeds.md`.
 - **Overview** — every module at a glance, a checklist, and whether the site's PHP version still gets
   security updates.
