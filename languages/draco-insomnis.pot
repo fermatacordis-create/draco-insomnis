@@ -3276,3 +3276,35 @@ msgstr ""
 #: src/Guardia/Admin.php
 msgid "Critical"
 msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "WordPress core files are compared with the official checksums from wordpress.org."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "WordPress core files were not checked in the last scan: %s They are checked again on the next one."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "WordPress core file"
+msgstr ""
+
+#: src/Guardia/CoreFiles.php
+msgid "WordPress %s is not a release: there are no official checksums for it."
+msgstr ""
+
+#: src/Guardia/CoreFiles.php
+msgid "wordpress.org answered HTTP %d."
+msgstr ""
+
+#: src/Guardia/CoreFiles.php
+msgid "wordpress.org has no checksums for this version."
+msgstr ""
+
+#: src/Guardia/Inventory.php
+msgid "not part of WordPress"
+msgstr ""
+
+#: src/Guardia/Inventory.php
+msgid "modified"
+msgstr ""

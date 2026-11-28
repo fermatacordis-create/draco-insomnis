@@ -27,7 +27,16 @@ final class Scanner
             $seen = Inventory::collect();
             $known = Store::known();
             $baseline = $known === [];
-            $events = Diff::compare($known, $seen, $baseline);
+            $partial = Inventory::partial();
+            // A list this scan could not complete says nothing about what it did not reach.
+            foreach ($known as $id => $_) {
+                if (isset($partial[Diff::kindOf($id)]) && !isset($seen[$id])) {
+                    unset($known[$id]);
+                }
+            }
+            $coreChecked = !isset($partial[Diff::CORE]);
+            $coreFirst = !$baseline && $coreChecked && get_option(Store::OPTION_CORE, '') === '';
+            $events = $coreFirst ? self::withCoreBaseline($known, $seen) : Diff::compare($known, $seen, $baseline);
             $restore = !$baseline && Diff::looksLikeRestore($events);
             Store::apply($events, $seen, Inventory::labels(), $restore);
             $summary = [
@@ -38,9 +47,13 @@ final class Scanner
                 'items' => count($seen),
                 'events' => array_count_values(array_column($events, 'event')),
                 'worst' => $restore ? Diff::MEDIUM : self::worst(array_column($events, 'severity')),
+                'partial' => $partial,
             ];
-            if ($baseline) {
+            if ($baseline || ($coreFirst && in_array(Diff::BASELINE, array_column($events, 'event'), true))) {
                 delete_option(Store::OPTION_REVIEWED);
+            }
+            if ($coreChecked) {
+                update_option(Store::OPTION_CORE, (string) $GLOBALS['wp_version'], false);
             }
             update_option(Store::OPTION_LAST, $summary, false);
 
@@ -48,6 +61,22 @@ final class Scanner
         } finally {
             delete_transient(self::LOCK);
         }
+    }
+
+    /**
+     * Core files were never checked before (wordpress.org was out of reach, or Guardia predates the check):
+     * what is found now is their baseline, not news.
+     *
+     * @param array<string, array{state: string, fp: string, back: int}> $known
+     * @param array<string, array{fp: string, danger?: bool}>             $seen
+     * @return list<array{id: string, event: string, state: string, back: int, severity: string, fp: string}>
+     */
+    private static function withCoreBaseline(array $known, array $seen): array
+    {
+        $isCore = static fn (string $id): bool => Diff::kindOf($id) === Diff::CORE;
+        $pick = static fn (array $a, bool $core): array => array_filter($a, static fn (string $id): bool => $isCore($id) === $core, ARRAY_FILTER_USE_KEY);
+
+        return array_merge(Diff::compare($pick($known, false), $pick($seen, false), false), Diff::compare($pick($known, true), $pick($seen, true), true));
     }
 
     /** @param list<string> $severities */

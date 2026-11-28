@@ -21,6 +21,7 @@ final class Diff
     public const CRITICAL = 'critical';
     public const UPLOAD_PHP = 'upload_php';
     public const CRON = 'cron';
+    public const CORE = 'core';
 
     /** States. */
     public const PRESENT = 'present';

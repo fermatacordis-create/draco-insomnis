@@ -67,7 +67,7 @@ final class Admin
     {
         $result = sanitize_key((string) ($_GET['result'] ?? '')); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only
         $last = Scanner::last();
-        Brand::open(__('Integrity', 'draco-insomnis'), __('Watches administrators, plugins, configuration files, PHP files in uploads and scheduled tasks. The first scan is the baseline, which you review once; after that only what is new, changes or comes back after being removed is shown. Guardia only looks: it never changes or deletes anything.', 'draco-insomnis'));
+        Brand::open(__('Integrity', 'draco-insomnis'), __('Watches administrators, plugins, configuration files, PHP files in uploads and scheduled tasks. The first scan is the baseline, which you review once; after that only what is new, changes or comes back after being removed is shown. Guardia only looks: it never changes or deletes anything.', 'draco-insomnis') . ' ' . __('WordPress core files are compared with the official checksums from wordpress.org.', 'draco-insomnis'));
         if ($result === 'busy') {
             Brand::notice('warning', __('A scan is already running. Try again in a few minutes.', 'draco-insomnis'));
         } elseif ($result === 'scanned' && $last !== null) {
@@ -76,6 +76,10 @@ final class Admin
             Brand::notice('success', __('Baseline marked as reviewed.', 'draco-insomnis'));
         } elseif ($result === 'reset') {
             Brand::notice('success', __('Guardia was emptied. The next scan takes a new baseline.', 'draco-insomnis'));
+        }
+        if ($last !== null && isset($last['partial'][Diff::CORE])) {
+            /* translators: %s: reason, such as «wordpress.org answered HTTP 503.» */
+            Brand::notice('warning', sprintf(__('WordPress core files were not checked in the last scan: %s They are checked again on the next one.', 'draco-insomnis'), (string) $last['partial'][Diff::CORE]));
         }
         if ($last !== null && $last['truncated']) {
             /* translators: %d: number of files */
@@ -202,6 +206,7 @@ final class Admin
     private static function kinds(): array
     {
         return [
+            Diff::CORE => __('WordPress core file', 'draco-insomnis'),
             Diff::ADMIN => __('Administrator', 'draco-insomnis'),
             Diff::MU_PLUGIN => __('Must-use plugin', 'draco-insomnis'),
             Diff::DROPIN => __('Drop-in', 'draco-insomnis'),
