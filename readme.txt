@@ -4,7 +4,7 @@ Tags: security, firewall, anti-spam, login, smtp
 Requires at least: 6.5
 Tested up to: 7.2
 Requires PHP: 8.0
-Stable tag: 0.1.43
+Stable tag: 0.1.44
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -237,6 +237,10 @@ The list of common providers on that screen only fills in the form: nothing is d
 Service: the mail provider the administrator has an account with, under the terms and privacy policy the administrator accepted with that provider. Draco has no agreement with any of them.
 
 == Changelog ==
+
+= 0.1.44 =
+* Integrity — known vulnerabilities (optional, off by default): installed plugins (also inactive ones), themes and WordPress checked twice a day, with level, CVE, link and the version that fixes each one; new high or critical ones by e-mail. Plugins closed on WordPress.org are listed too.
+* Integrity — two sources: Wordfence Intelligence through OPNV (the whole list is downloaded and searched on the site: nothing about the site is sent; default inside OPNV) or WPVulnerability (asked one plugin at a time; default in the standalone plugin). WordPress gets the fix of its own branch.
 
 = 0.1.43 =
 * Integrity (new) — Guardia compares WordPress core files with the official checksums from WordPress.org and watches administrators, plugins, must-use plugins, drop-ins, configuration files, PHP in uploads and scheduled tasks without code. The first scan is a baseline you review once; afterwards it shows what is new, changes or comes back after being removed, with a level that rises on each return. It only looks, never changes anything.
