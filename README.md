@@ -39,10 +39,12 @@ On WordPress it installs from [WordPress.org](https://wordpress.org/plugins/drac
 - **Site mail (SMTP)** — sends the site's mail through a real mailbox, only after a successful test,
   with the password encrypted.
 - **Forms and sign-ups** — holds contact messages, comments and new accounts until the sender
-  confirms from their e-mail.
-- **Two-step login** — a 6-digit code by e-mail after the right password, optional second-administrator
-  co-sign (session always of A), trusted devices (code only — never co-sign), and up to three recovery
-  e-mails. Identity stays on WordPress; see `docs/identity/`.
+  confirms from their e-mail, and checks their links against PhishTank (optional; URLhaus too in the
+  standalone plugin, with your own abuse.ch key).
+- **Two-step login** — a 6-digit code by e-mail after the right password (can be sent again after 30 s),
+  optional administrator co-sign (another administrator's password, or a one-time link to recovery
+  e-mails 2 and 3; session always of A), trusted devices (code only — never co-sign), and up to three
+  recovery e-mails. Identity stays on WordPress; see `docs/identity/`.
 - **Anti-copy** — closes the bulk JSON door (/wp-json/wp/v2/) to anonymous visitors with an allow
   list, and limits pages per minute per address and network; verified search engines are never limited.
   Its log says the kind of route asked for (content, search, user accounts), the answer the visitor
@@ -56,6 +58,11 @@ On WordPress it installs from [WordPress.org](https://wordpress.org/plugins/drac
   versions** (generator tags out, and `?ver=` of styles and scripts turned into a code that still
   changes on every update) and **security.txt** (`/.well-known/security.txt`, RFC 9116, with the
   contact you choose).
+- **Integrity (Guardia)** — WordPress core files against the official checksums from WordPress.org,
+  plus administrators, plugins, must-use plugins, drop-ins, configuration files, PHP in uploads and
+  scheduled tasks without code. A baseline first, reviewed once; then only what is new, changes or comes
+  back after being removed (each return raises the level), with an optional e-mail. Read only. See
+  `docs/adr/0001-guardia-p1-and-link-feeds.md`.
 - **Overview** — every module at a glance, a checklist, and whether the site's PHP version still gets
   security updates.
 
@@ -362,7 +369,9 @@ Functions for a form Draco does not build (both do nothing while the anti-bot sh
 
 Check `function_exists('draco_insomnis_form_fields')` first: older versions do not have them.
 
-`wp-config.php` switches for emergencies: `define('DRACO_MFA_OFF', true);` and `define('DRACO_WAF_OFF', true);`.
+`wp-config.php` switches for emergencies: `define('DRACO_MFA_OFF', true);`, `define('DRACO_COSIGN_OFF', true);`,
+`define('DRACO_LOCK_OFF', true);` and `define('DRACO_WAF_OFF', true);`. Keys for the link lists:
+`DRACO_PHISHTANK_KEY` (optional) and `DRACO_URLHAUS_KEY` (standalone plugin only).
 
 ## Translations
 
