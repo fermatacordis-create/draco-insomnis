@@ -83,6 +83,7 @@ final class Brand
             'draco-insomnis-login' => [\DracoInsomnis\Login\Admin::class, 'render'],
             'draco-insomnis-firewall' => [\DracoInsomnis\Firewall\Admin::class, 'render'],
             'draco-insomnis-anticopy' => [\DracoInsomnis\AntiCopy\Admin::class, 'render'],
+            'draco-insomnis-integrity' => [\DracoInsomnis\Guardia\Admin::class, 'render'],
             'draco-insomnis-mail' => [\DracoInsomnis\Mail\Admin::class, 'render'],
         ];
         $modules = self::modules();
@@ -135,6 +136,7 @@ final class Brand
             'draco-insomnis-login' => [__('Two-step login', 'draco-insomnis'), 'lock', $on('draco_mfa_enabled')],
             'draco-insomnis-firewall' => [__('Firewall', 'draco-insomnis'), 'privacy', $waf],
             'draco-insomnis-anticopy' => [__('Anti-copy', 'draco-insomnis'), 'hidden', $copy],
+            'draco-insomnis-integrity' => [__('Integrity', 'draco-insomnis'), 'visibility', \DracoInsomnis\Guardia\Admin::state()],
             'draco-insomnis-mail' => [__('Site mail (SMTP)', 'draco-insomnis'), 'email-alt', \DracoInsomnis\Mail\Settings::active() ? 'on' : 'off'],
         ];
     }
