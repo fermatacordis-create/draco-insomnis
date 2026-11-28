@@ -3462,3 +3462,99 @@ msgstr ""
 #: src/Login/Admin.php
 msgid "Add recovery e-mails 2 and 3 to approve your sign-ins by a link sent to them, without a second administrator account."
 msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Known vulnerabilities checked."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Known vulnerabilities"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Check installed software against known vulnerabilities"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Inactive plugins are checked too: their files are still on the server."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Last check: %1$s UTC · %2$d plugins, themes and WordPress checked"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "%d still to check: they follow on the next round."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Check now"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Plugin"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Theme"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Vulnerability"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Fix"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Closed on WordPress.org: it gets no updates, often for security reasons."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "details"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Update to %s or later"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "No fix listed"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "without logging in"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "inactive"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "No known vulnerabilities in what is installed."
+msgstr ""
+
+#: src/Guardia/Advisories/Advisories.php
+msgid "Known vulnerabilities in installed software"
+msgstr ""
+
+#: src/Guardia/Advisories/Advisories.php
+msgid "%2$s has %1$d new high or critical vulnerabilities in installed plugins, themes or WordPress:"
+msgstr ""
+
+#: src/Guardia/Advisories/Advisories.php
+msgid "Update what has a fix. If there is none yet, consider switching the plugin off until there is. Draco only reports: it changes nothing."
+msgstr ""
+
+#: src/Guardia/Advisories/Advisories.php
+msgid "fixed in %s"
+msgstr ""
+
+#: src/Guardia/Advisories/Advisories.php
+msgid "no fix listed"
+msgstr ""
