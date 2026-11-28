@@ -3308,3 +3308,55 @@ msgstr ""
 #: src/Guardia/Inventory.php
 msgid "modified"
 msgstr ""
+
+#: src/Guardia/Alerts.php
+msgid "Guardia found changes to review"
+msgstr ""
+
+#: src/Guardia/Alerts.php
+msgid "Many items came back at once: it looks like a restored backup. If you did not restore one, look at the list in Integrity."
+msgstr ""
+
+#: src/Guardia/Alerts.php
+msgid "The last scan of %2$s found %1$d things worth a look:"
+msgstr ""
+
+#: src/Guardia/Alerts.php
+msgid "… and %d more."
+msgstr ""
+
+#: src/Guardia/Alerts.php
+msgid "Guardia only looks: nothing was changed or deleted. If you made these changes yourself, there is nothing to do. Something that comes back after you removed it is the sign of an intrusion that rebuilds itself."
+msgstr ""
+
+#: src/Guardia/Alerts.php
+msgid "Open Integrity"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "An e-mail went to %d addresses."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "E-mail me when a scan finds something medium or worse"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "To %s: the site address and the administrators' recovery e-mails. At most 6 a day."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Takes a baseline of the site, then shows only what is new or comes back."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "%d high or critical findings in the last 30 days."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Nothing high or critical in the last 30 days."
+msgstr ""
+
+#: src/Admin/Overview.php
+msgid "Guardia has a baseline of the site and you reviewed it"
+msgstr ""

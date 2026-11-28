@@ -51,6 +51,9 @@ final class Admin
         $result = 'ok';
         if ($do === 'scan') {
             $result = Scanner::run() === null ? 'busy' : 'scanned';
+        } elseif ($do === 'alerts') {
+            update_option(Alerts::OPTION, empty($_POST['alerts']) ? 'no' : 'yes', false);
+            $result = 'ok';
         } elseif ($do === 'reviewed') {
             update_option(Store::OPTION_REVIEWED, gmdate('Y-m-d H:i'), false);
             $result = 'reviewed';
@@ -71,7 +74,11 @@ final class Admin
         if ($result === 'busy') {
             Brand::notice('warning', __('A scan is already running. Try again in a few minutes.', 'draco-insomnis'));
         } elseif ($result === 'scanned' && $last !== null) {
-            Brand::notice($last['worst'] === Diff::HIGH || $last['worst'] === Diff::CRITICAL_LEVEL ? 'error' : 'success', self::summary($last));
+            $mailed = (int) ($last['mailed'] ?? 0);
+            /* translators: %d: number of addresses */
+            Brand::notice($last['worst'] === Diff::HIGH || $last['worst'] === Diff::CRITICAL_LEVEL ? 'error' : 'success', self::summary($last) . ($mailed > 0 ? ' ' . sprintf(__('An e-mail went to %d addresses.', 'draco-insomnis'), $mailed) : ''));
+        } elseif ($result === 'ok') {
+            Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
         } elseif ($result === 'reviewed') {
             Brand::notice('success', __('Baseline marked as reviewed.', 'draco-insomnis'));
         } elseif ($result === 'reset') {
@@ -100,6 +107,14 @@ final class Admin
             }
             echo implode(' · ', $parts) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped above
         }
+        echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '" style="margin-top:14px">';
+        wp_nonce_field(self::ACTION);
+        echo '<input type="hidden" name="action" value="' . esc_attr(self::ACTION) . '"><input type="hidden" name="do" value="alerts">';
+        $to = Alerts::recipients();
+        /* translators: %s: e-mail addresses */
+        Brand::toggle('alerts', Alerts::enabled(), __('E-mail me when a scan finds something medium or worse', 'draco-insomnis'), $to !== [] ? sprintf(__('To %s: the site address and the administrators\' recovery e-mails. At most 6 a day.', 'draco-insomnis'), implode(', ', $to)) : '');
+        submit_button(__('Save', 'draco-insomnis'), 'secondary', 'submit', false);
+        echo '</form>';
         Brand::cardEnd();
 
         if ($last !== null && get_option(Store::OPTION_REVIEWED, '') === '') {
@@ -203,7 +218,7 @@ final class Admin
     }
 
     /** @return array<string, string> */
-    private static function kinds(): array
+    public static function kinds(): array
     {
         return [
             Diff::CORE => __('WordPress core file', 'draco-insomnis'),
@@ -217,7 +232,7 @@ final class Admin
         ];
     }
 
-    private static function eventLabel(string $event, int $back): string
+    public static function eventLabel(string $event, int $back): string
     {
         if ($event === Diff::BACK) {
             /* translators: %d: how many times it came back */
@@ -232,16 +247,47 @@ final class Admin
         return $labels[$event] ?? $event;
     }
 
+    public static function severityLabel(string $severity): string
+    {
+        $labels = [
+            Diff::INFO => __('Note', 'draco-insomnis'),
+            Diff::MEDIUM => __('Medium', 'draco-insomnis'),
+            Diff::HIGH => __('High', 'draco-insomnis'),
+            Diff::CRITICAL_LEVEL => __('Critical', 'draco-insomnis'),
+        ];
+
+        return $labels[$severity] ?? $severity;
+    }
+
     private static function severityPill(string $severity): string
     {
-        $map = [
-            Diff::INFO => [__('Note', 'draco-insomnis'), 'off'],
-            Diff::MEDIUM => [__('Medium', 'draco-insomnis'), 'warn'],
-            Diff::HIGH => [__('High', 'draco-insomnis'), 'bad'],
-            Diff::CRITICAL_LEVEL => [__('Critical', 'draco-insomnis'), 'bad'],
-        ];
-        [$label, $tone] = $map[$severity] ?? [$severity, 'off'];
+        $tones = [Diff::MEDIUM => 'warn', Diff::HIGH => 'bad', Diff::CRITICAL_LEVEL => 'bad'];
 
-        return Brand::pill($label, $tone);
+        return Brand::pill(self::severityLabel($severity), $tones[$severity] ?? 'off');
+    }
+
+    /**
+     * The two lines of the Overview card.
+     *
+     * @return array{0: string, 1: string}
+     */
+    public static function facts(): array
+    {
+        $last = Scanner::last();
+        if ($last === null) {
+            return [__('No scan yet.', 'draco-insomnis'), __('Takes a baseline of the site, then shows only what is new or comes back.', 'draco-insomnis')];
+        }
+        $serious = 0;
+        foreach (Store::findings(50) as $f) {
+            if (in_array($f['severity'], [Diff::HIGH, Diff::CRITICAL_LEVEL], true) && strtotime((string) $f['observed_at'] . ' UTC') > time() - 30 * DAY_IN_SECONDS) {
+                $serious++;
+            }
+        }
+
+        return [
+            self::lastLine($last),
+            /* translators: %d: number of findings */
+            $serious > 0 ? sprintf(__('%d high or critical findings in the last 30 days.', 'draco-insomnis'), $serious) : __('Nothing high or critical in the last 30 days.', 'draco-insomnis'),
+        ];
     }
 }
