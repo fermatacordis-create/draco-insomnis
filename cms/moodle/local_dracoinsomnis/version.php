@@ -16,7 +16,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_dracoinsomnis';
-$plugin->version = 2026112801;
+$plugin->version = 2026112802;
 $plugin->requires = 2024100700; // Moodle 4.5.
 $plugin->maturity = MATURITY_BETA;
-$plugin->release = '0.1.44';
+$plugin->release = '0.1.45';

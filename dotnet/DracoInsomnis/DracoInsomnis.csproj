@@ -8,7 +8,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591</NoWarn>
     <PackageId>DracoInsomnis</PackageId>
-    <Version>0.1.44</Version>
+    <Version>0.1.45</Version>
     <Authors>Notorius Vision</Authors>
     <Description>The Draco Insomnis firewall as ASP.NET Core middleware: firewall signatures, block list, anti-copy pace, country filter, review requests and CrowdSec, with the same signatures as the WordPress, CMS, JavaScript, Python, Go and Ruby editions. No dependencies beyond ASP.NET Core.</Description>
     <PackageLicenseExpression>GPL-2.0-or-later</PackageLicenseExpression>

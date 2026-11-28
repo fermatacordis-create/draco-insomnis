@@ -4,7 +4,7 @@ Tags: security, firewall, anti-spam, login, smtp
 Requires at least: 6.5
 Tested up to: 7.2
 Requires PHP: 8.0
-Stable tag: 0.1.44
+Stable tag: 0.1.45
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -237,6 +237,11 @@ The list of common providers on that screen only fills in the form: nothing is d
 Service: the mail provider the administrator has an account with, under the terms and privacy policy the administrator accepted with that provider. Draco has no agreement with any of them.
 
 == Changelog ==
+
+= 0.1.45 =
+* Integrity — a PHP file in the root, wp-admin or wp-includes that holds no real code (static HTML such as a hosting's default page, an emptied leftover, Wordfence's firewall loader) is listed as a note, not an alarm. Anything with real code stays high.
+* Integrity — a scheduled task that no code handles cannot run anything: a note, never an e-mail.
+* Interface — the «Changes saved» notice appears in the middle of the screen, also on phones.
 
 = 0.1.44 =
 * Integrity — known vulnerabilities (optional, off by default): installed plugins (also inactive ones), themes and WordPress checked twice a day, with level, CVE, link and the version that fixes each one; new high or critical ones by e-mail. Plugins closed on WordPress.org are listed too.
