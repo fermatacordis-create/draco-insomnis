@@ -90,17 +90,13 @@ final class Store
      * Writes one scan: the items' new state and an observation for every event.
      *
      * @param list<array{id: string, event: string, state: string, back: int, severity: string, fp: string}> $events
-     * @param array<string, array{fp: string}> $seen   everything found by the scan (to refresh last_seen)
+     * @param array<string, array{fp: string}> $seen   everything found by the scan
      * @param array<string, string>            $labels
      */
     public static function apply(array $events, array $seen, array $labels, bool $restore): void
     {
         global $wpdb;
         $now = current_time('mysql', true);
-        $byId = [];
-        foreach ($events as $e) {
-            $byId[$e['id']] = $e;
-        }
         // phpcs:disable WordPress.DB.DirectDatabaseQuery -- Guardia's own tables
         foreach ($events as $e) {
             $kind = Diff::kindOf($e['id']);
@@ -129,14 +125,8 @@ final class Store
             $severity = $restore && $e['event'] === Diff::BACK ? Diff::INFO : $e['severity'];
             $wpdb->insert(self::observations(), ['item_id' => $itemId, 'event' => $restore && $e['event'] === Diff::BACK ? Diff::RESTORE : $e['event'], 'severity' => $severity, 'back_count' => $e['back'], 'observed_at' => $now, 'details' => substr($label, 0, 255)]);
         }
-        // Everything else still there: only «last seen» moves.
-        $still = array_diff_key($seen, $byId);
-        if ($still !== []) {
-            foreach (array_chunk(array_map('sha1', array_keys($still)), 200) as $chunk) {
-                $in = implode(',', array_fill(0, count($chunk), '%s'));
-                $wpdb->query($wpdb->prepare('UPDATE %i SET last_seen = %s WHERE item_hash IN (' . $in . ')', self::items(), $now, ...$chunk)); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders -- placeholders built above
-            }
-        }
+        // After the events every item not missing is one this scan saw: «last seen» moves for all of them.
+        $wpdb->query($wpdb->prepare('UPDATE %i SET last_seen = %s WHERE state <> %s', self::items(), $now, Diff::MISSING));
         // phpcs:enable
     }
 
