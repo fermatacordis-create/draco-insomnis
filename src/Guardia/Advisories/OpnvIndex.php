@@ -180,6 +180,18 @@ final class OpnvIndex
             return false;
         }
 
-        return rename($tmp, $file);
+        global $wp_filesystem;
+        if (!function_exists('WP_Filesystem')) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+        WP_Filesystem();
+        if ($wp_filesystem === null || !$wp_filesystem->move($tmp, $file, true)) {
+            self::$error = 'move';
+            wp_delete_file($tmp);
+
+            return false;
+        }
+
+        return true;
     }
 }
