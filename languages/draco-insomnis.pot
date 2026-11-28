@@ -3105,4 +3105,174 @@ msgstr ""
 
 #: src/Gate/Admin.php
 msgid "Check links in comments and contact forms against PhishTank"
+#: src/Guardia/Admin.php
+msgid "Integrity"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Watches administrators, plugins, configuration files, PHP files in uploads and scheduled tasks. The first scan is the baseline, which you review once; after that only what is new, changes or comes back after being removed is shown. Guardia only looks: it never changes or deletes anything."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "A scan is already running. Try again in a few minutes."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Baseline marked as reviewed."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Guardia was emptied. The next scan takes a new baseline."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Uploads holds more than %d PHP files: only the first ones were looked at. Media folders should hold none."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Scan"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "No scan yet."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Take the baseline"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Scan now"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Baseline taken: %d items. Review the list below once."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Many items came back at once: it looks like a restored backup. Check that you restored one."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Scan finished: nothing new."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Scan finished: %1$d new, %2$d changed, %3$d came back."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Last scan: %1$s UTC · %2$d items watched"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Review the baseline"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "What was already on the site at the first scan. Check that you know every administrator, must-use plugin and PHP file in uploads: one you do not recognise may be left over from an old intrusion."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Item"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Level"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Nothing in the baseline."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Only the first %d are shown."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "I have reviewed this list"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Findings"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "What appeared, changed or came back after the baseline, newest first. Something that comes back after being removed rebuilds itself: each return raises the level."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Nothing new since the baseline."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Start again"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "The next scan takes a new baseline. Only after cleaning the site, or if the baseline was taken on a site you did not trust."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Empty Guardia and take a new baseline on the next scan?"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Empty Guardia"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Administrator"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Must-use plugin"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Drop-in"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "PHP file in uploads"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Scheduled task without code"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Configuration file"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Active plugin"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Came back after being removed (%d×)"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "New"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Changed"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Back with a restored backup"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Medium"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "High"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Critical"
 msgstr ""

@@ -47,6 +47,7 @@ final class Plugin
         \DracoInsomnis\Firewall\SecurityTxt::register();
         \DracoInsomnis\Login\Passwords::register();
         AntiCopyAdmin::register();
+        \DracoInsomnis\Guardia\Admin::register();
         Mfa::boot();
         \DracoInsomnis\Login\CoSign::boot();
         \DracoInsomnis\Login\AccountLock::boot();
