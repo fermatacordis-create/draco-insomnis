@@ -6,6 +6,17 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.' => 'Kenalan tidak disimpan: tulis alamat e-mel atau alamat yang bermula dengan https://. Yang lama dikekalkan.',
+    'The policy page was not saved: it must be an address starting with https://. The previous one is kept.' => 'Halaman dasar tidak disimpan: alamat mesti bermula dengan https://. Yang lama dikekalkan.',
+    'Advanced: proxy and CDN' => 'Lanjutan: proksi dan CDN',
+    'Check:' => 'Semakan:',
+    'Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address.' => 'Lawatan sampai terus ke laman ini, tanpa Cloudflare atau proksi. Pilihan yang betul ialah alamat sambungan.',
+    'Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare.' => 'Lawatan sampai ke laman ini melalui Cloudflare. Pilihan yang betul ialah pengepala Cloudflare; jika tidak, setiap pelawat akan kelihatan seperti Cloudflare.',
+    'Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For.' => 'Lawatan sampai ke laman ini melalui proksi pada pelayan atau rangkaiannya sendiri. Pilihan yang betul ialah X-Forwarded-For.',
+    'A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address.' => 'Pengepala proksi datang dari alamat internet: CDN di hadapan laman, atau proksi dalam rangkaian anda sendiri. Dengan CDN, pilih X-Forwarded-For dan tambah alamatnya sebagai proksi dipercayai; jika tidak, kekalkan alamat sambungan.',
+    'Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong.' => 'Draco melihat anda sebagai %s. Laman «apakah IP saya» sepatutnya menunjukkan alamat yang sama; jika tidak, tetapan itu salah.',
+    'The current choice does not match what was found.' => 'Pilihan semasa tidak sepadan dengan yang ditemui.',
+    'Use the recommended one and save' => 'Guna yang disyorkan dan simpan',
     'by %1$s · %2$s · %3$s' => 'oleh %1$s · %2$s · %3$s',
     'Firewall' => 'Tembok api',
     'You are not allowed to do this.' => 'Anda tidak dibenarkan melakukan ini.',

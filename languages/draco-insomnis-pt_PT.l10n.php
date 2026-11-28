@@ -6,6 +6,17 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.' => 'O contacto não foi guardado: escreva um e-mail ou um endereço que comece por https://. Mantém-se o anterior.',
+    'The policy page was not saved: it must be an address starting with https://. The previous one is kept.' => 'A página da política não foi guardada: tem de ser um endereço que comece por https://. Mantém-se a anterior.',
+    'Advanced: proxy and CDN' => 'Avançado: proxy e CDN',
+    'Check:' => 'Verificação:',
+    'Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address.' => 'As visitas chegam a este site diretamente, sem Cloudflare nem proxy. A escolha certa é o endereço da ligação.',
+    'Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare.' => 'As visitas chegam a este site através da Cloudflare. A escolha certa é o cabeçalho da Cloudflare; caso contrário todos os visitantes pareceriam a Cloudflare.',
+    'Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For.' => 'As visitas chegam a este site através de um proxy do próprio servidor ou rede. A escolha certa é X-Forwarded-For.',
+    'A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address.' => 'Chegou um cabeçalho de proxy de um endereço da internet: uma CDN à frente do site, ou um proxy da sua própria rede. Com uma CDN, escolha X-Forwarded-For e acrescente os endereços dela como proxies de confiança; caso contrário mantenha o endereço da ligação.',
+    'Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong.' => 'O Draco vê-o como %s. Um site de “qual é o meu IP” deve mostrar o mesmo endereço; se não, a configuração está errada.',
+    'The current choice does not match what was found.' => 'A escolha atual não corresponde ao que foi detetado.',
+    'Use the recommended one and save' => 'Usar o recomendado e guardar',
     'by %1$s · %2$s · %3$s' => 'por %1$s · %2$s · %3$s',
     'Firewall' => 'Firewall',
     'You are not allowed to do this.' => 'Não tem permissão para fazer isto.',

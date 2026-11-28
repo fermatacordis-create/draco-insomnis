@@ -6,6 +6,17 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.' => 'O contato não foi salvo: escreva um e-mail ou um endereço que comece com https://. O anterior é mantido.',
+    'The policy page was not saved: it must be an address starting with https://. The previous one is kept.' => 'A página da política não foi salva: deve ser um endereço que comece com https://. A anterior é mantida.',
+    'Advanced: proxy and CDN' => 'Avançado: proxy e CDN',
+    'Check:' => 'Verificação:',
+    'Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address.' => 'As visitas chegam a este site diretamente, sem Cloudflare nem proxy. A escolha certa é o endereço da conexão.',
+    'Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare.' => 'As visitas chegam a este site pelo Cloudflare. A escolha certa é o cabeçalho do Cloudflare; senão todo visitante pareceria o Cloudflare.',
+    'Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For.' => 'As visitas chegam a este site por um proxy do próprio servidor ou rede. A escolha certa é X-Forwarded-For.',
+    'A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address.' => 'Um cabeçalho de proxy veio de um endereço da internet: um CDN na frente do site, ou um proxy da sua própria rede. Com um CDN, escolha X-Forwarded-For e adicione os endereços dele como proxies confiáveis; senão mantenha o endereço da conexão.',
+    'Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong.' => 'O Draco vê você como %s. Um site de “qual é meu IP” deve mostrar o mesmo endereço; se não, a configuração está errada.',
+    'The current choice does not match what was found.' => 'A escolha atual não corresponde ao que foi detectado.',
+    'Use the recommended one and save' => 'Usar o recomendado e salvar',
     'by %1$s · %2$s · %3$s' => 'por %1$s · %2$s · %3$s',
     'Firewall' => 'Firewall',
     'You are not allowed to do this.' => 'Você não tem permissão para fazer isso.',

@@ -6,6 +6,17 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.' => 'যোগাযোগ সংরক্ষিত হয়নি: একটি ইমেল বা https:// দিয়ে শুরু হওয়া ঠিকানা লিখুন। আগেরটি থাকবে।',
+    'The policy page was not saved: it must be an address starting with https://. The previous one is kept.' => 'নীতি পৃষ্ঠা সংরক্ষিত হয়নি: ঠিকানাটি https:// দিয়ে শুরু হতে হবে। আগেরটি থাকবে।',
+    'Advanced: proxy and CDN' => 'উন্নত: প্রক্সি ও CDN',
+    'Check:' => 'যাচাই:',
+    'Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address.' => 'ভিজিট সরাসরি এই সাইটে আসে, Cloudflare বা প্রক্সি ছাড়া। সঠিক পছন্দ সংযোগের ঠিকানা।',
+    'Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare.' => 'ভিজিট Cloudflare হয়ে এই সাইটে আসে। সঠিক পছন্দ Cloudflare হেডার; নইলে প্রত্যেক দর্শক Cloudflare-এর মতো দেখাবে।',
+    'Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For.' => 'ভিজিট সাইটের নিজের সার্ভার বা নেটওয়ার্কের প্রক্সি হয়ে আসে। সঠিক পছন্দ X-Forwarded-For।',
+    'A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address.' => 'ইন্টারনেটের একটি ঠিকানা থেকে প্রক্সি হেডার এসেছে: সাইটের সামনে কোনো CDN, বা আপনার নিজের নেটওয়ার্কের প্রক্সি। CDN থাকলে X-Forwarded-For বেছে নিন ও এর ঠিকানাগুলো বিশ্বস্ত প্রক্সিতে যোগ করুন; নইলে সংযোগের ঠিকানাই রাখুন।',
+    'Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong.' => 'Draco আপনাকে %s ঠিকানায় দেখছে। «আমার IP কী» ধরনের সাইটে একই ঠিকানা দেখানো উচিত; না দেখালে সেটিং ভুল।',
+    'The current choice does not match what was found.' => 'বর্তমান পছন্দ পাওয়া ফলের সঙ্গে মেলে না।',
+    'Use the recommended one and save' => 'প্রস্তাবিতটি ব্যবহার করে সংরক্ষণ করুন',
     'by %1$s · %2$s · %3$s' => '%1$s · %2$s · %3$s দ্বারা',
     'Firewall' => 'ফায়ারওয়াল',
     'You are not allowed to do this.' => 'আপনার এটি করার অনুমতি নেই।',

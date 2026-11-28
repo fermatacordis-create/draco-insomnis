@@ -15,6 +15,8 @@ final class Admin
 {
     public const SLUG = 'draco-insomnis-firewall';
     private const ACTION = 'draco_waf_admin';
+    /** What was typed in the security.txt fields when it did not validate, per user, for a few minutes. */
+    private const TYPED = 'draco_sectxt_typed_';
 
     public static function register(): void
     {
@@ -69,12 +71,27 @@ final class Admin
         foreach ([Waf::OPTION_HIDE_USERS => 'hide_users', Waf::OPTION_XMLRPC_OFF => 'xmlrpc_off', Waf::OPTION_LOGIN_LIMIT => 'login_limit', Headers::OPTION_SAFE => 'headers', Headers::OPTION_HSTS => 'hsts', Headers::OPTION_MIC => 'headers_mic', Versions::OPTION => 'hide_versions', SecurityTxt::OPTION => 'securitytxt'] as $option => $field) {
             update_option($option, empty($_POST[$field]) ? 'no' : 'yes');
         }
-        // Only what validates is kept: an e-mail address or an https:// address.
-        update_option(SecurityTxt::OPTION_CONTACT, SecurityTxt::contact(Input::post('securitytxt_contact')), false);
-        update_option(SecurityTxt::OPTION_POLICY, SecurityTxt::policy(Input::post('securitytxt_policy')), false);
+        // Only what validates is kept: an e-mail address or an https:// address. Something written that does
+        // not validate is no longer dropped in silence: the previous value stays, the screen says which
+        // field and keeps what was typed so it can be corrected.
+        $typed = ['contact' => trim(Input::post('securitytxt_contact')), 'policy' => trim(Input::post('securitytxt_policy'))];
+        $bad = [];
+        foreach ([SecurityTxt::OPTION_CONTACT => 'contact', SecurityTxt::OPTION_POLICY => 'policy'] as $option => $field) {
+            $clean = $field === 'contact' ? SecurityTxt::contact($typed[$field]) : SecurityTxt::policy($typed[$field]);
+            if ($typed[$field] !== '' && $clean === '') {
+                $bad[] = $field;
+                continue;
+            }
+            update_option($option, $clean, false);
+        }
         // Mic exception only applies with the safe headers and when OPNV-WP is on the site.
         if (get_option(Headers::OPTION_SAFE, 'no') !== 'yes' || !Headers::opnvWpPresent()) {
             update_option(Headers::OPTION_MIC, 'no');
+        }
+        if ($bad !== []) {
+            set_transient(self::TYPED . get_current_user_id(), $typed, 10 * MINUTE_IN_SECONDS);
+            wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=ok&sectxt=' . implode(',', $bad) . '#draco-securitytxt'));
+            exit;
         }
         wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=ok'));
         exit;
@@ -174,8 +191,23 @@ final class Admin
                 ? __('The standard file (RFC 9116) that tells whoever finds a weakness how to reach you. Draco renews its expiry date by itself.', 'draco-insomnis')
                 : __('Not possible here: the standard wants the file at the root of the domain, and this WordPress is in a folder.', 'draco-insomnis')
         );
-        echo '<div class="draco-inline"><div class="draco-field"><label for="draco-securitytxt-contact">' . esc_html__('Contact (e-mail or https:// address)', 'draco-insomnis') . '</label><input id="draco-securitytxt-contact" type="text" name="securitytxt_contact" class="regular-text" value="' . esc_attr((string) preg_replace('/^mailto:/', '', (string) get_option(SecurityTxt::OPTION_CONTACT, ''))) . '"></div>';
-        echo '<div class="draco-field"><label for="draco-securitytxt-policy">' . esc_html__('Policy page (optional, https://)', 'draco-insomnis') . '</label><input id="draco-securitytxt-policy" type="url" name="securitytxt_policy" class="regular-text" value="' . esc_attr((string) get_option(SecurityTxt::OPTION_POLICY, '')) . '"></div></div>';
+        // A value that did not validate on the last save: say which, and give back what was typed.
+        $bad = array_intersect(explode(',', Input::get('sectxt')), ['contact', 'policy']);
+        $typed = $bad !== [] ? get_transient(self::TYPED . get_current_user_id()) : false;
+        delete_transient(self::TYPED . get_current_user_id());
+        $typed = is_array($typed) ? $typed : [];
+        $contactValue = in_array('contact', $bad, true) && isset($typed['contact']) ? (string) $typed['contact'] : (string) preg_replace('/^mailto:/', '', (string) get_option(SecurityTxt::OPTION_CONTACT, ''));
+        $policyValue = in_array('policy', $bad, true) && isset($typed['policy']) ? (string) $typed['policy'] : (string) get_option(SecurityTxt::OPTION_POLICY, '');
+        echo '<div id="draco-securitytxt"></div>';
+        if (in_array('contact', $bad, true)) {
+            echo '<p class="draco-callout is-warn draco-field-error" role="alert"><span class="dashicons dashicons-warning" aria-hidden="true"></span><span>' . esc_html__('The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.', 'draco-insomnis') . '</span></p>';
+        }
+        if (in_array('policy', $bad, true)) {
+            echo '<p class="draco-callout is-warn draco-field-error" role="alert"><span class="dashicons dashicons-warning" aria-hidden="true"></span><span>' . esc_html__('The policy page was not saved: it must be an address starting with https://. The previous one is kept.', 'draco-insomnis') . '</span></p>';
+        }
+        echo '<div class="draco-inline"><div class="draco-field"><label for="draco-securitytxt-contact">' . esc_html__('Contact (e-mail or https:// address)', 'draco-insomnis') . '</label><input id="draco-securitytxt-contact" type="text" name="securitytxt_contact" class="regular-text" value="' . esc_attr($contactValue) . '"' . (in_array('contact', $bad, true) ? ' aria-invalid="true"' : '') . '></div>';
+        // type="text", not "url": a browser refusing the whole form over this one field blocked every other change too.
+        echo '<div class="draco-field"><label for="draco-securitytxt-policy">' . esc_html__('Policy page (optional, https://)', 'draco-insomnis') . '</label><input id="draco-securitytxt-policy" type="text" inputmode="url" name="securitytxt_policy" class="regular-text" value="' . esc_attr($policyValue) . '"' . (in_array('policy', $bad, true) ? ' aria-invalid="true"' : '') . '></div></div>';
         if (SecurityTxt::active()) {
             echo '<p class="description"><a href="' . esc_url(home_url(SecurityTxt::PATH)) . '" target="_blank" rel="noopener">' . esc_html(home_url(SecurityTxt::PATH)) . '</a></p>';
         } elseif (get_option(SecurityTxt::OPTION, 'no') === 'yes' && SecurityTxt::contact() === '') {

@@ -6,6 +6,17 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.' => 'Het contact is niet opgeslagen: vul een e-mailadres of een adres met https:// in. Het vorige blijft.',
+    'The policy page was not saved: it must be an address starting with https://. The previous one is kept.' => 'De beleidspagina is niet opgeslagen: die moet met https:// beginnen. De vorige blijft.',
+    'Advanced: proxy and CDN' => 'Geavanceerd: proxy en CDN',
+    'Check:' => 'Controle:',
+    'Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address.' => 'Bezoeken komen rechtstreeks op deze site, zonder Cloudflare of proxy. De juiste keuze is het verbindingsadres.',
+    'Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare.' => 'Bezoeken komen via Cloudflare op deze site. De juiste keuze is de Cloudflare-header; anders lijkt elke bezoeker Cloudflare.',
+    'Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For.' => 'Bezoeken komen via een proxy op de eigen server of het eigen netwerk. De juiste keuze is X-Forwarded-For.',
+    'A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address.' => 'Er kwam een proxyheader van een internetadres: een CDN voor de site, of een proxy in je eigen netwerk. Met een CDN kies je X-Forwarded-For en zet je de adressen bij vertrouwde proxy’s; anders houd je het verbindingsadres.',
+    'Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong.' => 'Draco ziet je als %s. Een ‘wat is mijn IP’-site hoort hetzelfde adres te tonen; zo niet, dan klopt de instelling niet.',
+    'The current choice does not match what was found.' => 'De huidige keuze past niet bij wat gevonden is.',
+    'Use the recommended one and save' => 'Aanbevolen keuze gebruiken en opslaan',
     'by %1$s · %2$s · %3$s' => 'door %1$s · %2$s · %3$s',
     'Firewall' => 'Firewall',
     'You are not allowed to do this.' => 'Je hebt geen toestemming om dit te doen.',

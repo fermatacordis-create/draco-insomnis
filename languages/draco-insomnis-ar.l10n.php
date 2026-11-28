@@ -6,6 +6,17 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.' => 'لم يُحفظ عنوان الاتصال: اكتب بريدًا إلكترونيًا أو عنوانًا يبدأ بـ https://. يبقى السابق.',
+    'The policy page was not saved: it must be an address starting with https://. The previous one is kept.' => 'لم تُحفظ صفحة السياسة: يجب أن يبدأ العنوان بـ https://. تبقى السابقة.',
+    'Advanced: proxy and CDN' => 'متقدم: الوكيل وCDN',
+    'Check:' => 'الفحص:',
+    'Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address.' => 'تصل الزيارات إلى هذا الموقع مباشرة، دون Cloudflare أو وكيل. الاختيار الصحيح هو عنوان الاتصال.',
+    'Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare.' => 'تصل الزيارات إلى هذا الموقع عبر Cloudflare. الاختيار الصحيح هو ترويسة Cloudflare؛ وإلا بدا كل زائر وكأنه Cloudflare.',
+    'Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For.' => 'تصل الزيارات إلى هذا الموقع عبر وكيل على خادمه أو شبكته. الاختيار الصحيح هو X-Forwarded-For.',
+    'A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address.' => 'وصلت ترويسة وكيل من عنوان على الإنترنت: شبكة CDN أمام الموقع أو وكيل في شبكتك. مع CDN اختر X-Forwarded-For وأضف عناوينها كوكلاء موثوقين؛ وإلا فأبقِ عنوان الاتصال.',
+    'Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong.' => 'يراك Draco بالعنوان %s. يجب أن يُظهر لك موقع «ما هو عنوان IP الخاص بي» العنوان نفسه؛ وإلا فالإعداد خاطئ.',
+    'The current choice does not match what was found.' => 'الاختيار الحالي لا يطابق ما وُجد.',
+    'Use the recommended one and save' => 'استخدم الموصى به واحفظ',
     'by %1$s · %2$s · %3$s' => 'من %1$s · %2$s · %3$s',
     'Firewall' => 'جدار الحماية',
     'You are not allowed to do this.' => 'ليس لديك صلاحية للقيام بذلك.',

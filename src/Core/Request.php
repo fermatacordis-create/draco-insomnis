@@ -128,6 +128,40 @@ final class Request
         return $sent && !$this->fromTrustedProxy($proxyMode, $trustedProxies);
     }
 
+    /**
+     * What sits in front of the site, judged from one request (the administrator's own visit to the
+     * settings), and the «Visitor address» setting that fits it.
+     *
+     * - cloudflare: the connection comes from Cloudflare's ranges with CF-Connecting-IP → 'cf'.
+     * - local:      the connection comes from this machine or a private network with X-Forwarded-For
+     *               (a load balancer or cache in front of the server) → 'xff'.
+     * - remote:     X-Forwarded-For arrives from a public address. A CDN on the internet looks like this,
+     *               and so does a proxy in the administrator's own network: not enough to recommend a
+     *               header, so the safe connection address stays recommended.
+     * - direct:     no proxy header (or only one the visitor's own network added) → '' (connection).
+     *
+     * @return array{kind: string, recommend: string, remote: string}
+     */
+    public function proxySetup(): array
+    {
+        $remote = $this->remote();
+        $cf = trim($this->cfConnectingIp) !== '';
+        $hops = array_values(array_filter(array_map('trim', explode(',', $this->forwardedFor)), static fn (string $h): bool => $h !== ''));
+        if ($cf && NetList::contains(self::CLOUDFLARE, $remote)) {
+            return ['kind' => 'cloudflare', 'recommend' => 'cf', 'remote' => $remote];
+        }
+        if ($hops !== [] && NetList::contains(self::LOCAL_PROXIES, $remote)) {
+            return ['kind' => 'local', 'recommend' => 'xff', 'remote' => $remote];
+        }
+        // A proxy in the visitor's own network writes their private address; a CDN writes a public one.
+        $public = array_filter($hops, static fn (string $h): bool => filter_var($h, FILTER_VALIDATE_IP) !== false && !NetList::contains(self::LOCAL_PROXIES, $h) && $h !== $remote);
+        if ($public !== []) {
+            return ['kind' => 'remote', 'recommend' => '', 'remote' => $remote];
+        }
+
+        return ['kind' => 'direct', 'recommend' => '', 'remote' => $remote];
+    }
+
     /** @return list<string> */
     private static function proxies(string $trustedProxies): array
     {

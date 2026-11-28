@@ -6,6 +6,17 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.' => 'رابطہ محفوظ نہیں ہوا: ای میل یا https:// سے شروع ہونے والا پتہ لکھیں۔ پچھلا برقرار ہے۔',
+    'The policy page was not saved: it must be an address starting with https://. The previous one is kept.' => 'پالیسی صفحہ محفوظ نہیں ہوا: پتہ https:// سے شروع ہونا چاہیے۔ پچھلا برقرار ہے۔',
+    'Advanced: proxy and CDN' => 'اعلیٰ: پراکسی اور CDN',
+    'Check:' => 'جانچ:',
+    'Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address.' => 'وزٹ اس سائٹ پر براہ راست آتے ہیں، Cloudflare یا پراکسی کے بغیر۔ درست انتخاب کنکشن کا پتہ ہے۔',
+    'Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare.' => 'وزٹ اس سائٹ پر Cloudflare کے ذریعے آتے ہیں۔ درست انتخاب Cloudflare ہیڈر ہے؛ ورنہ ہر وزیٹر Cloudflare جیسا لگے گا۔',
+    'Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For.' => 'وزٹ اس سائٹ پر اس کے اپنے سرور یا نیٹ ورک کی پراکسی سے آتے ہیں۔ درست انتخاب X-Forwarded-For ہے۔',
+    'A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address.' => 'انٹرنیٹ کے ایک پتے سے پراکسی ہیڈر آیا: سائٹ کے سامنے کوئی CDN یا آپ کے اپنے نیٹ ورک کی پراکسی۔ CDN ہو تو X-Forwarded-For چنیں اور اس کے پتے قابل اعتماد پراکسی میں شامل کریں؛ ورنہ کنکشن کا پتہ رکھیں۔',
+    'Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong.' => 'Draco آپ کو %s پتے سے دیکھتا ہے۔ «میرا IP کیا ہے» والی سائٹ کو یہی پتہ دکھانا چاہیے؛ ورنہ ترتیب غلط ہے۔',
+    'The current choice does not match what was found.' => 'موجودہ انتخاب ملنے والے نتیجے سے میل نہیں کھاتا۔',
+    'Use the recommended one and save' => 'تجویز کردہ استعمال کریں اور محفوظ کریں',
     'by %1$s · %2$s · %3$s' => 'از %1$s · %2$s · %3$s',
     'Firewall' => 'فائر وال',
     'You are not allowed to do this.' => 'آپ کو یہ کرنے کی اجازت نہیں ہے۔',

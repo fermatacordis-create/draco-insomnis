@@ -6,6 +6,17 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.' => 'İletişim kaydedilmedi: bir e-posta adresi ya da https:// ile başlayan bir adres yazın. Öncekisi korunuyor.',
+    'The policy page was not saved: it must be an address starting with https://. The previous one is kept.' => 'Politika sayfası kaydedilmedi: https:// ile başlayan bir adres olmalı. Öncekisi korunuyor.',
+    'Advanced: proxy and CDN' => 'Gelişmiş: proxy ve CDN',
+    'Check:' => 'Denetim:',
+    'Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address.' => 'Ziyaretler bu siteye Cloudflare ya da proxy olmadan doğrudan geliyor. Doğru seçim bağlantı adresidir.',
+    'Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare.' => 'Ziyaretler bu siteye Cloudflare üzerinden geliyor. Doğru seçim Cloudflare başlığıdır; yoksa her ziyaretçi Cloudflare gibi görünür.',
+    'Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For.' => 'Ziyaretler bu siteye kendi sunucusundaki ya da ağındaki bir proxy üzerinden geliyor. Doğru seçim X-Forwarded-For’dur.',
+    'A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address.' => 'İnternetteki bir adresten proxy başlığı geldi: sitenin önünde bir CDN ya da kendi ağınızda bir proxy. CDN varsa X-Forwarded-For’u seçin ve adreslerini güvenilir proxy’lere ekleyin; yoksa bağlantı adresinde kalın.',
+    'Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong.' => 'Draco sizi %s adresiyle görüyor. «IP adresim ne» türü bir site aynı adresi göstermeli; göstermiyorsa ayar yanlış.',
+    'The current choice does not match what was found.' => 'Şu anki seçim bulunanla uyuşmuyor.',
+    'Use the recommended one and save' => 'Önerileni kullan ve kaydet',
     'by %1$s · %2$s · %3$s' => '%1$s · %2$s · %3$s tarafından',
     'Firewall' => 'Güvenlik duvarı',
     'You are not allowed to do this.' => 'Bunu yapma izniniz yok.',

@@ -6,6 +6,17 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.' => 'Mawasiliano hayakuhifadhiwa: andika barua pepe au anwani inayoanza na https://. Ya awali inabaki.',
+    'The policy page was not saved: it must be an address starting with https://. The previous one is kept.' => 'Ukurasa wa sera haukuhifadhiwa: anwani lazima ianze na https://. Ya awali inabaki.',
+    'Advanced: proxy and CDN' => 'Kina: proksi na CDN',
+    'Check:' => 'Ukaguzi:',
+    'Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address.' => 'Matembeleo yanafika moja kwa moja kwenye tovuti hii, bila Cloudflare wala proksi. Chaguo sahihi ni anwani ya muunganisho.',
+    'Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare.' => 'Matembeleo yanafika kwenye tovuti hii kupitia Cloudflare. Chaguo sahihi ni kichwa cha Cloudflare; vinginevyo kila mgeni angeonekana kama Cloudflare.',
+    'Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For.' => 'Matembeleo yanafika kupitia proksi kwenye seva au mtandao wa tovuti yenyewe. Chaguo sahihi ni X-Forwarded-For.',
+    'A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address.' => 'Kichwa cha proksi kimetoka kwenye anwani ya intaneti: CDN mbele ya tovuti, au proksi kwenye mtandao wako mwenyewe. Ukiwa na CDN, chagua X-Forwarded-For na uongeze anwani zake kama proksi zinazoaminika; vinginevyo bakiza anwani ya muunganisho.',
+    'Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong.' => 'Draco inakuona kwa anwani %s. Tovuti ya «IP yangu ni ipi» inapaswa kuonyesha anwani ileile; isipofanya hivyo, mpangilio si sahihi.',
+    'The current choice does not match what was found.' => 'Chaguo la sasa halilingani na kilichopatikana.',
+    'Use the recommended one and save' => 'Tumia kilichopendekezwa na uhifadhi',
     'by %1$s · %2$s · %3$s' => 'na %1$s · %2$s · %3$s',
     'Firewall' => 'Ngome ya mtandao',
     'You are not allowed to do this.' => 'Huruhusiwi kufanya hivi.',

@@ -6,6 +6,17 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.' => '연락처가 저장되지 않았습니다. 이메일 또는 https://로 시작하는 주소를 입력하세요. 이전 값이 유지됩니다.',
+    'The policy page was not saved: it must be an address starting with https://. The previous one is kept.' => '정책 페이지가 저장되지 않았습니다. 주소는 https://로 시작해야 합니다. 이전 값이 유지됩니다.',
+    'Advanced: proxy and CDN' => '고급: 프록시와 CDN',
+    'Check:' => '확인:',
+    'Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address.' => '방문이 Cloudflare나 프록시 없이 이 사이트에 직접 도착합니다. 올바른 선택은 연결 주소입니다.',
+    'Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare.' => '방문이 Cloudflare를 거쳐 이 사이트에 도착합니다. 올바른 선택은 Cloudflare 헤더입니다. 그렇지 않으면 모든 방문자가 Cloudflare처럼 보입니다.',
+    'Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For.' => '방문이 사이트 자체 서버나 네트워크의 프록시를 거쳐 도착합니다. 올바른 선택은 X-Forwarded-For입니다.',
+    'A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address.' => '인터넷 주소에서 프록시 헤더가 왔습니다. 사이트 앞의 CDN이거나 사용자 자신의 네트워크 프록시입니다. CDN이라면 X-Forwarded-For를 선택하고 그 주소를 신뢰하는 프록시에 추가하세요. 아니라면 연결 주소를 유지하세요.',
+    'Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong.' => 'Draco에는 사용자가 %s(으)로 보입니다. \'IP 주소 확인\' 사이트도 같은 주소를 보여야 합니다. 다르면 설정이 잘못된 것입니다.',
+    'The current choice does not match what was found.' => '현재 선택이 확인 결과와 맞지 않습니다.',
+    'Use the recommended one and save' => '권장 설정을 사용하고 저장',
     'by %1$s · %2$s · %3$s' => '제작: %1$s · %2$s · %3$s',
     'Firewall' => '방화벽',
     'You are not allowed to do this.' => '이 작업을 할 권한이 없습니다.',

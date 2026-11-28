@@ -6,6 +6,17 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.' => 'Chưa lưu địa chỉ liên hệ: hãy nhập email hoặc địa chỉ bắt đầu bằng https://. Vẫn giữ giá trị cũ.',
+    'The policy page was not saved: it must be an address starting with https://. The previous one is kept.' => 'Chưa lưu trang chính sách: địa chỉ phải bắt đầu bằng https://. Vẫn giữ giá trị cũ.',
+    'Advanced: proxy and CDN' => 'Nâng cao: proxy và CDN',
+    'Check:' => 'Kiểm tra:',
+    'Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address.' => 'Lượt truy cập đến thẳng trang này, không qua Cloudflare hay proxy. Lựa chọn đúng là địa chỉ kết nối.',
+    'Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare.' => 'Lượt truy cập đến trang này qua Cloudflare. Lựa chọn đúng là tiêu đề Cloudflare; nếu không, mọi khách sẽ trông như Cloudflare.',
+    'Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For.' => 'Lượt truy cập đến trang này qua một proxy trên máy chủ hoặc mạng của chính nó. Lựa chọn đúng là X-Forwarded-For.',
+    'A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address.' => 'Một tiêu đề proxy đến từ địa chỉ trên internet: một CDN trước trang, hoặc proxy trong mạng của bạn. Nếu dùng CDN, hãy chọn X-Forwarded-For và thêm địa chỉ của nó vào proxy tin cậy; nếu không, giữ địa chỉ kết nối.',
+    'Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong.' => 'Draco thấy bạn với địa chỉ %s. Trang «IP của tôi là gì» nên hiện cùng địa chỉ; nếu không, cài đặt bị sai.',
+    'The current choice does not match what was found.' => 'Lựa chọn hiện tại không khớp với kết quả tìm thấy.',
+    'Use the recommended one and save' => 'Dùng lựa chọn được đề xuất và lưu',
     'by %1$s · %2$s · %3$s' => 'bởi %1$s · %2$s · %3$s',
     'Firewall' => 'Tường lửa',
     'You are not allowed to do this.' => 'Bạn không được phép làm việc này.',

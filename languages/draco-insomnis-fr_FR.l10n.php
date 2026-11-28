@@ -6,6 +6,17 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.' => 'Le contact n’a pas été enregistré : saisissez une adresse e-mail ou une adresse commençant par https://. L’ancien est conservé.',
+    'The policy page was not saved: it must be an address starting with https://. The previous one is kept.' => 'La page de politique n’a pas été enregistrée : elle doit commencer par https://. L’ancienne est conservée.',
+    'Advanced: proxy and CDN' => 'Avancé : proxy et CDN',
+    'Check:' => 'Vérification :',
+    'Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address.' => 'Les visites arrivent directement sur ce site, sans Cloudflare ni proxy. Le bon choix est l’adresse de connexion.',
+    'Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare.' => 'Les visites arrivent sur ce site via Cloudflare. Le bon choix est l’en-tête Cloudflare ; sinon chaque visiteur ressemblerait à Cloudflare.',
+    'Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For.' => 'Les visites arrivent sur ce site via un proxy de son propre serveur ou réseau. Le bon choix est X-Forwarded-For.',
+    'A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address.' => 'Un en-tête de proxy est venu d’une adresse internet : un CDN devant le site, ou un proxy de votre propre réseau. Avec un CDN, choisissez X-Forwarded-For et ajoutez ses adresses comme proxys de confiance ; sinon gardez l’adresse de connexion.',
+    'Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong.' => 'Draco vous voit avec l’adresse %s. Un site « quelle est mon IP » devrait vous montrer la même ; sinon le réglage est faux.',
+    'The current choice does not match what was found.' => 'Le choix actuel ne correspond pas à ce qui a été détecté.',
+    'Use the recommended one and save' => 'Utiliser la recommandation et enregistrer',
     'by %1$s · %2$s · %3$s' => 'par %1$s · %2$s · %3$s',
     'Firewall' => 'Pare-feu',
     'You are not allowed to do this.' => 'Vous n’avez pas l’autorisation de faire cela.',
