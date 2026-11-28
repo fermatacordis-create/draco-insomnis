@@ -33,6 +33,10 @@ final class Recovery
     private const MAX_SWITCHES_HOUR = 3;
     private const PENDING_TTL = 900;
     private const MAX_TRIES = 5;
+    /** «Send a new code»: when the first mail is late or lost, without starting again. */
+    private const RESENDS = 'draco_rec_resend_';
+    private const MAX_RESENDS_HOUR = 3;
+    private const RESEND_WAIT = 30;
     private static string $lostPasswordTo = '';
 
     public static function register(): void
@@ -193,6 +197,8 @@ final class Recovery
             $result = self::requestRemove($user, Input::postInt('slot'));
         } elseif ($do === 'remove_confirm') {
             $result = self::confirmRemove($user, Input::postDigits('code'));
+        } elseif ($do === 'resend') {
+            $result = self::resend($user);
         } else {
             delete_user_meta((int) $user->ID, self::META_PENDING);
             $result = 'cancelled';
@@ -245,6 +251,52 @@ final class Recovery
         ]);
 
         return 'sent';
+    }
+
+    /**
+     * New codes for the change under way, to the same addresses. The codes sent before stop working,
+     * the 15 minutes and the tries start again. At most a few an hour, and not twice in a row.
+     */
+    private static function resend(\WP_User $user): string
+    {
+        $id = (int) $user->ID;
+        $pending = get_user_meta($id, self::META_PENDING, true);
+        if (!is_array($pending) || time() - (int) ($pending['at'] ?? 0) > self::PENDING_TTL) {
+            delete_user_meta($id, self::META_PENDING);
+
+            return 'expired';
+        }
+        if (time() - (int) ($pending['sent'] ?? $pending['at'] ?? 0) < self::RESEND_WAIT) {
+            return 'resend_wait';
+        }
+        if (Store::bump(self::RESENDS . $id, HOUR_IN_SECONDS) > self::MAX_RESENDS_HOUR) {
+            return 'resend_limit';
+        }
+        $codeNew = Challenge::newCode();
+        $codeOld = '';
+        $current = '';
+        if (($pending['op'] ?? 'set') === 'set' && (string) ($pending['old'] ?? '') !== '') {
+            $current = self::emails($id)[(int) ($pending['replaces'] ?? -1)] ?? '';
+            if ($current === '') {
+                delete_user_meta($id, self::META_PENDING);
+
+                return 'expired';
+            }
+            $codeOld = Challenge::newCode();
+        }
+        if (!Mfa::send($user, $codeNew, (string) ($pending['email'] ?? ''), 'recovery') || ($codeOld !== '' && !Mfa::send($user, $codeOld, $current, 'recovery'))) {
+            return 'unsent';
+        }
+        $pending['new'] = Challenge::hash($codeNew);
+        if ($codeOld !== '') {
+            $pending['old'] = Challenge::hash($codeOld);
+        }
+        $pending['at'] = time();
+        $pending['sent'] = time();
+        $pending['tries'] = 0;
+        update_user_meta($id, self::META_PENDING, $pending);
+
+        return 'resent';
     }
 
     private static function confirm(\WP_User $user, string $codeNew, string $codeOld): string
@@ -467,6 +519,9 @@ final class Recovery
             'bad' => ['error', __('Wrong code.', 'draco-insomnis')],
             'expired' => ['error', __('The codes expired or were tried too many times. Start again.', 'draco-insomnis')],
             'cancelled' => ['warning', __('Cancelled.', 'draco-insomnis')],
+            'resent' => ['info', __('New code sent. Any code sent before no longer works.', 'draco-insomnis')],
+            'resend_wait' => ['warning', __('Wait a moment before asking for another code.', 'draco-insomnis')],
+            'resend_limit' => ['error', __('Too many codes this hour. Try again later.', 'draco-insomnis')],
         ];
 
         Brand::open(__('Recovery e-mail', 'draco-insomnis'), __('Up to three mailboxes for your login code, like nested PUKs. Prefer providers different from your main e-mail (for example Gmail if the main one is on this site\'s domain).', 'draco-insomnis'));
@@ -577,6 +632,12 @@ final class Recovery
             $code('draco-code-old', 'code_old', sprintf(__('Code sent to your current recovery e-mail %s', 'draco-insomnis'), Mfa::mask($emails[(int) ($pending['replaces'] ?? 0)] ?? '')));
         }
         submit_button($remove ? __('Remove', 'draco-insomnis') : __('Confirm', 'draco-insomnis'), 'primary', 'submit', false, ['id' => 'draco-rec-confirm']);
+        echo '</form>';
+        // A late or lost mail: a new code to the same address, without cancelling and starting again.
+        // Shown every time a code is awaited: it is often in spam, and that is easy to forget.
+        echo '<p class="draco-callout is-warn draco-spam-hint"><span class="dashicons dashicons-email-alt" aria-hidden="true"></span><span>' . esc_html__('Has it not arrived? Look in spam, or send a new code.', 'draco-insomnis') . '</span></p>';
+        $open('resend');
+        submit_button(__('Send a new code', 'draco-insomnis'), 'secondary', 'submit', false, ['id' => 'draco-rec-resend']);
         echo '</form>';
         $open('cancel');
         submit_button(__('Cancel', 'draco-insomnis'), 'link', 'submit', false, ['id' => 'draco-rec-cancel']);

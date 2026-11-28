@@ -6,7 +6,7 @@
   <!-- The engine and the Servlet filter. No runtime dependencies: the Servlet API is the container's. -->
   <groupId>io.github.fermatacordis-create</groupId>
   <artifactId>draco-insomnis</artifactId>
-  <version>0.1.42</version>
+  <version>0.1.43</version>
   <name>Draco Insomnis</name>
   <description>Firewall, anti-copy pace and country rules for Java web apps (Jakarta Servlet filter). No dependencies.</description>
   <url>https://github.com/fermatacordis-create/draco-insomnis</url>

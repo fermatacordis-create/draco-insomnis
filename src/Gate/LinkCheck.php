@@ -12,17 +12,21 @@ use DracoInsomnis\Shield\Store;
 defined('ABSPATH') || exit;
 
 /**
- * Malicious links (URLhaus, by abuse.ch): links in comments and contact forms are checked against
- * URLhaus's list of malware distribution URLs, locally. Nothing a visitor writes is sent anywhere: the
- * site downloads the list twice a day with the owner's own key and looks links up in its own copy.
+ * Malicious links: links in comments and contact forms are checked against public lists, locally.
+ * Nothing a visitor writes is sent anywhere: the site downloads each list twice a day and looks links
+ * up in its own copy (a sorted index of short hashes, searched without loading it).
  *
- * Off by default, and only in the standalone plugin (never when Draco is bundled in another product):
- * the free URLhaus data is for non-profit use; commercial use needs a Spamhaus subscription
- * (abuse.ch terms of use, sections 3 and 4). The owner confirms that before switching it on.
+ * Two lists (docs/adr/0001), each one only where its terms allow it:
+ * - URLhaus (abuse.ch), malware links: standalone plugin only, never when Draco is bundled in another
+ *   product. Free use is non-profit; commercial use needs a Spamhaus subscription (abuse.ch terms of
+ *   use, sections 3 and 4). The owner's own key, and the owner confirms the use before switching it on.
+ * - PhishTank (Cisco Talos), verified phishing still online: everywhere. Its FAQ allows commercial and
+ *   non-commercial use; a free key from the owner's account is optional (without one, a few downloads a day).
  *
- * The key lives in wp-config.php (DRACO_URLHAUS_KEY), never in the database, on screen or in a log.
- * Exact URLs are matched, not whole domains: URLhaus lists many hacked legitimate sites, and blocking
- * their domain would hit innocent links. Only hosts that are bare IP addresses match as a whole.
+ * Keys live in wp-config.php (DRACO_URLHAUS_KEY, DRACO_PHISHTANK_KEY), never in the database, on screen
+ * or in a log. Exact URLs are matched, not whole domains: the lists hold many hacked legitimate sites.
+ * Hosts that are bare IP addresses match as a whole, and so does a PhishTank entry for the front page of a
+ * site (a site made for phishing), except on shared services where only the exact link counts.
  */
 final class LinkCheck
 {
@@ -31,6 +35,22 @@ final class LinkCheck
     public const OPTION_STATE = 'draco_urlhaus_state';
     public const HOOK_UPDATE = 'draco_urlhaus_update';
     public const KEY_CONSTANT = 'DRACO_URLHAUS_KEY';
+    public const URLHAUS = 'urlhaus';
+    public const PHISHTANK = 'phishtank';
+    public const PT_OPTION_ENABLED = 'draco_phishtank_enabled';
+    public const PT_OPTION_STATE = 'draco_phishtank_state';
+    public const PT_KEY_CONSTANT = 'DRACO_PHISHTANK_KEY';
+    public const PT_TERMS = 'https://phishtank.org/faq.php';
+    private const PT_BASE = 'https://data.phishtank.com/data/';
+    /** A list that has not changed for this long is shown as stale. */
+    public const STALE_AFTER = 7 * DAY_IN_SECONDS;
+    /** Shared services: a front-page entry there never stands for the whole host. */
+    private const SHARED_HOSTS = [
+        'google.com', 'www.google.com', 'docs.google.com', 'drive.google.com', 'sites.google.com', 'forms.gle',
+        'dropbox.com', 'www.dropbox.com', 'onedrive.live.com', '1drv.ms', 'github.com', 'gist.github.com',
+        't.me', 'bit.ly', 'tinyurl.com', 'linktr.ee', 'wa.me', 'facebook.com', 'www.facebook.com',
+        'instagram.com', 'www.instagram.com', 'x.com', 'twitter.com', 'youtube.com', 'www.youtube.com',
+    ];
     /** The export file; the documented one by default. Another can be set with DRACO_URLHAUS_EXPORT. */
     public const DEFAULT_EXPORT = 'recent.csv';
     private const BASE = 'https://urlhaus-api.abuse.ch/v2/files/exports/';
@@ -41,11 +61,8 @@ final class LinkCheck
 
     public static function register(): void
     {
-        if (Plugin::bundled()) {
-            return;
-        }
-        add_action(self::HOOK_UPDATE, [self::class, 'update']);
-        if (!self::active()) {
+        add_action(self::HOOK_UPDATE, [self::class, 'updateAll']);
+        if (self::activeFeeds() === []) {
             return;
         }
         // Before the comment hold (99), so a malicious comment never gets a confirmation e-mail.
@@ -82,20 +99,60 @@ final class LinkCheck
             && get_option(self::OPTION_CONFIRMED, 'no') === 'yes';
     }
 
-    /** @return array{updated: int, count: int, error: string} */
-    public static function state(): array
+    /** PhishTank: allowed everywhere, off until the owner switches it on. */
+    public static function phishtankActive(): bool
     {
-        $s = get_option(self::OPTION_STATE, []);
-        $s = is_array($s) ? $s : [];
-
-        return ['updated' => (int) ($s['updated'] ?? 0), 'count' => (int) ($s['count'] ?? 0), 'error' => (string) ($s['error'] ?? '')];
+        return get_option(self::PT_OPTION_ENABLED, 'no') === 'yes';
     }
 
-    public static function indexFile(): string
+    public static function phishtankHasKey(): bool
+    {
+        return self::phishtankKey() !== '';
+    }
+
+    private static function phishtankKey(): string
+    {
+        $key = defined(self::PT_KEY_CONSTANT) ? (string) constant(self::PT_KEY_CONSTANT) : '';
+
+        return preg_match('/^[A-Za-z0-9]{16,128}$/', $key) === 1 ? $key : '';
+    }
+
+    /** @return list<string> the lists switched on here */
+    public static function activeFeeds(): array
+    {
+        $out = [];
+        if (self::active()) {
+            $out[] = self::URLHAUS;
+        }
+        if (self::phishtankActive()) {
+            $out[] = self::PHISHTANK;
+        }
+
+        return $out;
+    }
+
+    /** @return array{updated: int, count: int, error: string, changed: int} */
+    public static function state(string $feed = self::URLHAUS): array
+    {
+        $s = get_option($feed === self::PHISHTANK ? self::PT_OPTION_STATE : self::OPTION_STATE, []);
+        $s = is_array($s) ? $s : [];
+
+        return ['updated' => (int) ($s['updated'] ?? 0), 'count' => (int) ($s['count'] ?? 0), 'error' => (string) ($s['error'] ?? ''), 'changed' => (int) ($s['changed'] ?? 0)];
+    }
+
+    /** Downloaded, but its content has not changed for a week: the list may no longer be kept. */
+    public static function stale(string $feed, ?int $now = null): bool
+    {
+        $changed = self::state($feed)['changed'];
+
+        return $changed > 0 && ($now ?? time()) - $changed > self::STALE_AFTER;
+    }
+
+    public static function indexFile(string $feed = self::URLHAUS): string
     {
         $up = wp_upload_dir(null, false);
 
-        return wp_normalize_path(trailingslashit((string) $up['basedir']) . 'draco-insomnis/urlhaus.idx');
+        return wp_normalize_path(trailingslashit((string) $up['basedir']) . 'draco-insomnis/' . ($feed === self::PHISHTANK ? 'phishtank' : 'urlhaus') . '.idx');
     }
 
     /** One URL as it is compared: lower-case scheme and host, no default port, no fragment. */
@@ -120,8 +177,14 @@ final class LinkCheck
         return strtolower(trim((string) wp_parse_url($normalized, PHP_URL_HOST), '[]'));
     }
 
-    /** @return list<string> keys to store or look up for one URL: the URL, and its host when it is an IP. */
-    private static function keys(string $url): array
+    /**
+     * Keys to store or look up for one URL: the URL, and its host when it is an IP. When storing a list
+     * where a front-page entry means the whole site ($rootIsHost, PhishTank), that entry also stores its
+     * host, unless the host is a shared service. Looking up always tries the host key too.
+     *
+     * @return list<string>
+     */
+    private static function keys(string $url, bool $rootIsHost = false, bool $lookup = false): array
     {
         $n = self::normalize($url);
         if ($n === '') {
@@ -129,7 +192,9 @@ final class LinkCheck
         }
         $keys = ['u|' . $n];
         $host = self::hostOf($n);
-        if (filter_var($host, FILTER_VALIDATE_IP) !== false) {
+        if (filter_var($host, FILTER_VALIDATE_IP) !== false || $lookup) {
+            $keys[] = 'h|' . $host;
+        } elseif ($rootIsHost && !in_array($host, self::SHARED_HOSTS, true) && (string) wp_parse_url($n, PHP_URL_PATH) === '/' && (string) wp_parse_url($n, PHP_URL_QUERY) === '') {
             $keys[] = 'h|' . $host;
         }
 
@@ -161,30 +226,42 @@ final class LinkCheck
     // phpcs:disable WordPress.WP.AlternativeFunctions -- random-access reads (fseek) of a read-only index: WP_Filesystem has no seek.
 
     /** The first listed link in a text, or ''. */
-    public static function listed(string $text): string
+    public static function listed(string $text, ?array $feeds = null): string
     {
-        $fh = null;
-        $file = self::indexFile();
-        foreach (self::links($text) as $link) {
-            foreach (self::keys($link) as $key) {
-                if ($fh === null) {
-                    $fh = is_readable($file) ? fopen($file, 'rb') : false;
-                }
-                if ($fh === false) {
-                    return '';
-                }
-                if (self::lookup($fh, self::hash($key))) {
-                    fclose($fh);
+        return self::find($text, $feeds)[0];
+    }
 
-                    return $link;
+    /**
+     * The first listed link in a text and the list that has it, or ['', ''].
+     *
+     * @param list<string>|null $feeds the lists to look in; null = every list downloaded here
+     * @return array{0: string, 1: string}
+     */
+    public static function find(string $text, ?array $feeds = null): array
+    {
+        $links = self::links($text);
+        if ($links === []) {
+            return ['', ''];
+        }
+        foreach ($feeds ?? [self::URLHAUS, self::PHISHTANK] as $feed) {
+            $file = self::indexFile($feed);
+            $fh = is_readable($file) ? fopen($file, 'rb') : false;
+            if ($fh === false) {
+                continue;
+            }
+            foreach ($links as $link) {
+                foreach (self::keys($link, false, true) as $key) {
+                    if (self::lookup($fh, self::hash($key))) {
+                        fclose($fh);
+
+                        return [$link, $feed];
+                    }
                 }
             }
-        }
-        if (is_resource($fh)) {
             fclose($fh);
         }
 
-        return '';
+        return ['', ''];
     }
 
     /** @param resource $fh */
@@ -219,7 +296,7 @@ final class LinkCheck
      *
      * @return array{index: string, count: int}
      */
-    public static function buildIndex(string $export): array
+    public static function buildIndex(string $export, bool $rootIsHost = false): array
     {
         $hashes = [];
         foreach (preg_split('/\r\n|\r|\n/', $export) ?: [] as $line) {
@@ -235,7 +312,7 @@ final class LinkCheck
                     break;
                 }
             }
-            foreach ($url !== '' ? self::keys($url) : [] as $key) {
+            foreach ($url !== '' ? self::keys($url, $rootIsHost) : [] as $key) {
                 $hashes[self::hash($key)] = true;
             }
         }
@@ -245,8 +322,43 @@ final class LinkCheck
         return ['index' => $list === [] ? '' : implode("\n", $list) . "\n", 'count' => count($list)];
     }
 
-    /** Downloads the export with the owner's key and replaces the index. Returns '' or the error. */
-    public static function update(): string
+    /** The twice-daily download of every list switched on. */
+    public static function updateAll(): void
+    {
+        foreach (self::activeFeeds() as $feed) {
+            self::update($feed);
+        }
+    }
+
+    /** Downloads one list and replaces its index. Returns '' or the error. */
+    public static function update(string $feed = self::URLHAUS): string
+    {
+        return $feed === self::PHISHTANK ? self::updatePhishtank() : self::updateUrlhaus();
+    }
+
+    /** PhishTank's verified phishing still online (CSV, gzip); the owner's key when there is one. */
+    private static function updatePhishtank(): string
+    {
+        $key = self::phishtankKey();
+        $url = self::PT_BASE . ($key !== '' ? rawurlencode($key) . '/' : '') . 'online-valid.csv.gz';
+        // PhishTank asks for a descriptive user agent that starts with «phishtank/».
+        $res = wp_remote_get($url, ['timeout' => 60, 'user-agent' => 'phishtank/draco-insomnis']);
+        if (is_wp_error($res)) {
+            return self::fail('no answer', self::PHISHTANK);
+        }
+        $code = (int) wp_remote_retrieve_response_code($res);
+        if ($code !== 200) {
+            return self::fail($code === 509 ? 'too many downloads today (HTTP 509): a free PhishTank key lifts the limit' : 'HTTP ' . $code, self::PHISHTANK);
+        }
+        $body = (string) wp_remote_retrieve_body($res);
+        if (str_starts_with($body, "\x1f\x8b")) {
+            $body = (string) @gzdecode($body);
+        }
+
+        return self::store(self::PHISHTANK, self::buildIndex($body, true));
+    }
+
+    private static function updateUrlhaus(): string
     {
         if (!self::available() || !self::hasKey()) {
             return self::fail('no key');
@@ -266,13 +378,22 @@ final class LinkCheck
         if (str_starts_with($body, 'PK')) {
             $body = self::unzip($body);
         }
-        $built = self::buildIndex($body);
+        return self::store(self::URLHAUS, self::buildIndex($body));
+    }
+
+    /**
+     * Replaces a list's index and notes when its content last changed (for «stale»).
+     *
+     * @param array{index: string, count: int} $built
+     */
+    private static function store(string $feed, array $built): string
+    {
         if ($built['count'] === 0) {
-            return self::fail('empty list');
+            return self::fail('empty list', $feed);
         }
-        $file = self::indexFile();
+        $file = self::indexFile($feed);
         if (!wp_mkdir_p(dirname($file))) {
-            return self::fail('folder');
+            return self::fail('folder', $feed);
         }
         $part = $file . '.part';
         // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- index next to the uploads
@@ -280,11 +401,21 @@ final class LinkCheck
         if (@file_put_contents($part, $built['index']) === false || !@rename($part, $file)) {
             wp_delete_file($part);
 
-            return self::fail('folder');
+            return self::fail('folder', $feed);
         }
-        update_option(self::OPTION_STATE, ['updated' => time(), 'count' => $built['count'], 'error' => ''], false);
+        $old = get_option($feed === self::PHISHTANK ? self::PT_OPTION_STATE : self::OPTION_STATE, []);
+        $old = is_array($old) ? $old : [];
+        $sha = sha1($built['index']);
+        $changed = ($old['sha'] ?? '') === $sha && (int) ($old['changed'] ?? 0) > 0 ? (int) $old['changed'] : time();
+        update_option($feed === self::PHISHTANK ? self::PT_OPTION_STATE : self::OPTION_STATE, ['updated' => time(), 'count' => $built['count'], 'error' => '', 'changed' => $changed, 'sha' => $sha], false);
 
         return '';
+    }
+
+    /** Switching a list off removes its index, so nothing is matched against it any more. */
+    public static function forget(string $feed): void
+    {
+        wp_delete_file(self::indexFile($feed));
     }
 
     private static function unzip(string $zip): string
@@ -306,11 +437,13 @@ final class LinkCheck
         return $out;
     }
 
-    private static function fail(string $error): string
+    private static function fail(string $error, string $feed = self::URLHAUS): string
     {
-        $s = self::state();
+        $option = $feed === self::PHISHTANK ? self::PT_OPTION_STATE : self::OPTION_STATE;
+        $s = get_option($option, []);
+        $s = is_array($s) ? $s : [];
         $s['error'] = $error;
-        update_option(self::OPTION_STATE, $s, false);
+        update_option($option, $s, false);
 
         return $error;
     }
@@ -326,11 +459,11 @@ final class LinkCheck
         if (is_wp_error($approved) || in_array($approved, ['spam', 'trash'], true) || is_user_logged_in()) {
             return $approved;
         }
-        $link = self::listed((string) ($data['comment_content'] ?? '') . ' ' . (string) ($data['comment_author_url'] ?? ''));
+        [$link, $feed] = self::find((string) ($data['comment_content'] ?? '') . ' ' . (string) ($data['comment_author_url'] ?? ''), self::activeFeedsOrAll());
         if ($link === '') {
             return $approved;
         }
-        self::log('urlhaus:comment', $link);
+        self::log($feed . ':comment', $link, $feed);
 
         return 'spam';
     }
@@ -346,20 +479,33 @@ final class LinkCheck
             return $return;
         }
         $message = is_array($atts['message'] ?? null) ? implode(' ', $atts['message']) : (string) ($atts['message'] ?? '');
-        $link = self::listed((string) ($atts['subject'] ?? '') . ' ' . $message);
+        [$link, $feed] = self::find((string) ($atts['subject'] ?? '') . ' ' . $message, self::activeFeedsOrAll());
         if ($link === '') {
             return $return;
         }
-        self::log('urlhaus:form', $link);
+        self::log($feed . ':form', $link, $feed);
 
         // The sender sees the usual "sent": a script learns nothing. Nothing is delivered.
         return true;
     }
 
-    private static function log(string $endpoint, string $link): void
+    /**
+     * The lists switched on; when none is (the filters were added by hand, as the tests do), every
+     * list downloaded here.
+     *
+     * @return list<string>|null
+     */
+    private static function activeFeedsOrAll(): ?array
+    {
+        $feeds = self::activeFeeds();
+
+        return $feeds === [] ? null : $feeds;
+    }
+
+    private static function log(string $endpoint, string $link, string $feed = self::URLHAUS): void
     {
         $ip = Guard::clientIp();
-        Store::log($ip, $ip, $endpoint, ['score' => 100, 'verdict' => 'bot', 'reasons' => ['URLHAUS']], substr(Input::server('HTTP_USER_AGENT'), 0, 255), [
+        Store::log($ip, $ip, $endpoint, ['score' => 100, 'verdict' => 'bot', 'reasons' => [strtoupper($feed)]], substr(Input::server('HTTP_USER_AGENT'), 0, 255), [
             'url' => substr(self::normalize($link), 0, 500),
         ]);
     }

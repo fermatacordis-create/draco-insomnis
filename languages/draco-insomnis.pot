@@ -3004,3 +3004,461 @@ msgstr ""
 #, php-format
 msgid "Automatic: %d bot attempts in 24 h"
 msgstr ""
+
+#: src/Login/Recovery.php
+msgid "New code sent. Any code sent before no longer works."
+msgstr ""
+
+#: src/Login/Recovery.php
+msgid "Wait a moment before asking for another code."
+msgstr ""
+
+#: src/Login/Recovery.php
+msgid "Too many codes this hour. Try again later."
+msgstr ""
+
+#: src/Login/Recovery.php
+msgid "Has it not arrived? Look in spam, or send a new code."
+msgstr ""
+
+#: src/Login/Recovery.php
+msgid "Send a new code"
+#: src/Admin/Brand.php
+msgid "Close"
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "The policy page was not saved: it must be an address starting with https://. The previous one is kept."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Advanced: proxy and CDN"
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Check:"
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "The current choice does not match what was found."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Use the recommended one and save"
+#: src/Gate/Admin.php
+msgid "PhishTank list downloaded: %d entries."
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "The PhishTank list could not be downloaded (%s). Links are not checked against it until it is."
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "Phishing links are no longer checked."
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "Phishing links (PhishTank)"
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered."
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "PhishTank allows commercial and non-commercial use."
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "PhishTank FAQ"
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:"
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy."
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "Check links in comments and contact forms against PhishTank"
+#: src/Guardia/Admin.php
+msgid "Integrity"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Watches administrators, plugins, configuration files, PHP files in uploads and scheduled tasks. The first scan is the baseline, which you review once; after that only what is new, changes or comes back after being removed is shown. Guardia only looks: it never changes or deletes anything."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "A scan is already running. Try again in a few minutes."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Baseline marked as reviewed."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Guardia was emptied. The next scan takes a new baseline."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Uploads holds more than %d PHP files: only the first ones were looked at. Media folders should hold none."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Scan"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "No scan yet."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Take the baseline"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Scan now"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Baseline taken: %d items. Review the list below once."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Many items came back at once: it looks like a restored backup. Check that you restored one."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Scan finished: nothing new."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Scan finished: %1$d new, %2$d changed, %3$d came back."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Last scan: %1$s UTC · %2$d items watched"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Review the baseline"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "What was already on the site at the first scan. Check that you know every administrator, must-use plugin and PHP file in uploads: one you do not recognise may be left over from an old intrusion."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Item"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Level"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Nothing in the baseline."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Only the first %d are shown."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "I have reviewed this list"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Findings"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "What appeared, changed or came back after the baseline, newest first. Something that comes back after being removed rebuilds itself: each return raises the level."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Nothing new since the baseline."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Start again"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "The next scan takes a new baseline. Only after cleaning the site, or if the baseline was taken on a site you did not trust."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Empty Guardia and take a new baseline on the next scan?"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Empty Guardia"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Administrator"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Must-use plugin"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Drop-in"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "PHP file in uploads"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Scheduled task without code"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Configuration file"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Active plugin"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Came back after being removed (%d×)"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "New"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Changed"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Back with a restored backup"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Medium"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "High"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Critical"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "WordPress core files are compared with the official checksums from wordpress.org."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "WordPress core files were not checked in the last scan: %s They are checked again on the next one."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "WordPress core file"
+msgstr ""
+
+#: src/Guardia/CoreFiles.php
+msgid "WordPress %s is not a release: there are no official checksums for it."
+msgstr ""
+
+#: src/Guardia/CoreFiles.php
+msgid "wordpress.org answered HTTP %d."
+msgstr ""
+
+#: src/Guardia/CoreFiles.php
+msgid "wordpress.org has no checksums for this version."
+msgstr ""
+
+#: src/Guardia/Inventory.php
+msgid "not part of WordPress"
+msgstr ""
+
+#: src/Guardia/Inventory.php
+msgid "modified"
+msgstr ""
+
+#: src/Guardia/Alerts.php
+msgid "Guardia found changes to review"
+msgstr ""
+
+#: src/Guardia/Alerts.php
+msgid "Many items came back at once: it looks like a restored backup. If you did not restore one, look at the list in Integrity."
+msgstr ""
+
+#: src/Guardia/Alerts.php
+msgid "The last scan of %2$s found %1$d things worth a look:"
+msgstr ""
+
+#: src/Guardia/Alerts.php
+msgid "… and %d more."
+msgstr ""
+
+#: src/Guardia/Alerts.php
+msgid "Guardia only looks: nothing was changed or deleted. If you made these changes yourself, there is nothing to do. Something that comes back after you removed it is the sign of an intrusion that rebuilds itself."
+msgstr ""
+
+#: src/Guardia/Alerts.php
+msgid "Open Integrity"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "An e-mail went to %d addresses."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "E-mail me when a scan finds something medium or worse"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "To %s: the site address and the administrators' recovery e-mails. At most 6 a day."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Takes a baseline of the site, then shows only what is new or comes back."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "%d high or critical findings in the last 30 days."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Nothing high or critical in the last 30 days."
+msgstr ""
+
+#: src/Admin/Overview.php
+msgid "Guardia has a baseline of the site and you reviewed it"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Scan by itself twice a day"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Starts after you take the baseline."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "A scan is going on now, a few seconds at a time."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Next one: %s UTC. It reads files a few seconds at a time, so the site does not slow down."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "automatic"
+#: src/Login/CoSign.php
+msgid "The approval e-mail could not be sent. Wait a few minutes and try again."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "The sign-in was rejected from a recovery e-mail. Nobody was logged in."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "We sent a link to your recovery e-mails 2 and 3. Open it, check the details and press «Approve»: this page continues on its own."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Ask for approval by e-mail: a link goes to your recovery e-mails 2 and 3. Whoever reads them approves or rejects this sign-in; no other account is needed."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Send the approval link"
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Or another administrator co-signs here with their own password:"
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Nobody can co-sign this account: there is no other administrator and no recovery e-mail 2 or 3. Add define('DRACO_COSIGN_OFF', true); to wp-config.php, log in, add the e-mails and remove the line."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Approve a sign-in"
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "%1$s wants to sign in to %2$s and needs your approval."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "From IP %1$s · %2$s · %3$s UTC"
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Open the link to approve or reject it. If you do not know about this sign-in, reject it: nobody gets in. Then change the password of the account."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "The link works once and expires in 10 minutes. You receive it because this address is a recovery e-mail of the account."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Review the sign-in"
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Approved. The sign-in continues on the device that asked for it."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Rejected. Nobody was logged in. If you did not expect this, change the password of the account."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "%s is trying to sign in."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "It was not me"
+msgstr ""
+
+#: src/Login/Admin.php
+msgid "Administrator co-sign was not switched on: nobody could approve your next login. Add recovery e-mails 2 and 3 first, or create a second administrator."
+msgstr ""
+
+#: src/Login/Admin.php
+msgid "Recovery e-mail →"
+msgstr ""
+
+#: src/Login/Admin.php
+msgid "Your sign-ins can be approved by a link sent to recovery e-mails 2 and 3 (%s), or by another administrator."
+msgstr ""
+
+#: src/Login/Admin.php
+msgid "Add recovery e-mails 2 and 3 to approve your sign-ins by a link sent to them, without a second administrator account."
+msgstr ""

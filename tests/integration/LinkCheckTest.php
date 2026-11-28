@@ -81,6 +81,53 @@ CSV;
         $this->assertNull(LinkCheck::mail(null, ['to' => 'owner@example.org', 'subject' => 'Order', 'message' => 'http://bad.example/payload/loader.exe']));
     }
 
+    private const PHISHTANK = <<<'CSV'
+phish_id,url,phish_detail_url,submission_time,verified,verification_time,online,target
+9566568,http://olx.allegrolokalnie.top,http://www.phishtank.com/phish_detail.php?phish_id=9566568,2026-11-28T05:34:01+00:00,yes,2026-11-28T05:41:34+00:00,yes,Allegro
+9566569,https://albumpipe.xyz/MB8SGE200-insights/,http://www.phishtank.com/phish_detail.php?phish_id=9566569,2026-11-28T05:37:00+00:00,yes,2026-11-28T05:41:30+00:00,yes,Other
+9566570,https://docs.google.com/,http://www.phishtank.com/phish_detail.php?phish_id=9566570,2026-11-28T05:38:00+00:00,yes,2026-11-28T05:41:30+00:00,yes,Other
+CSV;
+
+    public function test_phishtank_front_page_stands_for_the_whole_site_except_shared_services(): void
+    {
+        $built = LinkCheck::buildIndex(self::PHISHTANK, true);
+        file_put_contents(LinkCheck::indexFile(LinkCheck::PHISHTANK), $built['index']);
+        try {
+            // A site made for phishing: any page of it.
+            $this->assertSame(['http://olx.allegrolokalnie.top/login', LinkCheck::PHISHTANK], LinkCheck::find('Pay here http://olx.allegrolokalnie.top/login', [LinkCheck::PHISHTANK]));
+            // A listed deep link: only that link, not the rest of the host.
+            $this->assertSame('https://albumpipe.xyz/MB8SGE200-insights/', LinkCheck::listed('https://albumpipe.xyz/MB8SGE200-insights/', [LinkCheck::PHISHTANK]));
+            $this->assertSame('', LinkCheck::listed('https://albumpipe.xyz/about', [LinkCheck::PHISHTANK]));
+            // A shared service listed at its front page never blocks all of it.
+            $this->assertSame('', LinkCheck::listed('https://docs.google.com/document/d/abc/edit', [LinkCheck::PHISHTANK]));
+            // URLhaus keeps exact matching: its index has no host keys for named hosts.
+            $this->assertSame('', LinkCheck::listed('https://hacked.example/blog/hello', [LinkCheck::URLHAUS]));
+            // A comment with a PhishTank link goes to spam and is logged under PhishTank.
+            $this->assertSame('spam', LinkCheck::comment(0, ['comment_content' => 'http://olx.allegrolokalnie.top/', 'comment_author_url' => '']));
+        } finally {
+            @unlink(LinkCheck::indexFile(LinkCheck::PHISHTANK));
+        }
+    }
+
+    public function test_a_list_that_stops_changing_is_shown_as_stale(): void
+    {
+        update_option(LinkCheck::PT_OPTION_STATE, ['updated' => time(), 'count' => 3, 'error' => '', 'changed' => time() - 8 * DAY_IN_SECONDS, 'sha' => 'x']);
+        $this->assertTrue(LinkCheck::stale(LinkCheck::PHISHTANK));
+        update_option(LinkCheck::PT_OPTION_STATE, ['updated' => time(), 'count' => 3, 'error' => '', 'changed' => time() - DAY_IN_SECONDS, 'sha' => 'x']);
+        $this->assertFalse(LinkCheck::stale(LinkCheck::PHISHTANK));
+        delete_option(LinkCheck::PT_OPTION_STATE);
+        $this->assertFalse(LinkCheck::stale(LinkCheck::PHISHTANK), 'never downloaded is not stale');
+    }
+
+    public function test_phishtank_is_off_until_switched_on_and_not_tied_to_urlhaus(): void
+    {
+        $this->assertFalse(LinkCheck::phishtankActive());
+        $this->assertSame([], LinkCheck::activeFeeds());
+        update_option(LinkCheck::PT_OPTION_ENABLED, 'yes');
+        $this->assertSame([LinkCheck::PHISHTANK], LinkCheck::activeFeeds(), 'PhishTank alone, without any URLhaus key');
+        update_option(LinkCheck::PT_OPTION_ENABLED, 'no');
+    }
+
     public function test_off_without_key_or_confirmation(): void
     {
         update_option(LinkCheck::OPTION_ENABLED, 'yes');

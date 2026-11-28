@@ -46,6 +46,10 @@ final class Admin
         if ($do === 'settings') {
             update_option(Plugin::OPTION_SHIELD, empty($_POST['shield']) ? 'no' : 'yes');
             $proxy = sanitize_key((string) ($_POST['proxy'] ?? ''));
+            // «Use the recommended one»: what the check sees on this very request, whatever the menu says.
+            if (!empty($_POST['proxy_recommended'])) {
+                $proxy = WpHost::request()->proxySetup()['recommend'];
+            }
             update_option(Guard::OPTION_PROXY, in_array($proxy, ['cf', 'xff'], true) ? $proxy : '');
             $trusted = NetList::parse(sanitize_textarea_field(wp_unslash((string) ($_POST['trusted'] ?? ''))));
             update_option(Guard::OPTION_TRUSTED, implode("\n", $trusted), false);
@@ -67,6 +71,34 @@ final class Admin
         }
         wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=' . $result));
         exit;
+    }
+
+    /**
+     * «Is this site behind Cloudflare, a CDN or a proxy?» answered for the administrator, from their own
+     * visit to this screen: what was found, whether the current choice fits, and a button for the one that does.
+     */
+    private static function proxyCheck(string $current): void
+    {
+        $setup = WpHost::request()->proxySetup();
+        $seen = Guard::clientIp();
+        $texts = [
+            'direct' => __('Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address.', 'draco-insomnis'),
+            'cloudflare' => __('Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare.', 'draco-insomnis'),
+            'local' => __('Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For.', 'draco-insomnis'),
+            'remote' => __('A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address.', 'draco-insomnis'),
+        ];
+        $fits = $setup['kind'] === 'remote' ? true : $current === $setup['recommend'];
+        $tone = $fits ? 'is-ok' : 'is-warn';
+        echo '<div class="draco-callout draco-proxy-check ' . esc_attr($tone) . '"><span class="dashicons dashicons-' . ($fits ? 'yes-alt' : 'warning') . '" aria-hidden="true"></span><div>';
+        echo '<p><strong>' . esc_html__('Check:', 'draco-insomnis') . '</strong> ' . esc_html($texts[$setup['kind']]) . '</p>';
+        /* translators: %s: an IP address */
+        echo '<p>' . esc_html(sprintf(__('Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong.', 'draco-insomnis'), $seen)) . '</p>';
+        if (!$fits) {
+            echo '<p>' . esc_html__('The current choice does not match what was found.', 'draco-insomnis') . ' ';
+            submit_button(__('Use the recommended one and save', 'draco-insomnis'), 'secondary small', 'proxy_recommended', false, ['id' => 'draco-proxy-recommended']);
+            echo '</p>';
+        }
+        echo '</div></div>';
     }
 
     private static function open(string $do): string
@@ -91,7 +123,7 @@ final class Admin
         if ($result === 'refused') {
             Brand::notice('error', __('Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address.', 'draco-insomnis'));
         } elseif ($result === 'ok') {
-            Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
+            Brand::toast(__('Changes saved.', 'draco-insomnis'));
         } elseif ($result === 'report_sent') {
             Brand::notice('success', __('Abuse report sent. Replies will arrive at the administrator e-mail.', 'draco-insomnis'));
         } elseif ($result === 'report_failed') {
@@ -104,12 +136,16 @@ final class Admin
         Brand::card('shield-alt', __('Settings', 'draco-insomnis'), __('WordPress, WooCommerce and RealHomes sign-up forms.', 'draco-insomnis'), Brand::pill(Brand::stateLabel($on ? 'on' : 'off'), $on ? 'on' : 'off'));
         echo self::open('settings'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         Brand::toggle('shield', $on, __('Protect sign-ups (WordPress, WooCommerce and RealHomes)', 'draco-insomnis'), __('A hidden trap field and a signed page stamp: people never solve puzzles.', 'draco-insomnis'));
+        $trusted = (string) get_option(Guard::OPTION_TRUSTED, '');
+        self::proxyCheck($proxy);
+        $setup = WpHost::request()->proxySetup();
+        // The choices are for sites behind a proxy: open when one is seen or something else is chosen.
+        echo '<details class="draco-advanced"' . ($setup['kind'] !== 'direct' || $proxy !== '' ? ' open' : '') . '><summary>' . esc_html__('Advanced: proxy and CDN', 'draco-insomnis') . '</summary>';
         echo '<div class="draco-field"><label for="draco-proxy">' . esc_html__('Visitor address', 'draco-insomnis') . '</label><select id="draco-proxy" name="proxy" style="max-width:100%">';
         foreach (['' => __('Connection address (safest; use this unless the site is behind a proxy)', 'draco-insomnis'), 'cf' => __('Cloudflare header (only if every visit goes through Cloudflare)', 'draco-insomnis'), 'xff' => __('X-Forwarded-For (only behind your own proxy or CDN)', 'draco-insomnis')] as $value => $label) {
             echo '<option value="' . esc_attr($value) . '"' . selected($proxy, $value, false) . '>' . esc_html($label) . '</option>';
         }
-        echo '</select><p class="description">' . esc_html__('Your address as the plugin sees it:', 'draco-insomnis') . ' <span class="draco-code">' . esc_html(Guard::clientIp()) . '</span></p>';
-        $trusted = (string) get_option(Guard::OPTION_TRUSTED, '');
+        echo '</select>';
         if (WpHost::request()->proxyHeaderIgnored($proxy, $trusted)) {
             /* translators: %s: the connection address, e.g. 203.0.113.7 */
             echo '<p class="description" style="color:#b32d2e">' . esc_html(sprintf(__('The header is ignored: this connection (%s) does not come from Cloudflare or from a trusted proxy. If your proxy is on the internet, add its addresses below.', 'draco-insomnis'), WpHost::request()->remote())) . '</p>';
@@ -117,6 +153,7 @@ final class Admin
         echo '</div>';
         echo '<div class="draco-field"><label for="draco-trusted">' . esc_html__('Trusted proxies (one per line, e.g. 203.0.113.10 or 203.0.113.0/24; empty = this server and private networks)', 'draco-insomnis') . '</label>';
         echo '<textarea id="draco-trusted" name="trusted" rows="2" class="large-text code">' . esc_textarea($trusted) . '</textarea></div>';
+        echo '</details>';
         echo '<div class="draco-field"><label for="draco-nets">' . esc_html__('Rented-server networks to watch, besides the ones already known (one per line, e.g. 198.51.100.0/24)', 'draco-insomnis') . '</label>';
         echo '<textarea id="draco-nets" name="nets" rows="3" class="large-text code">' . esc_textarea((string) get_option(Guard::OPTION_NETS, '')) . '</textarea></div>';
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);

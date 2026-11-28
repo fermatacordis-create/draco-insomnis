@@ -83,6 +83,7 @@ final class Brand
             'draco-insomnis-login' => [\DracoInsomnis\Login\Admin::class, 'render'],
             'draco-insomnis-firewall' => [\DracoInsomnis\Firewall\Admin::class, 'render'],
             'draco-insomnis-anticopy' => [\DracoInsomnis\AntiCopy\Admin::class, 'render'],
+            'draco-insomnis-integrity' => [\DracoInsomnis\Guardia\Admin::class, 'render'],
             'draco-insomnis-mail' => [\DracoInsomnis\Mail\Admin::class, 'render'],
         ];
         $modules = self::modules();
@@ -135,6 +136,7 @@ final class Brand
             'draco-insomnis-login' => [__('Two-step login', 'draco-insomnis'), 'lock', $on('draco_mfa_enabled')],
             'draco-insomnis-firewall' => [__('Firewall', 'draco-insomnis'), 'privacy', $waf],
             'draco-insomnis-anticopy' => [__('Anti-copy', 'draco-insomnis'), 'hidden', $copy],
+            'draco-insomnis-integrity' => [__('Integrity', 'draco-insomnis'), 'visibility', \DracoInsomnis\Guardia\Admin::state()],
             'draco-insomnis-mail' => [__('Site mail (SMTP)', 'draco-insomnis'), 'email-alt', \DracoInsomnis\Mail\Settings::active() ? 'on' : 'off'],
         ];
     }
@@ -292,5 +294,46 @@ final class Brand
             echo ' <a href="' . esc_url($link) . '">' . esc_html($linkText) . '</a>';
         }
         echo '</p></div>';
+    }
+
+    /**
+     * A short confirmation floating over the screen («Changes saved.»), seen wherever the page was
+     * scrolled to. It goes away by itself, can be closed, and the «result» in the address is removed
+     * so reloading does not show it again. Not a WordPress .notice, so nothing moves it into the header.
+     */
+    public static function toast(string $text, string $type = 'success'): void
+    {
+        $icon = $type === 'success' ? 'yes-alt' : ($type === 'error' ? 'warning' : 'info');
+        echo '<div class="draco-toast draco-toast--' . esc_attr($type) . '" role="status" aria-live="polite">'
+            . '<span class="dashicons dashicons-' . esc_attr($icon) . '" aria-hidden="true"></span><span>' . esc_html($text) . '</span>'
+            . '<button type="button" class="draco-toast__close" aria-label="' . esc_attr__('Close', 'draco-insomnis') . '">&times;</button></div>';
+        static $script = false;
+        if ($script) {
+            return;
+        }
+        $script = true;
+        echo '<script>(function(){var t=document.querySelectorAll(".draco-toast");'
+            . 'function hide(e){e.classList.add("is-gone");setTimeout(function(){e.remove();},400);}'
+            . 't.forEach(function(e){e.querySelector(".draco-toast__close").addEventListener("click",function(){hide(e);});setTimeout(function(){hide(e);},6000);});'
+            . 'try{var u=new URL(location.href);if(u.searchParams.has("result")){u.searchParams.delete("result");history.replaceState(null,"",u.toString());}}catch(x){}})();</script>';
+    }
+
+    /** «2026-11-28 05:49:02» on three lines: year and month, the day, the time. */
+    public static function when(string $dateTime): string
+    {
+        if (preg_match('/^(\d{4}-\d{2})-(\d{2})[ T](\d{2}:\d{2}(?::\d{2})?)/', $dateTime, $m) !== 1) {
+            return esc_html($dateTime);
+        }
+
+        return '<span class="draco-when"><span>' . esc_html($m[1]) . '</span><span class="draco-when__day">' . esc_html($m[2]) . '</span><span>' . esc_html($m[3]) . '</span></span>';
+    }
+
+    /** Long text cut to a few lines; the whole of it shows on hover and is copied whole. */
+    public static function clamp(string $text, int $lines, bool $code = false): string
+    {
+        $lines = max(1, min(6, $lines));
+        $tag = $code ? 'code' : 'span';
+
+        return '<' . $tag . ' class="draco-clamp" style="-webkit-line-clamp:' . $lines . ';line-clamp:' . $lines . '" title="' . esc_attr($text) . '">' . esc_html($text) . '</' . $tag . '>';
     }
 }

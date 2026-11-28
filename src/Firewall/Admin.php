@@ -15,6 +15,8 @@ final class Admin
 {
     public const SLUG = 'draco-insomnis-firewall';
     private const ACTION = 'draco_waf_admin';
+    /** What was typed in the security.txt fields when it did not validate, per user, for a few minutes. */
+    private const TYPED = 'draco_sectxt_typed_';
 
     public static function register(): void
     {
@@ -69,12 +71,27 @@ final class Admin
         foreach ([Waf::OPTION_HIDE_USERS => 'hide_users', Waf::OPTION_XMLRPC_OFF => 'xmlrpc_off', Waf::OPTION_LOGIN_LIMIT => 'login_limit', Headers::OPTION_SAFE => 'headers', Headers::OPTION_HSTS => 'hsts', Headers::OPTION_MIC => 'headers_mic', Versions::OPTION => 'hide_versions', SecurityTxt::OPTION => 'securitytxt'] as $option => $field) {
             update_option($option, empty($_POST[$field]) ? 'no' : 'yes');
         }
-        // Only what validates is kept: an e-mail address or an https:// address.
-        update_option(SecurityTxt::OPTION_CONTACT, SecurityTxt::contact(Input::post('securitytxt_contact')), false);
-        update_option(SecurityTxt::OPTION_POLICY, SecurityTxt::policy(Input::post('securitytxt_policy')), false);
+        // Only what validates is kept: an e-mail address or an https:// address. Something written that does
+        // not validate is no longer dropped in silence: the previous value stays, the screen says which
+        // field and keeps what was typed so it can be corrected.
+        $typed = ['contact' => trim(Input::post('securitytxt_contact')), 'policy' => trim(Input::post('securitytxt_policy'))];
+        $bad = [];
+        foreach ([SecurityTxt::OPTION_CONTACT => 'contact', SecurityTxt::OPTION_POLICY => 'policy'] as $option => $field) {
+            $clean = $field === 'contact' ? SecurityTxt::contact($typed[$field]) : SecurityTxt::policy($typed[$field]);
+            if ($typed[$field] !== '' && $clean === '') {
+                $bad[] = $field;
+                continue;
+            }
+            update_option($option, $clean, false);
+        }
         // Mic exception only applies with the safe headers and when OPNV-WP is on the site.
         if (get_option(Headers::OPTION_SAFE, 'no') !== 'yes' || !Headers::opnvWpPresent()) {
             update_option(Headers::OPTION_MIC, 'no');
+        }
+        if ($bad !== []) {
+            set_transient(self::TYPED . get_current_user_id(), $typed, 10 * MINUTE_IN_SECONDS);
+            wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=ok&sectxt=' . implode(',', $bad) . '#draco-securitytxt'));
+            exit;
         }
         wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=ok'));
         exit;
@@ -129,7 +146,7 @@ final class Admin
         $mode = (string) get_option(Waf::OPTION_MODE, 'log');
         Brand::open(__('Firewall', 'draco-insomnis'), __('Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and the scanners that look for weak spots. People who can edit the site are never inspected.', 'draco-insomnis'));
         if (Input::get('result') === 'ok') {
-            Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
+            Brand::toast(__('Changes saved.', 'draco-insomnis'));
         }
         $test = Input::get('test');
         if ($test !== '') {
@@ -174,8 +191,23 @@ final class Admin
                 ? __('The standard file (RFC 9116) that tells whoever finds a weakness how to reach you. Draco renews its expiry date by itself.', 'draco-insomnis')
                 : __('Not possible here: the standard wants the file at the root of the domain, and this WordPress is in a folder.', 'draco-insomnis')
         );
-        echo '<div class="draco-inline"><div class="draco-field"><label for="draco-securitytxt-contact">' . esc_html__('Contact (e-mail or https:// address)', 'draco-insomnis') . '</label><input id="draco-securitytxt-contact" type="text" name="securitytxt_contact" class="regular-text" value="' . esc_attr((string) preg_replace('/^mailto:/', '', (string) get_option(SecurityTxt::OPTION_CONTACT, ''))) . '"></div>';
-        echo '<div class="draco-field"><label for="draco-securitytxt-policy">' . esc_html__('Policy page (optional, https://)', 'draco-insomnis') . '</label><input id="draco-securitytxt-policy" type="url" name="securitytxt_policy" class="regular-text" value="' . esc_attr((string) get_option(SecurityTxt::OPTION_POLICY, '')) . '"></div></div>';
+        // A value that did not validate on the last save: say which, and give back what was typed.
+        $bad = array_intersect(explode(',', Input::get('sectxt')), ['contact', 'policy']);
+        $typed = $bad !== [] ? get_transient(self::TYPED . get_current_user_id()) : false;
+        delete_transient(self::TYPED . get_current_user_id());
+        $typed = is_array($typed) ? $typed : [];
+        $contactValue = in_array('contact', $bad, true) && isset($typed['contact']) ? (string) $typed['contact'] : (string) preg_replace('/^mailto:/', '', (string) get_option(SecurityTxt::OPTION_CONTACT, ''));
+        $policyValue = in_array('policy', $bad, true) && isset($typed['policy']) ? (string) $typed['policy'] : (string) get_option(SecurityTxt::OPTION_POLICY, '');
+        echo '<div id="draco-securitytxt"></div>';
+        if (in_array('contact', $bad, true)) {
+            echo '<p class="draco-callout is-warn draco-field-error" role="alert"><span class="dashicons dashicons-warning" aria-hidden="true"></span><span>' . esc_html__('The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept.', 'draco-insomnis') . '</span></p>';
+        }
+        if (in_array('policy', $bad, true)) {
+            echo '<p class="draco-callout is-warn draco-field-error" role="alert"><span class="dashicons dashicons-warning" aria-hidden="true"></span><span>' . esc_html__('The policy page was not saved: it must be an address starting with https://. The previous one is kept.', 'draco-insomnis') . '</span></p>';
+        }
+        echo '<div class="draco-inline"><div class="draco-field"><label for="draco-securitytxt-contact">' . esc_html__('Contact (e-mail or https:// address)', 'draco-insomnis') . '</label><input id="draco-securitytxt-contact" type="text" name="securitytxt_contact" class="regular-text" value="' . esc_attr($contactValue) . '"' . (in_array('contact', $bad, true) ? ' aria-invalid="true"' : '') . '></div>';
+        // type="text", not "url": a browser refusing the whole form over this one field blocked every other change too.
+        echo '<div class="draco-field"><label for="draco-securitytxt-policy">' . esc_html__('Policy page (optional, https://)', 'draco-insomnis') . '</label><input id="draco-securitytxt-policy" type="text" inputmode="url" name="securitytxt_policy" class="regular-text" value="' . esc_attr($policyValue) . '"' . (in_array('policy', $bad, true) ? ' aria-invalid="true"' : '') . '></div></div>';
         if (SecurityTxt::active()) {
             echo '<p class="description"><a href="' . esc_url(home_url(SecurityTxt::PATH)) . '" target="_blank" rel="noopener">' . esc_html(home_url(SecurityTxt::PATH)) . '</a></p>';
         } elseif (get_option(SecurityTxt::OPTION, 'no') === 'yes' && SecurityTxt::contact() === '') {
@@ -215,7 +247,13 @@ final class Admin
         self::geo();
 
         Brand::card('warning', __('Recent attacks', 'draco-insomnis'), __('Kept for 90 days. "Evidence" downloads everything from that address for an abuse report. In log-only mode they appear as "Would block". Rows from an administrator\'s address (your own tests) are marked, cannot be reported and do not count in the summary.', 'draco-insomnis'), '', 'warn', 'draco-card--flush');
-        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('What', 'draco-insomnis') . '</th><th>' . esc_html__('Address requested', 'draco-insomnis') . '</th><th>' . esc_html__('Answer', 'draco-insomnis') . '</th><th>' . esc_html__('Browser', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
+        $cols = [__('Date (UTC)', 'draco-insomnis'), 'IP', __('What', 'draco-insomnis'), __('Address requested', 'draco-insomnis'), __('Answer', 'draco-insomnis'), __('Browser', 'draco-insomnis'), __('Result', 'draco-insomnis'), ''];
+        // Readable without sideways scrolling: the long cells wrap and are cut to a few lines.
+        echo '<div class="draco-table-wrap draco-table-wrap--fit"><table class="widefat striped draco-table draco-table--log"><thead><tr>';
+        foreach ($cols as $c) {
+            echo '<th>' . esc_html($c) . '</th>';
+        }
+        echo '</tr></thead><tbody>';
         $rows = Store::recentWhere('waf:');
         foreach ($rows as $r) {
             $fields = json_decode((string) $r['fields'], true);
@@ -228,11 +266,19 @@ final class Admin
             $export = wp_nonce_url(admin_url('admin-post.php?action=draco_export&ip=' . rawurlencode($ip)), 'draco_export');
             $result = $r['verdict'] === 'bot' ? Brand::pill(__('Blocked', 'draco-insomnis'), 'bad') : Brand::pill(__('Would block', 'draco-insomnis'), 'log');
             $actions = '<a href="' . esc_url($export) . '">' . esc_html__('Evidence', 'draco-insomnis') . '</a>'
-                . ($own ? '' : ' · <a href="' . esc_url(\DracoInsomnis\Shield\AbuseReport::url($ip)) . '">' . esc_html__('Report', 'draco-insomnis') . '</a>');
-            echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td><span class="draco-code">' . esc_html($ip) . '</span>'
-                . ($own ? '<br>' . wp_kses_post(Brand::pill(__('Your address (administrator)', 'draco-insomnis'), 'log')) : '') . '</td><td>' . esc_html($what)
-                . ($signature !== '' ? '<br><strong>' . esc_html($signature) . '</strong>' : '') . '</td><td><code>'
-                . esc_html($requested) . '</code></td><td>' . esc_html($answer !== '' ? $answer : '–') . '</td><td class="draco-ua">' . esc_html((string) $r['user_agent']) . '</td><td>' . wp_kses_post($result) . '</td><td>' . $actions . '</td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $actions is built from escaped parts above
+                . ($own ? '' : '<span class="draco-sep"> · </span><a href="' . esc_url(\DracoInsomnis\Shield\AbuseReport::url($ip)) . '">' . esc_html__('Report', 'draco-insomnis') . '</a>');
+            // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- every part is escaped where it is built
+            echo '<tr><td data-label="' . esc_attr($cols[0]) . '">' . Brand::when((string) $r['created_at']) . '</td>'
+                // One wrapper per cell: on narrow screens the cell is a two-column grid (label, value).
+                . '<td data-label="IP" class="draco-ip"><span><span class="draco-code">' . esc_html($ip) . '</span>'
+                . ($own ? '<br>' . wp_kses_post(Brand::pill(__('Your address (administrator)', 'draco-insomnis'), 'log')) : '') . '</span></td>'
+                . '<td data-label="' . esc_attr($cols[2]) . '" class="draco-nowrap draco-what"><span>' . esc_html($what) . ($signature !== '' ? '<br><strong>' . esc_html($signature) . '</strong>' : '') . '</span></td>'
+                . '<td data-label="' . esc_attr($cols[3]) . '" class="draco-addr">' . Brand::clamp($requested, 4, true) . '</td>'
+                . '<td data-label="' . esc_attr($cols[4]) . '" class="draco-nowrap">' . esc_html($answer !== '' ? $answer : '–') . '</td>'
+                . '<td data-label="' . esc_attr($cols[5]) . '" class="draco-ua">' . Brand::clamp((string) $r['user_agent'], 4) . '</td>'
+                . '<td data-label="' . esc_attr($cols[6]) . '" class="draco-nowrap">' . wp_kses_post($result) . '</td>'
+                . '<td class="draco-nowrap draco-acts">' . $actions . '</td></tr>';
+            // phpcs:enable
         }
         if ($rows === []) {
             Brand::emptyRow(8, $on ? __('No attacks seen yet.', 'draco-insomnis') : __('The firewall is off.', 'draco-insomnis'), $on ? 'yes-alt' : 'marker');
@@ -276,7 +322,7 @@ final class Admin
         if ($fetch === 'fail') {
             Brand::notice('error', __('The country list could not be downloaded. The filter does nothing until it is there; try "Update the country list" later.', 'draco-insomnis'));
         } elseif ($fetch === 'ok') {
-            Brand::notice('success', __('Country list downloaded.', 'draco-insomnis'));
+            Brand::toast(__('Country list downloaded.', 'draco-insomnis'));
         }
         $state = $mode === 'off' ? 'off' : (get_option(GeoFilter::OPTION_ACTION, 'log') === 'block' ? 'on' : 'log');
         Brand::card('admin-site-alt3', __('Countries', 'draco-insomnis'), __('Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Administrators, people you let through and search engines are never filtered.', 'draco-insomnis'), Brand::pill(Brand::stateLabel($state), $state));

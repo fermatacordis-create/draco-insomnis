@@ -47,6 +47,7 @@ final class Plugin
         \DracoInsomnis\Firewall\SecurityTxt::register();
         \DracoInsomnis\Login\Passwords::register();
         AntiCopyAdmin::register();
+        \DracoInsomnis\Guardia\Admin::register();
         Mfa::boot();
         \DracoInsomnis\Login\CoSign::boot();
         \DracoInsomnis\Login\AccountLock::boot();
@@ -85,6 +86,7 @@ final class Plugin
     {
         wp_clear_scheduled_hook(self::HOOK_CLEANUP);
         wp_clear_scheduled_hook(Gate::HOOK_CLEANUP);
+        \DracoInsomnis\Guardia\Scanner::unschedule();
     }
 
     /**
