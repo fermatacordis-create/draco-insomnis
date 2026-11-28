@@ -8,6 +8,7 @@ use DracoInsomnis\Login\AccountLock;
 use DracoInsomnis\Login\Challenge;
 use DracoInsomnis\Login\CoSign;
 use DracoInsomnis\Login\Mfa;
+use DracoInsomnis\Login\Recovery;
 use DracoInsomnis\Login\TrustedDevice;
 use DracoInsomnis\Shield\Store;
 
@@ -60,6 +61,120 @@ final class CoSignTest extends TestCase
         $this->assertSame(0, get_current_user_id());
         $this->assertFalse(is_user_logged_in());
         $this->assertSame([], Store::recentWhere('login:session'));
+    }
+
+    /** Recovery e-mails 1, 2 and 3 of admin A. */
+    private function recoveryMailboxes(int $count = 3): void
+    {
+        update_user_meta($this->adminA->ID, Recovery::META_LIST, array_slice(['r1@example.org', 'r2@example.org', 'r3@example.org'], 0, $count));
+    }
+
+    /** The secret of the approval link sent to $email. */
+    private function linkSentTo(string $email): string
+    {
+        $mails = $this->mailsTo($email);
+        $this->assertCount(1, $mails, 'one approval mail to ' . $email);
+        $this->assertSame(1, preg_match('/[?&;]t=([a-f0-9]{32})/', html_entity_decode($mails[0]['message']), $m), 'no approval link in the mail');
+
+        return $m[1];
+    }
+
+    private function acceptMail(string $token, array $row): bool
+    {
+        $m = new \ReflectionMethod(CoSign::class, 'acceptMailApproval');
+        $m->setAccessible(true);
+
+        return (bool) $m->invoke(null, $token, $row);
+    }
+
+    public function test_recovery_mailboxes_2_and_3_approve_the_browser_that_asked(): void
+    {
+        $this->recoveryMailboxes();
+        $c = $this->challenge();
+        $this->assertTrue(CoSign::requestApproval($c['token'], $c, false));
+        $this->assertSame([], $this->mailsTo('r1@example.org'), 'recovery e-mail 1 is for codes, not approvals');
+        $two = $this->linkSentTo('r2@example.org');
+        $three = $this->linkSentTo('r3@example.org');
+        $this->assertNotSame($two, $three, 'each mailbox has its own link');
+        $this->assertFalse($this->acceptMail($c['token'], $c), 'nothing approved yet');
+
+        $this->assertSame('', CoSign::decide(str_repeat('b', 32), 'approve'), 'a guessed link does nothing');
+        $this->assertSame('approve', CoSign::decide($three, 'approve'));
+        $this->assertSame('', CoSign::decide($two, 'deny'), 'the other link is spent');
+        $this->assertSame('', CoSign::decide($three, 'approve'), 'a link works once');
+
+        $this->assertTrue($this->acceptMail($c['token'], $c));
+        $this->assertTrue(CoSign::satisfiedFor($this->adminA->ID));
+        $f = $this->fields('login:cosign_success');
+        $this->assertSame(3, (int) ($f['recovery_slot'] ?? 0), 'the log keeps fields as text');
+        $this->assertSame('r3@example.org', $f['cosigner_email'] ?? '');
+        $this->assertSame($c['auth_id'], $f['auth_id'] ?? '');
+        $this->assertNoSession();
+        CoSign::clearSatisfied($this->adminA->ID);
+    }
+
+    public function test_a_rejection_from_the_mailbox_stops_the_sign_in(): void
+    {
+        $this->recoveryMailboxes();
+        $c = $this->challenge();
+        $this->assertTrue(CoSign::requestApproval($c['token'], $c, false));
+        $this->assertSame('deny', CoSign::decide($this->linkSentTo('r2@example.org'), 'deny'));
+        $this->assertFalse($this->acceptMail($c['token'], $c));
+        $this->assertFalse(CoSign::satisfiedFor($this->adminA->ID));
+        $this->assertNoSession();
+    }
+
+    public function test_an_approval_does_not_travel_to_another_address(): void
+    {
+        $this->recoveryMailboxes();
+        $c = $this->challenge();
+        $this->assertTrue(CoSign::requestApproval($c['token'], $c, false));
+        $this->assertSame('approve', CoSign::decide($this->linkSentTo('r2@example.org'), 'approve'));
+        $ip = $_SERVER['REMOTE_ADDR'] ?? null;
+        $_SERVER['REMOTE_ADDR'] = '203.0.113.99';
+        $this->assertFalse($this->acceptMail($c['token'], $c), 'approved, but asked from another address');
+        if ($ip === null) {
+            unset($_SERVER['REMOTE_ADDR']);
+        } else {
+            $_SERVER['REMOTE_ADDR'] = $ip;
+        }
+        $this->assertFalse(CoSign::satisfiedFor($this->adminA->ID));
+        $this->assertNull(CoSign::getChallenge($c['token']), 'the challenge is gone');
+    }
+
+    public function test_mail_approval_needs_recovery_2_or_3_and_cosign_needs_someone(): void
+    {
+        $this->recoveryMailboxes(1);
+        $c = $this->challenge();
+        $this->assertSame([], CoSign::approvers($this->adminA->ID));
+        $this->assertFalse(CoSign::requestApproval($c['token'], $c, false));
+        $this->assertSame([], $this->mails);
+        $this->assertTrue(CoSign::reachableFor($this->adminA), 'admin B can still co-sign');
+        // Admin A alone: every other administrator (the test site has its own) becomes an editor for a moment.
+        $others = get_users(['role' => 'administrator', 'exclude' => [$this->adminA->ID]]);
+        foreach ($others as $other) {
+            $other->set_role('editor');
+        }
+        try {
+            $this->assertFalse(CoSign::reachableFor($this->adminA), 'alone and without recovery 2 or 3');
+            $this->recoveryMailboxes(2);
+            $this->assertSame([2 => 'r2@example.org'], CoSign::approvers($this->adminA->ID));
+            $this->assertTrue(CoSign::reachableFor($this->adminA));
+        } finally {
+            foreach ($others as $other) {
+                $other->set_role('administrator');
+            }
+        }
+    }
+
+    public function test_approval_mails_are_limited_per_hour(): void
+    {
+        $this->recoveryMailboxes();
+        $c = $this->challenge();
+        for ($i = 0; $i < 3; $i++) {
+            $this->assertTrue(CoSign::requestApproval($c['token'], $c, false), 'request ' . ($i + 1));
+        }
+        $this->assertFalse(CoSign::requestApproval($c['token'], $c, false), 'the fourth in an hour');
     }
 
     public function test_challenge_is_bound_to_primary_and_expires_from_lookup(): void
