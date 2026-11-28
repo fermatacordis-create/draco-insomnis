@@ -2,10 +2,28 @@
 
 *Ab insomni custodita dracone* — guarded by the dragon that never sleeps.
 
-Author: **Soledad Sánchez Mohamed**.
+Security for WordPress without captchas: firewall, integrity checks, spam and fake sign-up blocking,
+two-step login, SMTP and anti-copy. Also for other CMSs and web apps (see [Editions](#editions)).
 
-Open-source security for websites and web apps, made by [Notorius Vision](https://notoriusvision.com)
-— the team behind [OPNV Systems](https://opnv.systems) and OPNV SOLΞ.
+Draco Insomnis brings together, in one plugin, the protections a WordPress site usually needs several
+plugins for. Each part is switched on separately. The firewall starts in log-only mode and anti-copy has
+one too, so you can see what they would stop before they stop anything.
+
+- **Firewall**: stops requests shaped like attacks and the scanners looking for weak spots, and says what
+  each attack was after.
+- **Fake sign-ups**: spots bot registrations before the account exists, without captchas, and keeps
+  evidence for abuse reports.
+- **Forms and comments confirmed by e-mail**: spam never reaches you, because bots do not confirm.
+- **Two-step login**: a stolen password alone is no longer enough.
+- **Site mail (SMTP)**: login codes, forms and orders actually arrive.
+- **Anti-copy**: makes it harder to copy the whole site in one go, without getting in the way of
+  visitors or search engines.
+- **Integrity**: checks core files against WordPress.org, warns when something comes back after you
+  removed it and, if you want, which installed plugins have known vulnerabilities.
+
+Free software (GPLv2 or later), made by [Notorius Vision](https://notoriusvision.com): the open-source
+security core of [OPNV Systems](https://opnv.systems) and OPNV SOLΞ. Install it from
+[WordPress.org](https://wordpress.org/plugins/draco-insomnis/) (Plugins → Add New → "Draco Insomnis").
 
 ## Editions
 
