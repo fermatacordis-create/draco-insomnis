@@ -3067,4 +3067,42 @@ msgstr ""
 
 #: src/Shield/Admin.php src/Firewall/Admin.php
 msgid "Use the recommended one and save"
+#: src/Gate/Admin.php
+msgid "PhishTank list downloaded: %d entries."
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "The PhishTank list could not be downloaded (%s). Links are not checked against it until it is."
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "Phishing links are no longer checked."
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "Phishing links (PhishTank)"
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered."
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "PhishTank allows commercial and non-commercial use."
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "PhishTank FAQ"
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:"
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy."
+msgstr ""
+
+#: src/Gate/Admin.php
+msgid "Check links in comments and contact forms against PhishTank"
 msgstr ""
