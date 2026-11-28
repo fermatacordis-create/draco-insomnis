@@ -41,6 +41,23 @@ final class Advisories
         return get_option(self::OPTION_ENABLED, 'no') === 'yes';
     }
 
+    public const OPTION_SOURCE = 'draco_advisories_source';
+    /** The OPNV index of Wordfence Intelligence: one download, matched here; nothing about the site is sent. */
+    public const SOURCE_OPNV = 'opnv';
+    /** WPVulnerability: asked one slug at a time. */
+    public const SOURCE_WPV = 'wpvulnerability';
+
+    /** Inside OPNV the OPNV index by default; the standalone plugin WPVulnerability, unless the admin chooses. */
+    public static function source(): string
+    {
+        $s = (string) get_option(self::OPTION_SOURCE, '');
+        if (in_array($s, [self::SOURCE_OPNV, self::SOURCE_WPV], true)) {
+            return $s;
+        }
+
+        return \DracoInsomnis\Plugin::bundled() ? self::SOURCE_OPNV : self::SOURCE_WPV;
+    }
+
     public static function schedule(): void
     {
         $next = wp_next_scheduled(self::HOOK);
@@ -58,6 +75,39 @@ final class Advisories
         foreach ([self::OPTION_CACHE, self::OPTION_RESULT, self::OPTION_NOTIFIED] as $o) {
             delete_option($o);
         }
+        OpnvIndex::forget();
+    }
+
+    /**
+     * From the OPNV index: refresh it if due, then read only the installed slugs.
+     *
+     * @param list<array{type: string, slug: string, version: string, name: string, active: bool}> $installed
+     * @return array{at: int, checked: int, pending: int, errors: int, items: list<array<string, mixed>>, source: string, notices: list<array<string, string>>, index: string}
+     */
+    private static function runOpnv(array $installed): array
+    {
+        $ok = OpnvIndex::refresh();
+        $keys = [];
+        foreach ($installed as $item) {
+            $keys[$item['type'] . '|' . $item['slug']] = true;
+        }
+        $got = $ok ? OpnvIndex::read($keys) : null;
+        $items = $got !== null ? Matcher::match($installed, $got['advisories']) : [];
+        $used = [];
+        foreach ($items as $f) {
+            foreach ((array) ($f['notices'] ?? []) as $n) {
+                $used[(int) $n] = true;
+            }
+        }
+        $notices = [];
+        foreach ($got['notices'] ?? [] as $i => $n) {
+            if (isset($used[$i])) {
+                $notices[] = $n; // only what is shown needs its notice
+            }
+        }
+
+        return ['at' => time(), 'checked' => $got !== null ? count($keys) : 0, 'pending' => 0, 'errors' => $got === null ? 1 : 0, 'items' => $items,
+            'source' => self::SOURCE_OPNV, 'notices' => $notices, 'index' => (string) ($got['meta']['generated'] ?? '')];
     }
 
     /**
@@ -68,6 +118,13 @@ final class Advisories
     public static function run(float $budget = self::BUDGET): array
     {
         $installed = self::installed();
+        if (self::source() === self::SOURCE_OPNV) {
+            $result = self::runOpnv($installed);
+            update_option(self::OPTION_RESULT, $result, false);
+            self::notify($result['items']);
+
+            return $result;
+        }
         $cache = get_option(self::OPTION_CACHE, []);
         $cache = is_array($cache) ? $cache : [];
         $deadline = microtime(true) + $budget;
@@ -106,7 +163,7 @@ final class Advisories
             }
         }
         $pending = count(array_diff_key($wanted, $cache));
-        $result = ['at' => time(), 'checked' => count($cache), 'pending' => $pending, 'errors' => $errors, 'items' => $items];
+        $result = ['at' => time(), 'checked' => count($cache), 'pending' => $pending, 'errors' => $errors, 'items' => $items, 'source' => self::SOURCE_WPV, 'notices' => [], 'index' => ''];
         update_option(self::OPTION_RESULT, $result, false);
         self::notify($items);
 

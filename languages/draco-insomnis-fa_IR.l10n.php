@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'افزونه‌ها، پوسته‌ها و وردپرس نصب‌شده را روزی دو بار با پایگاه آسیب‌پذیری‌های شناخته‌شدهٔ وردپرس مقایسه می‌کند. نسخه‌های نصب‌شده همیشه روی همین سرور مقایسه می‌شوند.',
+    'Wordfence Intelligence, through OPNV' => 'Wordfence Intelligence از طریق OPNV',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'کل فهرست (حدود ۳ مگابایت) از api.opnv.systems دانلود و همین‌جا جست‌وجو می‌شود. هیچ چیزی از این سایت فرستاده نمی‌شود، حتی نام افزونه‌هایش.',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'دربارهٔ هر افزونه جداگانه پرسیده می‌شود: نام افزونه‌ها و پوسته‌ها و نسخهٔ وردپرس فرستاده می‌شود. داده‌ها با مجوز CC0.',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'فهرست آسیب‌پذیری‌ها از %s به‌روز نشده: شاید OPNV در دسترس نباشد. بررسی با آخرین نسخه ادامه دارد.',
+    'Source and licence of the vulnerability information' => 'منبع و مجوز اطلاعات آسیب‌پذیری',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Wordfence Intelligence Vulnerability Data Feed از Defiant Inc.، از طریق آینهٔ OPNV.',
+    'Licence' => 'مجوز',
     'Known vulnerabilities checked.' => 'آسیب‌پذیری‌های شناخته‌شده بررسی شدند.',
     'Known vulnerabilities' => 'آسیب‌پذیری‌های شناخته‌شده',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'افزونه‌ها، پوسته‌ها و وردپرس نصب‌شده را با WPVulnerability، پایگاه عمومی آسیب‌پذیری‌های وردپرس (مجوز CC0)، مقایسه می‌کند. فقط نام افزونه‌ها و پوسته‌ها و نسخهٔ وردپرس فرستاده می‌شود؛ نسخه‌های نصب‌شده روی همین سرور مقایسه می‌شوند. روزی دو بار بررسی می‌شود.',

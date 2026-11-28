@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'நிறுவப்பட்ட செருகுநிரல்கள், தீம்கள், வேர்ட்பிரஸை நாளுக்கு இருமுறை அறியப்பட்ட வேர்ட்பிரஸ் பாதிப்புகளின் தரவுத்தளத்துடன் ஒப்பிடுகிறது. நிறுவப்பட்ட பதிப்புகள் எப்போதும் இந்தச் சேவையகத்திலேயே ஒப்பிடப்படும்.',
+    'Wordfence Intelligence, through OPNV' => 'OPNV வழியாக Wordfence Intelligence',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'முழுப் பட்டியல் (சுமார் 3 MB) api.opnv.systems இலிருந்து பதிவிறக்கப்பட்டு இங்கேயே தேடப்படும். இந்தத் தளத்திலிருந்து எதுவும் அனுப்பப்படாது, செருகுநிரல் பெயர்களும்கூட.',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'ஒவ்வொரு செருகுநிரலுக்கும் தனியாகக் கேட்கப்படும்: செருகுநிரல், தீம் பெயர்களும் வேர்ட்பிரஸ் பதிப்பும் அனுப்பப்படும். தரவு CC0 கீழ்.',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'பாதிப்புப் பட்டியல் %s முதல் புதுப்பிக்கப்படவில்லை: OPNV-ஐ அணுக முடியாமல் இருக்கலாம். கடைசி நகலுடன் சரிபார்ப்பு தொடர்கிறது.',
+    'Source and licence of the vulnerability information' => 'பாதிப்புத் தகவலின் மூலமும் உரிமமும்',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Defiant Inc.-இன் Wordfence Intelligence Vulnerability Data Feed, OPNV ஆடி வழியாக.',
+    'Licence' => 'உரிமம்',
     'Known vulnerabilities checked.' => 'அறியப்பட்ட பாதிப்புகள் சரிபார்க்கப்பட்டன.',
     'Known vulnerabilities' => 'அறியப்பட்ட பாதிப்புகள்',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'நிறுவப்பட்ட செருகுநிரல்கள், தீம்கள் மற்றும் வேர்ட்பிரஸை WPVulnerability உடன் ஒப்பிடுகிறது; இது வேர்ட்பிரஸ் பாதிப்புகளின் பொது தரவுத்தளம் (CC0 உரிமம்). செருகுநிரல், தீம் பெயர்களும் வேர்ட்பிரஸ் பதிப்பும் மட்டுமே அனுப்பப்படும்; நிறுவப்பட்ட பதிப்புகள் இந்தச் சேவையகத்திலேயே ஒப்பிடப்படும். நாளுக்கு இருமுறை சரிபார்க்கப்படும்.',

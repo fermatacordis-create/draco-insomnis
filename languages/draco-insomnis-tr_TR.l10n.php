@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'Yüklü eklentileri, temaları ve WordPress\'i günde iki kez bilinen WordPress güvenlik açıkları veritabanıyla karşılaştırır. Yüklü sürümler her zaman bu sunucuda karşılaştırılır.',
+    'Wordfence Intelligence, through OPNV' => 'OPNV üzerinden Wordfence Intelligence',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'Listenin tamamı (yaklaşık 3 MB) api.opnv.systems adresinden indirilir ve burada aranır. Bu siteden hiçbir şey gönderilmez, eklenti adları bile.',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'Eklenti eklenti sorulur: eklenti ve tema adları ile WordPress sürümü gönderilir. Veriler CC0 kapsamında.',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'Güvenlik açığı listesi %s tarihinden beri güncellenmedi: OPNV\'ye ulaşılamıyor olabilir. Denetim son kopyayla sürüyor.',
+    'Source and licence of the vulnerability information' => 'Güvenlik açığı bilgilerinin kaynağı ve lisansı',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Defiant Inc. tarafından Wordfence Intelligence Vulnerability Data Feed, OPNV yansısı üzerinden.',
+    'Licence' => 'Lisans',
     'Known vulnerabilities checked.' => 'Bilinen güvenlik açıkları denetlendi.',
     'Known vulnerabilities' => 'Bilinen güvenlik açıkları',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'Yüklü eklentileri, temaları ve WordPress\'i, WordPress güvenlik açıklarının herkese açık veritabanı WPVulnerability ile karşılaştırır (CC0 lisansı). Yalnızca eklenti ve tema adları ile WordPress sürümü gönderilir; yüklü sürümler bu sunucuda karşılaştırılır. Günde iki kez denetlenir.',

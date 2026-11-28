@@ -60,6 +60,10 @@ final class Admin
             $result = 'ok';
         } elseif ($do === 'advisories') {
             $on = !empty($_POST['advisories']);
+            $src = sanitize_key((string) ($_POST['advisories_source'] ?? ''));
+            if (in_array($src, [Advisories\Advisories::SOURCE_OPNV, Advisories\Advisories::SOURCE_WPV], true)) {
+                update_option(Advisories\Advisories::OPTION_SOURCE, $src, false);
+            }
             update_option(Advisories\Advisories::OPTION_ENABLED, $on ? 'yes' : 'no', false);
             if ($on) {
                 Advisories\Advisories::schedule();
@@ -230,11 +234,23 @@ final class Admin
         $on = Advisories\Advisories::enabled();
         $res = Advisories\Advisories::result();
         echo '<div id="draco-advisories"></div>';
-        Brand::card('shield', __('Known vulnerabilities', 'draco-insomnis'), __('Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.', 'draco-insomnis'), Brand::pill(Brand::stateLabel($on ? 'on' : 'off'), $on ? 'on' : 'off'));
+        $source = Advisories\Advisories::source();
+        Brand::card('shield', __('Known vulnerabilities', 'draco-insomnis'), __('Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.', 'draco-insomnis'), Brand::pill(Brand::stateLabel($on ? 'on' : 'off'), $on ? 'on' : 'off'));
         echo self::form('advisories'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         Brand::toggle('advisories', $on, __('Check installed software against known vulnerabilities', 'draco-insomnis'), __('Inactive plugins are checked too: their files are still on the server.', 'draco-insomnis'));
+        Brand::modes('advisories_source', $source, [
+            Advisories\Advisories::SOURCE_OPNV => [__('Wordfence Intelligence, through OPNV', 'draco-insomnis'), __('The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.', 'draco-insomnis'), 'database'],
+            Advisories\Advisories::SOURCE_WPV => [__('WPVulnerability', 'draco-insomnis'), __('Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.', 'draco-insomnis'), 'cloud'],
+        ], 'draco-modes--stack');
         submit_button(__('Save', 'draco-insomnis'), 'secondary', 'submit', false);
         echo '</form>';
+        if ($on && $source === Advisories\Advisories::SOURCE_OPNV && Advisories\OpnvIndex::stale()) {
+            echo '<p class="draco-callout is-warn"><span class="dashicons dashicons-warning" aria-hidden="true"></span><span>' . esc_html(sprintf(
+                /* translators: %s: date */
+                __('The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.', 'draco-insomnis'),
+                gmdate('Y-m-d', Advisories\OpnvIndex::state()['at'])
+            )) . '</span></p>';
+        }
         if ($on && $res !== null) {
             /* translators: 1: date and time (UTC), 2: number of plugins and themes checked */
             echo '<p class="description" style="margin-top:10px">' . esc_html(sprintf(__('Last check: %1$s UTC · %2$d plugins, themes and WordPress checked', 'draco-insomnis'), gmdate('Y-m-d H:i', (int) $res['at']), (int) $res['checked']));
@@ -264,6 +280,16 @@ final class Admin
                 Brand::emptyRow(4, __('No known vulnerabilities in what is installed.', 'draco-insomnis'));
             }
             echo '</tbody></table></div>';
+            // The data licence asks for the link to each record (the «details» links) and these notices.
+            if (($res['source'] ?? '') === Advisories\Advisories::SOURCE_OPNV) {
+                echo '<details class="draco-advanced" style="margin-top:10px"><summary>' . esc_html__('Source and licence of the vulnerability information', 'draco-insomnis') . '</summary>';
+                echo '<p class="description">' . esc_html__('Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.', 'draco-insomnis') . '</p>';
+                foreach ((array) ($res['notices'] ?? []) as $n) {
+                    echo '<p class="description"><strong>' . esc_html((string) ($n['notice'] ?? '')) . '</strong> ' . esc_html((string) ($n['license'] ?? ''))
+                        . ((string) ($n['license_url'] ?? '') !== '' ? ' <a href="' . esc_url((string) $n['license_url']) . '" target="_blank" rel="noopener">' . esc_html__('Licence', 'draco-insomnis') . '</a>' : '') . '</p>';
+                }
+                echo '</details>';
+            }
         }
         Brand::cardEnd();
     }

@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'Membandingkan plugin, tema, dan WordPress yang terpasang dengan basis data kerentanan WordPress yang diketahui, dua kali sehari. Versi terpasang selalu dibandingkan di server ini.',
+    'Wordfence Intelligence, through OPNV' => 'Wordfence Intelligence, melalui OPNV',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'Seluruh daftar (sekitar 3 MB) diunduh dari api.opnv.systems dan dicari di sini. Tidak ada yang dikirim dari situs ini, bahkan nama plugin-nya.',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'Ditanyakan per plugin: nama plugin dan tema serta versi WordPress dikirim. Data di bawah CC0.',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'Daftar kerentanan belum diperbarui sejak %s: OPNV mungkin tidak terjangkau. Pemeriksaan berlanjut dengan salinan terakhir.',
+    'Source and licence of the vulnerability information' => 'Sumber dan lisensi informasi kerentanan',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Wordfence Intelligence Vulnerability Data Feed dari Defiant Inc., melalui mirror OPNV.',
+    'Licence' => 'Lisensi',
     'Known vulnerabilities checked.' => 'Kerentanan yang diketahui sudah diperiksa.',
     'Known vulnerabilities' => 'Kerentanan yang diketahui',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'Membandingkan plugin, tema, dan WordPress yang terpasang dengan WPVulnerability, basis data publik kerentanan WordPress (lisensi CC0). Hanya nama plugin dan tema serta versi WordPress yang dikirim; versi terpasang dibandingkan di server ini. Diperiksa dua kali sehari.',

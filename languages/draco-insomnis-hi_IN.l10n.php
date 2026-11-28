@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'इंस्टॉल किए गए प्लगइन, थीम और वर्डप्रेस की दिन में दो बार वर्डप्रेस की ज्ञात कमज़ोरियों के डेटाबेस से तुलना करता है। इंस्टॉल संस्करणों की तुलना हमेशा इसी सर्वर पर होती है।',
+    'Wordfence Intelligence, through OPNV' => 'OPNV के ज़रिए Wordfence Intelligence',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'पूरी सूची (लगभग 3 MB) api.opnv.systems से डाउनलोड होकर यहीं खोजी जाती है। इस साइट से कुछ नहीं भेजा जाता, प्लगइन के नाम भी नहीं।',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'हर प्लगइन के लिए अलग पूछा जाता है: प्लगइन और थीम के नाम और वर्डप्रेस संस्करण भेजे जाते हैं। डेटा CC0 के तहत।',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'कमज़ोरियों की सूची %s से अपडेट नहीं हुई: शायद OPNV तक पहुँच नहीं है। जाँच आखिरी प्रति से जारी है।',
+    'Source and licence of the vulnerability information' => 'कमज़ोरी की जानकारी का स्रोत और लाइसेंस',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Defiant Inc. का Wordfence Intelligence Vulnerability Data Feed, OPNV दर्पण के ज़रिए।',
+    'Licence' => 'लाइसेंस',
     'Known vulnerabilities checked.' => 'ज्ञात कमज़ोरियाँ जाँच ली गईं।',
     'Known vulnerabilities' => 'ज्ञात कमज़ोरियाँ',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'इंस्टॉल किए गए प्लगइन, थीम और वर्डप्रेस की तुलना WPVulnerability से करता है, जो वर्डप्रेस कमज़ोरियों का सार्वजनिक डेटाबेस है (CC0 लाइसेंस)। केवल प्लगइन और थीम के नाम और वर्डप्रेस संस्करण भेजे जाते हैं; इंस्टॉल संस्करणों की तुलना इसी सर्वर पर होती है। दिन में दो बार जाँच होती है।',

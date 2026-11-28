@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'انسٹال شدہ پلگ اِنز، تھیمز اور ورڈپریس کا دن میں دو بار ورڈپریس کی معلوم کمزوریوں کے ڈیٹا بیس سے موازنہ کرتا ہے۔ انسٹال شدہ ورژنز کا موازنہ ہمیشہ اسی سرور پر ہوتا ہے۔',
+    'Wordfence Intelligence, through OPNV' => 'OPNV کے ذریعے Wordfence Intelligence',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'پوری فہرست (تقریباً 3 MB) api.opnv.systems سے ڈاؤن لوڈ ہو کر یہیں تلاش کی جاتی ہے۔ اس سائٹ سے کچھ نہیں بھیجا جاتا، پلگ اِنز کے نام بھی نہیں۔',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'ہر پلگ اِن کے بارے میں الگ پوچھا جاتا ہے: پلگ اِنز اور تھیمز کے نام اور ورڈپریس کا ورژن بھیجا جاتا ہے۔ ڈیٹا CC0 کے تحت۔',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'کمزوریوں کی فہرست %s سے اپ ڈیٹ نہیں ہوئی: شاید OPNV تک رسائی نہیں۔ جانچ آخری نقل سے جاری ہے۔',
+    'Source and licence of the vulnerability information' => 'کمزوریوں کی معلومات کا ماخذ اور لائسنس',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Defiant Inc. کا Wordfence Intelligence Vulnerability Data Feed، OPNV آئینے کے ذریعے۔',
+    'Licence' => 'لائسنس',
     'Known vulnerabilities checked.' => 'معلوم کمزوریاں جانچ لی گئیں۔',
     'Known vulnerabilities' => 'معلوم کمزوریاں',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'انسٹال شدہ پلگ اِنز، تھیمز اور ورڈپریس کا موازنہ WPVulnerability سے کرتا ہے، جو ورڈپریس کمزوریوں کا عوامی ڈیٹا بیس ہے (CC0 لائسنس)۔ صرف پلگ اِنز اور تھیمز کے نام اور ورڈپریس کا ورژن بھیجا جاتا ہے؛ انسٹال شدہ ورژنز کا موازنہ اسی سرور پر ہوتا ہے۔ دن میں دو بار جانچا جاتا ہے۔',

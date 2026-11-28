@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'يقارن الإضافات والقوالب وووردبريس المثبتة مرتين يوميًا مع قاعدة لثغرات ووردبريس المعروفة. تُقارن الإصدارات المثبتة دائمًا على هذا الخادم.',
+    'Wordfence Intelligence, through OPNV' => 'Wordfence Intelligence عبر OPNV',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'تُنزَّل القائمة كاملة (نحو 3 ميغابايت) من api.opnv.systems ويُبحث فيها هنا. لا يُرسَل أي شيء من هذا الموقع، ولا حتى أسماء إضافاته.',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'يُسأل عن كل إضافة على حدة: تُرسَل أسماء الإضافات والقوالب وإصدار ووردبريس. البيانات بترخيص CC0.',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'لم تُحدَّث قائمة الثغرات منذ %s: ربما يتعذّر الوصول إلى OPNV. يستمر الفحص بآخر نسخة.',
+    'Source and licence of the vulnerability information' => 'مصدر معلومات الثغرات وترخيصها',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Wordfence Intelligence Vulnerability Data Feed من Defiant Inc.، عبر مرآة OPNV.',
+    'Licence' => 'الترخيص',
     'Known vulnerabilities checked.' => 'تم فحص الثغرات المعروفة.',
     'Known vulnerabilities' => 'الثغرات المعروفة',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'يقارن الإضافات والقوالب وووردبريس المثبتة مع WPVulnerability، وهي قاعدة عامة لثغرات ووردبريس (ترخيص CC0). لا يُرسَل إلا أسماء الإضافات والقوالب وإصدار ووردبريس؛ وتُقارن الإصدارات المثبتة على هذا الخادم. يُفحص مرتين يوميًا.',

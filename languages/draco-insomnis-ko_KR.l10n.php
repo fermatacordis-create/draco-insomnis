@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => '설치된 플러그인, 테마, 워드프레스를 하루 두 번 알려진 워드프레스 취약점 데이터베이스와 비교합니다. 설치된 버전은 항상 이 서버에서 비교합니다.',
+    'Wordfence Intelligence, through OPNV' => 'OPNV를 통한 Wordfence Intelligence',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => '전체 목록(약 3MB)을 api.opnv.systems에서 내려받아 여기서 검색합니다. 이 사이트에 관한 어떤 정보도, 플러그인 이름조차 보내지 않습니다.',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => '플러그인마다 따로 묻습니다: 플러그인과 테마 이름, 워드프레스 버전을 보냅니다. 데이터는 CC0.',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => '취약점 목록이 %s 이후 업데이트되지 않았습니다: OPNV에 연결되지 않을 수 있습니다. 마지막 사본으로 계속 확인합니다.',
+    'Source and licence of the vulnerability information' => '취약점 정보의 출처와 라이선스',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Defiant Inc.의 Wordfence Intelligence Vulnerability Data Feed, OPNV 미러를 통해 제공.',
+    'Licence' => '라이선스',
     'Known vulnerabilities checked.' => '알려진 취약점을 확인했습니다.',
     'Known vulnerabilities' => '알려진 취약점',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => '설치된 플러그인, 테마, 워드프레스를 워드프레스 취약점 공개 데이터베이스인 WPVulnerability(CC0 라이선스)와 비교합니다. 플러그인과 테마 이름, 워드프레스 버전만 보내며 설치된 버전은 이 서버에서 비교합니다. 하루 두 번 확인합니다.',
