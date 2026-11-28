@@ -8,7 +8,7 @@ Stable tag: 0.1.42
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Security for WordPress without captchas: firewall, fake sign-up and spam blocking, two-step login, site mail (SMTP) and anti-copy.
+Security for WordPress without captchas: firewall, integrity checks, spam and fake sign-up blocking, two-step login, SMTP and anti-copy.
 
 == Description ==
 
@@ -20,6 +20,7 @@ Draco Insomnis brings together, in one plugin, the protections a WordPress site 
 * **Two-step login**: a stolen password alone is no longer enough.
 * **Site mail (SMTP)**: login codes, forms and orders actually arrive.
 * **Anti-copy**: makes it harder to copy the whole site in one go, without getting in the way of visitors or search engines.
+* **Integrity**: checks core files against WordPress.org and warns when something comes back after you removed it.
 
 Free software, made by Notorius Vision: the open-source security core of OPNV. *Ab insomni custodita dracone.*
 
@@ -58,6 +59,7 @@ Holds every contact message, blog comment and new account until the sender confi
 * **New accounts stay closed** until confirmed: no login, no password reset, no welcome mail. Unconfirmed accounts are deleted after 48 hours, unless they have content or orders, which a person reviews instead. Accounts created while paying in the shop are never held.
 * **Block from any row**, by e-mail or IP, for 7 to 90 days. A blocked sender sees the same answer, so they cannot tell.
 * **Never sends what the visitor typed** to the address they wrote, so it cannot be used to send spam to strangers, and it limits how many confirmations an address or IP can trigger.
+* **Phishing links** (optional): links in comments and contact forms are checked against PhishTank, in a copy kept on your server.
 
 Needs working site mail: it only switches on when SMTP is set up.
 
@@ -68,6 +70,8 @@ After the right password, WordPress asks for a 6-digit code sent by e-mail. A st
 * **For administrators by default**, or for everyone who can edit, or for every user.
 * **The code is only sent after the right password**, expires in 10 minutes and allows 5 tries. Repeated failures block the address for 15 minutes.
 * **Trust this device for 7 days** (optional). Changing the password or e-mail of an account revokes its trusted devices.
+* **Code did not arrive?** Send it again after 30 seconds, and check the spam folder.
+* **Administrator co-sign** (optional): a second approval, by another administrator's password or a one-time link to recovery e-mails 2 and 3. Emergency exit: `define('DRACO_COSIGN_OFF', true);`.
 * **No lock-outs from missing mail.** It only switches on with SMTP working and switches itself off if that connection is forgotten.
 * **Recovery e-mails, like the PUK of a phone.** Everyone who needs a code keeps up to three other mailboxes, added one at a time and each confirmed with a code; the screen shows the three slots in order, with their state. The last one cannot be removed while the code is required. The code screen can send the code there instead; "Lost your password?" accepts it too; after a password reset the next code goes only there. Changing it needs a code from the new address and one from the current one, and every change is told to the other mailbox. Administrators set it up before using the dashboard.
 * **Emergency exit for the owner:** `define('DRACO_MFA_OFF', true);` in wp-config.php. Only someone with access to the server can use it, unlike a "skip" button a thief could press.
@@ -99,15 +103,14 @@ Makes it harder to copy the whole site in one go, without getting in the way of 
 * **Search engines are verified, not trusted.** Google, Bing, Apple and Yandex pass after a reverse and forward DNS check, kept for a day; a program that only borrows their name does not.
 * **Log first.** Both parts have a log-only mode that shows what would be stopped. The log says what kind of route was asked for (content, search or user accounts), what the visitor got (401, 200…) and with which browser.
 
-= Languages =
+= Integrity (Guardia) =
 
-English, Spanish (Spain and all Latin American variants), Catalan, German, French, Italian, Portuguese (Portugal and Brazil), Dutch, Polish, Russian, Turkish, Japanese, Simplified Chinese, Korean, Arabic, Hindi, Indonesian, Vietnamese, Bengali, Urdu, Persian, Filipino, Thai, Ukrainian, Swahili, Malay and Tamil. Corrections from native speakers are very welcome, especially for the Asian, African and Middle Eastern languages.
+Shows what an intruder changed to stay, and what comes back after you removed it. It only looks: it never changes or deletes anything.
 
-= Who makes it =
-
-Draco Insomnis is made by [Notorius Vision](https://notoriusvision.com), the team behind [OPNV Systems](https://opnv.systems) and OPNV SOLΞ. It is the open-source security core of OPNV.
-
-The code is free software (GPLv2 or later). The names Draco Insomnis, Notorius Vision, OPNV, OPNV Systems and OPNV SOLΞ, and the dragon logo, are not part of that licence: if you publish a modified version, please give it another name and logo.
+* **Core files against the WordPress.org checksums**: a modified core file, or PHP in wp-admin, wp-includes or the root that WordPress does not ship, is high from the first scan.
+* **Also watched**: administrators, plugins, must-use plugins, drop-ins, wp-config.php, .htaccess, PHP in uploads and scheduled tasks without code.
+* **Baseline first**, reviewed once; then only what is new, changes or comes back. Each return raises the level.
+* **By itself twice a day**, a few seconds at a time so the site does not slow down, and an **e-mail** when it finds something medium or worse (both optional).
 
 == Installation ==
 
@@ -117,7 +120,8 @@ The code is free software (GPLv2 or later). The names Draco Insomnis, Notorius V
 4. Open **Draco Insomnis → Forms and sign-ups** and tick **Verify contact forms and sign-ups**.
 5. Open **Draco Insomnis → Two-step login** and tick **Ask for a code by e-mail after the password**.
 6. Open **Draco Insomnis → Firewall**, switch it on in **Log only**, and move to **Block** after a few days.
-7. If the site is behind Cloudflare or another proxy, choose the matching **Visitor address** option and check that "Your address as the plugin sees it" shows your real address.
+7. Open **Draco Insomnis → Integrity**, take the baseline and review the list once.
+8. If the site is behind Cloudflare or another proxy, the **Anti-bot shield** screen detects it and offers the right **Visitor address** setting with one button; check that "Your address as the plugin sees it" shows your real address.
 
 == Screenshots ==
 
@@ -128,6 +132,16 @@ The code is free software (GPLv2 or later). The names Draco Insomnis, Notorius V
 5. Firewall — log-only or block; attack signatures without word-list false positives.
 
 == Frequently Asked Questions ==
+
+= Which languages? =
+
+English, Spanish (Spain and all Latin American variants), Catalan, German, French, Italian, Portuguese (Portugal and Brazil), Dutch, Polish, Russian, Turkish, Japanese, Simplified Chinese, Korean, Arabic, Hindi, Indonesian, Vietnamese, Bengali, Urdu, Persian, Filipino, Thai, Ukrainian, Swahili, Malay and Tamil. Corrections from native speakers are very welcome, especially for the Asian, African and Middle Eastern languages.
+
+= Who makes it? =
+
+Draco Insomnis is made by [Notorius Vision](https://notoriusvision.com), the team behind [OPNV Systems](https://opnv.systems) and OPNV SOLΞ. It is the open-source security core of OPNV.
+
+The code is free software (GPLv2 or later). The names Draco Insomnis, Notorius Vision, OPNV, OPNV Systems and OPNV SOLΞ, and the dragon logo, are not part of that licence: if you publish a modified version, please give it another name and logo.
 
 = Will real people be rejected? =
 
@@ -140,6 +154,8 @@ Only bots wait, for at most three seconds, and at most ten slow answers per minu
 = What does it store? =
 
 For suspicious attempts only: date, address, browser name, username, e-mail, requested role and referring page. Never passwords. Everything is deleted after 90 days, and all of it is removed when the plugin is deleted.
+
+Guardia keeps, in two tables of its own, the list of what it watches and what each scan found: names, paths, versions and fingerprints (a hash of each file, and of each administrator's e-mail), never the content of files. It is removed when the plugin is deleted.
 
 == External services ==
 
@@ -179,6 +195,26 @@ Free use only for non-profit websites; for commercial use, a Spamhaus subscripti
 
 Service: abuse.ch, with Spamhaus Technology Limited. Terms of use: https://abuse.ch/terms-of-use/ · Privacy policy: https://abuse.ch/privacy-policy/
 
+= Phishing links (PhishTank) =
+
+What and why: links in comments and contact forms are checked against PhishTank's list of verified phishing pages.
+
+When: only if switched on in Forms and sign-ups; the list is then downloaded twice a day from data.phishtank.com.
+
+Data sent: a download request, with the administrator's optional key (DRACO_PHISHTANK_KEY in wp-config.php). Nothing visitors write is sent. Commercial use is allowed.
+
+Service: PhishTank, by Cisco Talos. FAQ: https://phishtank.org/faq.php · Terms: https://www.cisco.com/c/en/us/about/legal/cloud-and-software/end_user_license_agreement.html · Privacy: https://www.cisco.com/c/en/us/about/legal/privacy-full.html
+
+= WordPress core checksums (WordPress.org) =
+
+What and why: Integrity compares core files with the official checksums of the installed version.
+
+When: at the first scan after each WordPress update, once per version and language (then kept in uploads).
+
+Data sent: the WordPress version and language, to https://api.wordpress.org/core/checksums/1.0/. Nothing about the site's files or users.
+
+Service: WordPress.org. Privacy policy: https://wordpress.org/about/privacy/
+
 = Site mail (SMTP) =
 
 What and why: so the site's e-mail is delivered through a real mailbox.
@@ -192,6 +228,17 @@ The settings screen offers a list of common providers (for example Amazon SES, G
 Service: the mail provider the administrator has an account with, under the terms and privacy policy the administrator accepted with that provider. Draco has no agreement with any of them.
 
 == Changelog ==
+
+= 0.1.43 =
+* Integrity (new) — Guardia compares WordPress core files with the official checksums from WordPress.org and watches administrators, plugins, must-use plugins, drop-ins, configuration files, PHP in uploads and scheduled tasks without code. The first scan is a baseline you review once; afterwards it shows what is new, changes or comes back after being removed, with a level that rises on each return. It only looks, never changes anything.
+* Integrity — scans by itself twice a day, reading files a few seconds at a time, and sends an e-mail when it finds something medium or worse (both optional, on by default). A card in the Overview.
+* Two-step login — "Send the code again" after 30 seconds, and a reminder to look in the spam folder.
+* Two-step login — administrator co-sign can be approved from recovery e-mails 2 and 3 with a one-time link, without a second administrator account. It cannot be switched on while nobody could approve your next login.
+* Forms — links in comments and contact forms checked against PhishTank (optional), also when Draco is bundled in OPNV. URLhaus stays in the standalone plugin.
+* Anti-bot shield — detects whether Cloudflare or another proxy sits in front of the site and offers the right "Visitor address" setting with one button.
+* Firewall — fixed: the security.txt contact and policy were not saved on the first try when other settings changed too; a wrong value is now kept and explained.
+* Screens — "Changes saved" is a floating notice, and the lists of recent attacks read without a horizontal scroll bar (cards on narrow screens).
+* Translations — the new texts in all 39 languages.
 
 = 0.1.42 =
 * Firewall — the list of recent attacks says what each one was after (configuration and keys, backup copies, logs, server information pages, database tools, installers, known exploits, back doors) and names well-known attacks such as PHPUnit CVE-2017-9841, PHP-CGI or SPIP. It also shows the answer the visitor got and the whole browser string.
