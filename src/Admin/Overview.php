@@ -63,6 +63,7 @@ final class Overview
                 __('Content API for anonymous visitors and pages per minute.', 'draco-insomnis'),
                 __('Verified search engines are never limited.', 'draco-insomnis'),
             ],
+            'draco-insomnis-integrity' => \DracoInsomnis\Guardia\Admin::facts(),
             'draco-insomnis-mail' => [
                 /* translators: %s: sender address */
                 Settings::active() ? sprintf(__('Sending as %s', 'draco-insomnis'), Settings::fromAddress()) : (Transport::otherSender() !== '' ? sprintf(__('Sending through %s', 'draco-insomnis'), Transport::otherSender()) : __('Sending with PHP mail()', 'draco-insomnis')),
@@ -113,6 +114,7 @@ final class Overview
             self::todo(Recovery::emails((int) $user->ID) !== [], __('You have a recovery e-mail', 'draco-insomnis'), 'users.php?page=' . Recovery::SLUG);
         }
         self::todo(Waf::active() && Waf::blocking(), Waf::active() ? __('The firewall blocks attacks (switch it from "Log only" once you have looked at what it records)', 'draco-insomnis') : __('The firewall is on', 'draco-insomnis'), 'draco-insomnis-firewall');
+        self::todo(\DracoInsomnis\Guardia\Admin::state() === 'on', __('Guardia has a baseline of the site and you reviewed it', 'draco-insomnis'), \DracoInsomnis\Guardia\Admin::SLUG);
         self::phpTodo();
         echo '</ul>';
         Brand::cardEnd();

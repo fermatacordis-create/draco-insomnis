@@ -39,6 +39,7 @@ final class Scanner
             $events = $coreFirst ? self::withCoreBaseline($known, $seen) : Diff::compare($known, $seen, $baseline);
             $restore = !$baseline && Diff::looksLikeRestore($events);
             Store::apply($events, $seen, Inventory::labels(), $restore);
+            $mailed = Alerts::send($events, Inventory::labels(), $restore);
             $summary = [
                 'at' => time(),
                 'baseline' => $baseline,
@@ -48,6 +49,7 @@ final class Scanner
                 'events' => array_count_values(array_column($events, 'event')),
                 'worst' => $restore ? Diff::MEDIUM : self::worst(array_column($events, 'severity')),
                 'partial' => $partial,
+                'mailed' => $mailed,
             ];
             if ($baseline || ($coreFirst && in_array(Diff::BASELINE, array_column($events, 'event'), true))) {
                 delete_option(Store::OPTION_REVIEWED);
