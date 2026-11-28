@@ -109,7 +109,8 @@ final class Diff
             return self::HIGH;
         }
 
-        return $kind === self::UPLOAD_PHP || $kind === self::CRON ? self::MEDIUM : self::INFO;
+        // A scheduled hook that no code handles cannot run anything: only a note.
+        return $kind === self::UPLOAD_PHP ? self::MEDIUM : self::INFO;
     }
 
     /** Once medium, twice high, three times or more critical. */

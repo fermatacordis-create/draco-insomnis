@@ -102,7 +102,17 @@ final class Inventory
             }
         }
         // Only the differing files are kept between requests: deviations() skips the rest anyway.
-        foreach (CoreFiles::deviations($sums, $core['modified'], CoreFiles::phpFiles($root)) as $id => $item) {
+        $php = CoreFiles::phpFiles($root);
+        $heads = [];
+        foreach ($php as $p) {
+            if (!isset($sums[$p]) && CoreFiles::watched($p)) {
+                $h = @file_get_contents($root . $p, false, null, 0, 4096);
+                if (is_string($h)) {
+                    $heads[$p] = $h;
+                }
+            }
+        }
+        foreach (CoreFiles::deviations($sums, $core['modified'], $php, $heads) as $id => $item) {
             $job['items'][$id] = $item;
             $job['labels'][$id] = Diff::keyOf($id) . ' · ' . ($item['fp'] === 'extra' ? __('not part of WordPress', 'draco-insomnis') : __('modified', 'draco-insomnis'));
         }

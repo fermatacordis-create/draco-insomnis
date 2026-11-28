@@ -283,9 +283,9 @@ code.draco-clamp { padding: 2px 6px; font-size: 12px; }
 }
 
 /* «Changes saved.» floating over the screen, wherever the page was scrolled to. */
-.draco-toast { position: fixed; top: 46px; right: 24px; z-index: 100001; display: flex; align-items: center; gap: 10px; max-width: min(420px, calc(100vw - 48px));
+.draco-toast { position: fixed; top: 50%; left: 50%; translate: -50% -50%; z-index: 100001; display: flex; align-items: center; gap: 10px; max-width: min(420px, calc(100vw - 48px));
   padding: 12px 14px 12px 16px; border-radius: 12px; background: #fff; color: var(--d-ink); border: 1px solid var(--d-line); border-left: 4px solid #16a34a;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, .18); font-size: 14px; animation: draco-toast-in .25s ease-out; transition: opacity .35s, transform .35s; }
+  box-shadow: 0 16px 48px rgba(15, 23, 42, .28); font-size: 15px; animation: draco-toast-in .25s ease-out; transition: opacity .35s, transform .35s; }
 .draco-toast--error { border-left-color: #dc2626; }
 .draco-toast--info { border-left-color: var(--d-accent); }
 .draco-toast .dashicons { color: #16a34a; }
@@ -293,7 +293,7 @@ code.draco-clamp { padding: 2px 6px; font-size: 12px; }
 .draco-toast__close { margin-left: auto; border: 0; background: none; font-size: 20px; line-height: 1; cursor: pointer; color: var(--d-muted); padding: 0 2px; }
 .draco-toast.is-gone { opacity: 0; transform: translateY(-8px); }
 @keyframes draco-toast-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
-@media (max-width: 782px) { .draco-toast { top: 58px; right: 12px; left: 12px; max-width: none; } }
+@media (max-width: 782px) { .draco-toast { width: calc(100vw - 24px); max-width: none; box-sizing: border-box; } }
 @media (prefers-reduced-motion: reduce) { .draco-toast { animation: none; transition: none; } }
 
 /* Overview */
