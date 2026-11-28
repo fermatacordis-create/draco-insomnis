@@ -110,7 +110,7 @@ Shows what an intruder changed to stay, and what comes back after you removed it
 * **Core files against the WordPress.org checksums**: a modified core file, or PHP in wp-admin, wp-includes or the root that WordPress does not ship, is high from the first scan.
 * **Also watched**: administrators, plugins, must-use plugins, drop-ins, wp-config.php, .htaccess, PHP in uploads and scheduled tasks without code.
 * **Baseline first**, reviewed once; then only what is new, changes or comes back. Each return raises the level.
-* **E-mail** when a scan finds something medium or worse (optional).
+* **By itself twice a day**, a few seconds at a time so the site does not slow down, and an **e-mail** when it finds something medium or worse (both optional).
 
 == Installation ==
 
@@ -209,7 +209,7 @@ Service: PhishTank, by Cisco Talos. FAQ: https://phishtank.org/faq.php · Terms:
 
 What and why: Integrity compares core files with the official checksums of the installed version.
 
-When: when an administrator runs a scan, once per WordPress version and language (then kept in uploads).
+When: at the first scan after each WordPress update, once per version and language (then kept in uploads).
 
 Data sent: the WordPress version and language, to https://api.wordpress.org/core/checksums/1.0/. Nothing about the site's files or users.
 
@@ -231,7 +231,7 @@ Service: the mail provider the administrator has an account with, under the term
 
 = 0.1.43 =
 * Integrity (new) — Guardia compares WordPress core files with the official checksums from WordPress.org and watches administrators, plugins, must-use plugins, drop-ins, configuration files, PHP in uploads and scheduled tasks without code. The first scan is a baseline you review once; afterwards it shows what is new, changes or comes back after being removed, with a level that rises on each return. It only looks, never changes anything.
-* Integrity — an e-mail when a scan finds something medium or worse (optional, on by default), and a card in the Overview.
+* Integrity — scans by itself twice a day, reading files a few seconds at a time, and sends an e-mail when it finds something medium or worse (both optional, on by default). A card in the Overview.
 * Two-step login — "Send the code again" after 30 seconds, and a reminder to look in the spam folder.
 * Two-step login — administrator co-sign can be approved from recovery e-mails 2 and 3 with a one-time link, without a second administrator account. It cannot be switched on while nobody could approve your next login.
 * Forms — links in comments and contact forms checked against PhishTank (optional), also when Draco is bundled in OPNV. URLhaus stays in the standalone plugin.

@@ -61,7 +61,8 @@ On WordPress it installs from [WordPress.org](https://wordpress.org/plugins/drac
 - **Integrity (Guardia)** — WordPress core files against the official checksums from WordPress.org,
   plus administrators, plugins, must-use plugins, drop-ins, configuration files, PHP in uploads and
   scheduled tasks without code. A baseline first, reviewed once; then only what is new, changes or comes
-  back after being removed (each return raises the level), with an optional e-mail. Read only. See
+  back after being removed (each return raises the level). Twice a day by itself, in slices of a few
+  seconds, with an optional e-mail. Read only. See
   `docs/adr/0001-guardia-p1-and-link-feeds.md`.
 - **Overview** — every module at a glance, a checklist, and whether the site's PHP version still gets
   security updates.
@@ -360,6 +361,7 @@ bin/ci-http-smoke.sh                     # 403 pages, confirmation link, sign-up
 | `draco_insomnis_rest_allow` | filter | Route prefixes of /wp/v2/ that stay open to anonymous visitors when Anti-copy closes the content API. |
 | `draco_insomnis_crawler_verified` | filter | `(null, $ip, $crawler)`: return `true`/`false` to decide a crawler check yourself (tests, a local list); `null` runs the DNS check. |
 | `draco_insomnis_menu_parent` | filter | Only for a copy bundled inside another plugin (`DRACO_INSOMNIS_BUNDLED`): the menu slug Draco hangs from, as one entry. The standalone plugin ignores it and keeps its own menu. |
+| `draco_insomnis_guardia_budget` | filter | Seconds of reading per request of Guardia's scheduled scan (default: half of `max_execution_time`, at most 20). |
 | `draco_insomnis_mail_forgotten` | action | Fired when the SMTP connection is deleted; Draco switches the login code off here, since codes might not arrive. |
 
 Functions for a form Draco does not build (both do nothing while the anti-bot shield is off):
