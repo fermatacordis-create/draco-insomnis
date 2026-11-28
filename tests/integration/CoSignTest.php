@@ -106,7 +106,7 @@ final class CoSignTest extends TestCase
         $this->assertTrue($this->acceptMail($c['token'], $c));
         $this->assertTrue(CoSign::satisfiedFor($this->adminA->ID));
         $f = $this->fields('login:cosign_success');
-        $this->assertSame(3, $f['recovery_slot'] ?? 0);
+        $this->assertSame(3, (int) ($f['recovery_slot'] ?? 0), 'the log keeps fields as text');
         $this->assertSame('r3@example.org', $f['cosigner_email'] ?? '');
         $this->assertSame($c['auth_id'], $f['auth_id'] ?? '');
         $this->assertNoSession();
@@ -150,12 +150,21 @@ final class CoSignTest extends TestCase
         $this->assertFalse(CoSign::requestApproval($c['token'], $c, false));
         $this->assertSame([], $this->mails);
         $this->assertTrue(CoSign::reachableFor($this->adminA), 'admin B can still co-sign');
-        require_once ABSPATH . 'wp-admin/includes/user.php';
-        wp_delete_user($this->adminB->ID);
-        $this->assertFalse(CoSign::reachableFor($this->adminA), 'alone and without recovery 2 or 3');
-        $this->recoveryMailboxes(2);
-        $this->assertSame([2 => 'r2@example.org'], CoSign::approvers($this->adminA->ID));
-        $this->assertTrue(CoSign::reachableFor($this->adminA));
+        // Admin A alone: every other administrator (the test site has its own) becomes an editor for a moment.
+        $others = get_users(['role' => 'administrator', 'exclude' => [$this->adminA->ID]]);
+        foreach ($others as $other) {
+            $other->set_role('editor');
+        }
+        try {
+            $this->assertFalse(CoSign::reachableFor($this->adminA), 'alone and without recovery 2 or 3');
+            $this->recoveryMailboxes(2);
+            $this->assertSame([2 => 'r2@example.org'], CoSign::approvers($this->adminA->ID));
+            $this->assertTrue(CoSign::reachableFor($this->adminA));
+        } finally {
+            foreach ($others as $other) {
+                $other->set_role('administrator');
+            }
+        }
     }
 
     public function test_approval_mails_are_limited_per_hour(): void
