@@ -21,6 +21,7 @@ final class Admin
         add_action('admin_menu', [self::class, 'menu'], 11);
         add_action('admin_post_' . self::ACTION, [self::class, 'save']);
         Scanner::register();
+        Advisories\Advisories::register();
     }
 
     public static function menu(): void
@@ -57,6 +58,19 @@ final class Admin
             update_option(Scanner::OPTION_AUTO, empty($_POST['auto']) ? 'no' : 'yes', false);
             Scanner::schedule();
             $result = 'ok';
+        } elseif ($do === 'advisories') {
+            $on = !empty($_POST['advisories']);
+            update_option(Advisories\Advisories::OPTION_ENABLED, $on ? 'yes' : 'no', false);
+            if ($on) {
+                Advisories\Advisories::schedule();
+                Advisories\Advisories::run();
+            } else {
+                Advisories\Advisories::forget();
+            }
+            $result = 'advisories';
+        } elseif ($do === 'advisories_now' && Advisories\Advisories::enabled()) {
+            Advisories\Advisories::run();
+            $result = 'advisories';
         } elseif ($do === 'reviewed') {
             update_option(Store::OPTION_REVIEWED, gmdate('Y-m-d H:i'), false);
             $result = 'reviewed';
@@ -65,7 +79,7 @@ final class Admin
             Store::reset();
             $result = 'reset';
         }
-        wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=' . $result));
+        wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=' . $result) . ($result === 'advisories' ? '#draco-advisories' : ''));
         exit;
     }
 
@@ -82,6 +96,8 @@ final class Admin
             Brand::notice($last['worst'] === Diff::HIGH || $last['worst'] === Diff::CRITICAL_LEVEL ? 'error' : 'success', self::summary($last) . ($mailed > 0 ? ' ' . sprintf(__('An e-mail went to %d addresses.', 'draco-insomnis'), $mailed) : ''));
         } elseif ($result === 'ok') {
             Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
+        } elseif ($result === 'advisories') {
+            Brand::notice('success', __('Known vulnerabilities checked.', 'draco-insomnis'));
         } elseif ($result === 'reviewed') {
             Brand::notice('success', __('Baseline marked as reviewed.', 'draco-insomnis'));
         } elseif ($result === 'reset') {
@@ -124,6 +140,7 @@ final class Admin
         echo '</form>';
         Brand::cardEnd();
 
+        self::advisoriesCard();
         if ($last !== null && get_option(Store::OPTION_REVIEWED, '') === '') {
             self::baselineCard();
         }
@@ -204,6 +221,48 @@ final class Admin
             Brand::emptyRow(5, __('Nothing new since the baseline.', 'draco-insomnis'));
         }
         echo '</tbody></table></div>';
+        Brand::cardEnd();
+    }
+
+    /** Known vulnerabilities of what is installed: switch, what is sent, and the findings. */
+    private static function advisoriesCard(): void
+    {
+        $on = Advisories\Advisories::enabled();
+        $res = Advisories\Advisories::result();
+        echo '<div id="draco-advisories"></div>';
+        Brand::card('shield', __('Known vulnerabilities', 'draco-insomnis'), __('Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.', 'draco-insomnis'), Brand::pill(Brand::stateLabel($on ? 'on' : 'off'), $on ? 'on' : 'off'));
+        echo self::form('advisories'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        Brand::toggle('advisories', $on, __('Check installed software against known vulnerabilities', 'draco-insomnis'), __('Inactive plugins are checked too: their files are still on the server.', 'draco-insomnis'));
+        submit_button(__('Save', 'draco-insomnis'), 'secondary', 'submit', false);
+        echo '</form>';
+        if ($on && $res !== null) {
+            /* translators: 1: date and time (UTC), 2: number of plugins and themes checked */
+            echo '<p class="description" style="margin-top:10px">' . esc_html(sprintf(__('Last check: %1$s UTC · %2$d plugins, themes and WordPress checked', 'draco-insomnis'), gmdate('Y-m-d H:i', (int) $res['at']), (int) $res['checked']));
+            if ((int) $res['pending'] > 0) {
+                /* translators: %d: number still to check */
+                echo ' · ' . esc_html(sprintf(__('%d still to check: they follow on the next round.', 'draco-insomnis'), (int) $res['pending']));
+            }
+            echo ' ' . self::form('advisories_now'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            submit_button(__('Check now', 'draco-insomnis'), 'link', 'submit', false);
+            echo '</form></p>';
+            $kinds = ['core' => 'WordPress', 'plugin' => __('Plugin', 'draco-insomnis'), 'theme' => __('Theme', 'draco-insomnis')];
+            echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Level', 'draco-insomnis') . '</th><th>' . esc_html__('Item', 'draco-insomnis') . '</th><th>' . esc_html__('Vulnerability', 'draco-insomnis') . '</th><th>' . esc_html__('Fix', 'draco-insomnis') . '</th></tr></thead><tbody>';
+            foreach ((array) $res['items'] as $f) {
+                $what = (string) $f['uuid'] === Advisories\Advisories::CLOSED . '|' . (string) $f['slug']
+                    ? __('Closed on WordPress.org: it gets no updates, often for security reasons.', 'draco-insomnis') . ((string) $f['title'] !== '' ? ' (' . (string) $f['title'] . ')' : '')
+                    : (string) $f['title'];
+                $cve = (array) $f['cve'] !== [] ? ' · ' . implode(', ', (array) $f['cve']) : '';
+                $link = (string) $f['link'] !== '' ? ' <a href="' . esc_url((string) $f['link']) . '" target="_blank" rel="noopener">' . esc_html__('details', 'draco-insomnis') . '</a>' : '';
+                $fix = (string) $f['fixed'] !== '' ? sprintf(__('Update to %s or later', 'draco-insomnis'), (string) $f['fixed']) : __('No fix listed', 'draco-insomnis');
+                echo '<tr><td>' . self::severityPill((string) $f['severity']) . ((bool) $f['unauth'] ? '<br><small>' . esc_html__('without logging in', 'draco-insomnis') . '</small>' : '') . '</td>'
+                    . '<td>' . esc_html(($kinds[(string) $f['type']] ?? '') . ' · ' . (string) $f['name'] . ' ' . (string) $f['version']) . (!(bool) $f['active'] ? ' <small>(' . esc_html__('inactive', 'draco-insomnis') . ')</small>' : '') . '</td>'
+                    . '<td>' . esc_html($what . $cve) . $link . '</td><td>' . esc_html($fix) . '</td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- pill and link escape
+            }
+            if ((array) $res['items'] === []) {
+                Brand::emptyRow(4, __('No known vulnerabilities in what is installed.', 'draco-insomnis'));
+            }
+            echo '</tbody></table></div>';
+        }
         Brand::cardEnd();
     }
 
@@ -289,6 +348,13 @@ final class Admin
         foreach (Store::findings(50) as $f) {
             if (in_array($f['severity'], [Diff::HIGH, Diff::CRITICAL_LEVEL], true) && strtotime((string) $f['observed_at'] . ' UTC') > time() - 30 * DAY_IN_SECONDS) {
                 $serious++;
+            }
+        }
+
+        $adv = Advisories\Advisories::enabled() ? Advisories\Advisories::result() : null;
+        if ($adv !== null) {
+            foreach ((array) $adv['items'] as $f) {
+                $serious += in_array($f['severity'], [Diff::HIGH, Diff::CRITICAL_LEVEL], true) ? 1 : 0;
             }
         }
 

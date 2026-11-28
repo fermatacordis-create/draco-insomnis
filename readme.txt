@@ -109,6 +109,7 @@ Shows what an intruder changed to stay, and what comes back after you removed it
 
 * **Core files against the WordPress.org checksums**: a modified core file, or PHP in wp-admin, wp-includes or the root that WordPress does not ship, is high from the first scan.
 * **Also watched**: administrators, plugins, must-use plugins, drop-ins, wp-config.php, .htaccess, PHP in uploads and scheduled tasks without code.
+* **Known vulnerabilities** (optional): installed plugins, themes and WordPress checked against WPVulnerability.
 * **Baseline first**, reviewed once; then only what is new, changes or comes back. Each return raises the level.
 * **By itself twice a day**, a few seconds at a time so the site does not slow down, and an **e-mail** when it finds something medium or worse (both optional).
 
@@ -214,6 +215,16 @@ When: at the first scan after each WordPress update, once per version and langua
 Data sent: the WordPress version and language, to https://api.wordpress.org/core/checksums/1.0/. Nothing about the site's files or users.
 
 Service: WordPress.org. Privacy policy: https://wordpress.org/about/privacy/
+
+= Known vulnerabilities (WPVulnerability) =
+
+What and why: Integrity checks installed plugins, themes and WordPress against known vulnerabilities.
+
+When: only if switched on; twice a day, answers kept 24 hours.
+
+Data sent: the slugs of installed plugins and themes and the WordPress version. Installed versions are compared on the site.
+
+Service: WPVulnerability, data CC0 1.0. https://www.wpvulnerability.com/license/
 
 = Site mail (SMTP) =
 
