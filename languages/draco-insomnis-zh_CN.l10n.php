@@ -6,6 +6,11 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Scan by itself twice a day' => '每天自动扫描两次',
+    'Starts after you take the baseline.' => '建立基准后开始。',
+    'A scan is going on now, a few seconds at a time.' => '正在扫描，每次几秒。',
+    'Next one: %s UTC. It reads files a few seconds at a time, so the site does not slow down.' => '下一次：%s UTC。每次只读取几秒钟的文件，网站不会变慢。',
+    'automatic' => '自动',
     'Guardia found changes to review' => 'Guardia 发现了需要检查的变化',
     'Many items came back at once: it looks like a restored backup. If you did not restore one, look at the list in Integrity.' => '许多项目同时回来了：看起来像是恢复了备份。如果您没有恢复过备份，请查看“完整性”中的列表。',
     'The last scan of %2$s found %1$d things worth a look:' => '%2$s 的上次扫描发现了 %1$d 项值得查看的内容：',

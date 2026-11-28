@@ -6,6 +6,11 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Scan by itself twice a day' => 'Analisar sozinho duas vezes por dia',
+    'Starts after you take the baseline.' => 'Começa depois de criar a referência.',
+    'A scan is going on now, a few seconds at a time.' => 'Está a decorrer uma análise, alguns segundos de cada vez.',
+    'Next one: %s UTC. It reads files a few seconds at a time, so the site does not slow down.' => 'Próxima: %s UTC. Lê os ficheiros alguns segundos de cada vez, para o site não ficar lento.',
+    'automatic' => 'automática',
     'Guardia found changes to review' => 'O Guardia encontrou alterações para rever',
     'Many items came back at once: it looks like a restored backup. If you did not restore one, look at the list in Integrity.' => 'Muitos elementos voltaram ao mesmo tempo: parece uma cópia de segurança restaurada. Se não restaurou nenhuma, veja a lista em Integridade.',
     'The last scan of %2$s found %1$d things worth a look:' => 'A última análise de %2$s encontrou %1$d coisas que merecem atenção:',

@@ -6,6 +6,11 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Scan by itself twice a day' => 'Tự quét hai lần mỗi ngày',
+    'Starts after you take the baseline.' => 'Bắt đầu sau khi bạn lấy mốc tham chiếu.',
+    'A scan is going on now, a few seconds at a time.' => 'Đang có một lần quét, mỗi lượt vài giây.',
+    'Next one: %s UTC. It reads files a few seconds at a time, so the site does not slow down.' => 'Lần tới: %s UTC. Đọc tệp mỗi lượt vài giây để trang không bị chậm.',
+    'automatic' => 'tự động',
     'Guardia found changes to review' => 'Guardia tìm thấy thay đổi cần xem lại',
     'Many items came back at once: it looks like a restored backup. If you did not restore one, look at the list in Integrity.' => 'Nhiều mục quay lại cùng lúc: có vẻ là bản sao lưu được khôi phục. Nếu bạn không khôi phục bản nào, hãy xem danh sách trong Toàn vẹn.',
     'The last scan of %2$s found %1$d things worth a look:' => 'Lần quét gần nhất của %2$s tìm thấy %1$d điều đáng xem:',

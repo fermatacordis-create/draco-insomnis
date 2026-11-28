@@ -3260,3 +3260,23 @@ msgstr ""
 #: src/Admin/Overview.php
 msgid "Guardia has a baseline of the site and you reviewed it"
 msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Scan by itself twice a day"
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Starts after you take the baseline."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "A scan is going on now, a few seconds at a time."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "Next one: %s UTC. It reads files a few seconds at a time, so the site does not slow down."
+msgstr ""
+
+#: src/Guardia/Admin.php
+msgid "automatic"
+msgstr ""

@@ -6,6 +6,11 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Scan by itself twice a day' => 'Kusang mag-scan dalawang beses isang araw',
+    'Starts after you take the baseline.' => 'Magsisimula pagkatapos mong kunin ang batayan.',
+    'A scan is going on now, a few seconds at a time.' => 'May scan na tumatakbo ngayon, ilang segundo bawat beses.',
+    'Next one: %s UTC. It reads files a few seconds at a time, so the site does not slow down.' => 'Susunod: %s UTC. Binabasa nito ang mga file nang ilang segundo bawat beses para hindi bumagal ang site.',
+    'automatic' => 'awtomatiko',
     'Guardia found changes to review' => 'May nakitang pagbabago ang Guardia na dapat suriin',
     'Many items came back at once: it looks like a restored backup. If you did not restore one, look at the list in Integrity.' => 'Maraming item ang sabay-sabay na bumalik: mukhang ibinalik na backup. Kung wala kang ibinalik, tingnan ang listahan sa Integridad.',
     'The last scan of %2$s found %1$d things worth a look:' => 'Nakakita ang huling scan ng %2$s ng %1$d bagay na dapat tingnan:',

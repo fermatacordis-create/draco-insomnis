@@ -6,6 +6,11 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Scan by itself twice a day' => 'Changanua yenyewe mara mbili kwa siku',
+    'Starts after you take the baseline.' => 'Huanza baada ya kuchukua msingi.',
+    'A scan is going on now, a few seconds at a time.' => 'Uchanganuzi unaendelea sasa, sekunde chache kila mara.',
+    'Next one: %s UTC. It reads files a few seconds at a time, so the site does not slow down.' => 'Unaofuata: %s UTC. Husoma faili sekunde chache kila mara ili tovuti isipunguze kasi.',
+    'automatic' => 'kiotomatiki',
     'Guardia found changes to review' => 'Guardia imepata mabadiliko ya kukagua',
     'Many items came back at once: it looks like a restored backup. If you did not restore one, look at the list in Integrity.' => 'Vipengee vingi vimerudi kwa pamoja: inaonekana kama nakala rudufu iliyorejeshwa. Kama hukurejesha yoyote, tazama orodha kwenye Uadilifu.',
     'The last scan of %2$s found %1$d things worth a look:' => 'Uchanganuzi wa mwisho wa %2$s umepata mambo %1$d yanayostahili kutazamwa:',

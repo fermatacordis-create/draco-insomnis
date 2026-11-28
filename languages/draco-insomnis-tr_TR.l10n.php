@@ -6,6 +6,11 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Scan by itself twice a day' => 'Günde iki kez kendiliğinden tara',
+    'Starts after you take the baseline.' => 'Referansı aldıktan sonra başlar.',
+    'A scan is going on now, a few seconds at a time.' => 'Şu anda bir tarama sürüyor, her seferinde birkaç saniye.',
+    'Next one: %s UTC. It reads files a few seconds at a time, so the site does not slow down.' => 'Sonraki: %s UTC. Site yavaşlamasın diye dosyaları her seferinde birkaç saniye okur.',
+    'automatic' => 'otomatik',
     'Guardia found changes to review' => 'Guardia gözden geçirilecek değişiklikler buldu',
     'Many items came back at once: it looks like a restored backup. If you did not restore one, look at the list in Integrity.' => 'Pek çok öğe aynı anda geri geldi: geri yüklenmiş bir yedeğe benziyor. Yedek geri yüklemediyseniz Bütünlük\'teki listeye bakın.',
     'The last scan of %2$s found %1$d things worth a look:' => '%2$s sitesinin son taraması bakmaya değer %1$d şey buldu:',

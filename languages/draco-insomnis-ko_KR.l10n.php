@@ -6,6 +6,11 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Scan by itself twice a day' => '하루 두 번 자동으로 스캔',
+    'Starts after you take the baseline.' => '기준을 만든 뒤에 시작합니다.',
+    'A scan is going on now, a few seconds at a time.' => '지금 스캔이 진행 중입니다(몇 초씩).',
+    'Next one: %s UTC. It reads files a few seconds at a time, so the site does not slow down.' => '다음: %s UTC. 사이트가 느려지지 않도록 파일을 몇 초씩 나눠 읽습니다.',
+    'automatic' => '자동',
     'Guardia found changes to review' => 'Guardia가 검토할 변경 사항을 찾았습니다',
     'Many items came back at once: it looks like a restored backup. If you did not restore one, look at the list in Integrity.' => '많은 항목이 한꺼번에 다시 나타났습니다. 백업을 복원한 것 같습니다. 복원한 적이 없다면 「무결성」에서 목록을 보세요.',
     'The last scan of %2$s found %1$d things worth a look:' => '%2$s의 마지막 스캔에서 살펴볼 항목 %1$d개를 찾았습니다:',
