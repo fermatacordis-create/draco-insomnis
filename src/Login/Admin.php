@@ -56,7 +56,13 @@ final class Admin
         $who = sanitize_key((string) ($_POST['who'] ?? 'admins'));
         update_option(Mfa::OPTION_WHO, in_array($who, ['admins', 'editors', 'all'], true) ? $who : 'admins');
         update_option(Mfa::OPTION_TRUST, empty($_POST['trust']) ? 'no' : 'yes');
-        update_option(CoSign::OPTION_ENABLED, empty($_POST['cosign']) ? 'no' : 'yes');
+        $cosign = !empty($_POST['cosign']);
+        // Never switched on when nobody could co-sign your own next login.
+        if ($cosign && get_option(CoSign::OPTION_ENABLED, 'no') !== 'yes' && !CoSign::reachableFor(wp_get_current_user())) {
+            $cosign = false;
+            $result = 'cosign_blocked';
+        }
+        update_option(CoSign::OPTION_ENABLED, $cosign ? 'yes' : 'no');
         if (empty($_POST['trust'])) {
             TrustedDevice::revokeAll(get_current_user_id());
         }
@@ -148,6 +154,8 @@ final class Admin
             Brand::notice('error', AccountLock::blocker());
         } elseif ($result === 'blocked') {
             Brand::notice('error', Mfa::blocker());
+        } elseif ($result === 'cosign_blocked') {
+            Brand::notice('error', __('Administrator co-sign was not switched on: nobody could approve your next login. Add recovery e-mails 2 and 3 first, or create a second administrator.', 'draco-insomnis'), admin_url('admin.php?page=' . Recovery::SLUG), __('Recovery e-mail →', 'draco-insomnis'));
         } elseif ($result === 'ok') {
             Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
         }
@@ -173,6 +181,11 @@ final class Admin
         /* translators: %d: days */
         Brand::toggle('trust', get_option(Mfa::OPTION_TRUST, 'yes') === 'yes', sprintf(__('Offer "Trust this device for %d days"', 'draco-insomnis'), TrustedDevice::DAYS), __('Trusted devices skip only the verification code. A second administrator approval is still required when CoSign is enabled.', 'draco-insomnis'));
         Brand::toggle('cosign', get_option(CoSign::OPTION_ENABLED, 'no') === 'yes', __('Administrator co-sign', 'draco-insomnis'), __('A second administrator must approve this sign-in. The session belongs only to the first account.', 'draco-insomnis'));
+        $approvers = CoSign::approvers(get_current_user_id());
+        echo '<p class="description">' . esc_html($approvers !== []
+            /* translators: %s: recovery e-mail addresses */
+            ? sprintf(__('Your sign-ins can be approved by a link sent to recovery e-mails 2 and 3 (%s), or by another administrator.', 'draco-insomnis'), implode(', ', $approvers))
+            : __('Add recovery e-mails 2 and 3 to approve your sign-ins by a link sent to them, without a second administrator account.', 'draco-insomnis')) . '</p>';
         if ($cosignOn) {
             echo '<p class="description">' . esc_html__('Service accounts cannot be used for co-sign approval.', 'draco-insomnis') . '</p>';
             echo '<p class="description">' . esc_html__('Trust Device is not a trusted login: passwords A and B and co-sign stay mandatory; only the e-mail code may be skipped. Prefer a quiet approval account (Admin B) with its own mailbox, unused on the public site.', 'draco-insomnis') . '</p>';

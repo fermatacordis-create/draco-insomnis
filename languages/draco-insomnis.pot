@@ -3004,3 +3004,87 @@ msgstr ""
 #, php-format
 msgid "Automatic: %d bot attempts in 24 h"
 msgstr ""
+
+#: src/Login/CoSign.php
+msgid "The approval e-mail could not be sent. Wait a few minutes and try again."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "The sign-in was rejected from a recovery e-mail. Nobody was logged in."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "We sent a link to your recovery e-mails 2 and 3. Open it, check the details and press «Approve»: this page continues on its own."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Ask for approval by e-mail: a link goes to your recovery e-mails 2 and 3. Whoever reads them approves or rejects this sign-in; no other account is needed."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Send the approval link"
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Or another administrator co-signs here with their own password:"
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Nobody can co-sign this account: there is no other administrator and no recovery e-mail 2 or 3. Add define('DRACO_COSIGN_OFF', true); to wp-config.php, log in, add the e-mails and remove the line."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Approve a sign-in"
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "%1$s wants to sign in to %2$s and needs your approval."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "From IP %1$s · %2$s · %3$s UTC"
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Open the link to approve or reject it. If you do not know about this sign-in, reject it: nobody gets in. Then change the password of the account."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "The link works once and expires in 10 minutes. You receive it because this address is a recovery e-mail of the account."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Review the sign-in"
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Approved. The sign-in continues on the device that asked for it."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "Rejected. Nobody was logged in. If you did not expect this, change the password of the account."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "%s is trying to sign in."
+msgstr ""
+
+#: src/Login/CoSign.php
+msgid "It was not me"
+msgstr ""
+
+#: src/Login/Admin.php
+msgid "Administrator co-sign was not switched on: nobody could approve your next login. Add recovery e-mails 2 and 3 first, or create a second administrator."
+msgstr ""
+
+#: src/Login/Admin.php
+msgid "Recovery e-mail →"
+msgstr ""
+
+#: src/Login/Admin.php
+msgid "Your sign-ins can be approved by a link sent to recovery e-mails 2 and 3 (%s), or by another administrator."
+msgstr ""
+
+#: src/Login/Admin.php
+msgid "Add recovery e-mails 2 and 3 to approve your sign-ins by a link sent to them, without a second administrator account."
+msgstr ""
