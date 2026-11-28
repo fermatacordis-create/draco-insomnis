@@ -11,6 +11,7 @@ return array (
     'Too many codes this hour. Try again later.' => 'इस घंटे में बहुत ज़्यादा कोड। बाद में फिर कोशिश करें।',
     'Has it not arrived? Look in spam, or send a new code.' => 'नहीं पहुँचा? स्पैम में देखें, या नया कोड भेजें।',
     'Send a new code' => 'नया कोड भेजें',
+    'Close' => 'बंद करें',
     'by %1$s · %2$s · %3$s' => '%1$s · %2$s · %3$s द्वारा',
     'Firewall' => 'फ़ायरवॉल',
     'You are not allowed to do this.' => 'आपको यह करने की अनुमति नहीं है।',

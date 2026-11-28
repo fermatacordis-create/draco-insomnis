@@ -11,6 +11,7 @@ return array (
     'Too many codes this hour. Try again later.' => 'ขอรหัสมากเกินไปในชั่วโมงนี้ ลองใหม่ภายหลัง',
     'Has it not arrived? Look in spam, or send a new code.' => 'ยังไม่ได้รับ? ดูในโฟลเดอร์สแปม หรือส่งรหัสใหม่',
     'Send a new code' => 'ส่งรหัสใหม่',
+    'Close' => 'ปิด',
     'by %1$s · %2$s · %3$s' => 'โดย %1$s · %2$s · %3$s',
     'Firewall' => 'ไฟร์วอลล์',
     'You are not allowed to do this.' => 'คุณไม่ได้รับอนุญาตให้ทำสิ่งนี้',

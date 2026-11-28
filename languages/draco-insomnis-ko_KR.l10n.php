@@ -11,6 +11,7 @@ return array (
     'Too many codes this hour. Try again later.' => '이번 시간에 코드를 너무 많이 요청했습니다. 나중에 다시 시도하세요.',
     'Has it not arrived? Look in spam, or send a new code.' => '도착하지 않았나요? 스팸함을 확인하거나 새 코드를 보내세요.',
     'Send a new code' => '새 코드 보내기',
+    'Close' => '닫기',
     'by %1$s · %2$s · %3$s' => '제작: %1$s · %2$s · %3$s',
     'Firewall' => '방화벽',
     'You are not allowed to do this.' => '이 작업을 할 권한이 없습니다.',

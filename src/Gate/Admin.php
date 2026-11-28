@@ -173,7 +173,7 @@ final class Admin
             /* translators: %s: short reason, such as "HTTP 403" */
             Brand::notice('error', sprintf(__('The URLhaus list could not be downloaded (%s). Links are not checked until it is.', 'draco-insomnis'), LinkCheck::state()['error']));
         } elseif ($result === 'ok') {
-            Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
+            Brand::toast(__('Changes saved.', 'draco-insomnis'));
         }
         if ($enabled && !Transport::hasSmtp()) {
             Brand::notice('error', __('It is on without SMTP. If the confirmation mail does not arrive, messages are deleted after 48 hours without anyone knowing.', 'draco-insomnis'), admin_url('admin.php?page=draco-insomnis-mail'), __('Set up Site mail (SMTP) →', 'draco-insomnis'));

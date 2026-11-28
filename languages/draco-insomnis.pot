@@ -3023,4 +3023,6 @@ msgstr ""
 
 #: src/Login/Recovery.php
 msgid "Send a new code"
+#: src/Admin/Brand.php
+msgid "Close"
 msgstr ""

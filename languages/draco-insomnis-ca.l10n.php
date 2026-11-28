@@ -11,6 +11,7 @@ return array (
     'Too many codes this hour. Try again later.' => 'Massa codis en aquesta hora. Torna-ho a provar més tard.',
     'Has it not arrived? Look in spam, or send a new code.' => 'No t’ha arribat? Mira al correu brossa o envia un codi nou.',
     'Send a new code' => 'Envia un codi nou',
+    'Close' => 'Tanca',
     'by %1$s · %2$s · %3$s' => 'per %1$s · %2$s · %3$s',
     'Firewall' => 'Tallafoc',
     'You are not allowed to do this.' => 'No tens permís per fer això.',

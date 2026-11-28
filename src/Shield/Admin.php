@@ -91,7 +91,7 @@ final class Admin
         if ($result === 'refused') {
             Brand::notice('error', __('Nothing was blocked: the value is not valid, belongs to an administrator, or is your own address.', 'draco-insomnis'));
         } elseif ($result === 'ok') {
-            Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
+            Brand::toast(__('Changes saved.', 'draco-insomnis'));
         } elseif ($result === 'report_sent') {
             Brand::notice('success', __('Abuse report sent. Replies will arrive at the administrator e-mail.', 'draco-insomnis'));
         } elseif ($result === 'report_failed') {

@@ -11,6 +11,7 @@ return array (
     'Too many codes this hour. Try again later.' => 'Zu viele Codes in dieser Stunde. Versuch es später noch einmal.',
     'Has it not arrived? Look in spam, or send a new code.' => 'Nicht angekommen? Sieh im Spam nach oder lass dir einen neuen Code senden.',
     'Send a new code' => 'Neuen Code senden',
+    'Close' => 'Schließen',
     'by %1$s · %2$s · %3$s' => 'von %1$s · %2$s · %3$s',
     'Firewall' => 'Firewall',
     'You are not allowed to do this.' => 'Dazu bist du nicht berechtigt.',

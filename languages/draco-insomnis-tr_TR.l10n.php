@@ -11,6 +11,7 @@ return array (
     'Too many codes this hour. Try again later.' => 'Bu saat içinde çok fazla kod. Daha sonra yeniden deneyin.',
     'Has it not arrived? Look in spam, or send a new code.' => 'Gelmedi mi? İstenmeyen klasörüne bakın ya da yeni bir kod gönderin.',
     'Send a new code' => 'Yeni kod gönder',
+    'Close' => 'Kapat',
     'by %1$s · %2$s · %3$s' => '%1$s · %2$s · %3$s tarafından',
     'Firewall' => 'Güvenlik duvarı',
     'You are not allowed to do this.' => 'Bunu yapma izniniz yok.',

@@ -11,6 +11,7 @@ return array (
     'Too many codes this hour. Try again later.' => 'Te veel codes dit uur. Probeer het later opnieuw.',
     'Has it not arrived? Look in spam, or send a new code.' => 'Niet aangekomen? Kijk in je spam of stuur een nieuwe code.',
     'Send a new code' => 'Nieuwe code sturen',
+    'Close' => 'Sluiten',
     'by %1$s · %2$s · %3$s' => 'door %1$s · %2$s · %3$s',
     'Firewall' => 'Firewall',
     'You are not allowed to do this.' => 'Je hebt geen toestemming om dit te doen.',

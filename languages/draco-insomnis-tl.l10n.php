@@ -11,6 +11,7 @@ return array (
     'Too many codes this hour. Try again later.' => 'Sobrang daming code ngayong oras. Subukan ulit mamaya.',
     'Has it not arrived? Look in spam, or send a new code.' => 'Hindi dumating? Tingnan sa spam, o magpadala ng bagong code.',
     'Send a new code' => 'Magpadala ng bagong code',
+    'Close' => 'Isara',
     'by %1$s · %2$s · %3$s' => 'ni %1$s · %2$s · %3$s',
     'Firewall' => 'Firewall',
     'You are not allowed to do this.' => 'Hindi ka pinapayagang gawin ito.',

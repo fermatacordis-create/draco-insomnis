@@ -11,6 +11,7 @@ return array (
     'Too many codes this hour. Try again later.' => 'இந்த மணிநேரத்தில் மிக அதிக குறியீடுகள். பிறகு மீண்டும் முயற்சிக்கவும்.',
     'Has it not arrived? Look in spam, or send a new code.' => 'வரவில்லையா? ஸ்பேமில் பாருங்கள், அல்லது புதிய குறியீட்டை அனுப்புங்கள்.',
     'Send a new code' => 'புதிய குறியீட்டை அனுப்பு',
+    'Close' => 'மூடு',
     'by %1$s · %2$s · %3$s' => '%1$s · %2$s · %3$s வழங்கியது',
     'Firewall' => 'ஃபயர்வால்',
     'You are not allowed to do this.' => 'இதைச் செய்ய உங்களுக்கு அனுமதி இல்லை.',

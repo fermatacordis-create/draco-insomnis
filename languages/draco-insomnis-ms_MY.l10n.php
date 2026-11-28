@@ -11,6 +11,7 @@ return array (
     'Too many codes this hour. Try again later.' => 'Terlalu banyak kod dalam jam ini. Cuba lagi kemudian.',
     'Has it not arrived? Look in spam, or send a new code.' => 'Belum sampai? Semak folder spam, atau hantar kod baharu.',
     'Send a new code' => 'Hantar kod baharu',
+    'Close' => 'Tutup',
     'by %1$s · %2$s · %3$s' => 'oleh %1$s · %2$s · %3$s',
     'Firewall' => 'Tembok api',
     'You are not allowed to do this.' => 'Anda tidak dibenarkan melakukan ini.',

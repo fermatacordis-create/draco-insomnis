@@ -11,6 +11,7 @@ return array (
     'Too many codes this hour. Try again later.' => 'Слишком много кодов за этот час. Попробуйте позже.',
     'Has it not arrived? Look in spam, or send a new code.' => 'Не пришёл? Проверьте папку «Спам» или отправьте новый код.',
     'Send a new code' => 'Отправить новый код',
+    'Close' => 'Закрыть',
     'by %1$s · %2$s · %3$s' => 'от %1$s · %2$s · %3$s',
     'Firewall' => 'Брандмауэр',
     'You are not allowed to do this.' => 'У вас нет прав на это действие.',

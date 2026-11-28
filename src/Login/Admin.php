@@ -149,7 +149,7 @@ final class Admin
         } elseif ($result === 'blocked') {
             Brand::notice('error', Mfa::blocker());
         } elseif ($result === 'ok') {
-            Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
+            Brand::toast(__('Changes saved.', 'draco-insomnis'));
         }
         if (defined('DRACO_MFA_OFF') && DRACO_MFA_OFF) {
             Brand::notice('warning', __('DRACO_MFA_OFF is set in wp-config.php: no codes are asked for. Remove that line once you are back in.', 'draco-insomnis'));
