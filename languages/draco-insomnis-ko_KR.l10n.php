@@ -6,6 +6,16 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'PhishTank list downloaded: %d entries.' => 'PhishTank 목록을 내려받았습니다: %d개 항목.',
+    'The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.' => 'PhishTank 목록을 내려받지 못했습니다(%s). 내려받을 때까지 이 목록으로 링크를 확인하지 않습니다.',
+    'Phishing links are no longer checked.' => '더 이상 피싱 링크를 확인하지 않습니다.',
+    'Phishing links (PhishTank)' => '피싱 링크(PhishTank)',
+    'Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.' => '댓글과 문의 양식의 링크를 Cisco Talos가 관리하는, 확인되었고 아직 온라인 상태인 피싱 페이지 목록 PhishTank와 대조합니다. 목록은 하루 두 번 내려받아 이 서버에서 조회합니다. 방문자가 쓴 내용은 어디에도 보내지지 않습니다. 목록에 있는 링크가 담긴 댓글은 스팸으로 가고, 그런 링크가 담긴 문의 메시지는 전달되지 않습니다.',
+    'PhishTank allows commercial and non-commercial use.' => 'PhishTank는 상업적·비상업적 사용을 모두 허용합니다.',
+    'PhishTank FAQ' => 'PhishTank FAQ',
+    'Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:' => '키가 없으면 PhishTank는 같은 서버에서 하루 몇 번만 내려받기를 허용합니다. 내려받기에 실패하면 phishtank.org에서 무료 계정을 만들고 애플리케이션 키를 wp-config.php에 추가하세요:',
+    'The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.' => '목록이 %s 이후로 바뀌지 않았습니다. PhishTank가 업데이트를 멈췄을 수 있습니다. 링크는 계속 마지막 사본으로 확인됩니다.',
+    'Check links in comments and contact forms against PhishTank' => '댓글과 문의 양식의 링크를 PhishTank로 확인',
     'by %1$s · %2$s · %3$s' => '제작: %1$s · %2$s · %3$s',
     'Firewall' => '방화벽',
     'You are not allowed to do this.' => '이 작업을 할 권한이 없습니다.',

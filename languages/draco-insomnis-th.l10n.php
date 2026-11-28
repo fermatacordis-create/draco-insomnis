@@ -6,6 +6,16 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'PhishTank list downloaded: %d entries.' => 'ดาวน์โหลดรายการ PhishTank แล้ว: %d รายการ',
+    'The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.' => 'ดาวน์โหลดรายการ PhishTank ไม่ได้ (%s) จนกว่าจะดาวน์โหลดได้ จะไม่ตรวจลิงก์กับรายการนี้',
+    'Phishing links are no longer checked.' => 'ไม่ตรวจลิงก์ฟิชชิงอีกต่อไป',
+    'Phishing links (PhishTank)' => 'ลิงก์ฟิชชิง (PhishTank)',
+    'Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.' => 'ลิงก์ในความคิดเห็นและแบบฟอร์มติดต่อจะถูกตรวจกับ PhishTank ซึ่งเป็นรายการหน้าฟิชชิงที่ยืนยันแล้วและยังออนไลน์อยู่ ดูแลโดย Cisco Talos รายการจะถูกดาวน์โหลดวันละสองครั้งและค้นหาบนเซิร์ฟเวอร์นี้ ไม่มีสิ่งที่ผู้เยี่ยมชมเขียนถูกส่งไปที่ใด ความคิดเห็นที่มีลิงก์ในรายการจะไปที่สแปม และข้อความติดต่อที่มีลิงก์ดังกล่าวจะไม่ถูกส่ง',
+    'PhishTank allows commercial and non-commercial use.' => 'PhishTank อนุญาตให้ใช้ทั้งเชิงพาณิชย์และไม่ใช่เชิงพาณิชย์',
+    'PhishTank FAQ' => 'คำถามที่พบบ่อยของ PhishTank',
+    'Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:' => 'หากไม่มีคีย์ PhishTank อนุญาตให้ดาวน์โหลดจากเซิร์ฟเวอร์เดียวกันได้เพียงไม่กี่ครั้งต่อวัน หากดาวน์โหลดไม่สำเร็จ ให้สร้างบัญชีฟรีที่ phishtank.org แล้วเพิ่มคีย์แอปพลิเคชันลงใน wp-config.php:',
+    'The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.' => 'รายการไม่เปลี่ยนตั้งแต่ %s: PhishTank อาจหยุดอัปเดตแล้ว ลิงก์ยังคงถูกตรวจกับสำเนาล่าสุด',
+    'Check links in comments and contact forms against PhishTank' => 'ตรวจลิงก์ในความคิดเห็นและแบบฟอร์มติดต่อกับ PhishTank',
     'by %1$s · %2$s · %3$s' => 'โดย %1$s · %2$s · %3$s',
     'Firewall' => 'ไฟร์วอลล์',
     'You are not allowed to do this.' => 'คุณไม่ได้รับอนุญาตให้ทำสิ่งนี้',

@@ -6,6 +6,16 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'PhishTank list downloaded: %d entries.' => '已下载 PhishTank 列表：%d 条。',
+    'The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.' => '无法下载 PhishTank 列表（%s）。下载成功前不会用它检查链接。',
+    'Phishing links are no longer checked.' => '已不再检查钓鱼链接。',
+    'Phishing links (PhishTank)' => '钓鱼链接（PhishTank）',
+    'Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.' => '评论和联系表单中的链接会与 PhishTank 对照，这是由 Cisco Talos 维护、经过验证且仍在线的钓鱼页面列表。列表每天下载两次，并在本服务器上查询：访客写的任何内容都不会被发送到别处。含有列表中链接的评论会进入垃圾评论；含有此类链接的联系消息不会被投递。',
+    'PhishTank allows commercial and non-commercial use.' => 'PhishTank 允许商业和非商业使用。',
+    'PhishTank FAQ' => 'PhishTank 常见问题',
+    'Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:' => '没有密钥时，PhishTank 只允许同一服务器每天下载几次。如果下载失败，请在 phishtank.org 免费注册账户，并把应用密钥添加到 wp-config.php：',
+    'The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.' => '该列表自 %s 起未再变化：PhishTank 可能已停止更新。链接仍按最后一份副本检查。',
+    'Check links in comments and contact forms against PhishTank' => '用 PhishTank 检查评论和联系表单中的链接',
     'by %1$s · %2$s · %3$s' => '出品：%1$s · %2$s · %3$s',
     'Firewall' => '防火墙',
     'You are not allowed to do this.' => '你没有权限执行此操作。',

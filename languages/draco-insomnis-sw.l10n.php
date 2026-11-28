@@ -6,6 +6,16 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'PhishTank list downloaded: %d entries.' => 'Orodha ya PhishTank imepakuliwa: maingizo %d.',
+    'The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.' => 'Orodha ya PhishTank haikuweza kupakuliwa (%s). Hadi ipakuliwe, viungo havikaguliwi nayo.',
+    'Phishing links are no longer checked.' => 'Viungo vya hadaa havikaguliwi tena.',
+    'Phishing links (PhishTank)' => 'Viungo vya hadaa (PhishTank)',
+    'Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.' => 'Viungo kwenye maoni na fomu za mawasiliano hukaguliwa dhidi ya PhishTank, orodha ya kurasa za hadaa zilizothibitishwa ambazo bado ziko mtandaoni, inayotunzwa na Cisco Talos. Orodha hupakuliwa mara mbili kwa siku na kuangaliwa kwenye seva hii: hakuna wanachoandika wageni kinachotumwa popote. Maoni yenye kiungo kilichoorodheshwa huenda kwenye barua taka; ujumbe wa mawasiliano wenye kiungo kama hicho haufikishwi.',
+    'PhishTank allows commercial and non-commercial use.' => 'PhishTank inaruhusu matumizi ya kibiashara na yasiyo ya kibiashara.',
+    'PhishTank FAQ' => 'Maswali ya PhishTank',
+    'Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:' => 'Bila ufunguo, PhishTank inaruhusu upakuaji mara chache tu kwa siku kutoka seva moja. Upakuaji ukishindwa, fungua akaunti ya bure kwenye phishtank.org na uongeze ufunguo wako wa programu kwenye wp-config.php:',
+    'The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.' => 'Orodha haijabadilika tangu %s: huenda PhishTank imeacha kuisasisha. Viungo bado vinakaguliwa dhidi ya nakala ya mwisho.',
+    'Check links in comments and contact forms against PhishTank' => 'Kagua viungo vya maoni na fomu za mawasiliano dhidi ya PhishTank',
     'by %1$s · %2$s · %3$s' => 'na %1$s · %2$s · %3$s',
     'Firewall' => 'Ngome ya mtandao',
     'You are not allowed to do this.' => 'Huruhusiwi kufanya hivi.',

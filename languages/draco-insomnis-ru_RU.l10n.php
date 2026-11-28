@@ -6,6 +6,16 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'PhishTank list downloaded: %d entries.' => 'Список PhishTank загружен: %d записей.',
+    'The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.' => 'Не удалось загрузить список PhishTank (%s). Пока он не загружен, ссылки по нему не проверяются.',
+    'Phishing links are no longer checked.' => 'Фишинговые ссылки больше не проверяются.',
+    'Phishing links (PhishTank)' => 'Фишинговые ссылки (PhishTank)',
+    'Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.' => 'Ссылки в комментариях и контактных формах проверяются по PhishTank — списку подтверждённых фишинговых страниц, которые всё ещё работают; его ведёт Cisco Talos. Список загружается дважды в день и проверяется на этом сервере: ничто из написанного посетителями никуда не отправляется. Комментарий со ссылкой из списка уходит в спам; контактное сообщение с такой ссылкой не доставляется.',
+    'PhishTank allows commercial and non-commercial use.' => 'PhishTank разрешает коммерческое и некоммерческое использование.',
+    'PhishTank FAQ' => 'Вопросы и ответы PhishTank',
+    'Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:' => 'Без ключа PhishTank разрешает лишь несколько загрузок в день с одного сервера. Если загрузка не удалась, создайте бесплатную учётную запись на phishtank.org и добавьте ключ приложения в wp-config.php:',
+    'The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.' => 'Список не менялся с %s: возможно, PhishTank перестал его обновлять. Ссылки по-прежнему проверяются по последней копии.',
+    'Check links in comments and contact forms against PhishTank' => 'Проверять ссылки в комментариях и контактных формах по PhishTank',
     'by %1$s · %2$s · %3$s' => 'от %1$s · %2$s · %3$s',
     'Firewall' => 'Брандмауэр',
     'You are not allowed to do this.' => 'У вас нет прав на это действие.',

@@ -6,6 +6,16 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'PhishTank list downloaded: %d entries.' => 'Daftar PhishTank diunduh: %d entri.',
+    'The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.' => 'Daftar PhishTank tidak bisa diunduh (%s). Sampai berhasil, tautan tidak diperiksa dengannya.',
+    'Phishing links are no longer checked.' => 'Tautan phishing tidak lagi diperiksa.',
+    'Phishing links (PhishTank)' => 'Tautan phishing (PhishTank)',
+    'Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.' => 'Tautan di komentar dan formulir kontak diperiksa dengan PhishTank, daftar halaman phishing terverifikasi yang masih aktif, dikelola Cisco Talos. Daftar diunduh dua kali sehari dan diperiksa di server ini: tidak ada tulisan pengunjung yang dikirim ke mana pun. Komentar dengan tautan yang terdaftar masuk ke spam; pesan kontak dengan tautan seperti itu tidak dikirim.',
+    'PhishTank allows commercial and non-commercial use.' => 'PhishTank mengizinkan penggunaan komersial dan nonkomersial.',
+    'PhishTank FAQ' => 'FAQ PhishTank',
+    'Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:' => 'Tanpa kunci, PhishTank hanya mengizinkan beberapa unduhan per hari dari server yang sama. Jika unduhan gagal, buat akun gratis di phishtank.org dan tambahkan kunci aplikasi Anda ke wp-config.php:',
+    'The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.' => 'Daftar tidak berubah sejak %s: mungkin PhishTank berhenti memperbaruinya. Tautan masih diperiksa dengan salinan terakhir.',
+    'Check links in comments and contact forms against PhishTank' => 'Periksa tautan di komentar dan formulir kontak dengan PhishTank',
     'by %1$s · %2$s · %3$s' => 'oleh %1$s · %2$s · %3$s',
     'Firewall' => 'Firewall',
     'You are not allowed to do this.' => 'Anda tidak diizinkan melakukan ini.',

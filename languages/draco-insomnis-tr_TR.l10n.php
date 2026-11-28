@@ -6,6 +6,16 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'PhishTank list downloaded: %d entries.' => 'PhishTank listesi indirildi: %d kayıt.',
+    'The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.' => 'PhishTank listesi indirilemedi (%s). İndirilene kadar bağlantılar onunla denetlenmez.',
+    'Phishing links are no longer checked.' => 'Kimlik avı bağlantıları artık denetlenmiyor.',
+    'Phishing links (PhishTank)' => 'Kimlik avı bağlantıları (PhishTank)',
+    'Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.' => 'Yorumlardaki ve iletişim formlarındaki bağlantılar, Cisco Talos’un tuttuğu, hâlâ yayında olan doğrulanmış kimlik avı sayfaları listesi PhishTank ile denetlenir. Liste günde iki kez indirilir ve bu sunucuda sorgulanır: ziyaretçilerinizin yazdığı hiçbir şey bir yere gönderilmez. Listedeki bir bağlantıyı içeren yorum spama gider; böyle bir bağlantı içeren iletişim mesajı teslim edilmez.',
+    'PhishTank allows commercial and non-commercial use.' => 'PhishTank ticari ve ticari olmayan kullanıma izin verir.',
+    'PhishTank FAQ' => 'PhishTank SSS',
+    'Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:' => 'Anahtar olmadan PhishTank aynı sunucudan günde yalnızca birkaç indirmeye izin verir. İndirme başarısız olursa phishtank.org’da ücretsiz bir hesap açın ve uygulama anahtarınızı wp-config.php dosyasına ekleyin:',
+    'The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.' => 'Liste %s tarihinden beri değişmedi: PhishTank güncellemeyi bırakmış olabilir. Bağlantılar son kopyayla denetlenmeye devam ediyor.',
+    'Check links in comments and contact forms against PhishTank' => 'Yorum ve iletişim formlarındaki bağlantıları PhishTank ile denetle',
     'by %1$s · %2$s · %3$s' => '%1$s · %2$s · %3$s tarafından',
     'Firewall' => 'Güvenlik duvarı',
     'You are not allowed to do this.' => 'Bunu yapma izniniz yok.',

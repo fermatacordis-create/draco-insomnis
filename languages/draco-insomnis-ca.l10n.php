@@ -6,6 +6,16 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'PhishTank list downloaded: %d entries.' => 'Llista de PhishTank baixada: %d entrades.',
+    'The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.' => 'No s’ha pogut baixar la llista de PhishTank (%s). Fins que es baixi, no s’hi comproven els enllaços.',
+    'Phishing links are no longer checked.' => 'Ja no es comproven els enllaços de phishing.',
+    'Phishing links (PhishTank)' => 'Enllaços de phishing (PhishTank)',
+    'Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.' => 'Els enllaços dels comentaris i dels formularis de contacte es comproven amb PhishTank, la llista de pàgines de phishing verificades que encara són en línia, mantinguda per Cisco Talos. La llista es baixa dues vegades al dia i es consulta en aquest servidor: res del que escriuen els visitants s’envia enlloc. Un comentari amb un enllaç de la llista va a brossa; un missatge de contacte amb un no s’entrega.',
+    'PhishTank allows commercial and non-commercial use.' => 'PhishTank permet l’ús comercial i no comercial.',
+    'PhishTank FAQ' => 'Preguntes freqüents de PhishTank',
+    'Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:' => 'Sense clau, PhishTank només permet unes poques baixades al dia des del mateix servidor. Si la baixada falla, crea un compte gratuït a phishtank.org i afegeix la clau d’aplicació a wp-config.php:',
+    'The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.' => 'La llista no ha canviat des del %s: potser PhishTank ha deixat d’actualitzar-la. Els enllaços es continuen comprovant amb l’última còpia.',
+    'Check links in comments and contact forms against PhishTank' => 'Comprova amb PhishTank els enllaços de comentaris i formularis de contacte',
     'by %1$s · %2$s · %3$s' => 'per %1$s · %2$s · %3$s',
     'Firewall' => 'Tallafoc',
     'You are not allowed to do this.' => 'No tens permís per fer això.',

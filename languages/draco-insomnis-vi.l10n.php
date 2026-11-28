@@ -6,6 +6,16 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'PhishTank list downloaded: %d entries.' => 'Đã tải danh sách PhishTank: %d mục.',
+    'The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.' => 'Không tải được danh sách PhishTank (%s). Cho đến khi tải được, liên kết không được kiểm tra với nó.',
+    'Phishing links are no longer checked.' => 'Không còn kiểm tra liên kết lừa đảo nữa.',
+    'Phishing links (PhishTank)' => 'Liên kết lừa đảo (PhishTank)',
+    'Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.' => 'Liên kết trong bình luận và biểu mẫu liên hệ được kiểm tra với PhishTank, danh sách các trang lừa đảo đã xác minh và vẫn đang hoạt động, do Cisco Talos duy trì. Danh sách được tải hai lần mỗi ngày và tra cứu ngay trên máy chủ này: không gì khách truy cập viết bị gửi đi đâu. Bình luận có liên kết trong danh sách sẽ vào thư rác; tin nhắn liên hệ có liên kết như vậy sẽ không được gửi.',
+    'PhishTank allows commercial and non-commercial use.' => 'PhishTank cho phép sử dụng thương mại và phi thương mại.',
+    'PhishTank FAQ' => 'Câu hỏi thường gặp của PhishTank',
+    'Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:' => 'Không có khóa, PhishTank chỉ cho phép vài lần tải mỗi ngày từ cùng một máy chủ. Nếu tải thất bại, hãy tạo tài khoản miễn phí tại phishtank.org và thêm khóa ứng dụng vào wp-config.php:',
+    'The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.' => 'Danh sách không thay đổi từ %s: có thể PhishTank đã ngừng cập nhật. Liên kết vẫn được kiểm tra với bản sao cuối cùng.',
+    'Check links in comments and contact forms against PhishTank' => 'Kiểm tra liên kết trong bình luận và biểu mẫu liên hệ với PhishTank',
     'by %1$s · %2$s · %3$s' => 'bởi %1$s · %2$s · %3$s',
     'Firewall' => 'Tường lửa',
     'You are not allowed to do this.' => 'Bạn không được phép làm việc này.',

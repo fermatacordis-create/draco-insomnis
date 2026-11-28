@@ -6,6 +6,16 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'PhishTank list downloaded: %d entries.' => 'PhishTank பட்டியல் பதிவிறக்கப்பட்டது: %d உள்ளீடுகள்.',
+    'The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.' => 'PhishTank பட்டியலைப் பதிவிறக்க முடியவில்லை (%s). பதிவிறக்கும் வரை இணைப்புகள் அதனுடன் சரிபார்க்கப்படாது.',
+    'Phishing links are no longer checked.' => 'ஃபிஷிங் இணைப்புகள் இனி சரிபார்க்கப்படாது.',
+    'Phishing links (PhishTank)' => 'ஃபிஷிங் இணைப்புகள் (PhishTank)',
+    'Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.' => 'கருத்துகள் மற்றும் தொடர்புப் படிவங்களில் உள்ள இணைப்புகள் PhishTank உடன் சரிபார்க்கப்படுகின்றன; இது இன்னும் இணையத்தில் உள்ள உறுதிசெய்யப்பட்ட ஃபிஷிங் பக்கங்களின் பட்டியல், Cisco Talos பராமரிக்கிறது. பட்டியல் நாளுக்கு இருமுறை பதிவிறக்கப்பட்டு இந்தச் சர்வரிலேயே பார்க்கப்படுகிறது: உங்கள் பார்வையாளர்கள் எழுதுவது எங்கும் அனுப்பப்படாது. பட்டியலிலுள்ள இணைப்புடன் உள்ள கருத்து ஸ்பாமுக்குச் செல்லும்; அத்தகைய இணைப்புடன் உள்ள தொடர்புச் செய்தி வழங்கப்படாது.',
+    'PhishTank allows commercial and non-commercial use.' => 'PhishTank வணிக மற்றும் வணிகமற்ற பயன்பாட்டை அனுமதிக்கிறது.',
+    'PhishTank FAQ' => 'PhishTank அடிக்கடி கேட்கப்படும் கேள்விகள்',
+    'Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:' => 'சாவி இல்லாமல், ஒரே சர்வரிலிருந்து நாளொன்றுக்குச் சில பதிவிறக்கங்களையே PhishTank அனுமதிக்கும். பதிவிறக்கம் தோல்வியுற்றால், phishtank.org இல் இலவசக் கணக்கு உருவாக்கி உங்கள் பயன்பாட்டுச் சாவியை wp-config.php இல் சேர்க்கவும்:',
+    'The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.' => 'பட்டியல் %s முதல் மாறவில்லை: PhishTank அதைப் புதுப்பிப்பதை நிறுத்தியிருக்கலாம். இணைப்புகள் இன்னும் கடைசி நகலுடன் சரிபார்க்கப்படுகின்றன.',
+    'Check links in comments and contact forms against PhishTank' => 'கருத்துகள், தொடர்புப் படிவங்களின் இணைப்புகளை PhishTank உடன் சரிபார்',
     'by %1$s · %2$s · %3$s' => '%1$s · %2$s · %3$s வழங்கியது',
     'Firewall' => 'ஃபயர்வால்',
     'You are not allowed to do this.' => 'இதைச் செய்ய உங்களுக்கு அனுமதி இல்லை.',

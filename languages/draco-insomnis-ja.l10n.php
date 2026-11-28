@@ -6,6 +6,16 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'PhishTank list downloaded: %d entries.' => 'PhishTank のリストをダウンロードしました：%d 件。',
+    'The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.' => 'PhishTank のリストをダウンロードできませんでした（%s）。ダウンロードできるまで、このリストではリンクを確認しません。',
+    'Phishing links are no longer checked.' => 'フィッシングリンクの確認を停止しました。',
+    'Phishing links (PhishTank)' => 'フィッシングリンク（PhishTank）',
+    'Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.' => 'コメントとお問い合わせフォームのリンクを、Cisco Talos が管理する、確認済みでまだ公開中のフィッシングページの一覧 PhishTank と照合します。リストは 1 日 2 回ダウンロードされ、このサーバー上で照合されます。訪問者が書いた内容がどこかへ送られることはありません。リストにあるリンクを含むコメントはスパムになり、そのようなリンクを含むお問い合わせは配信されません。',
+    'PhishTank allows commercial and non-commercial use.' => 'PhishTank は商用・非商用の利用を認めています。',
+    'PhishTank FAQ' => 'PhishTank の FAQ',
+    'Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:' => 'キーがない場合、PhishTank は同じサーバーからのダウンロードを 1 日数回までしか認めません。ダウンロードに失敗したら、phishtank.org で無料アカウントを作成し、アプリケーションキーを wp-config.php に追加してください：',
+    'The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.' => 'リストは %s から変わっていません。PhishTank が更新を止めた可能性があります。リンクは引き続き最後のコピーで確認されます。',
+    'Check links in comments and contact forms against PhishTank' => 'コメントとお問い合わせフォームのリンクを PhishTank で確認する',
     'by %1$s · %2$s · %3$s' => '制作: %1$s · %2$s · %3$s',
     'Firewall' => 'ファイアウォール',
     'You are not allowed to do this.' => 'この操作を行う権限がありません。',

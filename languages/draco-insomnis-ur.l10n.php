@@ -6,6 +6,16 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'PhishTank list downloaded: %d entries.' => 'PhishTank فہرست ڈاؤن لوڈ ہو گئی: %d اندراجات۔',
+    'The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.' => 'PhishTank فہرست ڈاؤن لوڈ نہیں ہو سکی (%s)۔ جب تک ڈاؤن لوڈ نہ ہو، لنکس اس سے نہیں جانچے جاتے۔',
+    'Phishing links are no longer checked.' => 'فشنگ لنکس اب نہیں جانچے جاتے۔',
+    'Phishing links (PhishTank)' => 'فشنگ لنکس (PhishTank)',
+    'Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.' => 'تبصروں اور رابطہ فارموں کے لنکس PhishTank سے جانچے جاتے ہیں، یعنی تصدیق شدہ فشنگ صفحات کی وہ فہرست جو ابھی آن لائن ہیں اور جسے Cisco Talos رکھتا ہے۔ فہرست دن میں دو بار ڈاؤن لوڈ ہوتی ہے اور اسی سرور پر دیکھی جاتی ہے: آپ کے وزیٹر جو لکھتے ہیں وہ کہیں نہیں بھیجا جاتا۔ فہرست والے لنک کا تبصرہ اسپام میں جاتا ہے؛ ایسے لنک والا رابطہ پیغام نہیں پہنچایا جاتا۔',
+    'PhishTank allows commercial and non-commercial use.' => 'PhishTank تجارتی اور غیر تجارتی استعمال کی اجازت دیتا ہے۔',
+    'PhishTank FAQ' => 'PhishTank کے عمومی سوالات',
+    'Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:' => 'کلید کے بغیر PhishTank ایک ہی سرور سے دن میں چند ڈاؤن لوڈ کی اجازت دیتا ہے۔ اگر ڈاؤن لوڈ ناکام ہو تو phishtank.org پر مفت اکاؤنٹ بنائیں اور اپنی ایپلیکیشن کلید wp-config.php میں شامل کریں:',
+    'The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.' => 'فہرست %s سے نہیں بدلی: ممکن ہے PhishTank نے اسے اپ ڈیٹ کرنا چھوڑ دیا ہو۔ لنکس اب بھی آخری نقل سے جانچے جا رہے ہیں۔',
+    'Check links in comments and contact forms against PhishTank' => 'تبصروں اور رابطہ فارموں کے لنکس PhishTank سے جانچیں',
     'by %1$s · %2$s · %3$s' => 'از %1$s · %2$s · %3$s',
     'Firewall' => 'فائر وال',
     'You are not allowed to do this.' => 'آپ کو یہ کرنے کی اجازت نہیں ہے۔',

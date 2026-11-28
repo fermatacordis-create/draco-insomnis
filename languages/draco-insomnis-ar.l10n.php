@@ -6,6 +6,16 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'PhishTank list downloaded: %d entries.' => 'تم تنزيل قائمة PhishTank: %d إدخالًا.',
+    'The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.' => 'تعذّر تنزيل قائمة PhishTank (%s). لا تُفحص الروابط بها حتى يتم تنزيلها.',
+    'Phishing links are no longer checked.' => 'لم تعد روابط التصيّد تُفحص.',
+    'Phishing links (PhishTank)' => 'روابط التصيّد (PhishTank)',
+    'Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.' => 'تُفحص الروابط في التعليقات ونماذج الاتصال مقابل PhishTank، قائمة صفحات التصيّد المؤكدة التي لا تزال تعمل، والتي تديرها Cisco Talos. تُنزَّل القائمة مرتين يوميًا ويُبحث فيها على هذا الخادم: لا يُرسَل أي شيء يكتبه زوارك إلى أي مكان. يذهب التعليق الذي يحوي رابطًا مدرجًا إلى البريد المزعج، ولا تُسلَّم رسالة الاتصال التي تحوي رابطًا كهذا.',
+    'PhishTank allows commercial and non-commercial use.' => 'يسمح PhishTank بالاستخدام التجاري وغير التجاري.',
+    'PhishTank FAQ' => 'الأسئلة الشائعة لـ PhishTank',
+    'Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:' => 'من دون مفتاح، لا يسمح PhishTank إلا ببضع عمليات تنزيل يوميًا من الخادم نفسه. إذا فشل التنزيل، فأنشئ حسابًا مجانيًا على phishtank.org وأضف مفتاح التطبيق إلى wp-config.php:',
+    'The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.' => 'لم تتغير القائمة منذ %s: ربما توقف PhishTank عن تحديثها. لا تزال الروابط تُفحص مقابل آخر نسخة.',
+    'Check links in comments and contact forms against PhishTank' => 'افحص روابط التعليقات ونماذج الاتصال مقابل PhishTank',
     'by %1$s · %2$s · %3$s' => 'من %1$s · %2$s · %3$s',
     'Firewall' => 'جدار الحماية',
     'You are not allowed to do this.' => 'ليس لديك صلاحية للقيام بذلك.',

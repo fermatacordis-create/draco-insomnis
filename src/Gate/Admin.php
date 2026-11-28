@@ -96,9 +96,60 @@ final class Admin
             }
         } elseif ($do === 'urlhaus_update' && LinkCheck::active()) {
             $result = LinkCheck::update() === '' ? 'urlhaus_updated' : 'urlhaus_failed';
+        } elseif ($do === 'phishtank') {
+            $wanted = !empty($_POST['phishtank']);
+            update_option(LinkCheck::PT_OPTION_ENABLED, $wanted ? 'yes' : 'no');
+            if ($wanted) {
+                $result = LinkCheck::update(LinkCheck::PHISHTANK) === '' ? 'phishtank_on' : 'phishtank_failed';
+            } else {
+                LinkCheck::forget(LinkCheck::PHISHTANK);
+                $result = 'phishtank_off';
+            }
+            if (LinkCheck::activeFeeds() === []) {
+                wp_clear_scheduled_hook(LinkCheck::HOOK_UPDATE);
+            }
+        } elseif ($do === 'phishtank_update' && LinkCheck::phishtankActive()) {
+            $result = LinkCheck::update(LinkCheck::PHISHTANK) === '' ? 'phishtank_on' : 'phishtank_failed';
         }
         wp_safe_redirect(admin_url('admin.php?page=' . self::SLUG . '&result=' . $result));
         exit;
+    }
+
+    /** Phishing links (PhishTank): off by default; allowed for commercial use; a key is optional. */
+    private static function phishtankCard(): void
+    {
+        $on = LinkCheck::phishtankActive();
+        $state = LinkCheck::state(LinkCheck::PHISHTANK);
+        $stale = $on && LinkCheck::stale(LinkCheck::PHISHTANK);
+        Brand::card('shield-alt', __('Phishing links (PhishTank)', 'draco-insomnis'), __('Links in comments and contact forms are checked against PhishTank, the list of verified phishing pages that are still online, kept by Cisco Talos. The list is downloaded twice a day and checked on this server: nothing your visitors write is sent anywhere. A comment with a listed link goes to spam; a contact message with one is not delivered.', 'draco-insomnis'), Brand::pill(Brand::stateLabel($on ? 'on' : 'off'), $on ? 'on' : 'off'));
+        echo '<p class="description">' . esc_html__('PhishTank allows commercial and non-commercial use.', 'draco-insomnis') . ' <a href="' . esc_url(LinkCheck::PT_TERMS) . '" target="_blank" rel="noopener">' . esc_html__('PhishTank FAQ', 'draco-insomnis') . '</a></p>';
+        if (!LinkCheck::phishtankHasKey()) {
+            echo '<p class="description">' . esc_html__('Without a key PhishTank allows only a few downloads a day from the same server. If the download fails, create a free account at phishtank.org and add your application key to wp-config.php:', 'draco-insomnis') . ' <code>define( \'' . esc_html(LinkCheck::PT_KEY_CONSTANT) . '\', \'' . esc_html__('your-key', 'draco-insomnis') . '\' );</code></p>';
+        }
+        if ($state['updated'] > 0) {
+            /* translators: 1: date and time, 2: number of entries */
+            echo '<p>' . esc_html(sprintf(__('Last download: %1$s, %2$d entries.', 'draco-insomnis'), wp_date('Y-m-d H:i', $state['updated']), $state['count']));
+            if ($state['error'] !== '') {
+                /* translators: %s: short reason */
+                echo ' <strong>' . esc_html(sprintf(__('Last attempt failed: %s.', 'draco-insomnis'), $state['error'])) . '</strong>';
+            }
+            echo '</p>';
+        }
+        if ($stale) {
+            /* translators: %s: date */
+            echo '<p class="draco-callout is-warn"><span class="dashicons dashicons-warning" aria-hidden="true"></span><span>' . esc_html(sprintf(__('The list has not changed since %s: PhishTank may have stopped updating it. Links are still checked against the last copy.', 'draco-insomnis'), wp_date('Y-m-d', $state['changed']))) . '</span></p>';
+        }
+        echo self::open('phishtank'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        Brand::toggle('phishtank', $on, __('Check links in comments and contact forms against PhishTank', 'draco-insomnis'));
+        echo '<p style="margin-top:12px">';
+        submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
+        echo '</p></form>';
+        if ($on) {
+            echo self::open('phishtank_update'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            submit_button(__('Download the list now', 'draco-insomnis'), 'secondary', 'submit', false);
+            echo '</form>';
+        }
+        Brand::cardEnd();
     }
 
     /** Malicious links (URLhaus): off by default; the owner's own key; non-profit use only for free. */
@@ -172,6 +223,14 @@ final class Admin
         } elseif ($result === 'urlhaus_failed') {
             /* translators: %s: short reason, such as "HTTP 403" */
             Brand::notice('error', sprintf(__('The URLhaus list could not be downloaded (%s). Links are not checked until it is.', 'draco-insomnis'), LinkCheck::state()['error']));
+        } elseif ($result === 'phishtank_on') {
+            /* translators: %d: number of entries in the list */
+            Brand::notice('success', sprintf(__('PhishTank list downloaded: %d entries.', 'draco-insomnis'), LinkCheck::state(LinkCheck::PHISHTANK)['count']));
+        } elseif ($result === 'phishtank_failed') {
+            /* translators: %s: short reason, such as "HTTP 509" */
+            Brand::notice('error', sprintf(__('The PhishTank list could not be downloaded (%s). Links are not checked against it until it is.', 'draco-insomnis'), LinkCheck::state(LinkCheck::PHISHTANK)['error']));
+        } elseif ($result === 'phishtank_off') {
+            Brand::notice('success', __('Phishing links are no longer checked.', 'draco-insomnis'));
         } elseif ($result === 'ok') {
             Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
         }
@@ -204,6 +263,8 @@ final class Admin
         submit_button(__('Save', 'draco-insomnis'), 'primary', 'submit', false);
         echo '</p></form>';
         Brand::cardEnd();
+        // Phishing links (PhishTank) everywhere; malware links (URLhaus) only where its terms allow it.
+        self::phishtankCard();
         if (LinkCheck::available()) {
             self::urlhausCard();
         }
