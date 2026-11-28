@@ -19,6 +19,8 @@ final class CoreFiles
     private const OWN_ROOT = ['wp-config.php'];
 
     private static string $error = '';
+    /** @var array<string, string>|null the checksums read in this request */
+    private static ?array $sums = null;
 
     /**
      * Pure comparison.
@@ -61,32 +63,8 @@ final class CoreFiles
         return self::$error;
     }
 
-    /**
-     * This site's deviations, or null when the checksums could not be had (the caller then leaves the
-     * stored core items as they were instead of reporting them gone).
-     *
-     * @return array<string, array{fp: string, danger: bool}>|null
-     */
-    public static function collect(): ?array
-    {
-        self::$error = '';
-        $sums = self::sums();
-        if ($sums === null) {
-            return null;
-        }
-        $root = wp_normalize_path(ABSPATH);
-        $actual = [];
-        foreach (array_keys($sums) as $path) {
-            if (!str_starts_with($path, 'wp-content/') && is_file($root . $path)) {
-                $actual[$path] = (string) md5_file($root . $path);
-            }
-        }
-
-        return self::deviations($sums, $actual, self::phpFiles($root));
-    }
-
     /** @return list<string> PHP files in wp-admin, wp-includes and the root, relative to ABSPATH */
-    private static function phpFiles(string $root): array
+    public static function phpFiles(string $root): array
     {
         $out = [];
         foreach ((array) glob($root . '*.php') as $f) {
@@ -112,8 +90,12 @@ final class CoreFiles
     }
 
     /** @return array<string, string>|null path => md5 for this version and language, from wordpress.org (kept on disk) */
-    private static function sums(): ?array
+    public static function sums(): ?array
     {
+        if (self::$sums !== null) {
+            return self::$sums;
+        }
+        self::$error = '';
         global $wp_version, $wp_local_package;
         $version = (string) $wp_version;
         $locale = isset($wp_local_package) && is_string($wp_local_package) && $wp_local_package !== '' ? $wp_local_package : 'en_US';
@@ -127,7 +109,7 @@ final class CoreFiles
         if (is_readable($file)) {
             $cached = json_decode((string) file_get_contents($file), true);
             if (is_array($cached) && $cached !== []) {
-                return $cached;
+                return self::$sums = $cached;
             }
         }
         $sums = self::download($version, $locale);
@@ -141,7 +123,7 @@ final class CoreFiles
             file_put_contents($file, (string) wp_json_encode($sums));
         }
 
-        return $sums;
+        return self::$sums = $sums;
     }
 
     /** @return array<string, string>|null */

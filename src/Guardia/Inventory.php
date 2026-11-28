@@ -9,87 +9,157 @@ defined('ABSPATH') || exit;
 /**
  * What Guardia watches on this WordPress, as «kind|key» => fingerprint (docs/adr/0001).
  *
- * Read only: nothing here changes a file, an option or a user. Hashes are SHA-256 of the file.
+ * Read only: nothing here changes a file, an option or a user. A scan is a job: start() lists the cheap
+ * kinds at once and the files to read; advance() reads files until a deadline, so a scheduled scan can
+ * go on in the next request where the last one stopped.
+ *
+ * @phpstan-type Job array{started: int, items: array<string, array{fp: string, danger?: bool}>, labels: array<string, string>,
+ *     partial: array<string, string>, truncated: bool, core: array{i: int, modified: array<string, string>}|null,
+ *     uploads: array{base: string, files: list<string>, i: int}}
  */
 final class Inventory
 {
-    /** PHP files looked at inside uploads, at most (a hacked site can have thousands: the list says so). */
+    /** PHP files looked at inside uploads, at most (a hacked site can have thousands: the screen says so). */
     public const MAX_UPLOAD_FILES = 5000;
     /** Bytes of each uploads PHP file read to look for dangerous calls. */
     private const SNIFF = 262144;
     private const PHP_EXT = '/\.(php\d?|phtml|phar|pht)$/i';
 
-    /** @var array<string, string> «kind|key» => label shown on screen */
-    private static array $labels = [];
-    private static bool $truncated = false;
-    /** @var array<string, string> kind => why its list is incomplete in this scan */
-    private static array $partial = [];
-
-    /**
-     * @return array<string, array{fp: string, danger?: bool}>
-     */
-    public static function collect(): array
+    /** @return Job */
+    public static function start(): array
     {
-        self::$labels = [];
-        self::$truncated = false;
-        self::$partial = [];
+        $labels = [];
+        $items = self::admins($labels) + self::plugins($labels) + self::muPlugins($labels) + self::dropins($labels) + self::critical($labels) + self::cron($labels);
+        $job = ['started' => time(), 'items' => $items, 'labels' => $labels, 'partial' => [], 'truncated' => false, 'core' => null, 'uploads' => ['base' => '', 'files' => [], 'i' => 0]];
+        if (CoreFiles::sums() === null) {
+            $job['partial'][Diff::CORE] = CoreFiles::error();
+        } else {
+            $job['core'] = ['i' => 0, 'modified' => []];
+        }
+        self::listUploads($job);
 
-        return self::admins() + self::plugins() + self::muPlugins() + self::dropins() + self::critical() + self::core() + self::uploads() + self::cron();
-    }
-
-    /** @return array<string, string> */
-    public static function labels(): array
-    {
-        return self::$labels;
+        return $job;
     }
 
     /**
-     * Kinds this scan could not list completely, with the reason: what was not seen of them is not «gone».
+     * Reads files until $deadline (microtime). True when the job has nothing left to read.
      *
-     * @return array<string, string>
+     * @param Job $job
      */
-    public static function partial(): array
+    public static function advance(array &$job, float $deadline): bool
     {
-        return self::$partial;
-    }
-
-    /** @return array<string, array{fp: string, danger: bool}> core files that differ from the release, or are not part of it */
-    private static function core(): array
-    {
-        $found = CoreFiles::collect();
-        if ($found === null) {
-            self::$partial[Diff::CORE] = CoreFiles::error();
-
-            return [];
+        if ($job['core'] !== null && !self::advanceCore($job, $deadline)) {
+            return false;
         }
-        foreach ($found as $id => $item) {
-            self::$labels[$id] = Diff::keyOf($id) . ' · ' . ($item['fp'] === 'extra' ? __('not part of WordPress', 'draco-insomnis') : __('modified', 'draco-insomnis'));
+        $up = &$job['uploads'];
+        $count = count($up['files']);
+        while ($up['i'] < $count) {
+            if (microtime(true) > $deadline) {
+                return false;
+            }
+            $rel = $up['files'][$up['i']++];
+            $path = $up['base'] . '/' . $rel;
+            if (!is_file($path)) {
+                continue; // gone since the list was made: not seen
+            }
+            $id = Diff::UPLOAD_PHP . '|' . $rel;
+            $job['items'][$id] = self::file($path, true);
+            $job['labels'][$id] = $rel . ' · ' . size_format((int) filesize($path));
         }
 
-        return $found;
+        return true;
     }
 
-    /** True when uploads held more PHP files than are looked at. */
-    public static function truncated(): bool
+    /**
+     * Core files, a slice at a time; once all are hashed, the deviations join the items.
+     *
+     * @param Job $job
+     */
+    private static function advanceCore(array &$job, float $deadline): bool
     {
-        return self::$truncated;
+        $sums = CoreFiles::sums();
+        if ($sums === null) {
+            $job['partial'][Diff::CORE] = CoreFiles::error();
+            $job['core'] = null;
+
+            return true;
+        }
+        $root = wp_normalize_path(ABSPATH);
+        $paths = array_keys($sums);
+        $count = count($paths);
+        $core = &$job['core'];
+        while ($core['i'] < $count) {
+            if (microtime(true) > $deadline) {
+                return false;
+            }
+            $path = (string) $paths[$core['i']++];
+            if (str_starts_with($path, 'wp-content/') || !is_file($root . $path)) {
+                continue;
+            }
+            $md5 = (string) md5_file($root . $path);
+            if ($md5 !== $sums[$path]) {
+                $core['modified'][$path] = $md5;
+            }
+        }
+        // Only the differing files are kept between requests: deviations() skips the rest anyway.
+        foreach (CoreFiles::deviations($sums, $core['modified'], CoreFiles::phpFiles($root)) as $id => $item) {
+            $job['items'][$id] = $item;
+            $job['labels'][$id] = Diff::keyOf($id) . ' · ' . ($item['fp'] === 'extra' ? __('not part of WordPress', 'draco-insomnis') : __('modified', 'draco-insomnis'));
+        }
+        $job['core'] = null;
+
+        return true;
     }
 
-    /** @return array<string, array{fp: string}> by login: a deleted and re-created account keeps its login, not its ID */
-    private static function admins(): array
+    /** @param Job $job */
+    private static function listUploads(array &$job): void
+    {
+        $up = wp_upload_dir(null, false);
+        $base = wp_normalize_path((string) $up['basedir']);
+        if ($base === '' || !is_dir($base)) {
+            return;
+        }
+        $job['uploads']['base'] = untrailingslashit($base);
+        try {
+            $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($base, \FilesystemIterator::SKIP_DOTS));
+            foreach ($it as $f) {
+                if (!$f->isFile() || preg_match(self::PHP_EXT, $f->getFilename()) !== 1) {
+                    continue;
+                }
+                if (count($job['uploads']['files']) >= self::MAX_UPLOAD_FILES) {
+                    $job['truncated'] = true;
+                    $job['partial'][Diff::UPLOAD_PHP] = 'truncated';
+                    break;
+                }
+                $job['uploads']['files'][] = ltrim(substr(wp_normalize_path($f->getPathname()), strlen(untrailingslashit($base))), '/');
+            }
+        } catch (\Throwable) {
+            // An unreadable folder: what was listed so far is read, the rest is not «gone».
+            $job['partial'][Diff::UPLOAD_PHP] = 'unreadable';
+        }
+    }
+
+    /**
+     * @param array<string, string> $labels
+     * @return array<string, array{fp: string}> by login: a deleted and re-created account keeps its login, not its ID
+     */
+    private static function admins(array &$labels): array
     {
         $out = [];
         foreach (get_users(['role' => 'administrator', 'fields' => ['user_login', 'user_email', 'user_registered']]) as $u) {
             $id = Diff::ADMIN . '|' . strtolower((string) $u->user_login);
             $out[$id] = ['fp' => hash('sha256', strtolower((string) $u->user_email))];
-            self::$labels[$id] = (string) $u->user_login . ' · ' . (string) $u->user_registered;
+            $labels[$id] = (string) $u->user_login . ' · ' . (string) $u->user_registered;
         }
 
         return $out;
     }
 
-    /** @return array<string, array{fp: string}> fingerprint = version (an update is not an alert) */
-    private static function plugins(): array
+    /**
+     * @param array<string, string> $labels
+     * @return array<string, array{fp: string}> fingerprint = version (an update is not an alert)
+     */
+    private static function plugins(array &$labels): array
     {
         if (!function_exists('get_plugins')) {
             require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -100,14 +170,17 @@ final class Inventory
             $file = (string) $file;
             $id = Diff::PLUGIN . '|' . $file;
             $out[$id] = ['fp' => (string) ($all[$file]['Version'] ?? '')];
-            self::$labels[$id] = (string) ($all[$file]['Name'] ?? $file) . ' ' . (string) ($all[$file]['Version'] ?? '');
+            $labels[$id] = (string) ($all[$file]['Name'] ?? $file) . ' ' . (string) ($all[$file]['Version'] ?? '');
         }
 
         return $out;
     }
 
-    /** @return array<string, array{fp: string, danger: bool}> every file and folder in mu-plugins */
-    private static function muPlugins(): array
+    /**
+     * @param array<string, string> $labels
+     * @return array<string, array{fp: string, danger?: bool}> every file and folder in mu-plugins
+     */
+    private static function muPlugins(array &$labels): array
     {
         $out = [];
         $dir = defined('WPMU_PLUGIN_DIR') ? (string) WPMU_PLUGIN_DIR : WP_CONTENT_DIR . '/mu-plugins';
@@ -119,14 +192,17 @@ final class Inventory
             $path = $dir . '/' . $name;
             $id = Diff::MU_PLUGIN . '|' . $name;
             $out[$id] = is_dir($path) ? ['fp' => 'folder'] : self::file($path, false);
-            self::$labels[$id] = $name . (is_dir($path) ? '/' : '');
+            $labels[$id] = $name . (is_dir($path) ? '/' : '');
         }
 
         return $out;
     }
 
-    /** @return array<string, array{fp: string, danger: bool}> */
-    private static function dropins(): array
+    /**
+     * @param array<string, string> $labels
+     * @return array<string, array{fp: string, danger: bool}>
+     */
+    private static function dropins(array &$labels): array
     {
         $out = [];
         if (!function_exists('_get_dropins')) {
@@ -137,15 +213,18 @@ final class Inventory
             if (is_file($path)) {
                 $id = Diff::DROPIN . '|' . $name;
                 $out[$id] = self::file($path, false);
-                self::$labels[$id] = $name;
+                $labels[$id] = $name;
             }
         }
 
         return $out;
     }
 
-    /** @return array<string, array{fp: string, danger: bool}> */
-    private static function critical(): array
+    /**
+     * @param array<string, string> $labels
+     * @return array<string, array{fp: string}>
+     */
+    private static function critical(array &$labels): array
     {
         $out = [];
         $config = is_file(ABSPATH . 'wp-config.php') ? ABSPATH . 'wp-config.php' : dirname(ABSPATH) . '/wp-config.php';
@@ -154,49 +233,18 @@ final class Inventory
                 $id = Diff::CRITICAL . '|' . $name;
                 // Not «danger» for these: wp-config.php legitimately defines and calls things.
                 $out[$id] = ['fp' => (string) hash_file('sha256', $path)];
-                self::$labels[$id] = $name;
+                $labels[$id] = $name;
             }
         }
 
         return $out;
     }
 
-    /** @return array<string, array{fp: string, danger: bool}> PHP files inside uploads, where only media belongs */
-    private static function uploads(): array
-    {
-        $up = wp_upload_dir(null, false);
-        $base = (string) $up['basedir'];
-        if ($base === '' || !is_dir($base)) {
-            return [];
-        }
-        $out = [];
-        $seen = 0;
-        try {
-            $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($base, \FilesystemIterator::SKIP_DOTS));
-            foreach ($it as $f) {
-                if (!$f->isFile() || preg_match(self::PHP_EXT, $f->getFilename()) !== 1) {
-                    continue;
-                }
-                if (++$seen > self::MAX_UPLOAD_FILES) {
-                    self::$truncated = true;
-                    self::$partial[Diff::UPLOAD_PHP] = 'truncated';
-                    break;
-                }
-                $rel = ltrim(str_replace('\\', '/', substr($f->getPathname(), strlen($base))), '/');
-                $id = Diff::UPLOAD_PHP . '|' . $rel;
-                $out[$id] = self::file($f->getPathname(), true);
-                self::$labels[$id] = $rel . ' · ' . size_format((int) $f->getSize());
-            }
-        } catch (\Throwable) {
-            // An unreadable folder: what was read so far is kept, the rest is not «gone».
-            self::$partial[Diff::UPLOAD_PHP] = 'unreadable';
-        }
-
-        return $out;
-    }
-
-    /** @return array<string, array{fp: string}> scheduled hooks that no loaded code handles */
-    private static function cron(): array
+    /**
+     * @param array<string, string> $labels
+     * @return array<string, array{fp: string}> scheduled hooks that no loaded code handles
+     */
+    private static function cron(array &$labels): array
     {
         $out = [];
         foreach ((array) _get_cron_array() as $events) {
@@ -207,7 +255,7 @@ final class Inventory
                 }
                 $id = Diff::CRON . '|' . $hook;
                 $out[$id] = ['fp' => ''];
-                self::$labels[$id] = $hook;
+                $labels[$id] = $hook;
             }
         }
 

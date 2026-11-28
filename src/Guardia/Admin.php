@@ -20,6 +20,7 @@ final class Admin
     {
         add_action('admin_menu', [self::class, 'menu'], 11);
         add_action('admin_post_' . self::ACTION, [self::class, 'save']);
+        Scanner::register();
     }
 
     public static function menu(): void
@@ -53,6 +54,8 @@ final class Admin
             $result = Scanner::run() === null ? 'busy' : 'scanned';
         } elseif ($do === 'alerts') {
             update_option(Alerts::OPTION, empty($_POST['alerts']) ? 'no' : 'yes', false);
+            update_option(Scanner::OPTION_AUTO, empty($_POST['auto']) ? 'no' : 'yes', false);
+            Scanner::schedule();
             $result = 'ok';
         } elseif ($do === 'reviewed') {
             update_option(Store::OPTION_REVIEWED, gmdate('Y-m-d H:i'), false);
@@ -110,6 +113,10 @@ final class Admin
         echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '" style="margin-top:14px">';
         wp_nonce_field(self::ACTION);
         echo '<input type="hidden" name="action" value="' . esc_attr(self::ACTION) . '"><input type="hidden" name="do" value="alerts">';
+        $next = Scanner::next();
+        Brand::toggle('auto', Scanner::autoEnabled(), __('Scan by itself twice a day', 'draco-insomnis'), $last === null ? __('Starts after you take the baseline.', 'draco-insomnis') : (Scanner::inProgress() ? __('A scan is going on now, a few seconds at a time.', 'draco-insomnis')
+            /* translators: %s: date and time (UTC) */
+            : ($next !== false ? sprintf(__('Next one: %s UTC. It reads files a few seconds at a time, so the site does not slow down.', 'draco-insomnis'), gmdate('Y-m-d H:i', (int) $next)) : '')));
         $to = Alerts::recipients();
         /* translators: %s: e-mail addresses */
         Brand::toggle('alerts', Alerts::enabled(), __('E-mail me when a scan finds something medium or worse', 'draco-insomnis'), $to !== [] ? sprintf(__('To %s: the site address and the administrators\' recovery e-mails. At most 6 a day.', 'draco-insomnis'), implode(', ', $to)) : '');
@@ -147,11 +154,12 @@ final class Admin
         return sprintf(__('Scan finished: %1$d new, %2$d changed, %3$d came back.', 'draco-insomnis'), (int) ($e[Diff::NEW] ?? 0), (int) ($e[Diff::CHANGED] ?? 0), (int) ($e[Diff::BACK] ?? 0));
     }
 
-    /** @param array{at: int, items: int} $last */
+    /** @param array<string, mixed> $last */
     private static function lastLine(array $last): string
     {
         /* translators: 1: date and time (UTC), 2: number of items */
-        return sprintf(__('Last scan: %1$s UTC · %2$d items watched', 'draco-insomnis'), gmdate('Y-m-d H:i', (int) $last['at']), (int) $last['items']);
+        return sprintf(__('Last scan: %1$s UTC · %2$d items watched', 'draco-insomnis'), gmdate('Y-m-d H:i', (int) $last['at']), (int) $last['items'])
+            . (!empty($last['auto']) ? ' · ' . __('automatic', 'draco-insomnis') : '');
     }
 
     private static function baselineCard(): void

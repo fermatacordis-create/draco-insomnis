@@ -86,6 +86,7 @@ final class Plugin
     {
         wp_clear_scheduled_hook(self::HOOK_CLEANUP);
         wp_clear_scheduled_hook(Gate::HOOK_CLEANUP);
+        \DracoInsomnis\Guardia\Scanner::unschedule();
     }
 
     /**
