@@ -12,18 +12,19 @@
 |---|---|---|---|
 | URLhaus (abuse.ch) | Paid Spamhaus subscription | Auth-Key | Free only for not-for-profit use (terms §3.1, §4.1). |
 | ThreatFox (abuse.ch) | Paid Spamhaus subscription | Auth-Key | Same terms as URLhaus; **not** free for commercial use. |
-| Phishing.Database | Allowed (MIT) | None | ~784k links, ~497k domains; last visible update 2026-10-02 (not hourly). Aggregates other sources; provenance of the data not verified. |
-| PhishTank (Cisco Talos) | Allowed (FAQ) | Free, registration | Hourly. Whether registration is open now was not verified. |
+| Phishing.Database | Allowed (MIT) | None | **Rejected:** its `phishing-links-ACTIVE.txt` is 66 MB (789,054 lines) and was last changed on **2025-12-22**; it still lists 000webhost pages (service closed in 2024). Aggregates other sources; provenance not verified. |
+| PhishTank (Cisco Talos) | Allowed (FAQ) | Optional (free account) | `online-valid.csv.gz`: 1.5 MB, ~42k verified phishing URLs still online, changed the same day it was checked. Downloads without a key work, limited to a few a day per server. |
 | OpenPhish community | Not allowed | — | Terms forbid commercial use. |
 | Google Safe Browsing | Not allowed | — | Commercial use goes through Web Risk (paid). |
 
 ### Decision
 
 - Link checking becomes **provider-based**: each feed is a provider that says whether it may run where Draco runs.
-- **Standalone Draco:** URLhaus (owner confirms non-profit or Spamhaus subscription, as today), Phishing.Database, PhishTank (owner's own key).
-- **Draco bundled in OPNV (commercial):** Phishing.Database and PhishTank only. URLhaus and ThreatFox stay hidden.
-- Only **exact links** are matched (lists contain hacked legitimate sites; whole domains would hit innocent links). Bare IP hosts may match as a whole, as with URLhaus.
-- Only the ACTIVE list of Phishing.Database is used. If it has not changed for **7 days**, the screen says so and the check is marked stale.
+- **Standalone Draco:** URLhaus (owner confirms non-profit or Spamhaus subscription, as today) and PhishTank.
+- **Draco bundled in OPNV (commercial):** PhishTank only. URLhaus and ThreatFox stay hidden.
+- Phishing.Database was in the first version of this decision and is dropped: measured on 2026-11-28, the list is almost a year old and 66 MB to download twice a day on every site.
+- Only **exact links** are matched (lists contain hacked legitimate sites; whole domains would hit innocent links). Bare IP hosts match as a whole. A PhishTank entry for a site's front page (a site made for phishing) also matches the whole host, except on shared services (Google Docs, Dropbox, GitHub, link shorteners…).
+- If a list has not changed for **7 days**, the screen says so: it may no longer be kept.
 - Everything is downloaded and checked on the site's own server; nothing a visitor writes is sent anywhere.
 
 ## 2. Guardia P1 — integrity and persistence
@@ -69,7 +70,7 @@ Two tables created with `dbDelta` (no foreign keys, `ENUM` or `JSON` column type
 
 ### Delivery
 
-1. Feeds as providers (Phishing.Database, PhishTank, URLhaus where allowed).
+1. Link lists per provider (PhishTank everywhere, URLhaus where allowed).
 2. Guardia foundation: tables, first scan as baseline, «Integrity» screen with the review list.
 3. Core checksums and uploads/mu-plugin/drop-in rules.
 4. Reappearance state machine and severity.
