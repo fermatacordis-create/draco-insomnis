@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'インストール済みのプラグイン、テーマ、WordPress を、WordPress の既知の脆弱性データベースと 1 日 2 回照合します。インストール済みのバージョンは常にこのサーバー上で比較します。',
+    'Wordfence Intelligence, through OPNV' => 'OPNV 経由の Wordfence Intelligence',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => '一覧全体（約 3 MB）を api.opnv.systems からダウンロードし、ここで検索します。このサイトの情報は何も送信しません。プラグイン名も送りません。',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'プラグインごとに問い合わせます。プラグインとテーマの名前、WordPress のバージョンを送信します。データは CC0。',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => '脆弱性リストが %s から更新されていません。OPNV に接続できない可能性があります。最後のコピーで確認を続けます。',
+    'Source and licence of the vulnerability information' => '脆弱性情報の出典とライセンス',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Defiant Inc. の Wordfence Intelligence Vulnerability Data Feed（OPNV のミラー経由）。',
+    'Licence' => 'ライセンス',
     'Known vulnerabilities checked.' => '既知の脆弱性を確認しました。',
     'Known vulnerabilities' => '既知の脆弱性',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'インストール済みのプラグイン、テーマ、WordPress を、WordPress の脆弱性の公開データベース WPVulnerability（CC0 ライセンス）と照合します。送信するのはプラグインとテーマの名前、WordPress のバージョンだけで、インストール済みのバージョンはこのサーバー上で比較します。1 日 2 回確認します。',

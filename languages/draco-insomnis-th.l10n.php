@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'เทียบปลั๊กอิน ธีม และ WordPress ที่ติดตั้งกับฐานข้อมูลช่องโหว่ที่ทราบของ WordPress วันละสองครั้ง รุ่นที่ติดตั้งจะเทียบบนเซิร์ฟเวอร์นี้เสมอ',
+    'Wordfence Intelligence, through OPNV' => 'Wordfence Intelligence ผ่าน OPNV',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'ดาวน์โหลดรายการทั้งหมด (ประมาณ 3 MB) จาก api.opnv.systems แล้วค้นหาที่นี่ ไม่มีการส่งข้อมูลใดของเว็บไซต์นี้ แม้แต่ชื่อปลั๊กอิน',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'ถามทีละปลั๊กอิน: ส่งชื่อปลั๊กอินและธีมกับรุ่นของ WordPress ข้อมูลภายใต้ CC0',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'รายการช่องโหว่ไม่ได้อัปเดตตั้งแต่ %s: อาจติดต่อ OPNV ไม่ได้ การตรวจยังทำต่อด้วยสำเนาล่าสุด',
+    'Source and licence of the vulnerability information' => 'แหล่งที่มาและสัญญาอนุญาตของข้อมูลช่องโหว่',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Wordfence Intelligence Vulnerability Data Feed โดย Defiant Inc. ผ่านมิเรอร์ของ OPNV',
+    'Licence' => 'สัญญาอนุญาต',
     'Known vulnerabilities checked.' => 'ตรวจช่องโหว่ที่ทราบแล้ว',
     'Known vulnerabilities' => 'ช่องโหว่ที่ทราบ',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'เทียบปลั๊กอิน ธีม และ WordPress ที่ติดตั้งกับ WPVulnerability ฐานข้อมูลสาธารณะของช่องโหว่ WordPress (สัญญาอนุญาต CC0) ส่งเฉพาะชื่อปลั๊กอินและธีมกับรุ่นของ WordPress ส่วนรุ่นที่ติดตั้งจะเทียบบนเซิร์ฟเวอร์นี้ ตรวจวันละสองครั้ง',

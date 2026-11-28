@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'Dwa razy dziennie porównuje zainstalowane wtyczki, motywy i WordPressa z bazą znanych podatności WordPressa. Zainstalowane wersje są zawsze porównywane na tym serwerze.',
+    'Wordfence Intelligence, through OPNV' => 'Wordfence Intelligence, przez OPNV',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'Cała lista (ok. 3 MB) jest pobierana z api.opnv.systems i przeszukiwana tutaj. Nic z tej strony nie jest wysyłane, nawet nazwy jej wtyczek.',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'Pytanie o każdą wtyczkę osobno: wysyłane są nazwy wtyczek i motywów oraz wersja WordPressa. Dane na licencji CC0.',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'Lista podatności nie była aktualizowana od %s: OPNV może być nieosiągalne. Sprawdzanie trwa z ostatnią kopią.',
+    'Source and licence of the vulnerability information' => 'Źródło i licencja informacji o podatnościach',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Wordfence Intelligence Vulnerability Data Feed od Defiant Inc., przez kopię lustrzaną OPNV.',
+    'Licence' => 'Licencja',
     'Known vulnerabilities checked.' => 'Sprawdzono znane podatności.',
     'Known vulnerabilities' => 'Znane podatności',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'Porównuje zainstalowane wtyczki, motywy i WordPressa z WPVulnerability, publiczną bazą podatności WordPressa (licencja CC0). Wysyłane są tylko nazwy wtyczek i motywów oraz wersja WordPressa; zainstalowane wersje są porównywane na tym serwerze. Sprawdzane dwa razy dziennie.',

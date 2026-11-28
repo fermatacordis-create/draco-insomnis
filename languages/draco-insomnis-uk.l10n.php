@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'Двічі на день порівнює встановлені плагіни, теми й WordPress із базою відомих вразливостей WordPress. Встановлені версії завжди порівнюються на цьому сервері.',
+    'Wordfence Intelligence, through OPNV' => 'Wordfence Intelligence через OPNV',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'Увесь список (близько 3 МБ) завантажується з api.opnv.systems і перевіряється тут. З цього сайту нічого не надсилається, навіть назви плагінів.',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'Запит щодо кожного плагіна: надсилаються назви плагінів і тем та версія WordPress. Дані під CC0.',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'Список вразливостей не оновлювався з %s: можливо, OPNV недоступний. Перевірка триває з останньою копією.',
+    'Source and licence of the vulnerability information' => 'Джерело й ліцензія відомостей про вразливості',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Wordfence Intelligence Vulnerability Data Feed від Defiant Inc. через дзеркало OPNV.',
+    'Licence' => 'Ліцензія',
     'Known vulnerabilities checked.' => 'Відомі вразливості перевірено.',
     'Known vulnerabilities' => 'Відомі вразливості',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'Порівнює встановлені плагіни, теми й WordPress із WPVulnerability — загальнодоступною базою вразливостей WordPress (ліцензія CC0). Надсилаються лише назви плагінів і тем та версія WordPress; встановлені версії порівнюються на цьому сервері. Перевірка двічі на день.',

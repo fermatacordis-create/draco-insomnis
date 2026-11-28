@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => '每天两次将已安装的插件、主题和 WordPress 与已知 WordPress 漏洞数据库进行比对。已安装的版本始终在本服务器上比较。',
+    'Wordfence Intelligence, through OPNV' => '通过 OPNV 的 Wordfence Intelligence',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => '从 api.opnv.systems 下载完整列表（约 3 MB）并在此处检索。不发送本网站的任何信息，连插件名称也不发送。',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => '逐个插件查询：会发送插件和主题的名称以及 WordPress 版本。数据采用 CC0。',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => '漏洞列表自 %s 起未更新：可能无法连接 OPNV。继续使用最后一份副本检查。',
+    'Source and licence of the vulnerability information' => '漏洞信息的来源和许可',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Defiant Inc. 的 Wordfence Intelligence Vulnerability Data Feed，经由 OPNV 镜像。',
+    'Licence' => '许可',
     'Known vulnerabilities checked.' => '已检查已知漏洞。',
     'Known vulnerabilities' => '已知漏洞',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => '将已安装的插件、主题和 WordPress 与 WPVulnerability（WordPress 漏洞公共数据库，CC0 许可）进行比对。只发送插件和主题的名称以及 WordPress 版本；已安装的版本在本服务器上比较。每天检查两次。',

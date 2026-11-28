@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'Vergleicht installierte Plugins, Themes und WordPress zweimal täglich mit einer Datenbank bekannter WordPress-Sicherheitslücken. Die installierten Versionen werden immer auf diesem Server verglichen.',
+    'Wordfence Intelligence, through OPNV' => 'Wordfence Intelligence, über OPNV',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'Die ganze Liste (etwa 3 MB) wird von api.opnv.systems geladen und hier durchsucht. Von dieser Website wird nichts gesendet, nicht einmal die Namen ihrer Plugins.',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'Es wird Plugin für Plugin gefragt: Die Namen der Plugins und Themes und die WordPress-Version werden gesendet. Daten unter CC0.',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'Die Liste der Sicherheitslücken wurde seit %s nicht aktualisiert: OPNV ist vielleicht nicht erreichbar. Geprüft wird weiter mit der letzten Kopie.',
+    'Source and licence of the vulnerability information' => 'Quelle und Lizenz der Informationen zu Sicherheitslücken',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Wordfence Intelligence Vulnerability Data Feed von Defiant Inc., über den OPNV-Spiegel.',
+    'Licence' => 'Lizenz',
     'Known vulnerabilities checked.' => 'Bekannte Sicherheitslücken geprüft.',
     'Known vulnerabilities' => 'Bekannte Sicherheitslücken',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'Vergleicht installierte Plugins, Themes und WordPress mit WPVulnerability, einer öffentlichen Datenbank von WordPress-Sicherheitslücken (Lizenz CC0). Es werden nur die Namen der Plugins und Themes und die WordPress-Version gesendet; die installierten Versionen werden auf diesem Server verglichen. Zweimal täglich geprüft.',

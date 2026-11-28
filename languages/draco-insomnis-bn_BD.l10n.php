@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'ইনস্টল করা প্লাগইন, থিম ও ওয়ার্ডপ্রেসকে দিনে দুবার ওয়ার্ডপ্রেসের পরিচিত দুর্বলতার ডেটাবেসের সঙ্গে মেলায়। ইনস্টল করা সংস্করণ সবসময় এই সার্ভারেই মেলানো হয়।',
+    'Wordfence Intelligence, through OPNV' => 'OPNV-এর মাধ্যমে Wordfence Intelligence',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'পুরো তালিকা (প্রায় ৩ MB) api.opnv.systems থেকে নামিয়ে এখানেই খোঁজা হয়। এই সাইট থেকে কিছুই পাঠানো হয় না, প্লাগইনের নামও না।',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'প্রতিটি প্লাগইনের জন্য আলাদা জিজ্ঞাসা: প্লাগইন ও থিমের নাম এবং ওয়ার্ডপ্রেস সংস্করণ পাঠানো হয়। ডেটা CC0-এর অধীনে।',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'দুর্বলতার তালিকা %s থেকে হালনাগাদ হয়নি: হয়তো OPNV-তে পৌঁছানো যাচ্ছে না। শেষ কপি দিয়ে যাচাই চলছে।',
+    'Source and licence of the vulnerability information' => 'দুর্বলতার তথ্যের উৎস ও লাইসেন্স',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Defiant Inc.-এর Wordfence Intelligence Vulnerability Data Feed, OPNV-এর মিরর দিয়ে।',
+    'Licence' => 'লাইসেন্স',
     'Known vulnerabilities checked.' => 'পরিচিত দুর্বলতা যাচাই করা হয়েছে।',
     'Known vulnerabilities' => 'পরিচিত দুর্বলতা',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'ইনস্টল করা প্লাগইন, থিম ও ওয়ার্ডপ্রেসকে WPVulnerability-এর সঙ্গে মেলায়, যা ওয়ার্ডপ্রেস দুর্বলতার একটি সর্বজনীন ডেটাবেস (CC0 লাইসেন্স)। কেবল প্লাগইন ও থিমের নাম এবং ওয়ার্ডপ্রেস সংস্করণ পাঠানো হয়; ইনস্টল করা সংস্করণ এই সার্ভারেই মেলানো হয়। দিনে দুবার যাচাই হয়।',

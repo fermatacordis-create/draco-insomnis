@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'So sánh plugin, giao diện và WordPress đã cài với cơ sở dữ liệu lỗ hổng WordPress đã biết, hai lần mỗi ngày. Phiên bản đã cài luôn được so sánh trên máy chủ này.',
+    'Wordfence Intelligence, through OPNV' => 'Wordfence Intelligence, qua OPNV',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'Tải toàn bộ danh sách (khoảng 3 MB) từ api.opnv.systems và tra cứu tại đây. Không gửi gì về trang này, kể cả tên plugin.',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'Hỏi từng plugin: gửi tên plugin, giao diện và phiên bản WordPress. Dữ liệu theo CC0.',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'Danh sách lỗ hổng chưa được cập nhật từ %s: có thể không kết nối được OPNV. Vẫn kiểm tra bằng bản sao gần nhất.',
+    'Source and licence of the vulnerability information' => 'Nguồn và giấy phép của thông tin lỗ hổng',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Wordfence Intelligence Vulnerability Data Feed của Defiant Inc., qua bản sao của OPNV.',
+    'Licence' => 'Giấy phép',
     'Known vulnerabilities checked.' => 'Đã kiểm tra lỗ hổng đã biết.',
     'Known vulnerabilities' => 'Lỗ hổng đã biết',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'So sánh plugin, giao diện và WordPress đã cài với WPVulnerability, cơ sở dữ liệu công khai về lỗ hổng WordPress (giấy phép CC0). Chỉ gửi tên plugin, giao diện và phiên bản WordPress; phiên bản đã cài được so sánh trên máy chủ này. Kiểm tra hai lần mỗi ngày.',

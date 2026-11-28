@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'Inihahambing dalawang beses isang araw ang mga naka-install na plugin, tema at WordPress sa isang database ng mga kilalang kahinaan ng WordPress. Dito sa server palaging inihahambing ang mga naka-install na bersyon.',
+    'Wordfence Intelligence, through OPNV' => 'Wordfence Intelligence, sa pamamagitan ng OPNV',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'Dina-download ang buong listahan (mga 3 MB) mula sa api.opnv.systems at dito hinahanap. Walang ipinapadala tungkol sa site na ito, kahit ang pangalan ng mga plugin.',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'Isa-isang tinatanong ang bawat plugin: ipinapadala ang mga pangalan ng plugin at tema at ang bersyon ng WordPress. Data sa ilalim ng CC0.',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'Hindi na-update ang listahan ng mga kahinaan mula %s: baka hindi maabot ang OPNV. Tuloy ang pagsusuri gamit ang huling kopya.',
+    'Source and licence of the vulnerability information' => 'Pinagmulan at lisensya ng impormasyon sa kahinaan',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Wordfence Intelligence Vulnerability Data Feed ng Defiant Inc., sa pamamagitan ng mirror ng OPNV.',
+    'Licence' => 'Lisensya',
     'Known vulnerabilities checked.' => 'Nasuri na ang mga kilalang kahinaan.',
     'Known vulnerabilities' => 'Mga kilalang kahinaan',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'Inihahambing ang mga naka-install na plugin, tema at WordPress sa WPVulnerability, isang pampublikong database ng mga kahinaan ng WordPress (lisensyang CC0). Ang mga pangalan ng plugin at tema at ang bersyon ng WordPress lang ang ipinapadala; dito sa server inihahambing ang mga naka-install na bersyon. Sinusuri dalawang beses isang araw.',

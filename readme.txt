@@ -109,7 +109,7 @@ Shows what an intruder changed to stay, and what comes back after you removed it
 
 * **Core files against the WordPress.org checksums**: a modified core file, or PHP in wp-admin, wp-includes or the root that WordPress does not ship, is high from the first scan.
 * **Also watched**: administrators, plugins, must-use plugins, drop-ins, wp-config.php, .htaccess, PHP in uploads and scheduled tasks without code.
-* **Known vulnerabilities** (optional): installed plugins, themes and WordPress checked against WPVulnerability.
+* **Known vulnerabilities** (optional): installed plugins, themes and WordPress checked against Wordfence Intelligence (through OPNV) or WPVulnerability.
 * **Baseline first**, reviewed once; then only what is new, changes or comes back. Each return raises the level.
 * **By itself twice a day**, a few seconds at a time so the site does not slow down, and an **e-mail** when it finds something medium or worse (both optional).
 
@@ -216,15 +216,13 @@ Data sent: the WordPress version and language, to https://api.wordpress.org/core
 
 Service: WordPress.org. Privacy policy: https://wordpress.org/about/privacy/
 
-= Known vulnerabilities (WPVulnerability) =
+= Known vulnerabilities (Wordfence Intelligence through OPNV, or WPVulnerability) =
 
-What and why: Integrity checks installed plugins, themes and WordPress against known vulnerabilities.
+What and why: Integrity checks installed plugins, themes and WordPress against known vulnerabilities. Only if switched on; twice a day.
 
-When: only if switched on; twice a day, answers kept 24 hours.
+OPNV (default inside OPNV): the whole list is downloaded from https://api.opnv.systems/intel/wordfence/ and searched on the site; nothing about the site is sent. Data: Wordfence Intelligence, Defiant Inc. (https://www.wordfence.com/wordfence-intelligence-terms-and-conditions/), shown with its notices. Privacy: https://opnv.systems/politica-de-privacidad-draco-insomnis/
 
-Data sent: the slugs of installed plugins and themes and the WordPress version. Installed versions are compared on the site.
-
-Service: WPVulnerability, data CC0 1.0. https://www.wpvulnerability.com/license/
+WPVulnerability: the slugs of installed plugins and themes and the WordPress version are sent. Data CC0: https://www.wpvulnerability.com/license/
 
 = Site mail (SMTP) =
 
@@ -234,7 +232,7 @@ When: only if the administrator sets up Site mail and it passes a test.
 
 Data sent: the e-mails the site sends (recipients, subject and content) and the SMTP user name and password the administrator saved go to the one mail server the administrator chooses, usually their hosting or mail provider, over SMTP with TLS.
 
-The settings screen offers a list of common providers (for example Amazon SES, Google Workspace, Microsoft 365, Brevo or the administrator's hosting company). Choosing one only fills in the server name and port in the form: the list is part of the plugin, nothing is downloaded, Draco calls no provider API and connects to no server in the list unless the administrator saves it as their own mail server.
+The list of common providers on that screen only fills in the form: nothing is downloaded and no provider is contacted unless saved as the mail server.
 
 Service: the mail provider the administrator has an account with, under the terms and privacy policy the administrator accepted with that provider. Draco has no agreement with any of them.
 

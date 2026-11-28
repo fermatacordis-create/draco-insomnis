@@ -6,6 +6,15 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Compares the installed plugins, themes and WordPress with a database of known WordPress vulnerabilities, twice a day. The installed versions are always compared on this server.' => 'Hulinganisha programu-jalizi, mandhari na WordPress zilizosakinishwa na hifadhidata ya udhaifu unaojulikana wa WordPress, mara mbili kwa siku. Matoleo yaliyosakinishwa hulinganishwa kila mara kwenye seva hii.',
+    'Wordfence Intelligence, through OPNV' => 'Wordfence Intelligence, kupitia OPNV',
+    'The whole list (about 3 MB) is downloaded from api.opnv.systems and searched here. Nothing about this site is sent, not even the names of its plugins.' => 'Orodha nzima (karibu MB 3) hupakuliwa kutoka api.opnv.systems na kutafutwa hapa. Hakuna kinachotumwa kuhusu tovuti hii, hata majina ya programu-jalizi zake.',
+    'WPVulnerability' => 'WPVulnerability',
+    'Asked one plugin at a time: the names of the plugins and themes and the WordPress version are sent. Data under CC0.' => 'Huulizwa programu-jalizi moja moja: majina ya programu-jalizi na mandhari na toleo la WordPress hutumwa. Data chini ya CC0.',
+    'The vulnerability list has not been updated since %s: OPNV may be out of reach. Checks go on with the last copy.' => 'Orodha ya udhaifu haijasasishwa tangu %s: huenda OPNV haipatikani. Ukaguzi unaendelea kwa nakala ya mwisho.',
+    'Source and licence of the vulnerability information' => 'Chanzo na leseni ya taarifa za udhaifu',
+    'Wordfence Intelligence Vulnerability Data Feed, by Defiant Inc., through the OPNV mirror.' => 'Wordfence Intelligence Vulnerability Data Feed ya Defiant Inc., kupitia kioo cha OPNV.',
+    'Licence' => 'Leseni',
     'Known vulnerabilities checked.' => 'Udhaifu unaojulikana umekaguliwa.',
     'Known vulnerabilities' => 'Udhaifu unaojulikana',
     'Compares the installed plugins, themes and WordPress with WPVulnerability, a public database of WordPress vulnerabilities (CC0 licence). Only the names of the plugins and themes and the WordPress version are sent; the installed versions are compared on this server. Checked twice a day.' => 'Hulinganisha programu-jalizi, mandhari na WordPress zilizosakinishwa na WPVulnerability, hifadhidata ya umma ya udhaifu wa WordPress (leseni CC0). Hutumwa tu majina ya programu-jalizi na mandhari na toleo la WordPress; matoleo yaliyosakinishwa hulinganishwa kwenye seva hii. Hukaguliwa mara mbili kwa siku.',

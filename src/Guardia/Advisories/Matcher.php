@@ -98,7 +98,79 @@ final class Matcher
      */
     public static function fixedIn(array $a): string
     {
+        if (isset($a['fixed']) && is_string($a['fixed'])) {
+            return $a['fixed']; // the source names the patched version itself (Wordfence)
+        }
+
         return !$a['unfixed'] && $a['max'] !== null && self::op($a['max_op'], 'lt') === 'lt' ? $a['max'] : '';
+    }
+
+    /**
+     * The update to propose for $installed: with a list of patched versions (one per branch for WordPress
+     * core), the lowest one above the installed version; otherwise what fixedIn() knows.
+     *
+     * @param array<string, mixed> $a
+     */
+    public static function fixFor(array $a, string $installed): string
+    {
+        if (!isset($a['patched']) || !is_array($a['patched']) || $a['patched'] === []) {
+            return self::fixedIn($a);
+        }
+        $installed = self::clean($installed);
+        foreach ($a['patched'] as $p) { // sorted ascending
+            if (version_compare((string) $p, $installed, '>')) {
+                return (string) $p;
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * One record of the OPNV index of Wordfence Intelligence (format 1): one normalised advisory per affected
+     * range. «*» is any version; the fix is the lowest patched version above the range.
+     *
+     * @param array<string, mixed> $r {id, t, r: list<[from, from_inclusive, to, to_inclusive]>, p, sev, s, u, cve, l, c}
+     * @return list<array<string, mixed>>
+     */
+    public static function fromOpnvIndex(array $r): array
+    {
+        $patched = array_values(array_filter(array_map('strval', (array) ($r['p'] ?? [])), static fn (string $v): bool => $v !== ''));
+        usort($patched, 'version_compare');
+        $sev = in_array($r['sev'] ?? '', [Diff::INFO, Diff::MEDIUM, Diff::HIGH, Diff::CRITICAL_LEVEL], true) ? (string) $r['sev'] : Diff::MEDIUM;
+        $out = [];
+        foreach ((array) ($r['r'] ?? []) as $range) {
+            if (!is_array($range) || count($range) < 4) {
+                continue;
+            }
+            [$from, $fromIn, $to, $toIn] = [(string) $range[0], (bool) $range[1], (string) $range[2], (bool) $range[3]];
+            $fixed = '';
+            foreach ($patched as $p) {
+                if ($to === '*' || version_compare($p, $to, $toIn ? '>' : '>=')) {
+                    $fixed = $p;
+                    break;
+                }
+            }
+            $out[] = [
+                'uuid' => (string) ($r['id'] ?? ''),
+                'name' => (string) ($r['t'] ?? ''),
+                'min' => $from === '*' ? null : $from,
+                'min_op' => $fromIn ? 'ge' : 'gt',
+                'max' => $to === '*' ? null : $to,
+                'max_op' => $toIn ? 'le' : 'lt',
+                'unfixed' => $to === '*',
+                'fixed' => $fixed,
+                'patched' => $patched,
+                'cve' => preg_match('/^CVE-\d{4}-\d{4,}$/', (string) ($r['cve'] ?? '')) === 1 ? [(string) $r['cve']] : [],
+                'severity' => $sev,
+                'score' => (float) ($r['s'] ?? 0),
+                'unauth' => (bool) ($r['u'] ?? false),
+                'link' => (string) ($r['l'] ?? ''),
+                'notices' => array_values(array_map('intval', (array) ($r['c'] ?? []))),
+            ];
+        }
+
+        return $out;
     }
 
     /**
@@ -111,15 +183,19 @@ final class Matcher
     public static function match(array $installed, array $advisories): array
     {
         $out = [];
+        $seen = [];
         foreach ($installed as $item) {
             foreach ($advisories[$item['type'] . '|' . $item['slug']] ?? [] as $a) {
-                if (!self::affects($a, $item['version'])) {
-                    continue;
+                $once = $item['type'] . '|' . $item['slug'] . '|' . (string) $a['uuid'];
+                if (isset($seen[$once]) || !self::affects($a, $item['version'])) {
+                    continue; // a record with several ranges is listed once
                 }
+                $seen[$once] = true;
                 $out[] = [
                     'type' => $item['type'], 'slug' => $item['slug'], 'name' => $item['name'], 'version' => $item['version'], 'active' => $item['active'],
                     'uuid' => (string) $a['uuid'], 'title' => (string) $a['name'], 'severity' => (string) $a['severity'], 'score' => (float) $a['score'],
-                    'unauth' => (bool) $a['unauth'], 'cve' => $a['cve'], 'fixed' => self::fixedIn($a), 'link' => (string) $a['link'],
+                    'unauth' => (bool) $a['unauth'], 'cve' => $a['cve'], 'fixed' => self::fixFor($a, $item['version']), 'link' => (string) $a['link'],
+                    'notices' => (array) ($a['notices'] ?? []),
                 ];
             }
         }
