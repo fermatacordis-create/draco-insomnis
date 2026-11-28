@@ -129,7 +129,7 @@ final class Admin
         $mode = (string) get_option(Waf::OPTION_MODE, 'log');
         Brand::open(__('Firewall', 'draco-insomnis'), __('Stops requests with the shape of an attack (database injection, reading server files, running code, scripts in links) and the scanners that look for weak spots. People who can edit the site are never inspected.', 'draco-insomnis'));
         if (Input::get('result') === 'ok') {
-            Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
+            Brand::toast(__('Changes saved.', 'draco-insomnis'));
         }
         $test = Input::get('test');
         if ($test !== '') {
@@ -215,7 +215,13 @@ final class Admin
         self::geo();
 
         Brand::card('warning', __('Recent attacks', 'draco-insomnis'), __('Kept for 90 days. "Evidence" downloads everything from that address for an abuse report. In log-only mode they appear as "Would block". Rows from an administrator\'s address (your own tests) are marked, cannot be reported and do not count in the summary.', 'draco-insomnis'), '', 'warn', 'draco-card--flush');
-        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('What', 'draco-insomnis') . '</th><th>' . esc_html__('Address requested', 'draco-insomnis') . '</th><th>' . esc_html__('Answer', 'draco-insomnis') . '</th><th>' . esc_html__('Browser', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th><th></th></tr></thead><tbody>';
+        $cols = [__('Date (UTC)', 'draco-insomnis'), 'IP', __('What', 'draco-insomnis'), __('Address requested', 'draco-insomnis'), __('Answer', 'draco-insomnis'), __('Browser', 'draco-insomnis'), __('Result', 'draco-insomnis'), ''];
+        // Readable without sideways scrolling: the long cells wrap and are cut to a few lines.
+        echo '<div class="draco-table-wrap draco-table-wrap--fit"><table class="widefat striped draco-table draco-table--log"><thead><tr>';
+        foreach ($cols as $c) {
+            echo '<th>' . esc_html($c) . '</th>';
+        }
+        echo '</tr></thead><tbody>';
         $rows = Store::recentWhere('waf:');
         foreach ($rows as $r) {
             $fields = json_decode((string) $r['fields'], true);
@@ -228,11 +234,19 @@ final class Admin
             $export = wp_nonce_url(admin_url('admin-post.php?action=draco_export&ip=' . rawurlencode($ip)), 'draco_export');
             $result = $r['verdict'] === 'bot' ? Brand::pill(__('Blocked', 'draco-insomnis'), 'bad') : Brand::pill(__('Would block', 'draco-insomnis'), 'log');
             $actions = '<a href="' . esc_url($export) . '">' . esc_html__('Evidence', 'draco-insomnis') . '</a>'
-                . ($own ? '' : ' · <a href="' . esc_url(\DracoInsomnis\Shield\AbuseReport::url($ip)) . '">' . esc_html__('Report', 'draco-insomnis') . '</a>');
-            echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td><span class="draco-code">' . esc_html($ip) . '</span>'
-                . ($own ? '<br>' . wp_kses_post(Brand::pill(__('Your address (administrator)', 'draco-insomnis'), 'log')) : '') . '</td><td>' . esc_html($what)
-                . ($signature !== '' ? '<br><strong>' . esc_html($signature) . '</strong>' : '') . '</td><td><code>'
-                . esc_html($requested) . '</code></td><td>' . esc_html($answer !== '' ? $answer : '–') . '</td><td class="draco-ua">' . esc_html((string) $r['user_agent']) . '</td><td>' . wp_kses_post($result) . '</td><td>' . $actions . '</td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $actions is built from escaped parts above
+                . ($own ? '' : '<span class="draco-sep"> · </span><a href="' . esc_url(\DracoInsomnis\Shield\AbuseReport::url($ip)) . '">' . esc_html__('Report', 'draco-insomnis') . '</a>');
+            // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- every part is escaped where it is built
+            echo '<tr><td data-label="' . esc_attr($cols[0]) . '">' . Brand::when((string) $r['created_at']) . '</td>'
+                // One wrapper per cell: on narrow screens the cell is a two-column grid (label, value).
+                . '<td data-label="IP" class="draco-ip"><span><span class="draco-code">' . esc_html($ip) . '</span>'
+                . ($own ? '<br>' . wp_kses_post(Brand::pill(__('Your address (administrator)', 'draco-insomnis'), 'log')) : '') . '</span></td>'
+                . '<td data-label="' . esc_attr($cols[2]) . '" class="draco-nowrap draco-what"><span>' . esc_html($what) . ($signature !== '' ? '<br><strong>' . esc_html($signature) . '</strong>' : '') . '</span></td>'
+                . '<td data-label="' . esc_attr($cols[3]) . '" class="draco-addr">' . Brand::clamp($requested, 4, true) . '</td>'
+                . '<td data-label="' . esc_attr($cols[4]) . '" class="draco-nowrap">' . esc_html($answer !== '' ? $answer : '–') . '</td>'
+                . '<td data-label="' . esc_attr($cols[5]) . '" class="draco-ua">' . Brand::clamp((string) $r['user_agent'], 4) . '</td>'
+                . '<td data-label="' . esc_attr($cols[6]) . '" class="draco-nowrap">' . wp_kses_post($result) . '</td>'
+                . '<td class="draco-nowrap draco-acts">' . $actions . '</td></tr>';
+            // phpcs:enable
         }
         if ($rows === []) {
             Brand::emptyRow(8, $on ? __('No attacks seen yet.', 'draco-insomnis') : __('The firewall is off.', 'draco-insomnis'), $on ? 'yes-alt' : 'marker');
@@ -276,7 +290,7 @@ final class Admin
         if ($fetch === 'fail') {
             Brand::notice('error', __('The country list could not be downloaded. The filter does nothing until it is there; try "Update the country list" later.', 'draco-insomnis'));
         } elseif ($fetch === 'ok') {
-            Brand::notice('success', __('Country list downloaded.', 'draco-insomnis'));
+            Brand::toast(__('Country list downloaded.', 'draco-insomnis'));
         }
         $state = $mode === 'off' ? 'off' : (get_option(GeoFilter::OPTION_ACTION, 'log') === 'block' ? 'on' : 'log');
         Brand::card('admin-site-alt3', __('Countries', 'draco-insomnis'), __('Most of your visitors may come from many countries, and an attacker changes country with a VPN. Filter only logging in, signing up and forms, and start with "Log only". Administrators, people you let through and search engines are never filtered.', 'draco-insomnis'), Brand::pill(Brand::stateLabel($state), $state));

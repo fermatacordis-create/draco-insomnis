@@ -3004,3 +3004,7 @@ msgstr ""
 #, php-format
 msgid "Automatic: %d bot attempts in 24 h"
 msgstr ""
+
+#: src/Admin/Brand.php
+msgid "Close"
+msgstr ""

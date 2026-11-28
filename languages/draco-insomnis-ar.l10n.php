@@ -6,6 +6,7 @@ return array (
   'project-id-version' => 'Draco Insomnis 0.1.36',
   'messages' => 
   array (
+    'Close' => 'إغلاق',
     'by %1$s · %2$s · %3$s' => 'من %1$s · %2$s · %3$s',
     'Firewall' => 'جدار الحماية',
     'You are not allowed to do this.' => 'ليس لديك صلاحية للقيام بذلك.',

@@ -53,7 +53,7 @@ final class Admin
     {
         Brand::open(__('Anti-copy', 'draco-insomnis'), __('Makes it harder to copy the whole site in one go, without getting in the way of visitors or search engines. People logged in and the addresses an administrator used are never limited. Start with "Log only" for a few days and look at the list below.', 'draco-insomnis'));
         if (Input::get('result') === 'ok') {
-            Brand::notice('success', __('Changes saved.', 'draco-insomnis'));
+            Brand::toast(__('Changes saved.', 'draco-insomnis'));
         }
         $modes = static fn (): array => [
             'off' => [__('Off', 'draco-insomnis'), __('Nothing is checked.', 'draco-insomnis')],
@@ -101,7 +101,13 @@ final class Admin
             'identity' => __('user accounts', 'draco-insomnis'),
         ];
         Brand::card('list-view', __('Recent', 'draco-insomnis'), __('"Answer" is what the visitor got: 401 means the door was closed, 200 that the content was sent. Anonymous visitors always get 401 from /wp/v2/users/me, with or without Draco.', 'draco-insomnis'), '', 'info', 'draco-card--flush');
-        echo '<div class="draco-table-wrap"><table class="widefat striped draco-table"><thead><tr><th>' . esc_html__('Date (UTC)', 'draco-insomnis') . '</th><th>IP</th><th>' . esc_html__('What', 'draco-insomnis') . '</th><th>' . esc_html__('Address requested', 'draco-insomnis') . '</th><th>' . esc_html__('Answer', 'draco-insomnis') . '</th><th>' . esc_html__('Browser', 'draco-insomnis') . '</th><th>' . esc_html__('Result', 'draco-insomnis') . '</th></tr></thead><tbody>';
+        $cols = [__('Date (UTC)', 'draco-insomnis'), 'IP', __('What', 'draco-insomnis'), __('Address requested', 'draco-insomnis'), __('Answer', 'draco-insomnis'), __('Browser', 'draco-insomnis'), __('Result', 'draco-insomnis')];
+        // Readable without sideways scrolling: the long cells wrap and are cut to a few lines.
+        echo '<div class="draco-table-wrap draco-table-wrap--fit"><table class="widefat striped draco-table draco-table--log"><thead><tr>';
+        foreach ($cols as $c) {
+            echo '<th>' . esc_html($c) . '</th>';
+        }
+        echo '</tr></thead><tbody>';
         $rows = Store::recentWhere('anticopy:');
         foreach ($rows as $r) {
             $reason = (string) $r['reasons'];
@@ -116,8 +122,15 @@ final class Admin
             }
             $status = (string) ($fields['status'] ?? '');
             $result = $blocked ? Brand::pill(__('Blocked', 'draco-insomnis'), 'bad') : Brand::pill(__('Would block', 'draco-insomnis'), 'log');
-            echo '<tr><td>' . esc_html((string) $r['created_at']) . '</td><td><span class="draco-code">' . esc_html((string) $r['ip']) . '</span></td><td>' . esc_html($what) . '</td><td><code>'
-                . esc_html($path) . '</code></td><td>' . esc_html($status !== '' ? $status : '–') . '</td><td class="draco-ua">' . esc_html((string) $r['user_agent']) . '</td><td>' . wp_kses_post($result) . '</td></tr>';
+            // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- every part is escaped where it is built
+            echo '<tr><td data-label="' . esc_attr($cols[0]) . '">' . Brand::when((string) $r['created_at']) . '</td>'
+                . '<td data-label="IP" class="draco-ip"><span class="draco-code">' . esc_html((string) $r['ip']) . '</span></td>'
+                . '<td data-label="' . esc_attr($cols[2]) . '" class="draco-nowrap draco-what">' . esc_html($what) . '</td>'
+                . '<td data-label="' . esc_attr($cols[3]) . '" class="draco-addr">' . Brand::clamp($path, 4, true) . '</td>'
+                . '<td data-label="' . esc_attr($cols[4]) . '" class="draco-nowrap">' . esc_html($status !== '' ? $status : '–') . '</td>'
+                . '<td data-label="' . esc_attr($cols[5]) . '" class="draco-ua">' . Brand::clamp((string) $r['user_agent'], 4) . '</td>'
+                . '<td data-label="' . esc_attr($cols[6]) . '" class="draco-nowrap">' . wp_kses_post($result) . '</td></tr>';
+            // phpcs:enable
         }
         if ($rows === []) {
             Brand::emptyRow(7, __('Nothing recorded yet.', 'draco-insomnis'));
