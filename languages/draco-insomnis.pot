@@ -3025,4 +3025,46 @@ msgstr ""
 msgid "Send a new code"
 #: src/Admin/Brand.php
 msgid "Close"
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "The contact was not saved: write an e-mail address or an address starting with https://. The previous one is kept."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "The policy page was not saved: it must be an address starting with https://. The previous one is kept."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Advanced: proxy and CDN"
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Check:"
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Visits reach this site directly, without Cloudflare or a proxy. The right choice is the connection address."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Visits reach this site through Cloudflare. The right choice is the Cloudflare header; otherwise every visitor would look like Cloudflare."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Visits reach this site through a proxy on its own server or network. The right choice is X-Forwarded-For."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "A proxy header came from an internet address: a CDN in front of the site, or a proxy in your own network. With a CDN, choose X-Forwarded-For and list its addresses as trusted proxies; otherwise keep the connection address."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Draco sees you as %s. A «what is my IP» website should show you the same address; if not, the setting is wrong."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "The current choice does not match what was found."
+msgstr ""
+
+#: src/Shield/Admin.php src/Firewall/Admin.php
+msgid "Use the recommended one and save"
 msgstr ""
