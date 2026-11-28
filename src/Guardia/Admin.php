@@ -253,8 +253,10 @@ final class Admin
                     : (string) $f['title'];
                 $cve = (array) $f['cve'] !== [] ? ' · ' . implode(', ', (array) $f['cve']) : '';
                 $link = (string) $f['link'] !== '' ? ' <a href="' . esc_url((string) $f['link']) . '" target="_blank" rel="noopener">' . esc_html__('details', 'draco-insomnis') . '</a>' : '';
+                /* translators: %s: version */
                 $fix = (string) $f['fixed'] !== '' ? sprintf(__('Update to %s or later', 'draco-insomnis'), (string) $f['fixed']) : __('No fix listed', 'draco-insomnis');
-                echo '<tr><td>' . self::severityPill((string) $f['severity']) . ((bool) $f['unauth'] ? '<br><small>' . esc_html__('without logging in', 'draco-insomnis') . '</small>' : '') . '</td>'
+                $level = self::severityPill((string) $f['severity']) . ((bool) $f['unauth'] ? '<br><small>' . esc_html__('without logging in', 'draco-insomnis') . '</small>' : '');
+                echo '<tr><td>' . wp_kses_post($level) . '</td>'
                     . '<td>' . esc_html(($kinds[(string) $f['type']] ?? '') . ' · ' . (string) $f['name'] . ' ' . (string) $f['version']) . (!(bool) $f['active'] ? ' <small>(' . esc_html__('inactive', 'draco-insomnis') . ')</small>' : '') . '</td>'
                     . '<td>' . esc_html($what . $cve) . $link . '</td><td>' . esc_html($fix) . '</td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- pill and link escape
             }
